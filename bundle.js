@@ -56,22 +56,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	exports.__esModule = true;
-	exports.List = undefined;
+	var List = __webpack_require__(1);
 
-	var _List = __webpack_require__(1);
-
-	var _List2 = _interopRequireDefault(_List);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	exports.List = _List2['default'];
+	module.exports = { List: List };
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
+	"use strict";
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -82,33 +75,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._head = null;
 	    this._tail = null;
 	    this._length = 0;
+	    this._dummy = 1;
 	  }
 
 	  List.prototype.add = function add() {
-	    console.log(22);
+	    console.log(911);
 	  };
 
 	  return List;
 	}();
 
-	module["export"] = List;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
+	module.exports = List;
 
 /***/ }
 /******/ ])

@@ -1,4 +1,4 @@
-import List from './List.js';
+var List = require('./List.js');
 
-export  { List };
+module.exports = { List };
 
