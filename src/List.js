@@ -7,7 +7,7 @@ class List {
   }
 
   add() {
-    console.log(99);
+    console.log(22);
   }
 }
 
