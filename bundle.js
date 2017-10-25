@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else {
-		var a = factory();
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+		define("Structs", [], factory);
+	else if(typeof exports === 'object')
+		exports["Structs"] = factory();
+	else
+		root["Structs"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -85,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  List.prototype.add = function add() {
-	    console.log(99);
+	    console.log(22);
 	  };
 
 	  return List;
