@@ -4,7 +4,8 @@ module.exports = {
     path: __dirname,
     filename: 'bundle.js', 
     libraryTarget: "umd", 
-    libraryName: "Structs"
+    libraryName: "Structs", 
+    umdNamedDefine: true
   },
   module: {
     loaders: [
