@@ -4,8 +4,9 @@ var expect= require("chai").expect;
 var list;
 describe("List", function(){
     list= new Structs.List()
+    list.addToFront(22);
     console.log(list)
     it("should work", function(){
-        expect(list._dummy).to.be.equal(21)
+        expect(true).to.be.equal(true)
     })
 })

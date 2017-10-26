@@ -68,6 +68,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var Node = function Node(data) {
+	  _classCallCheck(this, Node);
+
+	  this.data = data;
+	  this.next = null;
+	  this.prev = null;
+	};
+
 	var List = function () {
 	  function List() {
 	    _classCallCheck(this, List);
@@ -75,10 +83,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
-	    this.dummy = 1;
 	  }
 
-	  List.prototype.add = function add() {
+	  List.prototype.addToFront = function addToFront(data) {
+	    var head = this.head,
+	        length = this.length;
+
+	    var newNode = new Node(data);
+	    this.length = length + 1;
+
+	    if (!head) {
+	      this.head = newNode;
+	      this.tail = this.head;
+	      return this;
+	    }
+	    this.head = newNode;
+	    newNode.next = head;
+	    head.prev = newNode;
+	    return this;
+	  };
+
+	  List.prototype.addToBack = function addToBack(data) {
+	    var tail = this.tail,
+	        length = this.length;
+
+	    var newNode = new Node(data);
+	    this.length = length + 1;
+
+	    if (!tail) {
+	      this.head = newNode;
+	      this.tail = this.head;
+	      return this;
+	    }
+	    this.tail = newNode;
+	    newNode.prev = tail;
+	    tail.next = newNode;
 	    return this;
 	  };
 

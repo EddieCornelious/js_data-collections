@@ -1,12 +1,48 @@
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+    this.prev = null;
+  }
+}
+
 class List {
   constructor() {
     this.head = null;
     this.tail = null;
     this.length = 0;
-    this.dummy = 1;
   }
 
-  add() {
+  addToFront(data) {
+    const { head, length } = this;
+    const newNode = new Node(data);
+    this.length = length + 1;
+
+    if (!head) {
+      this.head = newNode;
+      this.tail = this.head;
+      return this;
+    }
+    this.head = newNode;
+    newNode.next = head;
+    head.prev = newNode;
+    return this;
+  }
+
+
+  addToBack(data) {
+    const { tail, length } = this;
+    const newNode = new Node(data);
+    this.length = length + 1;
+
+    if (!tail) {
+      this.head = newNode;
+      this.tail = this.head;
+      return this;
+    }
+    this.tail = newNode;
+    newNode.prev = tail;
+    tail.next = newNode;
     return this;
   }
 }
