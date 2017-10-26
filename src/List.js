@@ -1,3 +1,7 @@
+/**
+ * @access private {class}
+ * */
+
 class Node {
   constructor(data) {
     this.data = data;
@@ -8,7 +12,7 @@ class Node {
 
 class List {
   constructor() {
-    this.head = null;
+    this._head = null;
     this.tail = null;
     this.length = 0;
   }

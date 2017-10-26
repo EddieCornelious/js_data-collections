@@ -23,11 +23,11 @@
     "expect": true,
     "sinon": true
   },
-  rules: {
-    "no-underscrore-dangle": 0
-  },
 
-   "extends": "airbnb-base/legacy"
+   "extends": "airbnb-base/legacy", 
+    "rules": {
+    "no-underscore-dangle": [0]
+  }
   
   
 }

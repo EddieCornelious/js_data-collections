@@ -68,6 +68,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/**
+	 * @access private {class}
+	 * */
+
 	var Node = function Node(data) {
 	  _classCallCheck(this, Node);
 
@@ -80,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function List() {
 	    _classCallCheck(this, List);
 
-	    this.head = null;
+	    this._head = null;
 	    this.tail = null;
 	    this.length = 0;
 	  }
