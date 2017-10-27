@@ -86,7 +86,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function ListIterator() {
-	  var list = this.head;
+	  var context = this;
+	  var list = context.head;
 	  var iterator = {};
 
 	  iterator.next = function next() {
@@ -114,7 +115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  iterator.reset = function reset() {
-	    list = this.head;
+	    list = context.head;
 	  };
 	  return iterator;
 	}
@@ -151,7 +152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
-	    this.iterator = ListIterator.call(this);
+	    this.iterator = ListIterator.apply(this, []);
 	  }
 
 	  List.prototype.addToFront = function addToFront(data) {

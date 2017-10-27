@@ -16,7 +16,8 @@ function getNode(index) {
 }
 
 function ListIterator() {
-  let list = this.head;
+  const context = this;
+  let list = context.head;
   const iterator = {};
 
   iterator.next = function next() {
@@ -44,7 +45,7 @@ function ListIterator() {
   };
 
   iterator.reset = function reset() {
-    list = this.head;
+    list = context.head;
   };
   return iterator;
 }
@@ -79,7 +80,7 @@ class List {
     this.head = null;
     this.tail = null;
     this.length = 0;
-    this.iterator = ListIterator.call(this);
+    this.iterator = ListIterator.apply(this, []);
   }
 
   addToFront(data) {
