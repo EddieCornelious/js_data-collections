@@ -84,6 +84,40 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return head;
 	}
+
+	function ListIterator() {
+	  var list = this.head;
+	  var iterator = {};
+
+	  iterator.next = function next() {
+	    if (this.hasNext()) {
+	      var data = list.next.data;
+	      return data;
+	    }
+	    this.reset();
+	  };
+
+	  iterator.prev = function prev() {
+	    if (this.hasPrev()) {
+	      var data = list.prev.data;
+	      return data;
+	    }
+	    this.reset();
+	  };
+
+	  iterator.hasNext = function hasNext() {
+	    return list && list.next !== null;
+	  };
+
+	  iterator.hasPrev = function hasPrev() {
+	    return list && list.prev !== null;
+	  };
+
+	  iterator.reset = function reset() {
+	    list = this.head;
+	  };
+	  return iterator;
+	}
 	// TODO: add the below functions to prototype of base classes
 
 	function isNumber(obj) {
@@ -117,6 +151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
+	    this.iterator = ListIterator.bind(this);
 	  }
 
 	  List.prototype.addToFront = function addToFront(data) {
