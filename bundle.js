@@ -151,7 +151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
-	    this.iterator = ListIterator.bind(this);
+	    this.iterator = ListIterator.call(this);
 	  }
 
 	  List.prototype.addToFront = function addToFront(data) {

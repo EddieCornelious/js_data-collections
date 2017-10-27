@@ -79,7 +79,7 @@ class List {
     this.head = null;
     this.tail = null;
     this.length = 0;
-    this.iterator = ListIterator.bind(this);
+    this.iterator = ListIterator.call(this);
   }
 
   addToFront(data) {
