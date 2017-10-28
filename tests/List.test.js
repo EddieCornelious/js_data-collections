@@ -218,6 +218,7 @@ it("indexOf functions correctly", function(){
     for(let i=0; i<expected.length; i++){
       expect(expected.indexOf(i)).to.be.equal(list.indexOf(i));
     }
+    //tested false case quickly :)
     expect(expected.indexOf(4)).to.be.equal(list.indexOf(4));
     
 })
@@ -251,6 +252,17 @@ it("forEach function like array.forEach", function(){
     expected= [[1], [2], [3],[ 4]]
     expect(expected).to.deep.equal(actual)
 })
+
+it("elementAtIndex should return proper data at index", function(){
+    list= new Structs.List()
+    list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
+    expected= [0, 1, 2, 3]
+    
+    for(let i=0 ; i<expected.length; i++){
+      expect(expected[i]).to.be.equal(list.elementAtIndex(i));
+    }
+})
+
 
 
 })

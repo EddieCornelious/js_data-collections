@@ -57,8 +57,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var List = __webpack_require__(1);
+	var Stack = __webpack_require__(2);
+	var Queue = __webpack_require__(3);
 
-	module.exports = { List: List };
+	module.exports = { List: List, Stack: Stack, Queue: Queue };
 
 /***/ },
 /* 1 */
@@ -85,45 +87,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return head;
 	}
 
-	function ListIterator() {
-	  var context = this;
-	  var list = context.head;
-	  var iterator = {};
-
-	  iterator.next = function next() {
-	    if (this.hasNext()) {
-	      var data = list.next.data;
-	      return data;
-	    }
-	    this.reset();
-	  };
-
-	  iterator.prev = function prev() {
-	    if (this.hasPrev()) {
-	      var data = list.prev.data;
-	      return data;
-	    }
-	    this.reset();
-	  };
-
-	  iterator.hasNext = function hasNext() {
-	    return list && list.next !== null;
-	  };
-
-	  iterator.hasPrev = function hasPrev() {
-	    return list && list.prev !== null;
-	  };
-
-	  iterator.reset = function reset() {
-	    list = context.head;
-	  };
-	  return iterator;
-	}
 	// TODO: add the below functions to prototype of base classes
 
 	function isNumber(obj) {
 	  if (typeof obj !== 'number') {
-	    throw new TypeError('Invalid index must be of typ number');
+	    throw new TypeError('Invalid index must be of type number');
 	  }
 	  return 1;
 	}
@@ -152,7 +120,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
-	    this.iterator = ListIterator.apply(this, []);
 	  }
 
 	  List.prototype.addToFront = function addToFront(data) {
@@ -171,6 +138,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    newNode.next = head;
 	    head.prev = newNode;
 	    return this;
+	  };
+
+	  List.prototype.elementAtIndex = function elementAtIndex(index) {
+	    isNumber(index);
+	    var wanted = getNode.apply(this, [index]);
+	    return wanted ? wanted.data : undefined;
 	  };
 
 	  List.prototype.addToBack = function addToBack(data) {
@@ -326,6 +299,95 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = List;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var List = __webpack_require__(1);
+
+	var Stack = function () {
+	  function Stack() {
+	    _classCallCheck(this, Stack);
+
+	    this.rep = new List();
+	  }
+
+	  Stack.prototype.push = function push(data) {
+	    this.rep.addToFront(data);
+	    return this;
+	  };
+
+	  Stack.prototype.pop = function pop() {
+	    var oldVal = this.rep.elementAtIndex(0);
+	    this.rep.removeFront();
+	    return oldVal;
+	  };
+
+	  Stack.prototype.peek = function peek() {
+	    return this.rep.elementAtIndex(0);
+	  };
+
+	  Stack.prototype.size = function size() {
+	    return this.rep.size();
+	  };
+
+	  return Stack;
+	}();
+
+	module.exports = Stack;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var List = __webpack_require__(1);
+
+	var Queue = function () {
+	  function Queue() {
+	    _classCallCheck(this, Queue);
+
+	    this.rep = new List();
+	  }
+
+	  Queue.prototype.enqueue = function enqueue(data) {
+	    this.rep.addToBack(data);
+	    return this;
+	  };
+
+	  Queue.prototype.dequeue = function dequeue() {
+	    var oldVal = this.rep.elementAtIndex(0);
+	    this.rep.removeFront();
+	    return oldVal;
+	  };
+	  // TODO: Create a list method that reports tail which is 0(1) or keep this?
+
+
+	  Queue.prototype.back = function back() {
+	    var back = this.rep.tail;
+	    return back ? back.data : undefined;
+	  };
+
+	  Queue.prototype.front = function front() {
+	    return this.rep.elementAtIndex(0);
+	  };
+
+	  Queue.prototype.size = function size() {
+	    return this.rep.size();
+	  };
+
+	  return Queue;
+	}();
+
+	module.exports = Queue;
 
 /***/ }
 /******/ ])

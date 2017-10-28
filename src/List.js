@@ -15,45 +15,11 @@ function getNode(index) {
   return head;
 }
 
-function ListIterator() {
-  const context = this;
-  let list = context.head;
-  const iterator = {};
-
-  iterator.next = function next() {
-    if (this.hasNext()) {
-      const data = list.next.data;
-      return data;
-    }
-    this.reset();
-  };
-
-  iterator.prev = function prev() {
-    if (this.hasPrev()) {
-      const data = list.prev.data;
-      return data;
-    }
-    this.reset();
-  };
-
-  iterator.hasNext = function hasNext() {
-    return list && list.next !== null;
-  };
-
-  iterator.hasPrev = function hasPrev() {
-    return list && list.prev !== null;
-  };
-
-  iterator.reset = function reset() {
-    list = context.head;
-  };
-  return iterator;
-}
 // TODO: add the below functions to prototype of base classes
 
 function isNumber(obj) {
   if (typeof obj !== 'number') {
-    throw new TypeError('Invalid index must be of typ number');
+    throw new TypeError('Invalid index must be of type number');
   }
   return 1;
 }
@@ -80,7 +46,6 @@ class List {
     this.head = null;
     this.tail = null;
     this.length = 0;
-    this.iterator = ListIterator.apply(this, []);
   }
 
   addToFront(data) {
@@ -97,6 +62,12 @@ class List {
     newNode.next = head;
     head.prev = newNode;
     return this;
+  }
+
+  elementAtIndex(index) {
+    isNumber(index);
+    const wanted = getNode.apply(this, [index]);
+    return wanted ? wanted.data : undefined;
   }
 
 
