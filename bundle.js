@@ -60,6 +60,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Stack = __webpack_require__(2);
 	var Queue = __webpack_require__(3);
 
+	Array.prototype.SWAG = function () {
+	    return "This is where I can place shims";
+	};
+
 	module.exports = { List: List, Stack: Stack, Queue: Queue };
 
 /***/ },
