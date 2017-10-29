@@ -61,12 +61,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Queue = __webpack_require__(3);
 	var BHeap = __webpack_require__(4);
 	var PriorityQueue = __webpack_require__(5);
+	var HashMap = __webpack_require__(6);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap };
 
 /***/ },
 /* 1 */
@@ -514,6 +515,157 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = PriorityQueue;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	// modified code https://en.wikipedia.org/wiki/Sieve_of_Atkin#Pseudocode
+	function sieveOfAtkin(limit) {
+	  var toReturn = [];
+	  if (limit > 2) {
+	    toReturn.push(2);
+	  }
+	  if (limit > 3) {
+	    toReturn.push(3);
+	  }
+
+	  // Initialise the sieve array with false values
+	  var sieve = new Array(limit);
+	  for (var i = 0; i < limit; i += 1) {
+	    sieve[i] = false;
+	  }
+	  for (var x = 1; x * x < limit; x += 1) {
+	    for (var y = 1; y * y < limit; y += 1) {
+	      // Main part of Sieve of Atkin
+	      var n = 4 * x * x + y * y;
+	      if (n <= limit && (n % 12 === 1 || n % 12 === 5)) {
+	        sieve[n] ^= true;
+	      }
+	      n = 3 * x * x + y * y;
+	      if (n <= limit && n % 12 === 7) {
+	        sieve[n] ^= true;
+	      }
+	      n = 3 * x * x - y * y;
+	      if (x > y && n <= limit && n % 12 === 11) {
+	        sieve[n] ^= true;
+	      }
+	    }
+	  }
+
+	  // Mark all multiples of squares as non-prime
+	  for (var r = 5; r * r < limit; r += 1) {
+	    if (sieve[r]) {
+	      for (var _i = r * r; _i < limit; _i += r * r) {
+	        sieve[_i] = false;
+	      }
+	    }
+	  }
+	  for (var a = 5; a < limit; a += 1) {
+	    if (sieve[a]) {
+	      toReturn.push(a);
+	    }
+	  }
+	  return toReturn[toReturn.length - 1];
+	}
+	// TODO: put this in seperate file and make accessible to all
+	function objToString(obj) {
+	  var toStr = obj.toString();
+	  if (toStr === '[object Object]') {
+	    return JSON.stringify(obj);
+	  }
+	  return toStr;
+	}
+
+	function rehash() {
+	  var oldTable = this._table;
+	  this._table = [];
+	  this._table.length = sieveOfAtkin(oldTable.length * 2);
+	  this.insert = 0;
+	  for (var i = 0; i < oldTable.length; i += 1) {
+	    if (oldTable[i]) {
+	      for (var j = 0; j < oldTable[i].length; j += 2) {
+	        this.put(oldTable[i][j], oldTable[i][j]);
+	      }
+	    }
+	  }
+	}
+
+	function fnv(str) {
+	  var hash = 0x811c9dc5;
+	  for (var i = 0; i < str.length; i += 1) {
+	    hash ^= str.charCodeAt(i);
+	    hash *= 0x01000193;
+	  }
+	  return hash < 0 ? hash * -1 : hash;
+	}
+
+	var HashMap = function () {
+	  function HashMap() {
+	    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 23;
+
+	    _classCallCheck(this, HashMap);
+
+	    this._table = [];
+	    this._table.length += initial;
+	    this._loadFactor = 0.75;
+	    this.insert = 0;
+	  }
+	  // TODO : replace to string with object stringify for objects
+
+
+	  HashMap.prototype.put = function put(key, value) {
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
+	    var table = this._table;
+	    var bucket = table[location];
+	    if (!bucket) {
+	      table[location] = [];
+	      table[location].push(key, value);
+	      this.insert += 1;
+	    } else {
+	      var keyIndex = bucket.indexOf(key);
+	      if (keyIndex !== -1) {
+	        bucket[keyIndex + 1] = value;
+	      } else {
+	        bucket.push(key, value);
+	        this.insert += 1;
+	      }
+	    }
+	    // check if rehashing needs to be done
+	    if (this.insert / table.length >= 0.75) {
+	      rehash.call(this);
+	    }
+	  };
+	  // TODO: add indexof polyfill ie<9
+
+
+	  HashMap.prototype.contains = function contains(key) {
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
+	    return this._table[location] && this._table[location].indexOf(key) !== -1;
+	  };
+
+	  HashMap.prototype.getVal = function getVal(key) {
+	    var table = this._table;
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
+	    var bucket = table[location];
+	    if (bucket) {
+	      var keyIndex = bucket.indexOf(key);
+	      if (keyIndex !== -1) {
+	        return bucket[keyIndex + 1];
+	      }
+	    }
+	  };
+
+	  return HashMap;
+	}();
+
+	module.exports = HashMap;
 
 /***/ }
 /******/ ])
