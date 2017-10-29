@@ -59,12 +59,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var List = __webpack_require__(1);
 	var Stack = __webpack_require__(2);
 	var Queue = __webpack_require__(3);
+	var BHeap = __webpack_require__(4);
+	var PriorityQueue = __webpack_require__(5);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue };
 
 /***/ },
 /* 1 */
@@ -392,6 +394,126 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = Queue;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function maxHeapify(A, index, comp) {
+	  var left = 2 * index;
+	  var right = 2 * index + 1;
+	  var largest = void 0;
+
+	  if (left <= A.length - 1 && comp(A[left], A[index]) === 1) {
+	    largest = left;
+	  } else {
+	    largest = index;
+	  }
+
+	  if (right <= A.length - 1 && comp(A[right], A[largest]) === 1) {
+	    largest = right;
+	  }
+
+	  if (comp(largest, index) !== 0) {
+	    var oldIndex = A[index];
+	    A[index] = A[largest];
+	    A[largest] = oldIndex;
+	    maxHeapify(A, largest, comp);
+	  }
+	}
+
+	function siftUp(A, index, comp) {
+	  if (index >= 2) {
+	    var parent = Math.floor(index / 2);
+	    if (comp(A[parent], A[index]) === -1) {
+	      var oldParent = A[parent];
+	      A[parent] = A[index];
+	      A[index] = oldParent;
+
+	      siftUp(A, parent, comp);
+	    }
+	  }
+	}
+
+	function defaultEqual(a, b) {
+	  if (a < b) {
+	    return -1;
+	  } else if (a === b) {
+	    return 0;
+	  }
+	  return 1;
+	}
+
+	var BHeap = function () {
+	  function BHeap(comparator) {
+	    _classCallCheck(this, BHeap);
+
+	    this.heap = [null];
+	    this.comp = comparator || defaultEqual;
+	  }
+
+	  BHeap.prototype.extractRoot = function extractRoot() {
+	    var heap = this.heap;
+	    var max = heap[1];
+	    heap[1] = heap[heap.length - 1];
+	    heap.length -= 1;
+	    maxHeapify(heap, 1, this.comp);
+	    return max;
+	  };
+
+	  BHeap.prototype.insert = function insert(data) {
+	    var heap = this.heap;
+	    heap[heap.length] = data;
+	    siftUp(heap, heap.length - 1, this.comp);
+	  };
+
+	  BHeap.prototype.size = function size() {
+	    return this.heap.length - 1;
+	  };
+
+	  return BHeap;
+	}();
+
+	module.exports = BHeap;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BHeap = __webpack_require__(4);
+
+	function min(a, b) {
+	  if (a.p < b.p) {
+	    return 1;
+	  } else if (a.p === b.p) {
+	    return 0;
+	  }
+	  return -1;
+	}
+
+	var PriorityQueue = function () {
+	  function PriorityQueue() {
+	    _classCallCheck(this, PriorityQueue);
+
+	    this.rep = new BHeap(min);
+	  }
+
+	  PriorityQueue.prototype.enqueue = function enqueue(data, priority) {
+	    this.rep.insert({ data: data, p: priority });
+	  };
+
+	  return PriorityQueue;
+	}();
+
+	module.exports = PriorityQueue;
 
 /***/ }
 /******/ ])
