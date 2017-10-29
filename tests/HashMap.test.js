@@ -29,6 +29,5 @@ describe("HashMap", function(){
           map.put(i, i);
       }
       expect(map._table.length).to.be.equal(73)
-      
-  })
+  });
 });

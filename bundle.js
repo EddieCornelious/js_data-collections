@@ -62,12 +62,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BHeap = __webpack_require__(4);
 	var PriorityQueue = __webpack_require__(5);
 	var HashMap = __webpack_require__(6);
+	var BST = __webpack_require__(7);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST };
 
 /***/ },
 /* 1 */
@@ -666,6 +667,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = HashMap;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BSTNode = __webpack_require__(8);
+
+	function BSTInsert(key, value, Node) {
+	  var x = this.root;
+	  var z = new Node(key, value);
+	  var y = new Node();
+	  while (x.key !== undefined) {
+	    y = x;
+	    if (z.key < x.key) {
+	      x = x.left;
+	    } else {
+	      x = x.right;
+	    }
+	  }
+	  z.parent = y;
+	  if (y.key === undefined) {
+	    this.root = z;
+	  } else if (z.key < y.key) {
+	    y.left = z;
+	  } else {
+	    y.right = z;
+	  }
+	  z.left = new Node();
+	  z.right = new Node();
+	}
+
+	var BST = function () {
+	  function BST() {
+	    _classCallCheck(this, BST);
+
+	    this.root = new BSTNode();
+	  }
+
+	  BST.prototype.insert = function insert(key, value) {
+	    BSTInsert.apply(this, [key, value, BSTNode]);
+	  };
+
+	  return BST;
+	}();
+
+	module.exports = BST;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BSTNode = function BSTNode(key, value) {
+	  _classCallCheck(this, BSTNode);
+
+	  this.parent = null;
+	  this.left = null;
+	  this.right = null;
+	  this.key = key;
+	  this.value = value;
+	};
+
+	module.exports = BSTNode;
 
 /***/ }
 /******/ ])
