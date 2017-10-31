@@ -63,12 +63,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var PriorityQueue = __webpack_require__(5);
 	var HashMap = __webpack_require__(6);
 	var BST = __webpack_require__(7);
+	var RBTree = __webpack_require__(10);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree };
 
 /***/ },
 /* 1 */
@@ -677,30 +678,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var BSTNode = __webpack_require__(8);
-
-	function BSTInsert(key, value, Node) {
-	  var x = this.root;
-	  var z = new Node(key, value);
-	  var y = new Node();
-	  while (x.key !== undefined) {
-	    y = x;
-	    if (z.key < x.key) {
-	      x = x.left;
-	    } else {
-	      x = x.right;
-	    }
-	  }
-	  z.parent = y;
-	  if (y.key === undefined) {
-	    this.root = z;
-	  } else if (z.key < y.key) {
-	    y.left = z;
-	  } else {
-	    y.right = z;
-	  }
-	  z.left = new Node();
-	  z.right = new Node();
-	}
+	var BSTPrototype = __webpack_require__(9);
 
 	var BST = function () {
 	  function BST() {
@@ -710,7 +688,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  BST.prototype.insert = function insert(key, value) {
-	    BSTInsert.apply(this, [key, value, BSTNode]);
+	    BSTPrototype.BSTInsert.apply(this, [key, value, BSTNode]);
+	  };
+
+	  BST.prototype.remove = function remove(key) {
+	    BSTPrototype.BSTRemove.apply(this, [key]);
 	  };
 
 	  return BST;
@@ -737,6 +719,291 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = BSTNode;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function BSTInsert(key, value, Node) {
+	  var x = this.root;
+	  var z = new Node(key, value);
+	  var y = new Node();
+	  while (x.key !== undefined) {
+	    y = x;
+	    if (z.key < x.key) {
+	      x = x.left;
+	    } else {
+	      x = x.right;
+	    }
+	  }
+	  z.parent = y;
+	  if (y.key === undefined) {
+	    this.root = z;
+	  } else if (z.key < y.key) {
+	    y.left = z;
+	  } else {
+	    y.right = z;
+	  }
+	  z.left = new Node();
+	  z.right = new Node();
+	  return z;
+	}
+
+	function search(root, key) {
+	  if (!root) {
+	    return null;
+	  }
+	  if (root.key === key) {
+	    return root;
+	  }
+	  if (root.key < key) {
+	    return search(root.right, key);
+	  }
+	  return search(root.left, key);
+	}
+
+	function BSTRemove(key) {
+	  var node = search(this.root, key);
+
+	  if (!node) {
+	    return false;
+	  }
+
+	  var y = void 0;
+	  var x = void 0;
+	  if (node.left.key === undefined || node.right.key === undefined) {
+	    y = node;
+	  } else {
+	    var SRST = node.right;
+	    while (SRST.key !== undefined) {
+	      if (SRST.left.key === undefined) {
+	        break;
+	      }
+	      SRST = SRST.left;
+	    }
+	    y = SRST;
+	  }
+	  if (y.left.key !== undefined) {
+	    x = y.left;
+	  } else {
+	    x = y.right;
+	  }
+	  x.parent = y.parent;
+	  if (!y.parent.key) {
+	    this.root = x;
+	  } else {
+	    if (y.key === y.parent.left.key) {
+	      y.parent.left = x;
+	    } else {
+	      y.parent.right = x;
+	    }
+	  }
+	  if (y.key !== node.key) {
+	    node.key = y.key;
+	    node.value = y.value;
+	  }
+	  return { y: y, x: x };
+	}
+
+	module.exports = { BSTInsert: BSTInsert, BSTRemove: BSTRemove };
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var BSTNode = __webpack_require__(8);
+	var BSTPrototype = __webpack_require__(9);
+	var RBTreePrototype = __webpack_require__(11);
+
+	var RBNode = function (_BSTNode) {
+	  _inherits(RBNode, _BSTNode);
+
+	  function RBNode(key, value) {
+	    _classCallCheck(this, RBNode);
+
+	    var _this = _possibleConstructorReturn(this, _BSTNode.call(this, key, value));
+
+	    _this.color = 'black';
+	    return _this;
+	  }
+
+	  return RBNode;
+	}(BSTNode);
+
+	var RBTree = function () {
+	  function RBTree() {
+	    _classCallCheck(this, RBTree);
+
+	    this.root = new RBNode();
+	  }
+
+	  RBTree.prototype.insert = function insert(key, value) {
+	    var insertedNode = BSTPrototype.BSTInsert.apply(this, [key, value, RBNode]);
+	    insertedNode.color = 'red';
+	    RBTreePrototype.insertFix.apply(this, [insertedNode]);
+	  };
+
+	  RBTree.prototype.remove = function remove(key) {
+	    var removeNode = BSTPrototype.BSTRemove.apply(this, [key]);
+	    if (removeNode && removeNode.y.color === 'black') {
+	      RBTreePrototype.deletefixUp.apply(this, [removeNode.x]);
+	    }
+	  };
+
+	  return RBTree;
+	}();
+
+	module.exports = RBTree;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function leftRotate(x) {
+	  var y = x.right;
+	  x.right = y.left;
+	  if (y.left.key === undefined) {
+	    y.left.parent = x;
+	  }
+	  y.parent = x.parent;
+	  if (x.parent.key === undefined) {
+	    this.root = y;
+	  } else if (x.key === x.parent.left.key) {
+	    x.parent.left = y;
+	  } else {
+	    x.parent.right = y;
+	  }
+
+	  y.left = x;
+	  x.parent = y;
+	}
+	function rightRotate(x) {
+	  var y = x.left;
+	  x.left = y.right;
+	  if (y.right.key === undefined) {
+	    y.right.parent = x;
+	  }
+	  y.parent = x.parent;
+	  if (x.parent.key === undefined) {
+	    this.root = y;
+	  } else if (x.key === x.parent.right.key) {
+	    x.parent.right = y;
+	  } else {
+	    x.parent.left = y;
+	  }
+
+	  y.right = x;
+	  x.parent = y;
+	}
+
+	function insertFix(node) {
+	  while (node.parent && node.parent.parent && node.parent.color === 'red') {
+	    var uncle = void 0;
+	    if (node.parent.key === node.parent.parent.left.key) {
+	      uncle = node.parent.parent.right;
+	      if (uncle.color === 'red') {
+	        node.parent.color = 'black';
+	        uncle.color = 'black';
+	        node = node.parent.parent;
+	        node.color = 'red';
+	      } else {
+	        if (node.key === node.parent.right.key) {
+	          node = node.parent;
+	          leftRotate.apply(this, [node]);
+	        }
+	        node.parent.color = 'black';
+	        node.parent.parent.color = 'red';
+	        rightRotate.apply(this, [node.parent.parent]);
+	      }
+	    } else if (node.parent.key === node.parent.parent.right.key) {
+	      uncle = node.parent.parent.left;
+	      if (uncle.color === 'red') {
+	        node.parent.color = 'black';
+	        uncle.color = 'black';
+	        node = node.parent.parent;
+	        node.color = 'red';
+	      } else {
+	        if (node.key === node.parent.left.key) {
+	          node = node.parent;
+	          rightRotate.apply(this, [node]);
+	        }
+	        node.parent.color = 'black';
+	        node.parent.parent.color = 'red';
+	        leftRotate.apply(this, [node.parent.parent]);
+	      }
+	    }
+	  }
+	  this.root.color = 'black';
+	}
+
+	function deletefixUp(node) {
+	  while (node.parent.key !== undefined && node.color === 'black') {
+	    var w = void 0;
+	    if (node.key === node.parent.left.key) {
+	      w = node.parent.right;
+	      if (w.color === 'red') {
+	        w.color = 'black';
+	        node.parent.color = 'red';
+	        leftRotate.apply(this, [node.parent]);
+	        w = node.parent.right;
+	      }
+	      if (w.left.color === 'black' && w.right.color === 'black') {
+	        w.color = 'red';
+	        node = node.parent;
+	      } else {
+	        if (w.right.color === 'black') {
+	          w.left.color = 'black';
+	          w.color = 'red';
+	          rightRotate.apply(this, [w]);
+	          w = node.parent.right;
+	        }
+	        w.color = node.parent.color;
+	        node.parent.color = 'black';
+	        w.right.color = 'black';
+	        leftRotate.apply(this, [node.parent]);
+	        node = this.root;
+	      }
+	    } else {
+	      w = node.parent.left;
+	      if (w.color === 'red') {
+	        w.color = 'black';
+	        node.parent.color = 'red';
+	        rightRotate.apply(this, [node.parent]);
+	        w = node.parent.left;
+	      }
+	      if (w.right.color === 'black' && w.left.color === 'black') {
+	        w.color = 'red';
+	        node = node.parent;
+	      } else {
+	        if (w.left.color === 'black') {
+	          w.right.color = 'black';
+	          w.color = 'red';
+	          leftRotate.apply(this, [w]);
+	          w = node.parent.left;
+	        }
+	        w.color = node.parent.color;
+	        node.parent.color = 'black';
+	        w.left.color = 'black';
+	        rightRotate.apply(this, [node.parent]);
+	        node = this.root;
+	      }
+	    }
+	  }
+	  node.color = 'black';
+	}
+	module.exports = { insertFix: insertFix, deletefixUp: deletefixUp };
 
 /***/ }
 /******/ ])

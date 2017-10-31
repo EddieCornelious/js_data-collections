@@ -1,28 +1,5 @@
 var BSTNode = require('./BSTNode.js');
-
-function BSTInsert(key, value, Node) {
-  let x = this.root;
-  let z = new Node(key, value);
-  let y = new Node();
-  while (x.key !== undefined) {
-    y = x;
-    if (z.key < x.key) {
-      x = x.left;
-    } else {
-      x = x.right;
-    }
-  }
-  z.parent = y;
-  if (y.key === undefined) {
-    this.root = z;
-  } else if (z.key < y.key) {
-    y.left = z;
-  } else {
-    y.right = z;
-  }
-  z.left = new Node();
-  z.right = new Node();
-}
+var BSTPrototype = require('./BSTPrototype.js');
 
 class BST {
   constructor() {
@@ -30,7 +7,11 @@ class BST {
   }
 
   insert(key, value) {
-    BSTInsert.apply(this, [key, value, BSTNode]);
+    BSTPrototype.BSTInsert.apply(this, [key, value, BSTNode]);
+  }
+
+  remove(key) {
+    BSTPrototype.BSTRemove.apply(this, [key]);
   }
 }
 
