@@ -1,7 +1,7 @@
 var BSTNode = require('./BSTNode.js');
 var BSTPrototype = require('./BSTPrototype.js');
 var RBTreePrototype = require('./RBTreePrototype.js');
-
+var BST = require('./BST.js');
 
 class RBNode extends BSTNode {
   constructor(key, value) {
@@ -10,8 +10,9 @@ class RBNode extends BSTNode {
   }
 }
 
-class RBTree {
+class RBTree extends BST {
   constructor() {
+    super();
     this.root = new RBNode();
   }
 
@@ -26,6 +27,14 @@ class RBTree {
     if (removeNode && removeNode.y.color === 'black') {
       RBTreePrototype.deletefixUp.apply(this, [removeNode.x]);
     }
+  }
+
+  find(key) {
+    return super.find(key);
+  }
+  
+  constains(key) {
+    super.contains(key);
   }
 }
 

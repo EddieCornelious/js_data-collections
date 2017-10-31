@@ -24,7 +24,7 @@ function BSTInsert(key, value, Node) {
 }
 
 function search(root, key) {
-  if (!root) {
+  if (!root.key) {
     return null;
   }
   if (root.key === key) {
@@ -80,4 +80,4 @@ function BSTRemove(key) {
   return { y, x };
 }
 
-module.exports = { BSTInsert, BSTRemove };
+module.exports = { BSTInsert, BSTRemove, search };

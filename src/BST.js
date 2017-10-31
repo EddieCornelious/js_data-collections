@@ -13,6 +13,14 @@ class BST {
   remove(key) {
     BSTPrototype.BSTRemove.apply(this, [key]);
   }
+  
+  find(key) {
+    return BSTPrototype.search(this.root, key);
+  }
+  
+  contains(key) {
+    return BSTPrototype.find(key).key !== null;
+  }
 }
 
 module.exports = BST;

@@ -394,3 +394,10 @@ describe("RBTree", function() {
     }
   });
 });
+
+let y = new RBTree()
+y.insert(99, 1)
+y.insert(98, 1);
+console.log(y.find(99).key);
+
+

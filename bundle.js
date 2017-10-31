@@ -695,6 +695,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    BSTPrototype.BSTRemove.apply(this, [key]);
 	  };
 
+	  BST.prototype.find = function find(key) {
+	    return BSTPrototype.search(this.root, key);
+	  };
+
 	  return BST;
 	}();
 
@@ -752,8 +756,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function search(root, key) {
-	  if (!root) {
-	    return null;
+	  if (!root.key) {
+	    return root;
 	  }
 	  if (root.key === key) {
 	    return root;
@@ -807,7 +811,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return { y: y, x: x };
 	}
 
-	module.exports = { BSTInsert: BSTInsert, BSTRemove: BSTRemove };
+	module.exports = { BSTInsert: BSTInsert, BSTRemove: BSTRemove, search: search };
 
 /***/ },
 /* 10 */
@@ -824,6 +828,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BSTNode = __webpack_require__(8);
 	var BSTPrototype = __webpack_require__(9);
 	var RBTreePrototype = __webpack_require__(11);
+	var BST = __webpack_require__(7);
 
 	var RBNode = function (_BSTNode) {
 	  _inherits(RBNode, _BSTNode);
@@ -840,11 +845,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return RBNode;
 	}(BSTNode);
 
-	var RBTree = function () {
+	var RBTree = function (_BST) {
+	  _inherits(RBTree, _BST);
+
 	  function RBTree() {
 	    _classCallCheck(this, RBTree);
 
-	    this.root = new RBNode();
+	    var _this2 = _possibleConstructorReturn(this, _BST.call(this));
+
+	    _this2.root = new RBNode();
+	    return _this2;
 	  }
 
 	  RBTree.prototype.insert = function insert(key, value) {
@@ -860,8 +870,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 
+	  RBTree.prototype.find = function find(key) {
+	    return _BST.prototype.find.call(this, key);
+	  };
+
 	  return RBTree;
-	}();
+	}(BST);
 
 	module.exports = RBTree;
 
