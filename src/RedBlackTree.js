@@ -32,7 +32,7 @@ class RBTree extends BST {
   find(key) {
     return super.find(key);
   }
-  
+
   constains(key) {
     super.contains(key);
   }

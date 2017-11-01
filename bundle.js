@@ -64,12 +64,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMap = __webpack_require__(6);
 	var BST = __webpack_require__(7);
 	var RBTree = __webpack_require__(10);
+	var Trie = __webpack_require__(12);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree, Trie: Trie };
 
 /***/ },
 /* 1 */
@@ -699,6 +700,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return BSTPrototype.search(this.root, key);
 	  };
 
+	  BST.prototype.contains = function contains(key) {
+	    return this.find(key).key ? true : false;
+	  };
+
 	  return BST;
 	}();
 
@@ -757,7 +762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function search(root, key) {
 	  if (!root.key) {
-	    return root;
+	    return null;
 	  }
 	  if (root.key === key) {
 	    return root;
@@ -872,6 +877,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  RBTree.prototype.find = function find(key) {
 	    return _BST.prototype.find.call(this, key);
+	  };
+
+	  RBTree.prototype.constains = function constains(key) {
+	    _BST.prototype.contains.call(this, key);
 	  };
 
 	  return RBTree;
@@ -1018,6 +1027,169 @@ return /******/ (function(modules) { // webpackBootstrap
 	  node.color = 'black';
 	}
 	module.exports = { insertFix: insertFix, deletefixUp: deletefixUp };
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function childArr(word) {
+	  var curNode = this.root.children;
+	  var arr = {};
+	  for (var i = 0; i < word.length; i += 1) {
+	    arr[i] = { root: curNode, children: Object.keys(curNode[word[i]].children).length };
+	    curNode = curNode[word[i]].children;
+	  }
+	  return arr;
+	}
+
+	function recurseTree(node, arr) {
+
+	  if (!node) {
+	    return;
+	  }
+
+	  for (var key in node) {
+	    var res = recurseTree(node[key].children, arr);
+	    if (node[key].word) {
+	      arr.push(node[key].word);
+	    }
+	  }
+	}
+
+	var TrieNode = function TrieNode() {
+	  _classCallCheck(this, TrieNode);
+
+	  this.children = {};
+	  this.endOfWord = false;
+	  this.word = null;
+	};
+
+	var Trie = function () {
+	  function Trie() {
+	    _classCallCheck(this, Trie);
+
+	    this.root = new TrieNode();
+	  }
+
+	  Trie.prototype.addWord = function addWord(word) {
+	    var curNode = this.root.children;
+	    var lowerWord = word.toString().toLowerCase();
+	    var curChar = void 0;
+	    for (var i = 0; i < lowerWord.length; i += 1) {
+	      curChar = lowerWord.charAt(i);
+	      if (!curNode[curChar]) {
+	        curNode[curChar] = new TrieNode();
+	      }
+	      if (i === lowerWord.length - 1) {
+	        curNode[curChar].endOfWord = true;
+	        curNode[curChar].word = lowerWord;
+	      }
+	      curNode = curNode[curChar].children;
+	    }
+	  };
+
+	  Trie.prototype.containsWord = function containsWord(word) {
+	    var curNode = this.root.children;
+	    var lowerWord = word.toString().toLowerCase();
+	    var curChar = void 0;
+	    //check contains word first
+	    for (var i = 0; i < lowerWord.length; i += 1) {
+	      curChar = lowerWord.charAt(i);
+	      var char = curNode[curChar];
+	      if (!char) {
+	        return false;
+	      }
+	      curNode = curNode[curChar].children;
+	    }
+	    return lowerWord.length === 0 ? false : true;
+	  };
+
+	  Trie.prototype.allWords = function allWords() {
+	    var arr = [];
+	    recurseTree(this.root.children, arr);
+	    return arr;
+	  };
+
+	  Trie.prototype.prefixAll = function prefixAll(prefix) {
+	    var arr = [];
+
+	    var toSearch = this.prefix(prefix);
+	    recurseTree(toSearch.children, arr);
+	    return arr;
+	  };
+
+	  Trie.prototype.removePrefix = function removePrefix(pfx) {
+	    if (pfx.length === 0) {
+	      return;
+	    }
+	    var prefix = this.prefix(pfx);
+	    delete prefix.children;
+
+	    return true;
+	  };
+
+	  Trie.prototype.removeWord = function removeWord(word) {
+	    if (!this.containsWord(word)) {
+	      return;
+	    }
+	    // path with number of children of each character node. Soft Delete
+	    var lowerWord = word.toString().toLowerCase();
+	    var path = childArr.call(this, lowerWord);
+	    var lowerWordLen = lowerWord.length - 1;
+	    var lastChar = lowerWord.charAt(lowerWordLen);
+	    if (path[lowerWordLen].children !== 0) {
+	      path[lowerWordLen].root[lastChar].word = null;
+	      path[lowerWordLen].root[lastChar].endOfWord = false;
+	      return;
+	    }
+	    // hard delete chars as much as possible.
+	    delete path[lowerWordLen].root[lowerWordLen];
+	    for (var i = lowerWordLen; i >= 0; i -= 1) {
+	      var curChar = lowerWord.charAt(i);
+	      if (path[i].children === 1 && !path[i].root[curChar].word) {
+	        delete path[i].root[curChar];
+	      } else {
+	        break;
+	      }
+	    }
+	    return;
+	  };
+
+	  //returns tree root where prefix starts
+
+
+	  Trie.prototype.prefix = function prefix(pfx) {
+	    var curNode = this.root.children;
+	    if (!curNode || pfx.length === 0) {
+	      return [];
+	    }
+	    var pfxLength = pfx.length;
+	    var lastChar = pfx.charAt(pfxLength - 1);
+	    var curChar = void 0;
+	    for (var i = 0; i < pfxLength; i++) {
+	      curChar = pfx.charAt(i);
+	      if (curNode[lastChar] && i === pfxLength - 1) {
+	        break;
+	      }
+	      if (curNode[curChar]) {
+	        curNode = curNode[curChar].children;
+	      } else {
+	        return [];
+	      }
+	    }
+	    //search for possible entire words
+	    var toSearch = curNode[lastChar];
+	    return toSearch;
+	  };
+
+	  return Trie;
+	}();
+
+	module.exports = Trie;
 
 /***/ }
 /******/ ])
