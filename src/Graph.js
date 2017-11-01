@@ -1,5 +1,6 @@
 const Queue = require("./Queue.js");
 const Stack = require("./Stack.js");
+const PQ = require("./PriorityQueue.js");
 class Graph {
   constructor() {
     this.graph = {};
@@ -10,6 +11,7 @@ class Graph {
   }
   
   addEdge(v1, v2, w) {
+    //replace with PQ
     this.graph[v1].push({v: v2, w});
     this.graph[v2].push({v: v1, w});
   }
@@ -57,7 +59,7 @@ class Graph {
   }
   // I get to use my PQ!!!!
   Prim(v) {
-      
+   
   }
 }
 module.exports = Graph;

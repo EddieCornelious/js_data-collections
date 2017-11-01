@@ -210,6 +210,32 @@ class List {
     this.forEach(element => temp.push(element));
     return temp;
   }
+
+  listIterator() {
+    const context = this;
+    let cur = this.head;
+    return {
+      next() {
+        if (!this.hasNext()) {
+          this.reset();
+          return this.next();
+        }
+        const curData = cur.data;
+        this.advance();
+        return curData;
+      },
+      advance() {
+        cur = cur.next;
+      },
+      reset() {
+        cur = context.head;
+      },
+      hasNext() {
+        return cur !== null;
+      }
+    };
+  }
 }
+
 
 module.exports = List;
