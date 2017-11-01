@@ -304,31 +304,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return temp;
 	  };
 
-	  List.prototype.listIterator = function listIterator() {
-	    var context = this;
-	    var cur = this.head;
-	    return {
-	      next: function next() {
-	        if (!this.hasNext()) {
-	          this.reset();
-	          return this.next();
-	        }
-	        var curData = cur.data;
-	        this.advance();
-	        return curData;
-	      },
-	      advance: function advance() {
-	        cur = cur.next;
-	      },
-	      reset: function reset() {
-	        cur = context.head;
-	      },
-	      hasNext: function hasNext() {
-	        return cur !== null;
-	      }
-	    };
-	  };
-
 	  return List;
 	}();
 
@@ -618,7 +593,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  for (var i = 0; i < oldTable.length; i += 1) {
 	    if (oldTable[i]) {
 	      for (var j = 0; j < oldTable[i].length; j += 2) {
-	        this.put(oldTable[i][j], oldTable[i][j]);
+	        this.put(oldTable[i][j], oldTable[i][j + 1]);
 	      }
 	    }
 	  }
@@ -687,6 +662,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return bucket[keyIndex + 1];
 	      }
 	    }
+	  };
+
+	  HashMap.prototype.keys = function keys() {
+	    var table = this._table;
+	    var keyArr = [];
+	    for (var i = 0; i < table.length; i += 1) {
+	      if (table[i]) {
+	        for (var j = 0; j < table[i].length; j += 2) {
+	          //TODO : push clone of keys
+	          keyArr.push(table[i][j]);
+	        }
+	      }
+	    }
+	    return keyArr;
 	  };
 
 	  return HashMap;
