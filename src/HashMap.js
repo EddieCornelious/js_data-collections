@@ -59,7 +59,7 @@ function rehash() {
   for (let i = 0; i < oldTable.length; i += 1) {
     if (oldTable[i]) {
       for (let j = 0; j < oldTable[i].length; j += 2) {
-        this.put(oldTable[i][j], oldTable[i][j]);
+        this.put(oldTable[i][j], oldTable[i][j + 1]);
       }
     }
   }
@@ -120,6 +120,20 @@ class HashMap {
         return bucket[keyIndex + 1];
       }
     }
+  }
+  
+  keys() {
+    const table = this._table;
+    const keyArr = [];
+    for (let i=0; i < table.length; i += 1) {
+      if (table[i]) {
+        for (let j = 0; j < table[i].length ; j += 2) {
+          //TODO : push clone of keys
+          keyArr.push(table[i][j]);
+        }
+      }
+    }
+    return keyArr;
   }
 }
 module.exports = HashMap;
