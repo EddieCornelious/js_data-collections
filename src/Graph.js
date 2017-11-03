@@ -18,33 +18,36 @@ class Graph {
   
   BFS(v) {
     const graph = this.graph;
+    const bfs = [];
     const visited = {};
     let q = new Queue();
     q.enqueue(v);
-    while(q.size()!==0){
+    while(q.size() !== 0) {
       let x = q.dequeue();
-      if(!visited[x]){
+      if (!visited[x]) {
         visited[x] = true;
-        console.log(x);
-        for(let i=0; i<graph[x].length; i++) {
-          if(!visited[graph[x][i].v]){
+        bfs.push(x);
+        for(let i=0; i < graph[x].length; i +=1) {
+          if (!visited[graph[x][i].v]) {
             q.enqueue(graph[x][i].v);
           }
         }
       }
     }
+    return bfs;
   }
   
   DFS(v) {
     const graph = this.graph;
+    const dfs = [];
     const visited = {};
     let s = new Stack();
     s.push(v);
-    while(s.size()!==0){
+    while(s.size()!== 0) {
       let x = s.pop();
-      if(!visited[x]){
+      if (!visited[x]) {
         visited[x] = true;
-        console.log(x);
+        dfs.push(x);
         for(let i=0; i<graph[x].length; i++) {
           if(!visited[graph[x][i].v]){
             s.push(graph[x][i].v);
@@ -52,14 +55,17 @@ class Graph {
         }
       }
     }
+    return dfs;
   }
-  
-  Dijkstra() {
-      
-  }
-  // I get to use my PQ!!!!
-  Prim(v) {
-   
+
+  isConnected() {
+    const graph = this.graph;
+    let firstKey = "";
+    for (let vertex in graph) {
+      firstKey = vertex;
+      break;
+    }
+    return this.BFS(firstKey).length === Object.keys(graph).length;
   }
 }
 module.exports = Graph;

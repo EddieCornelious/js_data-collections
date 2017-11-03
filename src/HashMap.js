@@ -80,6 +80,7 @@ class HashMap {
     this._table.length += initial;
     this._loadFactor = 0.75;
     this.insert = 0;
+    //TODO : make a key array a red black tree
   }
   // TODO : replace to string with object stringify for objects
   put(key, value) {
@@ -120,20 +121,6 @@ class HashMap {
         return bucket[keyIndex + 1];
       }
     }
-  }
-  
-  keys() {
-    const table = this._table;
-    const keyArr = [];
-    for (let i=0; i < table.length; i += 1) {
-      if (table[i]) {
-        for (let j = 0; j < table[i].length ; j += 2) {
-          //TODO : push clone of keys
-          keyArr.push(table[i][j]);
-        }
-      }
-    }
-    return keyArr;
   }
 }
 module.exports = HashMap;

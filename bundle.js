@@ -618,6 +618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._table.length += initial;
 	    this._loadFactor = 0.75;
 	    this.insert = 0;
+	    //TODO : make a key array a red black tree
 	  }
 	  // TODO : replace to string with object stringify for objects
 
@@ -662,20 +663,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return bucket[keyIndex + 1];
 	      }
 	    }
-	  };
-
-	  HashMap.prototype.keys = function keys() {
-	    var table = this._table;
-	    var keyArr = [];
-	    for (var i = 0; i < table.length; i += 1) {
-	      if (table[i]) {
-	        for (var j = 0; j < table[i].length; j += 2) {
-	          //TODO : push clone of keys
-	          keyArr.push(table[i][j]);
-	        }
-	      }
-	    }
-	    return keyArr;
 	  };
 
 	  return HashMap;
