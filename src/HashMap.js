@@ -80,7 +80,6 @@ class HashMap {
     this._table.length += initial;
     this._loadFactor = 0.75;
     this.insert = 0;
-    //TODO : make a key array a red black tree
   }
   // TODO : replace to string with object stringify for objects
   put(key, value) {

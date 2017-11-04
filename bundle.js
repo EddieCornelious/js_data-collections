@@ -64,12 +64,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMap = __webpack_require__(6);
 	var BST = __webpack_require__(7);
 	var RBTree = __webpack_require__(10);
+	var Set = __webpack_require__(12);
+	var Graph = __webpack_require__(13);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree, Set: Set, Graph: Graph };
 
 /***/ },
 /* 1 */
@@ -618,7 +620,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._table.length += initial;
 	    this._loadFactor = 0.75;
 	    this.insert = 0;
-	    //TODO : make a key array a red black tree
 	  }
 	  // TODO : replace to string with object stringify for objects
 
@@ -1027,6 +1028,200 @@ return /******/ (function(modules) { // webpackBootstrap
 	  node.color = 'black';
 	}
 	module.exports = { insertFix: insertFix, deletefixUp: deletefixUp };
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Set = function () {
+	  function Set() {
+	    _classCallCheck(this, Set);
+
+	    this.set = [];
+	  }
+
+	  Set.prototype.union = function union($set) {
+	    var _ref;
+
+	    var thisSet = this.set;
+	    var thatSet = $set.toArray();
+	    var unionSet = (_ref = new Set()).add.apply(_ref, thisSet);
+	    for (var i = 0; i < thatSet.size(); i += 1) {
+	      var cur = thatSet[i];
+	      if (unionSet.indexOf(cur) === -1) {
+	        unionSet.add(cur);
+	      }
+	    }
+	    return unionSet;
+	  };
+
+	  Set.prototype.intersect = function intersect($set) {
+	    var thisSet = this.set;
+	    var thatSet = $set.toArray();
+	    var crossSet = new Set();
+	    for (var i = 0; i < thatSet.size(); i += 1) {
+	      var cur = thatSet[i];
+	      var bothContain = thisSet.contains(cur) !== -1 && thatSet.contains(cur) !== -1;
+	      if (bothContain) {
+	        crossSet.add(cur);
+	      }
+	    }
+	    return crossSet;
+	  };
+
+	  Set.prototype.add = function add(e) {
+	    //call is array method from base
+	    var thisSet = this.set;
+	    if (!this.contains(e)) {
+	      thisSet.push(e);
+	    }
+	    return this;
+	  };
+
+	  Set.prototype.removeAny = function removeAny() {
+	    var thisSet = this.set;
+	    var randNum = Math.floor(Math.random() * 2);
+	    var element = void 0;
+	    if (randNum === 0) {
+	      element = thisSet.pop();
+	      return element;
+	    }
+	    element = thisSet.shift();
+	    return element;
+	  };
+
+	  Set.prototype.size = function size() {
+	    return this.set.length;
+	  };
+
+	  Set.prototype.diff = function diff($set) {
+	    var thisSet = this.set;
+	    var thatSet = $set.toArray();
+	    var diffSet = new Set();
+	    for (var i = 0; i < thatSet.size(); i += 1) {
+	      var cur = thatSet[i];
+	      var bothContain = thisSet.contains(cur) !== -1 && thatSet.contains(cur) === -1;
+	      if (bothContain) {
+	        diffSet.add(cur);
+	      }
+	    }
+	    return diffSet;
+	  };
+
+	  Set.prototype.product = function product($set) {
+	    var thisSet = this.set;
+	    var thatSet = $set.toArray();
+	    var cartesian = new Set();
+	    for (var i = 0; i < thisSet.length; i += 1) {
+	      for (var j = 0; j < thatSet.length; j += 1) {
+	        cartesian.add([[thisSet[i], thatSet[j]]]);
+	      }
+	    }
+	    return cartesian;
+	  };
+
+	  Set.prototype.toArray = function toArray() {
+	    return Array.from(this.set);
+	  };
+
+	  Set.prototype.contains = function contains(key) {
+	    return this.set.indexOf(key) !== -1;
+	  };
+
+	  return Set;
+	}();
+
+	module.exports = Set;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Queue = __webpack_require__(3);
+	var Stack = __webpack_require__(2);
+	var PQ = __webpack_require__(5);
+
+	var Graph = function () {
+	  function Graph() {
+	    _classCallCheck(this, Graph);
+
+	    this.graph = {};
+	  }
+
+	  Graph.prototype.addVertex = function addVertex(v) {
+	    this.graph[v] = [];
+	  };
+
+	  Graph.prototype.addEdge = function addEdge(v1, v2, w) {
+	    //replace with PQ
+	    this.graph[v1].push({ v: v2, w: w });
+	    this.graph[v2].push({ v: v1, w: w });
+	  };
+
+	  Graph.prototype.BFS = function BFS(v) {
+	    var graph = this.graph;
+	    var bfs = [];
+	    var visited = {};
+	    var q = new Queue();
+	    q.enqueue(v);
+	    while (q.size() !== 0) {
+	      var x = q.dequeue();
+	      if (!visited[x]) {
+	        visited[x] = true;
+	        bfs.push(x);
+	        for (var i = 0; i < graph[x].length; i += 1) {
+	          if (!visited[graph[x][i].v]) {
+	            q.enqueue(graph[x][i].v);
+	          }
+	        }
+	      }
+	    }
+	    return bfs;
+	  };
+
+	  Graph.prototype.DFS = function DFS(v) {
+	    var graph = this.graph;
+	    var dfs = [];
+	    var visited = {};
+	    var s = new Stack();
+	    s.push(v);
+	    while (s.size() !== 0) {
+	      var x = s.pop();
+	      if (!visited[x]) {
+	        visited[x] = true;
+	        dfs.push(x);
+	        for (var i = 0; i < graph[x].length; i++) {
+	          if (!visited[graph[x][i].v]) {
+	            s.push(graph[x][i].v);
+	          }
+	        }
+	      }
+	    }
+	    return dfs;
+	  };
+
+	  Graph.prototype.isConnected = function isConnected() {
+	    var graph = this.graph;
+	    var firstKey = "";
+	    for (var vertex in graph) {
+	      firstKey = vertex;
+	      break;
+	    }
+	    return this.BFS(firstKey).length === Object.keys(graph).length;
+	  };
+
+	  return Graph;
+	}();
+
+	module.exports = Graph;
 
 /***/ }
 /******/ ])
