@@ -18,8 +18,10 @@ class RBTree extends BST {
 
   insert(key, value) {
     const insertedNode = BSTPrototype.BSTInsert.apply(this, [key, value, RBNode]);
-    insertedNode.color = 'red';
-    RBTreePrototype.insertFix.apply(this, [insertedNode]);
+    if(insertedNode){
+      insertedNode.color = 'red';
+      RBTreePrototype.insertFix.apply(this, [insertedNode]);
+    }
   }
 
   remove(key) {
