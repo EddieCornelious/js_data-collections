@@ -95,5 +95,8 @@ class AVL {
       fixUp.call(this, removed.y);
     }
   }
+  find(key){
+    return BSTPrototype.search(this.root,root, key);
+  }
 }
 module.exports = AVL;
