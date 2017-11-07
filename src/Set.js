@@ -50,7 +50,7 @@ class Set {
     return this;
   }
   removeAny() {
-    if(!this.size() > 0){
+    if (!this.size() > 0) {
       return;
     }
     const thisSet = this.set;

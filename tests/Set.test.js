@@ -149,5 +149,19 @@ describe("Set", function(){
     expect(actual.size()).to.deep.equal(expected.length)
 })
 
+it("product should work properly when there is a difference", function(){
+    Set1 = new Structs.Set([1, 6, 3, 5])
+    Set2 = new Structs.Set([3, 5])
+    expected = [1, 3, 6, 3, 3, 3, 5, 3, 1, 5, 6, 5, 3, 5, 5, 5]
+    actual = Set1.product(Set2)
+    let realActual = []
+     for(let i=0; i<actual.length; i++){
+       realActual = realActual.concat(actual[i])
+    }
+    for(let i=0; i<realActual.length; i++){
+       expect(realActual[i].indexOf(expected[i])).to.not.be.eqaul(-1)
+    }
+})
+
 
 });
