@@ -17,25 +17,14 @@ class Set {
     const thisSet = this.set;
     const thatSet = $set.toArray();
     const unionSet = new Set([...thisSet]);
-    for (let i = 0; i < thatSet.length; i += 1) {
-      let cur = thatSet[i];
-      unionSet.add(cur);
-    }
+    unionSet.add.apply(unionSet, thatSet);
     return unionSet;
   }
   intersect($set) {
     let thisSet = this.set;
     let thatSet = $set.toArray();
-    const crossSet = new Set();
-    const combined = thisSet.concat(thatSet);
-    for (let i = 0; i < combined.length; i += 1) {
-      let cur = combined[i];
-      const bothContain = thisSet.indexOf(cur) !== -1 && thatSet.indexOf(cur) !== -1;
-      if (bothContain) {
-        crossSet.add(cur);
-      }
-    }
-    return crossSet;
+    const cross = thisSet.filter(element => thatSet.indexOf(element) !== -1);
+    return new Set(cross);
   }
   add() {
     // call is array method from base
@@ -69,16 +58,8 @@ class Set {
   diff($set) {
     const thisSet = this.set;
     const thatSet = $set.toArray();
-    const diffSet = new Set();
-    const combined = thatSet.concat(thisSet);
-    for (let i = 0; i < combined.length; i += 1) {
-      let cur = combined[i];
-      const oneContains = thisSet.indexOf(cur) !== -1 && thatSet.indexOf(cur) === -1;
-      if (oneContains) {
-        diffSet.add(cur);
-      }
-    }
-    return diffSet;
+    const diff = thisSet.filter(element => thatSet.indexOf(element) === -1);
+    return new Set(diff);
   }
   product($set) {
     const thisSet = this.set;

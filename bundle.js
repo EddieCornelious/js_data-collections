@@ -1098,26 +1098,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var thisSet = this.set;
 	    var thatSet = $set.toArray();
 	    var unionSet = new Set([].concat(thisSet));
-	    for (var i = 0; i < thatSet.length; i += 1) {
-	      var cur = thatSet[i];
-	      unionSet.add(cur);
-	    }
+	    unionSet.add.apply(unionSet, thatSet);
 	    return unionSet;
 	  };
 
 	  Set.prototype.intersect = function intersect($set) {
 	    var thisSet = this.set;
 	    var thatSet = $set.toArray();
-	    var crossSet = new Set();
-	    var combined = thisSet.concat(thatSet);
-	    for (var i = 0; i < combined.length; i += 1) {
-	      var cur = combined[i];
-	      var bothContain = thisSet.indexOf(cur) !== -1 && thatSet.indexOf(cur) !== -1;
-	      if (bothContain) {
-	        crossSet.add(cur);
-	      }
-	    }
-	    return crossSet;
+	    var cross = thisSet.filter(function (element) {
+	      return thatSet.indexOf(element) !== -1;
+	    });
+	    return new Set(cross);
 	  };
 
 	  Set.prototype.add = function add() {
@@ -1155,16 +1146,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Set.prototype.diff = function diff($set) {
 	    var thisSet = this.set;
 	    var thatSet = $set.toArray();
-	    var diffSet = new Set();
-	    var combined = thatSet.concat(thisSet);
-	    for (var i = 0; i < combined.length; i += 1) {
-	      var cur = combined[i];
-	      var oneContains = thisSet.indexOf(cur) !== -1 && thatSet.indexOf(cur) === -1;
-	      if (oneContains) {
-	        diffSet.add(cur);
-	      }
-	    }
-	    return diffSet;
+	    var diff = thisSet.filter(function (element) {
+	      return thatSet.indexOf(element) === -1;
+	    });
+	    return new Set(diff);
 	  };
 
 	  Set.prototype.product = function product($set) {
