@@ -6,8 +6,10 @@ function BSTInsert(key, value, Node) {
     y = x;
     if (z.key < x.key) {
       x = x.left;
-    } else {
+    } else if (z.key > x.key) {
       x = x.right;
+    } else {
+      return null;
     }
   }
   z.parent = y;
@@ -24,7 +26,7 @@ function BSTInsert(key, value, Node) {
 }
 
 function search(root, key) {
-  if (!root.key) {
+  if (root.key === undefined) {
     return null;
   }
   if (root.key === key) {
@@ -79,5 +81,17 @@ function BSTRemove(key) {
   }
   return { y, x };
 }
-
-module.exports = { BSTInsert, BSTRemove, search };
+// TODO : return key and value LOLLLLLLLLLLLLLLLLLLLLLLL
+function inorder(node) {
+  if (node.key !== undefined) {
+    let tmp = [];
+    return tmp.concat(inorder(node.left.key), node.key, inorder(node.right.key));
+  }
+  return [];
+}
+module.exports = {
+  BSTInsert,
+  BSTRemove,
+  search,
+  inorder
+};

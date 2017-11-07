@@ -66,12 +66,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var RBTree = __webpack_require__(10);
 	var Set = __webpack_require__(12);
 	var Graph = __webpack_require__(13);
+	var AVL = __webpack_require__(14);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree, Set: Set, Graph: Graph };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree, Set: Set, Graph: Graph, AVL: AVL };
 
 /***/ },
 /* 1 */
@@ -666,6 +667,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 
+	  HashMap.prototype.keys = function keys() {
+	    var table = this._table;
+	    var keyArr = [];
+	    var filledBuckets = Object.keys(table);
+	    for (var i = 0; i < filledBuckets.length; i += 1) {
+	      var curBucket = table[filledBuckets[i]];
+	      for (var j = 0; j < curBucket.length; j += 2) {
+	        keyArr.push(curBucket[j]);
+	      }
+	    }
+	    return keyArr;
+	  };
+
 	  return HashMap;
 	}();
 
@@ -703,6 +717,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.contains = function contains(key) {
 	    return this.find(key).key ? true : false;
+	  };
+
+	  BST.prototype.inorder = function inorder() {
+	    return BSTPrototype.inorder(this.root);
 	  };
 
 	  return BST;
@@ -744,8 +762,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    y = x;
 	    if (z.key < x.key) {
 	      x = x.left;
-	    } else {
+	    } else if (z.key > x.key) {
 	      x = x.right;
+	    } else {
+	      return null;
 	    }
 	  }
 	  z.parent = y;
@@ -762,7 +782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function search(root, key) {
-	  if (!root.key) {
+	  if (root.key === undefined) {
 	    return null;
 	  }
 	  if (root.key === key) {
@@ -816,8 +836,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return { y: y, x: x };
 	}
-
-	module.exports = { BSTInsert: BSTInsert, BSTRemove: BSTRemove, search: search };
+	// TODO : return key and value LOLLLLLLLLLLLLLLLLLLLLLLL
+	function inorder(node) {
+	  if (node.key !== undefined) {
+	    var tmp = [];
+	    return tmp.concat(inorder(node.left.key), node.key, inorder(node.right.key));
+	  }
+	  return [];
+	}
+	module.exports = {
+	  BSTInsert: BSTInsert,
+	  BSTRemove: BSTRemove,
+	  search: search,
+	  inorder: inorder
+	};
 
 /***/ },
 /* 10 */
@@ -1033,28 +1065,42 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 12 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function isArray(arg) {
+	  return Object.prototype.toString.call(arg) === '[object Array]';
+	}
+
 	var Set = function () {
 	  function Set() {
+	    var _this = this;
+
+	    var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
 	    _classCallCheck(this, Set);
 
 	    this.set = [];
+	    if (!isArray(args)) {
+	      throw new TypeError('expected type Array');
+	    }
+	    args.forEach(function (element) {
+	      return _this.add(element);
+	    });
 	  }
 
-	  Set.prototype.union = function union($set) {
-	    var _ref;
+	  Set.isSet = function isSet($set) {
+	    return $set instanceof Set;
+	  };
 
+	  Set.prototype.union = function union($set) {
 	    var thisSet = this.set;
 	    var thatSet = $set.toArray();
-	    var unionSet = (_ref = new Set()).add.apply(_ref, thisSet);
-	    for (var i = 0; i < thatSet.size(); i += 1) {
+	    var unionSet = new Set([].concat(thisSet));
+	    for (var i = 0; i < thatSet.length; i += 1) {
 	      var cur = thatSet[i];
-	      if (unionSet.indexOf(cur) === -1) {
-	        unionSet.add(cur);
-	      }
+	      unionSet.add(cur);
 	    }
 	    return unionSet;
 	  };
@@ -1063,9 +1109,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var thisSet = this.set;
 	    var thatSet = $set.toArray();
 	    var crossSet = new Set();
-	    for (var i = 0; i < thatSet.size(); i += 1) {
-	      var cur = thatSet[i];
-	      var bothContain = thisSet.contains(cur) !== -1 && thatSet.contains(cur) !== -1;
+	    var combined = thisSet.concat(thatSet);
+	    for (var i = 0; i < combined.length; i += 1) {
+	      var cur = combined[i];
+	      var bothContain = thisSet.indexOf(cur) !== -1 && thatSet.indexOf(cur) !== -1;
 	      if (bothContain) {
 	        crossSet.add(cur);
 	      }
@@ -1073,16 +1120,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return crossSet;
 	  };
 
-	  Set.prototype.add = function add(e) {
-	    //call is array method from base
+	  Set.prototype.add = function add() {
+	    // call is array method from base
 	    var thisSet = this.set;
-	    if (!this.contains(e)) {
-	      thisSet.push(e);
+	    var args = arguments;
+	    for (var i = 0; i < args.length; i += 1) {
+	      var curArg = args[i];
+	      if (!this.contains(curArg)) {
+	        thisSet.push(curArg);
+	      }
 	    }
 	    return this;
 	  };
 
 	  Set.prototype.removeAny = function removeAny() {
+	    if (!this.size() > 0) {
+	      return;
+	    }
 	    var thisSet = this.set;
 	    var randNum = Math.floor(Math.random() * 2);
 	    var element = void 0;
@@ -1102,10 +1156,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var thisSet = this.set;
 	    var thatSet = $set.toArray();
 	    var diffSet = new Set();
-	    for (var i = 0; i < thatSet.size(); i += 1) {
-	      var cur = thatSet[i];
-	      var bothContain = thisSet.contains(cur) !== -1 && thatSet.contains(cur) === -1;
-	      if (bothContain) {
+	    var combined = thatSet.concat(thisSet);
+	    for (var i = 0; i < combined.length; i += 1) {
+	      var cur = combined[i];
+	      var oneContains = thisSet.indexOf(cur) !== -1 && thatSet.indexOf(cur) === -1;
+	      if (oneContains) {
 	        diffSet.add(cur);
 	      }
 	    }
@@ -1141,13 +1196,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var Queue = __webpack_require__(3);
 	var Stack = __webpack_require__(2);
-	var PQ = __webpack_require__(5);
 
 	var Graph = function () {
 	  function Graph() {
@@ -1161,7 +1215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Graph.prototype.addEdge = function addEdge(v1, v2, w) {
-	    //replace with PQ
+	    // replace with PQ
 	    this.graph[v1].push({ v: v2, w: w });
 	    this.graph[v2].push({ v: v1, w: w });
 	  };
@@ -1198,7 +1252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!visited[x]) {
 	        visited[x] = true;
 	        dfs.push(x);
-	        for (var i = 0; i < graph[x].length; i++) {
+	        for (var i = 0; i < graph[x].length; i += 1) {
 	          if (!visited[graph[x][i].v]) {
 	            s.push(graph[x][i].v);
 	          }
@@ -1210,18 +1264,145 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Graph.prototype.isConnected = function isConnected() {
 	    var graph = this.graph;
-	    var firstKey = "";
-	    for (var vertex in graph) {
-	      firstKey = vertex;
-	      break;
-	    }
-	    return this.BFS(firstKey).length === Object.keys(graph).length;
+	    var firstKey = '';
+	    var verticies = Object.keys(graph);
+	    firstKey = verticies[0];
+	    return this.BFS(firstKey).length === verticies.length;
 	  };
 
 	  return Graph;
 	}();
 
 	module.exports = Graph;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var BSTNode = __webpack_require__(8);
+	var BSTPrototype = __webpack_require__(9);
+
+	function height(z) {
+	  if (!z) {
+	    return 0;
+	  }
+	  return z.height;
+	}
+
+	function leftRotate(x) {
+	  var y = x.right;
+	  x.right = y.left;
+	  if (y.left.key === undefined) {
+	    y.left.parent = x;
+	  }
+	  y.parent = x.parent;
+	  if (x.parent.key === undefined) {
+	    this.root = y;
+	  } else if (x.key === x.parent.left.key) {
+	    x.parent.left = y;
+	  } else {
+	    x.parent.right = y;
+	  }
+	  y.left = x;
+	  x.parent = y;
+	  x.height = Math.max(height(x.left), height(x.right)) + 1;
+	  y.height = Math.max(height(y.left), height(y.right)) + 1;
+	}
+
+	function rightRotate(x) {
+	  var y = x.left;
+	  x.left = y.right;
+	  if (y.right.key === undefined) {
+	    y.right.parent = x;
+	  }
+	  y.parent = x.parent;
+	  if (x.parent.key === undefined) {
+	    this.root = y;
+	  } else if (x.key === x.parent.right.key) {
+	    x.parent.right = y;
+	  } else {
+	    x.parent.left = y;
+	  }
+	  y.right = x;
+	  x.parent = y;
+	  x.height = Math.max(height(x.left), height(x.right)) + 1;
+	  y.height = Math.max(height(y.left), height(y.right)) + 1;
+	}
+	function getBalance(z) {
+	  if (!z) {
+	    return 0;
+	  }
+	  return z.left.height - z.right.height;
+	}
+	function fixUp(node) {
+	  node.height = 1 + Math.max(height(node.left), height(node.right));
+	  var balance = getBalance(node);
+	  if (balance > 1) {
+	    if (getBalance(node.left) < 0) {
+	      leftRotate.call(this, node.left);
+	    }
+	    return rightRotate.call(this, node);
+	  }
+	  if (balance < -1) {
+	    if (getBalance(node.right) > 0) {
+	      rightRotate.call(this, node.right);
+	    }
+	    return leftRotate.call(this, node);
+	  }
+	  if (node.parent.key !== undefined) {
+	    fixUp.call(this, node.parent);
+	  }
+	}
+
+	var AVLNode = function (_BSTNode) {
+	  _inherits(AVLNode, _BSTNode);
+
+	  function AVLNode(key, value) {
+	    _classCallCheck(this, AVLNode);
+
+	    var _this = _possibleConstructorReturn(this, _BSTNode.call(this, key, value));
+
+	    _this.height = 0;
+	    return _this;
+	  }
+
+	  return AVLNode;
+	}(BSTNode);
+
+	var AVL = function () {
+	  function AVL() {
+	    _classCallCheck(this, AVL);
+
+	    this.root = new AVLNode();
+	  }
+
+	  AVL.prototype.insert = function insert(key, value) {
+	    var inserted = BSTPrototype.BSTInsert.apply(this, [key, value, AVLNode]);
+	    if (inserted) {
+	      fixUp.call(this, inserted);
+	    }
+	  };
+
+	  AVL.prototype.remove = function remove(key) {
+	    var removed = BSTPrototype.BSTRemove.apply(this, [key]);
+	    // y is removed node so we trickle up to it's parent
+	    if (removed) {
+	      fixUp.call(this, removed.y);
+	    }
+	  };
+
+	  return AVL;
+	}();
+
+	module.exports = AVL;
 
 /***/ }
 /******/ ])

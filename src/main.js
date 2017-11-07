@@ -8,11 +8,12 @@ var BST = require('./BST.js');
 var RBTree = require('./RedBlackTree.js');
 var Set = require('./Set.js');
 var Graph = require('./Graph.js');
+var AVL = require("./AVLTree.js");
 
 
 Array.prototype.SWAG = function (){
     return "This is where I can place shims";
 };
 
-module.exports = { List, Stack, Queue, BHeap, PriorityQueue, HashMap, BST, RBTree, Set, Graph };
+module.exports = { List, Stack, Queue, BHeap, PriorityQueue, HashMap, BST, RBTree, Set, Graph, AVL };
 

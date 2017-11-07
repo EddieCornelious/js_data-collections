@@ -121,5 +121,18 @@ class HashMap {
       }
     }
   }
+
+  keys() {
+    const table = this._table;
+    const keyArr = [];
+    const filledBuckets = Object.keys(table);
+    for (let i = 0; i < filledBuckets.length; i += 1) {
+      let curBucket = table[filledBuckets[i]];
+      for (let j = 0; j < curBucket.length; j += 2) {
+        keyArr.push(curBucket[j]);
+      }
+    }
+    return keyArr;
+  }
 }
 module.exports = HashMap;

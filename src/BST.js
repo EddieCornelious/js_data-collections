@@ -21,6 +21,10 @@ class BST {
   contains(key) {
     return this.find(key).key ? true : false;
   }
+
+  inorder() {
+    return BSTPrototype.inorder(this.root);
+  }
 }
 
 module.exports = BST;
