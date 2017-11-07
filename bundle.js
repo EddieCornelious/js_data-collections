@@ -64,15 +64,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMap = __webpack_require__(6);
 	var BST = __webpack_require__(7);
 	var RBTree = __webpack_require__(10);
-	var Set = __webpack_require__(12);
-	var Graph = __webpack_require__(13);
-	var AVL = __webpack_require__(14);
+	var Graph = __webpack_require__(12);
+	var AVL = __webpack_require__(13);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree, Set: Set, Graph: Graph, AVL: AVL };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, RBTree: RBTree, Graph: Graph, AVL: AVL };
 
 /***/ },
 /* 1 */
@@ -1063,122 +1062,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 12 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function isArray(arg) {
-	  return Object.prototype.toString.call(arg) === '[object Array]';
-	}
-
-	var Set = function () {
-	  function Set() {
-	    var _this = this;
-
-	    var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-	    _classCallCheck(this, Set);
-
-	    this.set = [];
-	    if (!isArray(args)) {
-	      throw new TypeError('expected type Array');
-	    }
-	    args.forEach(function (element) {
-	      return _this.add(element);
-	    });
-	  }
-
-	  Set.isSet = function isSet($set) {
-	    return $set instanceof Set;
-	  };
-
-	  Set.prototype.union = function union($set) {
-	    var thisSet = this.set;
-	    var thatSet = $set.toArray();
-	    var unionSet = new Set([].concat(thisSet));
-	    unionSet.add.apply(unionSet, thatSet);
-	    return unionSet;
-	  };
-
-	  Set.prototype.intersect = function intersect($set) {
-	    var thisSet = this.set;
-	    var thatSet = $set.toArray();
-	    var cross = thisSet.filter(function (element) {
-	      return thatSet.indexOf(element) !== -1;
-	    });
-	    return new Set(cross);
-	  };
-
-	  Set.prototype.add = function add() {
-	    // call is array method from base
-	    var thisSet = this.set;
-	    var args = arguments;
-	    for (var i = 0; i < args.length; i += 1) {
-	      var curArg = args[i];
-	      if (!this.contains(curArg)) {
-	        thisSet.push(curArg);
-	      }
-	    }
-	    return this;
-	  };
-
-	  Set.prototype.removeAny = function removeAny() {
-	    if (!this.size() > 0) {
-	      return;
-	    }
-	    var thisSet = this.set;
-	    var randNum = Math.floor(Math.random() * 2);
-	    var element = void 0;
-	    if (randNum === 0) {
-	      element = thisSet.pop();
-	      return element;
-	    }
-	    element = thisSet.shift();
-	    return element;
-	  };
-
-	  Set.prototype.size = function size() {
-	    return this.set.length;
-	  };
-
-	  Set.prototype.diff = function diff($set) {
-	    var thisSet = this.set;
-	    var thatSet = $set.toArray();
-	    var diff = thisSet.filter(function (element) {
-	      return thatSet.indexOf(element) === -1;
-	    });
-	    return new Set(diff);
-	  };
-
-	  Set.prototype.product = function product($set) {
-	    var thisSet = this.set;
-	    var thatSet = $set.toArray();
-	    var cartesian = new Set();
-	    for (var i = 0; i < thisSet.length; i += 1) {
-	      for (var j = 0; j < thatSet.length; j += 1) {
-	        cartesian.add([[thisSet[i], thatSet[j]]]);
-	      }
-	    }
-	    return cartesian;
-	  };
-
-	  Set.prototype.toArray = function toArray() {
-	    return Array.from(this.set);
-	  };
-
-	  Set.prototype.contains = function contains(key) {
-	    return this.set.indexOf(key) !== -1;
-	  };
-
-	  return Set;
-	}();
-
-	module.exports = Set;
-
-/***/ },
-/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1261,7 +1144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Graph;
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1382,6 +1265,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (removed) {
 	      fixUp.call(this, removed.y);
 	    }
+	  };
+
+	  AVL.prototype.find = function find(key) {
+	    return BSTPrototype.search(this.root, root, key);
 	  };
 
 	  return AVL;
