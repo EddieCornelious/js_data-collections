@@ -1268,7 +1268,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  AVL.prototype.find = function find(key) {
-	    return BSTPrototype.search(this.root, root, key);
+	    return BSTPrototype.search(this.root, key);
 	  };
 
 	  return AVL;

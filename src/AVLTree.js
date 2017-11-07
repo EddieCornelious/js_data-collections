@@ -96,7 +96,7 @@ class AVL {
     }
   }
   find(key){
-    return BSTPrototype.search(this.root,root, key);
+    return BSTPrototype.search(this.root, key);
   }
 }
 module.exports = AVL;
