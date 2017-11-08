@@ -896,8 +896,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  RBTree.prototype.insert = function insert(key, value) {
 	    var insertedNode = BSTPrototype.BSTInsert.apply(this, [key, value, RBNode]);
-	    insertedNode.color = 'red';
-	    RBTreePrototype.insertFix.apply(this, [insertedNode]);
+	    if (insertedNode) {
+	      insertedNode.color = 'red';
+	      RBTreePrototype.insertFix.apply(this, [insertedNode]);
+	    }
 	  };
 
 	  RBTree.prototype.remove = function remove(key) {
