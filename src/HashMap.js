@@ -95,7 +95,6 @@ class HashMap {
     this._table = createTable(initial)
     this._loadFactor = 0.75;
     this.insert = 0;
-    this.keys= [];
   }
   // TODO : replace to string with object stringify for objects
   put(key, value) {
@@ -104,8 +103,6 @@ class HashMap {
     let bucket = table[location];
     insertKey(bucket, key, value)
     this.insert+= 1;
-    this.keys.push(key)
-    
     // check if rehashing needs to be done
     if (this.insert / table.length >= 0.75) {
       this.rehash();
@@ -146,7 +143,17 @@ class HashMap {
   }
 
   getKeys() {
-    return this.keys;
+    function notEmpty(ele){
+      return ele.length > 0
+    }
+    const k = []
+    const filtered = this._table.filter(notEmpty)
+    for(let i=0; i<filtered.length; i++){
+       for(let j=0; j<filtered[i].length; j++){
+       k.push(filtered[i][j][0])
+      }
+    }
+    return k;
   }
 }
 module.exports = HashMap;

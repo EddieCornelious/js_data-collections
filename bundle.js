@@ -633,7 +633,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._table = createTable(initial);
 	    this._loadFactor = 0.75;
 	    this.insert = 0;
-	    this.keys = [];
 	  }
 	  // TODO : replace to string with object stringify for objects
 
@@ -644,8 +643,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var bucket = table[location];
 	    insertKey(bucket, key, value);
 	    this.insert += 1;
-	    this.keys.push(key);
-
 	    // check if rehashing needs to be done
 	    if (this.insert / table.length >= 0.75) {
 	      this.rehash();
@@ -690,7 +687,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  HashMap.prototype.getKeys = function getKeys() {
-	    return this.keys;
+	    function notEmpty(ele) {
+	      return ele.length > 0;
+	    }
+	    var k = [];
+	    var filtered = this._table.filter(notEmpty);
+	    for (var i = 0; i < filtered.length; i++) {
+	      for (var j = 0; j < filtered[i].length; j++) {
+	        k.push(filtered[i][j][0]);
+	      }
+	    }
+	    return k;
 	  };
 
 	  return HashMap;
