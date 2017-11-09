@@ -584,21 +584,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return toStr;
 	}
-
-	function rehash() {
-	  var oldTable = this._table;
-	  this._table = [];
-	  this._table.length = sieveOfAtkin(oldTable.length * 2);
-	  this.insert = 0;
-	  for (var i = 0; i < oldTable.length; i += 1) {
-	    if (oldTable[i]) {
-	      for (var j = 0; j < oldTable[i].length; j += 2) {
-	        this.put(oldTable[i][j], oldTable[i][j + 1]);
-	      }
-	    }
+	function createTable(size) {
+	  var table = [];
+	  for (var i = 0; i < size; i++) {
+	    table.push([]);
 	  }
+	  return table;
 	}
-
 	function fnv(str) {
 	  var hash = 0x811c9dc5;
 	  for (var i = 0; i < str.length; i += 1) {
@@ -608,16 +600,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return hash < 0 ? hash * -1 : hash;
 	}
 
+	function searchBucket(bucket, item) {
+	  return bucket.indexOf(item);
+	}
+	function insertKey(bucket, key, value) {
+	  for (var i = 0; i < bucket.length; i++) {
+	    var inBucket = searchBucket(bucket[i], key);
+	    if (inBucket === 0) {
+	      bucket[i][1] = value;
+	      return;
+	    }
+	  }
+	  bucket.push([key, value]);
+	}
+	//retrieve val from inner
+	function retVal(bucket, key) {
+	  for (var i = 0; i < bucket.length; i++) {
+	    var inBucket = searchBucket(bucket[i], key);
+	    if (inBucket === 0) {
+	      return bucket[i][1];
+	    }
+	  }
+	  return;
+	}
+
 	var HashMap = function () {
 	  function HashMap() {
 	    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 23;
 
 	    _classCallCheck(this, HashMap);
 
-	    this._table = [];
-	    this._table.length += initial;
+	    this._table = createTable(initial);
 	    this._loadFactor = 0.75;
 	    this.insert = 0;
+	    this.keys = [];
 	  }
 	  // TODO : replace to string with object stringify for objects
 
@@ -626,55 +642,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
 	    var table = this._table;
 	    var bucket = table[location];
-	    if (!bucket) {
-	      table[location] = [];
-	      table[location].push(key, value);
-	      this.insert += 1;
-	    } else {
-	      var keyIndex = bucket.indexOf(key);
-	      if (keyIndex !== -1) {
-	        bucket[keyIndex + 1] = value;
-	      } else {
-	        bucket.push(key, value);
-	        this.insert += 1;
-	      }
-	    }
+	    insertKey(bucket, key, value);
+	    this.insert += 1;
+	    this.keys.push(key);
+
 	    // check if rehashing needs to be done
 	    if (this.insert / table.length >= 0.75) {
-	      rehash.call(this);
+	      this.rehash();
 	    }
+	  };
+
+	  HashMap.prototype.rehash = function rehash() {
+	    var oldTable = this._table;
+	    var oldKeys = this.getKeys();
+	    var newTable = createTable(sieveOfAtkin(oldTable.length * 2));
+	    for (var i = 0; i < oldKeys.length; i++) {
+	      var key = oldKeys[i];
+	      var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % newTable.length;
+	      var bucket = newTable[location];
+	      insertKey(bucket, key, this.getVal(key));
+	    }
+	    this._table = newTable;
+	    return;
 	  };
 	  // TODO: add indexof polyfill ie<9
 
 
 	  HashMap.prototype.contains = function contains(key) {
 	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
-	    return this._table[location] && this._table[location].indexOf(key) !== -1;
+	    var bucket = this._table[location];
+	    return retVal(bucket, key) !== undefined;
 	  };
 
 	  HashMap.prototype.getVal = function getVal(key) {
 	    var table = this._table;
-	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
 	    var bucket = table[location];
-	    if (bucket) {
-	      var keyIndex = bucket.indexOf(key);
-	      if (keyIndex !== -1) {
-	        return bucket[keyIndex + 1];
-	      }
-	    }
+	    return retVal(bucket, key);
 	  };
 
-	  HashMap.prototype.keys = function keys() {
-	    var table = this._table;
-	    var keyArr = [];
-	    var filledBuckets = Object.keys(table);
-	    for (var i = 0; i < filledBuckets.length; i += 1) {
-	      var curBucket = table[filledBuckets[i]];
-	      for (var j = 0; j < curBucket.length; j += 2) {
-	        keyArr.push(curBucket[j]);
-	      }
-	    }
-	    return keyArr;
+	  HashMap.prototype.tableSize = function tableSize() {
+	    return this._table.length;
+	  };
+
+	  HashMap.prototype.size = function size() {
+	    return this.insert;
+	  };
+
+	  HashMap.prototype.getKeys = function getKeys() {
+	    return this.keys;
 	  };
 
 	  return HashMap;
@@ -702,14 +718,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.insert = function insert(key, value) {
 	    BSTPrototype.BSTInsert.apply(this, [key, value, BSTNode]);
+	    return this;
 	  };
 
 	  BST.prototype.remove = function remove(key) {
 	    BSTPrototype.BSTRemove.apply(this, [key]);
+	    return this;
 	  };
 
 	  BST.prototype.find = function find(key) {
-	    return BSTPrototype.search(this.root, key);
+	    var node = BSTPrototype.search(this.root, key);
+	    return node ? node.value : undefined;
 	  };
 
 	  BST.prototype.contains = function contains(key) {

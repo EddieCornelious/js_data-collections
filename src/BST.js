@@ -8,14 +8,17 @@ class BST {
 
   insert(key, value) {
     BSTPrototype.BSTInsert.apply(this, [key, value, BSTNode]);
+    return this;
   }
 
   remove(key) {
     BSTPrototype.BSTRemove.apply(this, [key]);
+    return this;
   }
 
   find(key) {
-    return BSTPrototype.search(this.root, key);
+    const node = BSTPrototype.search(this.root, key);
+    return node ? node.value : undefined;
   }
 
   contains(key) {

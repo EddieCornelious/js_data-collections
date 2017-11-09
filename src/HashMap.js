@@ -50,21 +50,13 @@ function objToString(obj) {
   }
   return toStr;
 }
-
-function rehash() {
-  const oldTable = this._table;
-  this._table = [];
-  this._table.length = sieveOfAtkin(oldTable.length * 2);
-  this.insert = 0;
-  for (let i = 0; i < oldTable.length; i += 1) {
-    if (oldTable[i]) {
-      for (let j = 0; j < oldTable[i].length; j += 2) {
-        this.put(oldTable[i][j], oldTable[i][j + 1]);
-      }
-    }
+function createTable(size){
+  const table = []
+  for(let i = 0; i < size; i++){
+    table.push([]);
   }
+  return table;
 }
-
 function fnv(str) {
   let hash = 0x811c9dc5;
   for (let i = 0; i < str.length; i += 1) {
@@ -74,65 +66,87 @@ function fnv(str) {
   return hash < 0 ? hash * -1 : hash;
 }
 
+function searchBucket(bucket, item){
+  return bucket.indexOf(item);
+}
+function insertKey(bucket, key, value){
+   for(let i=0; i<bucket.length; i++){
+      let inBucket = searchBucket(bucket[i], key);
+      if(inBucket === 0){
+        bucket[i][1] = value;
+        return;
+      }
+    }
+    bucket.push([key, value]);
+}
+//retrieve val from inner
+function retVal(bucket, key){
+  for(let i=0; i<bucket.length; i++){
+    let inBucket = searchBucket(bucket[i], key)
+    if(inBucket === 0){
+      return bucket[i][1];
+    }
+  }
+  return;
+}
+
 class HashMap {
   constructor(initial = 23) {
-    this._table = [];
-    this._table.length += initial;
+    this._table = createTable(initial)
     this._loadFactor = 0.75;
     this.insert = 0;
+    this.keys= [];
   }
   // TODO : replace to string with object stringify for objects
   put(key, value) {
     let location = fnv(objToString(key) + '' + typeof key) % this._table.length;
     let table = this._table;
     let bucket = table[location];
-    if (!bucket) {
-      table[location] = [];
-      table[location].push(key, value);
-      this.insert += 1;
-    } else {
-      const keyIndex = bucket.indexOf(key);
-      if (keyIndex !== -1) {
-        bucket[keyIndex + 1] = value;
-      } else {
-        bucket.push(key, value);
-        this.insert += 1;
-      }
-    }
+    insertKey(bucket, key, value)
+    this.insert+= 1;
+    this.keys.push(key)
+    
     // check if rehashing needs to be done
     if (this.insert / table.length >= 0.75) {
-      rehash.call(this);
+      this.rehash();
     }
+  }
+  rehash(){
+    const oldTable = this._table;
+    const oldKeys = this.getKeys();
+    const newTable = createTable(sieveOfAtkin(oldTable.length*2))
+    for(let i=0; i<oldKeys.length; i++){
+      let key = oldKeys[i];
+      let location = fnv(objToString(key) + '' + typeof key) % newTable.length;
+      let bucket = newTable[location];
+      insertKey(bucket, key, this.getVal(key)); 
+    }
+    this._table = newTable;
+    return
   }
   // TODO: add indexof polyfill ie<9
   contains(key) {
     let location = fnv(objToString(key) + '' + typeof key) % this._table.length;
-    return this._table[location] && this._table[location].indexOf(key) !== -1;
+    const bucket = this._table[location]
+    return retVal(bucket, key) !== undefined;
   }
 
   getVal(key) {
     const table = this._table;
-    let location = fnv(objToString(key) + '' + typeof key) % this._table.length;
+    let location = fnv(objToString(key) + '' + typeof key) % table.length;
     const bucket = table[location];
-    if (bucket) {
-      const keyIndex = bucket.indexOf(key);
-      if (keyIndex !== -1) {
-        return bucket[keyIndex + 1];
-      }
-    }
+    return retVal(bucket, key)
+    
+  }
+  tableSize(){
+    return this._table.length;
+  }
+  size() {
+    return this.insert;
   }
 
-  keys() {
-    const table = this._table;
-    const keyArr = [];
-    const filledBuckets = Object.keys(table);
-    for (let i = 0; i < filledBuckets.length; i += 1) {
-      let curBucket = table[filledBuckets[i]];
-      for (let j = 0; j < curBucket.length; j += 2) {
-        keyArr.push(curBucket[j]);
-      }
-    }
-    return keyArr;
+  getKeys() {
+    return this.keys;
   }
 }
 module.exports = HashMap;

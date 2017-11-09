@@ -38,7 +38,6 @@ function search(root, key) {
   return search(root.left, key);
 }
 
-
 function BSTRemove(key) {
   let node = search(this.root, key);
 

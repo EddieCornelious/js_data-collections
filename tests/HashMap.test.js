@@ -10,24 +10,24 @@ describe("HashMap", function(){
       expected = [23, 43, 83, 163]
       for(let i =0; i<100; i++){
           
-          map.put(i, i);
+          map.put(i, i*2);
       }
       
       for(let i =0; i<100; i++){
-         expect(map.getVal(i)).to.be.equal(i);
+         expect(map.getVal(i)).to.be.equal(i*2);
          //check table resizes and doubles with length of nearest prime <= to 2*oldSize
       }
   })
   
   it("put should rehash inner table when .75 full", function(){
-      map = new Structs.HashMap(20);
-      for(let i =0; i<15; i++){
+      map = new Structs.HashMap();
+      for(let i =0; i<18; i++){
           map.put(i, i);
       }
-      expect(map._table.length).to.be.equal(37)
-      for(let i=15; i<35; i++){
+      expect(map.tableSize()).to.be.equal(43)
+      for(let i=18; i<55; i++){
           map.put(i, i);
       }
-      expect(map._table.length).to.be.equal(73)
+      expect(map.tableSize()).to.be.equal(83)
   });
 });
