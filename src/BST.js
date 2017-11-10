@@ -1,9 +1,19 @@
 var BSTNode = require('./BSTNode.js');
 var BSTPrototype = require('./BSTPrototype.js');
 
+function defaulComp(a, b) {
+  if (a < b) {
+    return -1;
+  } else if (a > b) {
+    return 1;
+  }
+  return 0;
+}
+
 class BST {
-  constructor() {
+  constructor(comparator) {
     this.root = new BSTNode();
+    this.comp = comparator || defaulComp;
   }
 
   insert(key, value) {
@@ -17,7 +27,7 @@ class BST {
   }
 
   find(key) {
-    const node = BSTPrototype.search(this.root, key);
+    const node = BSTPrototype.search.call(this, this.root, key);
     return node ? node.value : undefined;
   }
 

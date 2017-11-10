@@ -586,7 +586,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	function createTable(size) {
 	  var table = [];
-	  for (var i = 0; i < size; i++) {
+	  for (var i = 0; i < size; i += 1) {
 	    table.push([]);
 	  }
 	  return table;
@@ -604,24 +604,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return bucket.indexOf(item);
 	}
 	function insertKey(bucket, key, value) {
-	  for (var i = 0; i < bucket.length; i++) {
-	    var inBucket = searchBucket(bucket[i], key);
+	  var inserted = false;
+	  bucket.forEach(function (innerBucket, i) {
+	    var inBucket = searchBucket(innerBucket, key);
 	    if (inBucket === 0) {
 	      bucket[i][1] = value;
-	      return;
+	      inserted = true;
 	    }
-	  }
-	  bucket.push([key, value]);
+	  });
+	  return inserted === false ? bucket.push([key, value]) : false;
 	}
-	//retrieve val from inner
+	// retrieve val from inner
 	function retVal(bucket, key) {
-	  for (var i = 0; i < bucket.length; i++) {
-	    var inBucket = searchBucket(bucket[i], key);
+	  var value = void 0;
+	  bucket.forEach(function (innerBucket) {
+	    var inBucket = searchBucket(innerBucket, key);
 	    if (inBucket === 0) {
-	      return bucket[i][1];
+	      value = innerBucket[1];
 	    }
-	  }
-	  return;
+	  });
+	  return value;
+	}
+
+	function removeKey(bucket, key) {
+	  var removed = false;
+	  bucket.forEach(function (innerBucket, i) {
+	    var inBucket = searchBucket(innerBucket, key);
+	    if (inBucket === 0) {
+	      bucket.splice(i, 1);
+	      removed = true;
+	    }
+	  });
+	  return removed ? true : false;
 	}
 
 	var HashMap = function () {
@@ -641,8 +655,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % this._table.length;
 	    var table = this._table;
 	    var bucket = table[location];
-	    insertKey(bucket, key, value);
-	    this.insert += 1;
+	    var inserted = insertKey(bucket, key, value);
+	    if (inserted) {
+	      this.insert += 1;
+	    }
 	    // check if rehashing needs to be done
 	    if (this.insert / table.length >= 0.75) {
 	      this.rehash();
@@ -653,14 +669,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var oldTable = this._table;
 	    var oldKeys = this.getKeys();
 	    var newTable = createTable(sieveOfAtkin(oldTable.length * 2));
-	    for (var i = 0; i < oldKeys.length; i++) {
+	    for (var i = 0; i < oldKeys.length; i += 1) {
 	      var key = oldKeys[i];
 	      var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % newTable.length;
 	      var bucket = newTable[location];
 	      insertKey(bucket, key, this.getVal(key));
 	    }
 	    this._table = newTable;
-	    return;
+	    return true;
 	  };
 	  // TODO: add indexof polyfill ie<9
 
@@ -692,12 +708,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var k = [];
 	    var filtered = this._table.filter(notEmpty);
-	    for (var i = 0; i < filtered.length; i++) {
-	      for (var j = 0; j < filtered[i].length; j++) {
+	    for (var i = 0; i < filtered.length; i += 1) {
+	      for (var j = 0; j < filtered[i].length; j += 1) {
 	        k.push(filtered[i][j][0]);
 	      }
 	    }
 	    return k;
+	  };
+
+	  HashMap.prototype.remove = function remove(key) {
+	    var table = this._table;
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
+	    var bucket = table[location];
+	    var deleted = removeKey(bucket, key);
+	    if (deleted) {
+	      this.insert -= 1;
+	    }
+	    return this;
 	  };
 
 	  return HashMap;
@@ -716,11 +743,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BSTNode = __webpack_require__(8);
 	var BSTPrototype = __webpack_require__(9);
 
+	function defaulComp(a, b) {
+	  if (a < b) {
+	    return -1;
+	  } else if (a > b) {
+	    return 1;
+	  }
+	  return 0;
+	}
+
 	var BST = function () {
-	  function BST() {
+	  function BST(comparator) {
 	    _classCallCheck(this, BST);
 
 	    this.root = new BSTNode();
+	    this.comp = comparator || defaulComp;
 	  }
 
 	  BST.prototype.insert = function insert(key, value) {
@@ -734,7 +771,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  BST.prototype.find = function find(key) {
-	    var node = BSTPrototype.search(this.root, key);
+	    var node = BSTPrototype.search.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
 
@@ -777,24 +814,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	function BSTInsert(key, value, Node) {
+	function BSTInsert() {
+	  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	  var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  var Node = arguments[2];
+
+	  var comp = this.comp;
 	  var x = this.root;
 	  var z = new Node(key, value);
 	  var y = new Node();
 	  while (x.key !== undefined) {
 	    y = x;
-	    if (z.key < x.key) {
+	    if (comp(z.key, x.key) === -1) {
 	      x = x.left;
-	    } else if (z.key > x.key) {
+	    } else if (comp(z.key, x.key) === 1) {
 	      x = x.right;
 	    } else {
+	      x.value = value;
 	      return null;
 	    }
 	  }
 	  z.parent = y;
 	  if (y.key === undefined) {
 	    this.root = z;
-	  } else if (z.key < y.key) {
+	  } else if (comp(z.key, y.key) === -1) {
 	    y.left = z;
 	  } else {
 	    y.right = z;
@@ -805,25 +848,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function search(root, key) {
-	  if (root.key === undefined) {
+	  var comp = this.comp;
+	  if (!root || root.key === undefined) {
 	    return null;
 	  }
-	  if (root.key === key) {
+	  if (comp(root.key, key) === 0) {
 	    return root;
 	  }
-	  if (root.key < key) {
-	    return search(root.right, key);
+	  if (comp(root.key, key) === -1) {
+	    return search.call(this, root.right, key);
 	  }
-	  return search(root.left, key);
+	  return search.call(this, root.left, key);
 	}
 
 	function BSTRemove(key) {
-	  var node = search(this.root, key);
-
+	  var node = search.call(this, this.root, key);
+	  var comp = this.comp;
 	  if (!node) {
 	    return false;
 	  }
-
 	  var y = void 0;
 	  var x = void 0;
 	  if (node.left.key === undefined || node.right.key === undefined) {
@@ -844,26 +887,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    x = y.right;
 	  }
 	  x.parent = y.parent;
-	  if (!y.parent.key) {
+	  if (y.parent.key === undefined) {
 	    this.root = x;
 	  } else {
-	    if (y.key === y.parent.left.key) {
+	    if (comp(y.key, y.parent.left.key) === 1) {
 	      y.parent.left = x;
 	    } else {
 	      y.parent.right = x;
 	    }
 	  }
-	  if (y.key !== node.key) {
+	  if (comp(y.key, node.key) !== 0) {
 	    node.key = y.key;
 	    node.value = y.value;
 	  }
 	  return { y: y, x: x };
 	}
-	// TODO : return key and value LOLLLLLLLLLLLLLLLLLLLLLLL
+
 	function inorder(node) {
-	  if (node.key !== undefined) {
-	    var tmp = [];
-	    return tmp.concat(inorder(node.left.key), node.key, inorder(node.right.key));
+	  if (node && node.key !== undefined) {
+	    var tmp = [node.key];
+	    return tmp.concat(inorder(node.left), inorder(node.right));
 	  }
 	  return [];
 	}
