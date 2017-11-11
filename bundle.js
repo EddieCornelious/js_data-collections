@@ -939,9 +939,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  node.key = nodeSucc.key;
 	  node.value = nodeSucc.value;
 	  nodeSucc.key = oldKey;
-	  // successor can only have one child and must be right child, left child is
+	  // successor can only have one child at most and must be right child, left child is
 	  // contradiction
-	  return remove1.call(this, nodeSucc);
+	  var succChildren = numChildren(nodeSucc);
+	  if (succChildren === 0) {
+	    return remove0.call(this, nodeSucc);
+	  } else {
+	    return remove1.call(this, nodeSucc);
+	  }
 	}
 
 	function BSTRemove(key, nodeType) {
