@@ -22,7 +22,7 @@ class BST {
   }
 
   remove(key) {
-    BSTPrototype.BSTRemove.apply(this, [key]);
+    BSTPrototype.BSTRemove.call(this, key, BSTNode);
     return this;
   }
 

@@ -40,53 +40,112 @@ function search(root, key) {
   }
   return search.call(this, root.left, key);
 }
-
-function BSTRemove(key) {
-  let node = search.call(this, this.root, key);
+function successor(node) {
+  let suc = node.right;
+  if(suc.left.key === undefined){
+    return suc;
+  }
+  while(suc.left.key !== undefined){
+    suc = suc.left;
+  }
+  return suc;
+}
+function numChildren(node) {
+  const left = node.left.key
+  const right = node.right.key;
+  if (!left && !right) {
+    return 0;
+  } else if (left && !right || right && !left){
+    return 1;
+  }
+  return 2;
+}
+function remove0(node, nodeType){
   const comp = this.comp;
+  if(comp(this.root.key, node.key) === 0){
+    this.root = new nodeType();
+    return;
+  }
+  const parent = node.parent;
+  if (comp(parent.right.key, node.key) === 0) {
+    parent.right = node.right;
+    node.right.parent = parent;
+  }
+  else {
+    parent.left = node.left;
+    node.left.parent = parent;
+  }
+  
+}
+
+function remove1(node){
+  const comp = this.comp;
+  if(comp(node.key, this.root.key) === 0){
+    const root = this.root;
+    if(root.left.key !== undefined){
+      this.root = root.left;
+      root.left.parent = root.parent;
+    } else {
+      this.root = root.right;
+      root.right.parent = root.parent;
+    }
+    return;
+  }
+  //node to delete is left child
+  const parent = node.parent;
+  if(comp(parent.left.key, node.key) === 0){
+    if(node.right.key !== undefined){
+      parent.left = node.right;
+      node.right.parent = parent;
+    } else{
+      parent.left = node.left;
+      node.left.parent = parent;
+    }
+    return;
+  }
+  //node to delete is right child
+  if(node.right.key !== undefined){
+      parent.right = node.right;
+      node.right.parent = parent;
+    } else{
+      parent.right = node.left;
+      node.left.parent = parent;
+    }
+  
+  return;
+}
+
+function remove2(node, nodeType) {
+ const nodeSucc = successor(node);
+ const oldKey = node.key;
+ node.key = nodeSucc.key;
+ node.value = nodeSucc.value;
+ nodeSucc.key = oldKey;
+ // successor can only have one child and must be right child, left child is
+ // contradiction
+ return remove1.call(this, nodeSucc);
+}
+
+function BSTRemove(key, nodeType) {
+  let node = search.call(this, this.root, key);
   if (!node) {
     return false;
   }
-  let y;
-  let x;
-  if (node.left.key === undefined || node.right.key === undefined) {
-    y = node;
-  } else {
-    let SRST = node.right;
-    while (SRST.key !== undefined) {
-      if (SRST.left.key === undefined) {
-        break;
-      }
-      SRST = SRST.left;
-    }
-    y = SRST;
+  const children = numChildren(node);
+  if(children === 0){
+    remove0.call(this, node, nodeType);
+    return;
+  } else if(children === 1){
+    remove1.call(this, node);
+    return;
   }
-  if (y.left.key !== undefined) {
-    x = y.left;
-  } else {
-    x = y.right;
-  }
-  x.parent = y.parent;
-  if (y.parent.key === undefined) {
-    this.root = x;
-  } else {
-    if (comp(y.key, y.parent.left.key) === 1) {
-      y.parent.left = x;
-    } else {
-      y.parent.right = x;
-    }
-  }
-  if (comp(y.key, node.key) !== 0) {
-    node.key = y.key;
-    node.value = y.value;
-  }
-  return { y, x };
+  remove2.call(this, node, nodeType);
 }
 
 function inorder(node) {
   if (node && node.key !== undefined) {
-    let tmp = [node.key];
-    return tmp.concat(inorder(node.left),inorder(node.right));
+    let tmp = [];
+    return tmp.concat(inorder(node.left),node, inorder(node.right));
   }
   return [];
 }
