@@ -83,8 +83,6 @@ class List {
     const wanted = getNode.apply(this, [index]);
     return wanted ? wanted.data : undefined;
   }
-
-
   addToBack(data) {
     const { tail, length } = this;
     const newNode = new Node(data);
