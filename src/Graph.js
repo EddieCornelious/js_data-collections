@@ -9,8 +9,10 @@ class Graph {
   }
   addEdge(v1, v2, w) {
     // replace with PQ
-    this.graph[v1].push({ v: v2, w });
-    this.graph[v2].push({ v: v1, w });
+    if (this.graph[v1] && this.graph[v2]) {
+      this.graph[v1].push({ v: v2, w });
+      this.graph[v2].push({ v: v1, w });
+    }
   }
   BFS(v) {
     const graph = this.graph;

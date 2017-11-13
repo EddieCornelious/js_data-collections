@@ -1,3 +1,7 @@
+/** @private getNode
+ *  @param index {Number} the index of the list to retrieve
+ *  @returns a reference to node/data at pos @param index
+ */
 function getNode(index) {
   if (index < 0) {
     throw new RangeError('out of bounds');
@@ -11,19 +15,26 @@ function getNode(index) {
       throw new RangeError('index out of Bounds');
     }
   }
-
   return head;
 }
 
 // TODO: add the below functions to prototype of base classes
-
+/** @private isNumber
+ *  @param obj {Object} object to test if number or not
+ *  @returns 1 if object is number, else throws TypeError
+ */
 function isNumber(obj) {
   if (typeof obj !== 'number') {
     throw new TypeError('Invalid index must be of type number');
   }
   return 1;
 }
-
+/**
+ *  @private defaultEqual
+ *  @param a first object for comparison
+ *  @param b object to compare against a
+ *  @returns -1 if a < b  0 if a equals b  1 if a > b
+ */
 function defaultEqual(a, b) {
   if (a < b) {
     return -1;
@@ -32,7 +43,10 @@ function defaultEqual(a, b) {
   }
   return 1;
 }
-
+/**
+ *  @class Node container for list data
+ *  
+ */
 class Node {
   constructor(data) {
     this.data = data;
@@ -89,19 +103,20 @@ class List {
 
   removeFront() {
     const { head, length } = this;
-
+    let removed;
     if (head) {
+      removed = head.data;
       this.length = length - 1;
       this.head = head.next;
       const newHead = this.head;
       // list is now empty...adjust tail
       if (!newHead) {
         this.tail = this.head;
-        return this;
+        return removed;
       }
       newHead.prev = null;
     }
-    return this;
+    return removed;
   }
 
   removeBack() {
@@ -109,17 +124,18 @@ class List {
     if (!this.tail) {
       return this;
     }
+    let removed = tail.data;
     const prev = tail.prev;
     this.length = length - 1;
     // list now empty
     if (!prev) {
       this.tail = null;
       this.head = null;
-      return this;
+      return removed;
     }
     prev.next = null;
     this.tail = prev;
-    return this;
+    return removed;
   }
 
   insert(index, data) {
@@ -154,12 +170,13 @@ class List {
       return this.removeBack();
     }
     const node = getNode.apply(this, [index - 1]);
+    const data = node.data;
     const del = node.next;
     const after = del.next;
     node.next = after;
     after.prev = node;
     this.length = length - 1;
-    return this;
+    return data;
   }
 
   indexOf(data, eqlFunc) {

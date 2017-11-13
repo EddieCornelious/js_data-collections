@@ -11,9 +11,7 @@ class Queue {
   }
 
   dequeue() {
-    const oldVal = this.rep.elementAtIndex(0);
-    this.rep.removeFront();
-    return oldVal;
+    return this.rep.removeFront();
   }
   // TODO: Create a list method that reports tail which is 0(1) or keep this?
   back() {

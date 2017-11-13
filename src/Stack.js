@@ -11,9 +11,7 @@ class Stack {
   }
 
   pop() {
-    const oldVal = this.rep.elementAtIndex(0);
-    this.rep.removeFront();
-    return oldVal;
+    return this.rep.removeFront();
   }
 
   peek() {

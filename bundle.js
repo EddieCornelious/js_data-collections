@@ -79,6 +79,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/** @private getNode
+	 *  @param index {Number} the index of the list to retrieve
+	 *  @returns a reference to node/data at pos @param index
+	 */
 	function getNode(index) {
 	  if (index < 0) {
 	    throw new RangeError('out of bounds');
@@ -92,19 +96,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	      throw new RangeError('index out of Bounds');
 	    }
 	  }
-
 	  return head;
 	}
 
 	// TODO: add the below functions to prototype of base classes
-
+	/** @private isNumber
+	 *  @param obj {Object} object to test if number or not
+	 *  @returns 1 if object is number, else throws TypeError
+	 */
 	function isNumber(obj) {
 	  if (typeof obj !== 'number') {
 	    throw new TypeError('Invalid index must be of type number');
 	  }
 	  return 1;
 	}
-
+	/**
+	 *  @private defaultEqual
+	 *  @param a first object for comparison
+	 *  @param b object to compare against a
+	 *  @returns -1 if a < b  0 if a equals b  1 if a > b
+	 */
 	function defaultEqual(a, b) {
 	  if (a < b) {
 	    return -1;
@@ -113,6 +124,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return 1;
 	}
+	/**
+	 *  @class Node container for list data
+	 *  
+	 */
 
 	var Node = function Node(data) {
 	  _classCallCheck(this, Node);
@@ -177,19 +192,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var head = this.head,
 	        length = this.length;
 
-
+	    var removed = void 0;
 	    if (head) {
+	      removed = head.data;
 	      this.length = length - 1;
 	      this.head = head.next;
 	      var newHead = this.head;
 	      // list is now empty...adjust tail
 	      if (!newHead) {
 	        this.tail = this.head;
-	        return this;
+	        return removed;
 	      }
 	      newHead.prev = null;
 	    }
-	    return this;
+	    return removed;
 	  };
 
 	  List.prototype.removeBack = function removeBack() {
@@ -199,17 +215,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!this.tail) {
 	      return this;
 	    }
+	    var removed = tail.data;
 	    var prev = tail.prev;
 	    this.length = length - 1;
 	    // list now empty
 	    if (!prev) {
 	      this.tail = null;
 	      this.head = null;
-	      return this;
+	      return removed;
 	    }
 	    prev.next = null;
 	    this.tail = prev;
-	    return this;
+	    return removed;
 	  };
 
 	  List.prototype.insert = function insert(index, data) {
@@ -245,12 +262,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.removeBack();
 	    }
 	    var node = getNode.apply(this, [index - 1]);
+	    var data = node.data;
 	    var del = node.next;
 	    var after = del.next;
 	    node.next = after;
 	    after.prev = node;
 	    this.length = length - 1;
-	    return this;
+	    return data;
 	  };
 
 	  List.prototype.indexOf = function indexOf(data, eqlFunc) {
@@ -332,9 +350,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Stack.prototype.pop = function pop() {
-	    var oldVal = this.rep.elementAtIndex(0);
-	    this.rep.removeFront();
-	    return oldVal;
+	    return this.rep.removeFront();
 	  };
 
 	  Stack.prototype.peek = function peek() {
@@ -373,9 +389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Queue.prototype.dequeue = function dequeue() {
-	    var oldVal = this.rep.elementAtIndex(0);
-	    this.rep.removeFront();
-	    return oldVal;
+	    return this.rep.removeFront();
 	  };
 	  // TODO: Create a list method that reports tail which is 0(1) or keep this?
 
@@ -880,20 +894,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return 2;
 	}
-	function remove0(node, nodeType) {
+	function remove0(node, NodeType) {
 	  var comp = this.comp;
 	  if (comp(this.root.key, node.key) === 0) {
-	    this.root = new nodeType();
+	    this.root = new NodeType();
 	    return;
 	  }
 	  var parent = node.parent;
 	  if (comp(parent.right.key, node.key) === 0) {
 	    parent.right = node.right;
-	    node.right.parent = parent;
 	  } else {
 	    parent.left = node.left;
-	    node.left.parent = parent;
 	  }
+	  node.right.parent = parent;
+	  node.left.parent = parent;
 	}
 
 	function remove1(node) {
@@ -909,7 +923,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return;
 	  }
-	  //node to delete is left child
+	  // node to delete is left child
 	  var parent = node.parent;
 	  if (comp(parent.left.key, node.key) === 0) {
 	    if (node.right.key !== undefined) {
@@ -921,7 +935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return;
 	  }
-	  //node to delete is right child
+	  // node to delete is right child
 	  if (node.right.key !== undefined) {
 	    parent.right = node.right;
 	    node.right.parent = parent;
@@ -929,11 +943,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    parent.right = node.left;
 	    node.left.parent = parent;
 	  }
-
-	  return;
 	}
 
-	function remove2(node, nodeType) {
+	function remove2(node) {
 	  var nodeSucc = successor(node);
 	  var oldKey = node.key;
 	  node.key = nodeSucc.key;
@@ -944,9 +956,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var succChildren = numChildren(nodeSucc);
 	  if (succChildren === 0) {
 	    return remove0.call(this, nodeSucc);
-	  } else {
-	    return remove1.call(this, nodeSucc);
 	  }
+	  return remove1.call(this, nodeSucc);
 	}
 
 	function BSTRemove(key, nodeType) {
@@ -1003,8 +1014,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Graph.prototype.addEdge = function addEdge(v1, v2, w) {
 	    // replace with PQ
-	    this.graph[v1].push({ v: v2, w: w });
-	    this.graph[v2].push({ v: v1, w: w });
+	    if (this.graph[v1] && this.graph[v2]) {
+	      this.graph[v1].push({ v: v2, w: w });
+	      this.graph[v2].push({ v: v1, w: w });
+	    }
 	  };
 
 	  Graph.prototype.BFS = function BFS(v) {
