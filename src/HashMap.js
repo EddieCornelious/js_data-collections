@@ -63,45 +63,57 @@ function fnv(str) {
     hash ^= str.charCodeAt(i);
     hash *= 0x01000193;
   }
-  return hash < 0 ? hash * -1 : hash;
+  return hash;
 }
 
 function searchBucket(bucket, item) {
   return bucket.indexOf(item);
 }
 function insertKey(bucket, key, value) {
-  let inserted = false;
-  bucket.forEach(function (innerBucket, i) {
+  const search = bucket.find(function (innerBucket, i) {
     let inBucket = searchBucket(innerBucket, key);
     if (inBucket === 0) {
       bucket[i][1] = value;
-      inserted = true;
+      return true;
     }
+    return false;
   });
-  return inserted === false ? bucket.push([key, value]) : false;
+  return !search ? bucket.push([key, value]) : false;
 }
 // retrieve val from inner
 function retVal(bucket, key) {
   let value;
-  bucket.forEach(function (innerBucket) {
+  bucket.find(function (innerBucket) {
     let inBucket = searchBucket(innerBucket, key);
     if (inBucket === 0) {
       value = innerBucket[1];
+      return true;
     }
+    return false;
   });
   return value;
 }
 
 function removeKey(bucket, key) {
   let removed = false;
-  bucket.forEach(function (innerBucket, i) {
+  bucket.find(function (innerBucket, i) {
     let inBucket = searchBucket(innerBucket, key);
     if (inBucket === 0) {
       bucket.splice(i, 1);
       removed = true;
+      return true;
     }
+    return false;
   });
   return removed ? true : false;
+}
+
+function mod(a, b) {
+  const modulo = a % b;
+  if (modulo < 0) {
+    return modulo + b;
+  }
+  return modulo;
 }
 
 class HashMap {
@@ -112,8 +124,9 @@ class HashMap {
   }
   // TODO : replace to string with object stringify for objects
   put(key, value) {
-    let location = fnv(objToString(key) + '' + typeof key) % this._table.length;
-    let table = this._table;
+    const table = this._table;
+    let hash = fnv(objToString(key) + '' + typeof key);
+    let location = mod(hash, table.length);
     let bucket = table[location];
     const inserted = insertKey(bucket, key, value);
     if (inserted) {
@@ -130,7 +143,8 @@ class HashMap {
     const newTable = createTable(sieveOfAtkin(oldTable.length * 2));
     for (let i = 0; i < oldKeys.length; i += 1) {
       let key = oldKeys[i];
-      let location = fnv(objToString(key) + '' + typeof key) % newTable.length;
+      let hash = fnv(objToString(key) + '' + typeof key);
+      let location = mod(hash, newTable.length);
       let bucket = newTable[location];
       insertKey(bucket, key, this.getVal(key));
     }
@@ -139,14 +153,17 @@ class HashMap {
   }
   // TODO: add indexof polyfill ie<9
   contains(key) {
-    let location = fnv(objToString(key) + '' + typeof key) % this._table.length;
-    const bucket = this._table[location];
+    const table = this._table;
+    let hash = fnv(objToString(key) + '' + typeof key);
+    let location = mod(hash, table.length);
+    const bucket = table[location];
     return retVal(bucket, key) !== undefined;
   }
 
   getVal(key) {
     const table = this._table;
-    let location = fnv(objToString(key) + '' + typeof key) % table.length;
+    let hash = fnv(objToString(key) + '' + typeof key);
+    let location = mod(hash, table.length);
     const bucket = table[location];
     return retVal(bucket, key);
   }
