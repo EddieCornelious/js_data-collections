@@ -611,57 +611,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	    hash ^= str.charCodeAt(i);
 	    hash *= 0x01000193;
 	  }
-	  return hash;
+	  return hash < 0 ? hash * -1 : hash;
 	}
 
 	function searchBucket(bucket, item) {
 	  return bucket.indexOf(item);
 	}
 	function insertKey(bucket, key, value) {
-	  var search = bucket.find(function (innerBucket, i) {
+	  var inserted = false;
+	  bucket.forEach(function (innerBucket, i) {
 	    var inBucket = searchBucket(innerBucket, key);
 	    if (inBucket === 0) {
 	      bucket[i][1] = value;
-	      return true;
+	      inserted = true;
 	    }
-	    return false;
 	  });
-	  return !search ? bucket.push([key, value]) : false;
+	  return inserted === false ? bucket.push([key, value]) : false;
 	}
 	// retrieve val from inner
 	function retVal(bucket, key) {
 	  var value = void 0;
-	  bucket.find(function (innerBucket) {
+	  bucket.forEach(function (innerBucket) {
 	    var inBucket = searchBucket(innerBucket, key);
 	    if (inBucket === 0) {
 	      value = innerBucket[1];
-	      return true;
 	    }
-	    return false;
 	  });
 	  return value;
 	}
 
 	function removeKey(bucket, key) {
 	  var removed = false;
-	  bucket.find(function (innerBucket, i) {
+	  bucket.forEach(function (innerBucket, i) {
 	    var inBucket = searchBucket(innerBucket, key);
 	    if (inBucket === 0) {
 	      bucket.splice(i, 1);
 	      removed = true;
-	      return true;
 	    }
-	    return false;
 	  });
 	  return removed ? true : false;
-	}
-
-	function mod(a, b) {
-	  var modulo = a % b;
-	  if (modulo < 0) {
-	    return modulo + b;
-	  }
-	  return modulo;
 	}
 
 	var HashMap = function () {
@@ -679,8 +667,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  HashMap.prototype.put = function put(key, value) {
 	    var table = this._table;
-	    var hash = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	    var location = mod(hash, table.length);
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
 	    var bucket = table[location];
 	    var inserted = insertKey(bucket, key, value);
 	    if (inserted) {
@@ -698,8 +685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var newTable = createTable(sieveOfAtkin(oldTable.length * 2));
 	    for (var i = 0; i < oldKeys.length; i += 1) {
 	      var key = oldKeys[i];
-	      var hash = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	      var location = mod(hash, newTable.length);
+	      var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % newTable.length;
 	      var bucket = newTable[location];
 	      insertKey(bucket, key, this.getVal(key));
 	    }
@@ -711,16 +697,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  HashMap.prototype.contains = function contains(key) {
 	    var table = this._table;
-	    var hash = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	    var location = mod(hash, table.length);
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
 	    var bucket = table[location];
 	    return retVal(bucket, key) !== undefined;
 	  };
 
 	  HashMap.prototype.getVal = function getVal(key) {
 	    var table = this._table;
-	    var hash = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	    var location = mod(hash, table.length);
+	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
 	    var bucket = table[location];
 	    return retVal(bucket, key);
 	  };
