@@ -73,6 +73,19 @@ function mod(a, b) {
   }
   return modulo;
 }
+
+function getImportant(key, table){
+  const hash1 = fnv(JSON.stringify(key));
+  const hash2 = dj(JSON.stringify(key));
+  const location1 = mod(hash1, table.length);
+  const location2 = mod(hash2, table.length);
+  let bucket1 = table[location1];
+  let bucket2 = table[location2];
+  return {
+    hash1, hash2, location1, location1, bucket1, bucket2
+  }
+  
+}
 class HashMap {
   constructor(size = 23) {
     this.table = createTable(size);
@@ -83,12 +96,7 @@ class HashMap {
       return;
     }
     const { table } = this;
-    const hash1 = fnv(JSON.stringify(key));
-    const hash2 = dj(JSON.stringify(key));
-    const location1 = mod(hash1, table.length);
-    const location2 = mod(hash2, table.length);
-    let bucket1 = table[location1];
-    let bucket2 = table[location2];
+    const {bucket1, bucket2 }  = getImportant(key, table);
     this.insert += 1;
     if (bucket1.length <= bucket2.length) {
       bucket1.push(key, value);
@@ -96,7 +104,7 @@ class HashMap {
       bucket2.push(key, value);
     }
     if(this.insert / table.length > 0.70){
-      this.rehash()
+      this.rehash();
     }
   }
   rehash(){
@@ -104,15 +112,10 @@ class HashMap {
     const newTable = createTable(sieveOfAtkin(oldTable.length * 2));
     const oldKeys = this.keys(); 
     for(let i=0; i<oldKeys.length; i++){
-      let key = oldKeys[i]
-      const hash1 = fnv(JSON.stringify(key));
-      const hash2 = dj(JSON.stringify(key));
-      const location1 = mod(hash1, newTable.length);
-      const location2 = mod(hash2, newTable.length);
-      let bucket1 = newTable[location1];
-      let bucket2 = newTable[location2];
+      let key = oldKeys[i];
+      const {bucket1, bucket2} = getImportant(key, newTable);
       if(bucket1.length <= bucket2.length){
-        bucket1.push(key, this.getVal(key))
+        bucket1.push(key, this.getVal(key));
       }
       else {
         bucket2.push(key, this.getVal(key));
@@ -122,20 +125,15 @@ class HashMap {
   }
   getVal(key){
     const { table } = this;
-    const hash1 = fnv(JSON.stringify(key));
-    const hash2 = dj(JSON.stringify(key));
-    const location1 = mod(hash1, table.length);
-    const location2 = mod(hash2, table.length);
-    let bucket1 = table[location1];
-    let bucket2 = table[location2];
-    let index1 = bucket1.indexOf(key)
-    let index2 = bucket2.indexOf(key)
+    const {bucket1, bucket2} = getImportant(key, table);
+    let index1 = bucket1.indexOf(key);
+    let index2 = bucket2.indexOf(key);
     
     if(index1 % 2 === 0){
       return bucket1[index1 + 1];
     }
     else if(index2 % 2 ===0){
-      return bucket2[index2 + 1]
+      return bucket2[index2 + 1];
     } 
   }
   keys(){
@@ -154,12 +152,7 @@ class HashMap {
   }
   contains(key){
     const { table } = this;
-    const hash1 = fnv(JSON.stringify(key));
-    const hash2 = dj(JSON.stringify(key));
-    const location1 = mod(hash1, table.length);
-    const location2 = mod(hash2, table.length);
-    let bucket1 = table[location1];
-    let bucket2 = table[location2];
+    const {bucket1, bucket2} = getImportant(key, table);
     return (bucket1.indexOf(key) % 2 === 0) || (bucket2.indexOf(key) % 2 === 0);
   }
   size(){

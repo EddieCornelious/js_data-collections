@@ -620,6 +620,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return modulo;
 	}
 
+	function getImportant(key, table) {
+	  var _ref;
+
+	  var hash1 = fnv(JSON.stringify(key));
+	  var hash2 = dj(JSON.stringify(key));
+	  var location1 = mod(hash1, table.length);
+	  var location2 = mod(hash2, table.length);
+	  var bucket1 = table[location1];
+	  var bucket2 = table[location2];
+	  return _ref = {
+	    hash1: hash1, hash2: hash2, location1: location1 }, _ref["location1"] = location1, _ref.bucket1 = bucket1, _ref.bucket2 = bucket2, _ref;
+	}
+
 	var HashMap = function () {
 	  function HashMap() {
 	    var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 23;
@@ -636,12 +649,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var table = this.table;
 
-	    var hash1 = fnv(JSON.stringify(key));
-	    var hash2 = dj(JSON.stringify(key));
-	    var location1 = mod(hash1, table.length);
-	    var location2 = mod(hash2, table.length);
-	    var bucket1 = table[location1];
-	    var bucket2 = table[location2];
+	    var _getImportant = getImportant(key, table),
+	        bucket1 = _getImportant.bucket1,
+	        bucket2 = _getImportant.bucket2;
+
 	    this.insert += 1;
 	    if (bucket1.length <= bucket2.length) {
 	      bucket1.push(key, value);
@@ -659,12 +670,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var oldKeys = this.keys();
 	    for (var i = 0; i < oldKeys.length; i++) {
 	      var key = oldKeys[i];
-	      var hash1 = fnv(JSON.stringify(key));
-	      var hash2 = dj(JSON.stringify(key));
-	      var location1 = mod(hash1, newTable.length);
-	      var location2 = mod(hash2, newTable.length);
-	      var bucket1 = newTable[location1];
-	      var bucket2 = newTable[location2];
+
+	      var _getImportant2 = getImportant(key, newTable),
+	          bucket1 = _getImportant2.bucket1,
+	          bucket2 = _getImportant2.bucket2;
+
 	      if (bucket1.length <= bucket2.length) {
 	        bucket1.push(key, this.getVal(key));
 	      } else {
@@ -677,12 +687,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  HashMap.prototype.getVal = function getVal(key) {
 	    var table = this.table;
 
-	    var hash1 = fnv(JSON.stringify(key));
-	    var hash2 = dj(JSON.stringify(key));
-	    var location1 = mod(hash1, table.length);
-	    var location2 = mod(hash2, table.length);
-	    var bucket1 = table[location1];
-	    var bucket2 = table[location2];
+	    var _getImportant3 = getImportant(key, table),
+	        bucket1 = _getImportant3.bucket1,
+	        bucket2 = _getImportant3.bucket2;
+
 	    var index1 = bucket1.indexOf(key);
 	    var index2 = bucket2.indexOf(key);
 
@@ -711,12 +719,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  HashMap.prototype.contains = function contains(key) {
 	    var table = this.table;
 
-	    var hash1 = fnv(JSON.stringify(key));
-	    var hash2 = dj(JSON.stringify(key));
-	    var location1 = mod(hash1, table.length);
-	    var location2 = mod(hash2, table.length);
-	    var bucket1 = table[location1];
-	    var bucket2 = table[location2];
+	    var _getImportant4 = getImportant(key, table),
+	        bucket1 = _getImportant4.bucket1,
+	        bucket2 = _getImportant4.bucket2;
+
 	    return bucket1.indexOf(key) % 2 === 0 || bucket2.indexOf(key) % 2 === 0;
 	  };
 
