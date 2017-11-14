@@ -1,4 +1,12 @@
-// modified code https://en.wikipedia.org/wiki/Sieve_of_Atkin#Pseudocode
+function fnv(str) {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < str.length; i += 1) {
+    hash ^= str.charCodeAt(i);
+    hash *= 0x01000193;
+  }
+  return hash;
+}
+
 function sieveOfAtkin(limit) {
   let toReturn = [];
   if (limit > 2) { toReturn.push(2); }
@@ -42,144 +50,124 @@ function sieveOfAtkin(limit) {
   }
   return toReturn[toReturn.length - 1];
 }
-// TODO: put this in seperate file and make accessible to all
-function objToString(obj) {
-  const toStr = obj.toString();
-  if (toStr === '[object Object]') {
-    return JSON.stringify(obj);
+
+function dj(str) {
+  let hash = 5381;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 33) ^ str.charCodeAt(i);
   }
-  return toStr;
+  return hash;
 }
 function createTable(size) {
-  const table = [];
-  for (let i = 0; i < size; i += 1) {
-    table.push([]);
+  const newTable = [];
+  for (let i = 0; i < size; i++) {
+    newTable.push([]);
   }
-  return table;
+  return newTable;
 }
-function fnv(str) {
-  let hash = 0x811c9dc5;
-  for (let i = 0; i < str.length; i += 1) {
-    hash ^= str.charCodeAt(i);
-    hash *= 0x01000193;
+
+function mod(a, b) {
+  const modulo = a % b;
+  if (modulo < 0) {
+    return modulo + b;
   }
-  return hash < 0 ? hash * -1 : hash;
+  return modulo;
 }
-
-function searchBucket(bucket, item) {
-  return bucket.indexOf(item);
-}
-function insertKey(bucket, key, value) {
-  let inserted = false;
-  bucket.forEach(function (innerBucket, i) {
-    let inBucket = searchBucket(innerBucket, key);
-    if (inBucket === 0) {
-      bucket[i][1] = value;
-      inserted = true;
-    }
-  });
-  return inserted === false ? bucket.push([key, value]) : false;
-}
-// retrieve val from inner
-function retVal(bucket, key) {
-  let value;
-  bucket.forEach(function (innerBucket) {
-    let inBucket = searchBucket(innerBucket, key);
-    if (inBucket === 0) {
-      value = innerBucket[1];
-    }
-  });
-  return value;
-}
-
-function removeKey(bucket, key) {
-  let removed = false;
-  bucket.forEach(function (innerBucket, i) {
-    let inBucket = searchBucket(innerBucket, key);
-    if (inBucket === 0) {
-      bucket.splice(i, 1);
-      removed = true;
-    }
-  });
-  return removed ? true : false;
-}
-
 class HashMap {
-  constructor(initial = 23) {
-    this._table = createTable(initial);
-    this._loadFactor = 0.75;
-    this.insert = 0;
+  constructor(size = 23) {
+    this.table = createTable(size);
+    this.insert =0;
   }
-  // TODO : replace to string with object stringify for objects
   put(key, value) {
-    let table = this._table;
-    let location = fnv(objToString(key) + '' + typeof key) % table.length;
-    let bucket = table[location];
-    const inserted = insertKey(bucket, key, value);
-    if (inserted) {
-      this.insert += 1;
+    if(this.contains(key)){
+      return;
     }
-    // check if rehashing needs to be done
-    if (this.insert / table.length >= 0.75) {
-      this.rehash();
+    const { table } = this;
+    const hash1 = fnv(JSON.stringify(key));
+    const hash2 = dj(JSON.stringify(key));
+    const location1 = mod(hash1, table.length);
+    const location2 = mod(hash2, table.length);
+    let bucket1 = table[location1];
+    let bucket2 = table[location2];
+    this.insert += 1;
+    if (bucket1.length <= bucket2.length) {
+      bucket1.push(key, value);
+    } else {
+      bucket2.push(key, value);
+    }
+    if(this.insert / table.length > 0.70){
+      this.rehash()
     }
   }
-  rehash() {
-    const oldTable = this._table;
-    const oldKeys = this.getKeys();
+  rehash(){
+    const oldTable = this.table;
     const newTable = createTable(sieveOfAtkin(oldTable.length * 2));
-    for (let i = 0; i < oldKeys.length; i += 1) {
-      let key = oldKeys[i];
-      let location = fnv(objToString(key) + '' + typeof key) % newTable.length;
-      let bucket = newTable[location];
-      insertKey(bucket, key, this.getVal(key));
-    }
-    this._table = newTable;
-    return true;
-  }
-  // TODO: add indexof polyfill ie<9
-  contains(key) {
-    let table = this._table;
-    let location = fnv(objToString(key) + '' + typeof key) % table.length;
-    const bucket = table[location];
-    return retVal(bucket, key) !== undefined;
-  }
-
-  getVal(key) {
-    const table = this._table;
-    let location = fnv(objToString(key) + '' + typeof key) % table.length;
-    const bucket = table[location];
-    return retVal(bucket, key);
-  }
-  tableSize() {
-    return this._table.length;
-  }
-  size() {
-    return this.insert;
-  }
-
-  getKeys() {
-    function notEmpty(ele) {
-      return ele.length > 0;
-    }
-    const k = [];
-    const filtered = this._table.filter(notEmpty);
-    for (let i = 0; i < filtered.length; i += 1) {
-      for (let j = 0; j < filtered[i].length; j += 1) {
-        k.push(filtered[i][j][0]);
+    const oldKeys = this.keys(); 
+    for(let i=0; i<oldKeys.length; i++){
+      let key = oldKeys[i]
+      const hash1 = fnv(JSON.stringify(key));
+      const hash2 = dj(JSON.stringify(key));
+      const location1 = mod(hash1, newTable.length);
+      const location2 = mod(hash2, newTable.length);
+      let bucket1 = newTable[location1];
+      let bucket2 = newTable[location2];
+      if(bucket1.length <= bucket2.length){
+        bucket1.push(key, this.getVal(key))
+      }
+      else {
+        bucket2.push(key, this.getVal(key));
       }
     }
+    this.table = newTable;
+  }
+  getVal(key){
+    const { table } = this;
+    const hash1 = fnv(JSON.stringify(key));
+    const hash2 = dj(JSON.stringify(key));
+    const location1 = mod(hash1, table.length);
+    const location2 = mod(hash2, table.length);
+    let bucket1 = table[location1];
+    let bucket2 = table[location2];
+    let index1 = bucket1.indexOf(key)
+    let index2 = bucket2.indexOf(key)
+    
+    if(index1 % 2 === 0){
+      return bucket1[index1 + 1];
+    }
+    else if(index2 % 2 ===0){
+      return bucket2[index2 + 1]
+    } 
+  }
+  keys(){
+    function notEmpty(bucket){
+      return bucket.length > 0;
+    }
+    const k = []
+    const filledBuckets = this.table.filter(notEmpty);
+    for(let i =0; i< filledBuckets.length; i++){
+      for(let j =0; j< filledBuckets[i].length; j+=2){
+        k.push(filledBuckets[i][j]);
+      }
+    }
+    
     return k;
   }
-  remove(key) {
-    const table = this._table;
-    let location = fnv(objToString(key) + '' + typeof key) % table.length;
-    const bucket = table[location];
-    const deleted = removeKey(bucket, key);
-    if (deleted) {
-      this.insert -= 1;
-    }
-    return this;
+  contains(key){
+    const { table } = this;
+    const hash1 = fnv(JSON.stringify(key));
+    const hash2 = dj(JSON.stringify(key));
+    const location1 = mod(hash1, table.length);
+    const location2 = mod(hash2, table.length);
+    let bucket1 = table[location1];
+    let bucket2 = table[location2];
+    return (bucket1.indexOf(key) % 2 === 0) || (bucket2.indexOf(key) % 2 === 0);
+  }
+  size(){
+    return this.insert;
+  }
+  tableSize(){
+    return this.table.length;
   }
 }
+
 module.exports = HashMap;

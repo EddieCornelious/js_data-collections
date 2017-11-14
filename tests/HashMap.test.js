@@ -42,27 +42,13 @@ describe("HashMap", function(){
       for(let i =0; i<18; i++){
           map.put(i, i);
       }
-      console.log(map.insert)
       expect(map.tableSize()).to.be.equal(43)
       for(let i=18; i<55; i++){
           map.put(i, i);
       }
       expect(map.tableSize()).to.be.equal(83)
   });
-  
-  it("remove key should remove key", function(){
-      map = new Structs.HashMap();
-      map.put(0, "c")
-      map.put(1, "doe")
-      map.put(3, "doe")
-      //above known to hash to same bucket
-      map.remove(1)
-      expect(map.contains(1)).to.be.equal(false)
-      expect(map.contains(0)).to.be.equal(true)
-      expect(map.contains(3)).to.be.equal(true)
-      expect(map.size()).to.be.equal(2)
-      
-  })
+ 
   
    it("getKeys should return all keys in map", function(){
       map = new Structs.HashMap();
@@ -71,7 +57,7 @@ describe("HashMap", function(){
       map.put("dog", "doe")
       map.put("apple", "doe")
       expected = ["dog", 0, 1, "apple"]
-      actual = map.getKeys()
+      actual = map.keys()
       for(let i=0; i< expected.length; i++){
          expect(actual.indexOf(expected[i])).to.not.be.equal(-1);
       }

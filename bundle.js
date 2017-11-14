@@ -536,13 +536,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ function(module, exports) {
 
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	"use strict";
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	// modified code https://en.wikipedia.org/wiki/Sieve_of_Atkin#Pseudocode
+	function fnv(str) {
+	  var hash = 0x811c9dc5;
+	  for (var i = 0; i < str.length; i += 1) {
+	    hash ^= str.charCodeAt(i);
+	    hash *= 0x01000193;
+	  }
+	  return hash;
+	}
+
 	function sieveOfAtkin(limit) {
 	  var toReturn = [];
 	  if (limit > 2) {
@@ -590,156 +596,136 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return toReturn[toReturn.length - 1];
 	}
-	// TODO: put this in seperate file and make accessible to all
-	function objToString(obj) {
-	  var toStr = obj.toString();
-	  if (toStr === '[object Object]') {
-	    return JSON.stringify(obj);
+
+	function dj(str) {
+	  var hash = 5381;
+	  for (var i = 0; i < str.length; i++) {
+	    hash = hash * 33 ^ str.charCodeAt(i);
 	  }
-	  return toStr;
+	  return hash;
 	}
 	function createTable(size) {
-	  var table = [];
-	  for (var i = 0; i < size; i += 1) {
-	    table.push([]);
+	  var newTable = [];
+	  for (var i = 0; i < size; i++) {
+	    newTable.push([]);
 	  }
-	  return table;
-	}
-	function fnv(str) {
-	  var hash = 0x811c9dc5;
-	  for (var i = 0; i < str.length; i += 1) {
-	    hash ^= str.charCodeAt(i);
-	    hash *= 0x01000193;
-	  }
-	  return hash < 0 ? hash * -1 : hash;
+	  return newTable;
 	}
 
-	function searchBucket(bucket, item) {
-	  return bucket.indexOf(item);
-	}
-	function insertKey(bucket, key, value) {
-	  var inserted = false;
-	  bucket.forEach(function (innerBucket, i) {
-	    var inBucket = searchBucket(innerBucket, key);
-	    if (inBucket === 0) {
-	      bucket[i][1] = value;
-	      inserted = true;
-	    }
-	  });
-	  return inserted === false ? bucket.push([key, value]) : false;
-	}
-	// retrieve val from inner
-	function retVal(bucket, key) {
-	  var value = void 0;
-	  bucket.forEach(function (innerBucket) {
-	    var inBucket = searchBucket(innerBucket, key);
-	    if (inBucket === 0) {
-	      value = innerBucket[1];
-	    }
-	  });
-	  return value;
-	}
-
-	function removeKey(bucket, key) {
-	  var removed = false;
-	  bucket.forEach(function (innerBucket, i) {
-	    var inBucket = searchBucket(innerBucket, key);
-	    if (inBucket === 0) {
-	      bucket.splice(i, 1);
-	      removed = true;
-	    }
-	  });
-	  return removed ? true : false;
+	function mod(a, b) {
+	  var modulo = a % b;
+	  if (modulo < 0) {
+	    return modulo + b;
+	  }
+	  return modulo;
 	}
 
 	var HashMap = function () {
 	  function HashMap() {
-	    var initial = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 23;
+	    var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 23;
 
 	    _classCallCheck(this, HashMap);
 
-	    this._table = createTable(initial);
-	    this._loadFactor = 0.75;
+	    this.table = createTable(size);
 	    this.insert = 0;
 	  }
-	  // TODO : replace to string with object stringify for objects
-
 
 	  HashMap.prototype.put = function put(key, value) {
-	    var table = this._table;
-	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
-	    var bucket = table[location];
-	    var inserted = insertKey(bucket, key, value);
-	    if (inserted) {
-	      this.insert += 1;
+	    if (this.contains(key)) {
+	      return;
 	    }
-	    // check if rehashing needs to be done
-	    if (this.insert / table.length >= 0.75) {
+	    var table = this.table;
+
+	    var hash1 = fnv(JSON.stringify(key));
+	    var hash2 = dj(JSON.stringify(key));
+	    var location1 = mod(hash1, table.length);
+	    var location2 = mod(hash2, table.length);
+	    var bucket1 = table[location1];
+	    var bucket2 = table[location2];
+	    this.insert += 1;
+	    if (bucket1.length <= bucket2.length) {
+	      bucket1.push(key, value);
+	    } else {
+	      bucket2.push(key, value);
+	    }
+	    if (this.insert / table.length > 0.70) {
 	      this.rehash();
 	    }
 	  };
 
 	  HashMap.prototype.rehash = function rehash() {
-	    var oldTable = this._table;
-	    var oldKeys = this.getKeys();
+	    var oldTable = this.table;
 	    var newTable = createTable(sieveOfAtkin(oldTable.length * 2));
-	    for (var i = 0; i < oldKeys.length; i += 1) {
+	    var oldKeys = this.keys();
+	    for (var i = 0; i < oldKeys.length; i++) {
 	      var key = oldKeys[i];
-	      var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % newTable.length;
-	      var bucket = newTable[location];
-	      insertKey(bucket, key, this.getVal(key));
+	      var hash1 = fnv(JSON.stringify(key));
+	      var hash2 = dj(JSON.stringify(key));
+	      var location1 = mod(hash1, newTable.length);
+	      var location2 = mod(hash2, newTable.length);
+	      var bucket1 = newTable[location1];
+	      var bucket2 = newTable[location2];
+	      if (bucket1.length <= bucket2.length) {
+	        bucket1.push(key, this.getVal(key));
+	      } else {
+	        bucket2.push(key, this.getVal(key));
+	      }
 	    }
-	    this._table = newTable;
-	    return true;
-	  };
-	  // TODO: add indexof polyfill ie<9
-
-
-	  HashMap.prototype.contains = function contains(key) {
-	    var table = this._table;
-	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
-	    var bucket = table[location];
-	    return retVal(bucket, key) !== undefined;
+	    this.table = newTable;
 	  };
 
 	  HashMap.prototype.getVal = function getVal(key) {
-	    var table = this._table;
-	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
-	    var bucket = table[location];
-	    return retVal(bucket, key);
+	    var table = this.table;
+
+	    var hash1 = fnv(JSON.stringify(key));
+	    var hash2 = dj(JSON.stringify(key));
+	    var location1 = mod(hash1, table.length);
+	    var location2 = mod(hash2, table.length);
+	    var bucket1 = table[location1];
+	    var bucket2 = table[location2];
+	    var index1 = bucket1.indexOf(key);
+	    var index2 = bucket2.indexOf(key);
+
+	    if (index1 % 2 === 0) {
+	      return bucket1[index1 + 1];
+	    } else if (index2 % 2 === 0) {
+	      return bucket2[index2 + 1];
+	    }
 	  };
 
-	  HashMap.prototype.tableSize = function tableSize() {
-	    return this._table.length;
+	  HashMap.prototype.keys = function keys() {
+	    function notEmpty(bucket) {
+	      return bucket.length > 0;
+	    }
+	    var k = [];
+	    var filledBuckets = this.table.filter(notEmpty);
+	    for (var i = 0; i < filledBuckets.length; i++) {
+	      for (var j = 0; j < filledBuckets[i].length; j += 2) {
+	        k.push(filledBuckets[i][j]);
+	      }
+	    }
+
+	    return k;
+	  };
+
+	  HashMap.prototype.contains = function contains(key) {
+	    var table = this.table;
+
+	    var hash1 = fnv(JSON.stringify(key));
+	    var hash2 = dj(JSON.stringify(key));
+	    var location1 = mod(hash1, table.length);
+	    var location2 = mod(hash2, table.length);
+	    var bucket1 = table[location1];
+	    var bucket2 = table[location2];
+	    return bucket1.indexOf(key) % 2 === 0 || bucket2.indexOf(key) % 2 === 0;
 	  };
 
 	  HashMap.prototype.size = function size() {
 	    return this.insert;
 	  };
 
-	  HashMap.prototype.getKeys = function getKeys() {
-	    function notEmpty(ele) {
-	      return ele.length > 0;
-	    }
-	    var k = [];
-	    var filtered = this._table.filter(notEmpty);
-	    for (var i = 0; i < filtered.length; i += 1) {
-	      for (var j = 0; j < filtered[i].length; j += 1) {
-	        k.push(filtered[i][j][0]);
-	      }
-	    }
-	    return k;
-	  };
-
-	  HashMap.prototype.remove = function remove(key) {
-	    var table = this._table;
-	    var location = fnv(objToString(key) + '' + (typeof key === 'undefined' ? 'undefined' : _typeof(key))) % table.length;
-	    var bucket = table[location];
-	    var deleted = removeKey(bucket, key);
-	    if (deleted) {
-	      this.insert -= 1;
-	    }
-	    return this;
+	  HashMap.prototype.tableSize = function tableSize() {
+	    return this.table.length;
 	  };
 
 	  return HashMap;
