@@ -64,12 +64,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMap = __webpack_require__(6);
 	var BST = __webpack_require__(7);
 	var Graph = __webpack_require__(10);
+	var Trie = __webpack_require__(11);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, Graph: Graph };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, Graph: Graph, Trie: Trie };
 
 /***/ },
 /* 1 */
@@ -126,7 +127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	/**
 	 *  @class Node container for list data
-	 *  
+	 *
 	 */
 
 	var Node = function Node(data) {
@@ -538,6 +539,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function fnv(str) {
@@ -548,190 +551,137 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return hash;
 	}
-
-	function sieveOfAtkin(limit) {
-	  var toReturn = [];
-	  if (limit > 2) {
-	    toReturn.push(2);
+	function mod(a, b) {
+	  var modulo = a % b;
+	  if (a < 0) {
+	    return modulo * -1;
 	  }
-	  if (limit > 3) {
-	    toReturn.push(3);
-	  }
-
-	  // Initialise the sieve array with false values
-	  var sieve = new Array(limit);
-	  for (var i = 0; i < limit; i += 1) {
-	    sieve[i] = false;
-	  }
-	  for (var x = 1; x * x < limit; x += 1) {
-	    for (var y = 1; y * y < limit; y += 1) {
-	      // Main part of Sieve of Atkin
-	      var n = 4 * x * x + y * y;
-	      if (n <= limit && (n % 12 === 1 || n % 12 === 5)) {
-	        sieve[n] ^= true;
-	      }
-	      n = 3 * x * x + y * y;
-	      if (n <= limit && n % 12 === 7) {
-	        sieve[n] ^= true;
-	      }
-	      n = 3 * x * x - y * y;
-	      if (x > y && n <= limit && n % 12 === 11) {
-	        sieve[n] ^= true;
-	      }
-	    }
-	  }
-
-	  // Mark all multiples of squares as non-prime
-	  for (var r = 5; r * r < limit; r += 1) {
-	    if (sieve[r]) {
-	      for (var _i = r * r; _i < limit; _i += r * r) {
-	        sieve[_i] = false;
-	      }
-	    }
-	  }
-	  for (var a = 5; a < limit; a += 1) {
-	    if (sieve[a]) {
-	      toReturn.push(a);
-	    }
-	  }
-	  return toReturn[toReturn.length - 1];
-	}
-
-	function dj(str) {
-	  var hash = 5381;
-	  for (var i = 0; i < str.length; i++) {
-	    hash = hash * 33 ^ str.charCodeAt(i);
-	  }
-	  return hash;
+	  return modulo;
 	}
 	function createTable(size) {
 	  var newTable = [];
-	  for (var i = 0; i < size; i++) {
+	  for (var i = 0; i < size; i += 1) {
 	    newTable.push([]);
 	  }
 	  return newTable;
 	}
-
-	function mod(a, b) {
-	  var modulo = a % b;
-	  if (modulo < 0) {
-	    return modulo + b;
-	  }
-	  return modulo;
+	function insert(k, v, table) {
+	  var hash = fnv(JSON.stringify(k) + (typeof k === "undefined" ? "undefined" : _typeof(k)));
+	  var location = mod(hash, table.length);
+	  var bucket = table[location];
+	  return bucket.push(k, v);
 	}
+	function search(k) {
+	  var table = this.table;
 
-	function getImportant(key, table) {
-	  var _ref;
-
-	  var hash1 = fnv(JSON.stringify(key));
-	  var hash2 = dj(JSON.stringify(key));
-	  var location1 = mod(hash1, table.length);
-	  var location2 = mod(hash2, table.length);
-	  var bucket1 = table[location1];
-	  var bucket2 = table[location2];
-	  return _ref = {
-	    hash1: hash1, hash2: hash2, location1: location1 }, _ref["location1"] = location1, _ref.bucket1 = bucket1, _ref.bucket2 = bucket2, _ref;
+	  var toStr = JSON.stringify(k);
+	  var hash = fnv(toStr + (typeof k === "undefined" ? "undefined" : _typeof(k)));
+	  var location = mod(hash, table.length);
+	  var bucket = table[location];
+	  for (var i = 0; i < bucket.length; i += 2) {
+	    if (Object.is(k, bucket[i])) {
+	      return { bucket: bucket, i: i };
+	    }
+	  }
+	  return { bucket: undefined, i: -1 };
 	}
 
 	var HashMap = function () {
 	  function HashMap() {
-	    var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 23;
+	    var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 13;
 
 	    _classCallCheck(this, HashMap);
 
+	    this.inserts = 0;
 	    this.table = createTable(size);
-	    this.insert = 0;
 	  }
 
-	  HashMap.prototype.put = function put(key, value) {
-	    if (this.contains(key)) {
-	      return;
+	  HashMap.prototype.put = function put(k, v) {
+	    if (this.contains(k)) {
+	      return false;
 	    }
 	    var table = this.table;
 
-	    var _getImportant = getImportant(key, table),
-	        bucket1 = _getImportant.bucket1,
-	        bucket2 = _getImportant.bucket2;
-
-	    this.insert += 1;
-	    if (bucket1.length <= bucket2.length) {
-	      bucket1.push(key, value);
-	    } else {
-	      bucket2.push(key, value);
-	    }
-	    if (this.insert / table.length > 0.70) {
+	    insert(k, v, table);
+	    this.inserts += 1;
+	    if (this.inserts / this.table.length >= 0.75) {
 	      this.rehash();
 	    }
+	    return true;
+	  };
+
+	  HashMap.prototype.getVal = function getVal(k) {
+	    if (!this.contains(k)) {
+	      return;
+	    }
+	    var searchRes = search.call(this, k);
+	    var bucket = searchRes.bucket,
+	        i = searchRes.i;
+
+	    return bucket[i + 1];
+	  };
+
+	  HashMap.prototype.remove = function remove(k) {
+	    if (!this.contains(k)) {
+	      return;
+	    }
+	    var searchRes = search.call(this, k);
+	    var bucket = searchRes.bucket,
+	        i = searchRes.i;
+
+	    bucket.splice(i, 1);
+	    bucket.splice(i, 1);
+	    this.inserts -= 1;
+	  };
+
+	  HashMap.prototype.contains = function contains(k) {
+	    var searchRes = search.call(this, k);
+	    var i = searchRes.i;
+
+	    return i !== -1;
 	  };
 
 	  HashMap.prototype.rehash = function rehash() {
 	    var oldTable = this.table;
-	    var newTable = createTable(sieveOfAtkin(oldTable.length * 2));
-	    var oldKeys = this.keys();
-	    for (var i = 0; i < oldKeys.length; i++) {
-	      var key = oldKeys[i];
-
-	      var _getImportant2 = getImportant(key, newTable),
-	          bucket1 = _getImportant2.bucket1,
-	          bucket2 = _getImportant2.bucket2;
-
-	      if (bucket1.length <= bucket2.length) {
-	        bucket1.push(key, this.getVal(key));
-	      } else {
-	        bucket2.push(key, this.getVal(key));
+	    var newTable = createTable(oldTable.length * 2);
+	    for (var i = 0; i < oldTable.length; i += 1) {
+	      while (oldTable[i].length > 0) {
+	        var v = oldTable[i].pop();
+	        var k = oldTable[i].pop();
+	        insert(k, v, newTable);
 	      }
 	    }
 	    this.table = newTable;
 	  };
 
-	  HashMap.prototype.getVal = function getVal(key) {
-	    var table = this.table;
-
-	    var _getImportant3 = getImportant(key, table),
-	        bucket1 = _getImportant3.bucket1,
-	        bucket2 = _getImportant3.bucket2;
-
-	    var index1 = bucket1.indexOf(key);
-	    var index2 = bucket2.indexOf(key);
-
-	    if (index1 % 2 === 0) {
-	      return bucket1[index1 + 1];
-	    } else if (index2 % 2 === 0) {
-	      return bucket2[index2 + 1];
+	  HashMap.prototype.update = function update(k, newVal) {
+	    if (!this.contains(k)) {
+	      return;
 	    }
+	    var searchRes = search.call(this, k);
+	    var bucket = searchRes.bucket,
+	        i = searchRes.i;
+
+	    bucket[i + 1] = newVal;
 	  };
 
 	  HashMap.prototype.keys = function keys() {
-	    function notEmpty(bucket) {
-	      return bucket.length > 0;
-	    }
-	    var k = [];
-	    var filledBuckets = this.table.filter(notEmpty);
-	    for (var i = 0; i < filledBuckets.length; i++) {
-	      for (var j = 0; j < filledBuckets[i].length; j += 2) {
-	        k.push(filledBuckets[i][j]);
+	    var table = this.table;
+	    var keyArr = [];
+	    for (var i = 0; i < table.length; i += 1) {
+	      for (var j = 0; j < table[i].length; j += 2) {
+	        keyArr.push(table[i][j]);
 	      }
 	    }
-
-	    return k;
-	  };
-
-	  HashMap.prototype.contains = function contains(key) {
-	    var table = this.table;
-
-	    var _getImportant4 = getImportant(key, table),
-	        bucket1 = _getImportant4.bucket1,
-	        bucket2 = _getImportant4.bucket2;
-
-	    return bucket1.indexOf(key) % 2 === 0 || bucket2.indexOf(key) % 2 === 0;
-	  };
-
-	  HashMap.prototype.size = function size() {
-	    return this.insert;
+	    return keyArr;
 	  };
 
 	  HashMap.prototype.tableSize = function tableSize() {
 	    return this.table.length;
+	  };
+
+	  HashMap.prototype.size = function size() {
+	    return this.inserts;
 	  };
 
 	  return HashMap;
@@ -880,9 +830,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function numChildren(node) {
 	  var left = node.left.key;
 	  var right = node.right.key;
-	  if (!left && !right) {
+	  if (left === undefined && right === undefined) {
 	    return 0;
-	  } else if (left && !right || right && !left) {
+	  } else if (left === undefined && right !== undefined || right === undefined && left !== undefined) {
 	    return 1;
 	  }
 	  return 2;
@@ -899,8 +849,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    parent.left = node.left;
 	  }
-	  node.right.parent = parent;
-	  node.left.parent = parent;
 	}
 
 	function remove1(node) {
@@ -1067,6 +1015,138 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = Graph;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function getPrefix(pfx) {
+	  var cur = this.root.children;
+	  var char = void 0;
+	  for (var i = 0; i < pfx.length - 1; i += 1) {
+	    char = pfx.charAt(i);
+	    cur = cur[char].children;
+	  }
+	  return cur;
+	}
+	function recurseTree(node, arr) {
+	  var words = arr;
+	  if (!node) {
+	    return;
+	  }
+	  var keys = Object.keys(node.children);
+	  for (var i = 0; i < keys.length; i += 1) {
+	    var curChild = node.children[keys[i]];
+	    if (curChild.word) {
+	      words.push(curChild.word);
+	    }
+	    recurseTree(curChild, arr);
+	  }
+	}
+	function hasChild(obj) {
+	  for (var prop in obj) {
+	    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+	      return true;
+	    }
+	  }
+	  return false;
+	}
+
+	var TrieNode = function TrieNode() {
+	  _classCallCheck(this, TrieNode);
+
+	  this.children = {};
+	  this.endOfWord = false;
+	  this.word = null;
+	};
+
+	var Trie = function () {
+	  function Trie() {
+	    _classCallCheck(this, Trie);
+
+	    this.root = new TrieNode();
+	  }
+
+	  Trie.prototype.addWord = function addWord(word) {
+	    var cur = this.root.children;
+	    if (word.length === 0) {
+	      return;
+	    }
+	    var wrd = word.toString().toLowerCase();
+	    var char = void 0;
+	    for (var i = 0; i < wrd.length; i += 1) {
+	      char = wrd.charAt(i);
+	      if (!cur[char]) {
+	        cur[char] = new TrieNode();
+	      }
+	      if (i === wrd.length - 1) {
+	        cur[char].endOfWord = true;
+	        cur[char].word = wrd;
+	      }
+	      cur = cur[char].children;
+	    }
+	  };
+
+	  Trie.prototype.containsWord = function containsWord(word) {
+	    if (word.length === 0) {
+	      return false;
+	    }
+	    var cur = this.root.children;
+	    // check contains word first
+	    for (var i = 0; i < word.length; i += 1) {
+	      var char = cur[word[i]];
+	      if (!char) {
+	        return false;
+	      } else if (char.word === word) {
+	        return true;
+	      }
+	      cur = cur[word[i]].children;
+	    }
+	    return false;
+	  };
+
+	  Trie.prototype.containsPrefix = function containsPrefix(pfx) {
+	    if (pfx.length === 0) {
+	      return false;
+	    }
+	    var cur = this.root.children;
+
+	    for (var i = 0; i < pfx.length; i += 1) {
+	      var char = pfx.charAt(i);
+	      if (!cur[char]) {
+	        return false;
+	      } else if (cur[char].word === pfx) {
+	        // if word and has no children, it cannot be prefix, but can be word and still be prefix
+	        var noChildren = hasChild(cur[char].children) === false;
+	        if (noChildren) {
+	          return false;
+	        }
+	        return true;
+	      }
+	      cur = cur[char].children;
+	    }
+	    return true;
+	  };
+
+	  Trie.prototype.prefixAll = function prefixAll(pfx) {
+	    if (!this.containsPrefix(pfx)) {
+	      return [];
+	    }
+	    var prefixTail = getPrefix.call(this, pfx);
+	    var prefixes = [];
+	    var lastChar = pfx.charAt(pfx.length - 1);
+	    recurseTree(prefixTail[lastChar], prefixes);
+	    return prefixes;
+	  };
+
+	  return Trie;
+	}();
+
+	module.exports = Trie;
 
 /***/ }
 /******/ ])

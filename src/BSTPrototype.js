@@ -53,9 +53,11 @@ function successor(node) {
 function numChildren(node) {
   const left = node.left.key;
   const right = node.right.key;
-  if (!left && !right) {
+  if (left === undefined && right === undefined) {
     return 0;
-  } else if ((left && !right) || (right && !left)) {
+  } else if (
+    (left === undefined && right !== undefined) ||
+    (right === undefined && left !== undefined)) {
     return 1;
   }
   return 2;
@@ -72,8 +74,6 @@ function remove0(node, NodeType) {
   } else {
     parent.left = node.left;
   }
-  node.right.parent = parent;
-  node.left.parent = parent;
 }
 
 function remove1(node) {

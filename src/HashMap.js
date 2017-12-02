@@ -1,3 +1,4 @@
+
 function fnv(str) {
   let hash = 0x811c9dc5;
   for (let i = 0; i < str.length; i += 1) {
@@ -6,161 +7,114 @@ function fnv(str) {
   }
   return hash;
 }
-
-function sieveOfAtkin(limit) {
-  let toReturn = [];
-  if (limit > 2) { toReturn.push(2); }
-  if (limit > 3) { toReturn.push(3); }
-
-  // Initialise the sieve array with false values
-  let sieve = new Array(limit);
-  for (let i = 0; i < limit; i += 1) {
-    sieve[i] = false;
+function mod(a, b) {
+  const modulo = a % b;
+  if (a < 0) {
+    return modulo * -1;
   }
-  for (let x = 1; x * x < limit; x += 1) {
-    for (let y = 1; y * y < limit; y += 1) {
-      // Main part of Sieve of Atkin
-      let n = (4 * x * x) + (y * y);
-      if (n <= limit && (n % 12 === 1 || n % 12 === 5)) {
-        sieve[n] ^= true;
-      }
-      n = (3 * x * x) + (y * y);
-      if (n <= limit && n % 12 === 7) {
-        sieve[n] ^= true;
-      }
-      n = (3 * x * x) - (y * y);
-      if (x > y && n <= limit && n % 12 === 11) {
-        sieve[n] ^= true;
-      }
-    }
-  }
-
-  // Mark all multiples of squares as non-prime
-  for (let r = 5; r * r < limit; r += 1) {
-    if (sieve[r]) {
-      for (let i = r * r; i < limit; i += r * r) {
-        sieve[i] = false;
-      }
-    }
-  }
-  for (let a = 5; a < limit; a += 1) {
-    if (sieve[a]) {
-      toReturn.push(a);
-    }
-  }
-  return toReturn[toReturn.length - 1];
-}
-
-function dj(str) {
-  let hash = 5381;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash * 33) ^ str.charCodeAt(i);
-  }
-  return hash;
+  return modulo;
 }
 function createTable(size) {
   const newTable = [];
-  for (let i = 0; i < size; i++) {
+  for (let i = 0; i < size; i += 1) {
     newTable.push([]);
   }
   return newTable;
 }
-
-function mod(a, b) {
-  const modulo = a % b;
-  if (modulo < 0) {
-    return modulo + b;
-  }
-  return modulo;
+function insert(k, v, table) {
+  let hash = fnv(JSON.stringify(k) + typeof k);
+  let location = mod(hash, table.length);
+  let bucket = table[location];
+  return bucket.push(k, v);
 }
-
-function getImportant(key, table){
-  const hash1 = fnv(JSON.stringify(key));
-  const hash2 = dj(JSON.stringify(key));
-  const location1 = mod(hash1, table.length);
-  const location2 = mod(hash2, table.length);
-  let bucket1 = table[location1];
-  let bucket2 = table[location2];
-  return {
-    hash1, hash2, location1, location1, bucket1, bucket2
+function search(k) {
+  const { table } = this;
+  let toStr = JSON.stringify(k);
+  let hash = fnv(toStr + typeof k);
+  let location = mod(hash, table.length);
+  let bucket = table[location];
+  for (let i = 0; i < bucket.length; i += 2) {
+    if (Object.is(k, bucket[i])) {
+      return { bucket, i };
+    }
   }
-  
+  return { bucket: undefined, i: -1 };
 }
 class HashMap {
-  constructor(size = 23) {
+  constructor(size = 13) {
+    this.inserts = 0;
     this.table = createTable(size);
-    this.insert =0;
   }
-  put(key, value) {
-    if(this.contains(key)){
-      return;
+  put(k, v) {
+    if (this.contains(k)) {
+      return false;
     }
     const { table } = this;
-    const {bucket1, bucket2 }  = getImportant(key, table);
-    this.insert += 1;
-    if (bucket1.length <= bucket2.length) {
-      bucket1.push(key, value);
-    } else {
-      bucket2.push(key, value);
-    }
-    if(this.insert / table.length > 0.70){
+    insert(k, v, table);
+    this.inserts += 1;
+    if ((this.inserts / this.table.length) >= 0.75) {
       this.rehash();
     }
+    return true;
   }
-  rehash(){
+  getVal(k) {
+    if (!this.contains(k)) {
+      return;
+    }
+    const searchRes = search.call(this, k);
+    const { bucket, i } = searchRes;
+    return bucket[i + 1];
+  }
+  remove(k) {
+    if (!this.contains(k)) {
+      return;
+    }
+    const searchRes = search.call(this, k);
+    const { bucket, i } = searchRes;
+    bucket.splice(i, 1);
+    bucket.splice(i, 1);
+    this.inserts -= 1;
+  }
+  contains(k) {
+    const searchRes = search.call(this, k);
+    const { i } = searchRes;
+    return i !== -1;
+  }
+  rehash() {
     const oldTable = this.table;
-    const newTable = createTable(sieveOfAtkin(oldTable.length * 2));
-    const oldKeys = this.keys(); 
-    for(let i=0; i<oldKeys.length; i++){
-      let key = oldKeys[i];
-      const {bucket1, bucket2} = getImportant(key, newTable);
-      if(bucket1.length <= bucket2.length){
-        bucket1.push(key, this.getVal(key));
-      }
-      else {
-        bucket2.push(key, this.getVal(key));
+    const newTable = createTable(oldTable.length * 2);
+    for (let i = 0; i < oldTable.length; i += 1) {
+      while (oldTable[i].length > 0) {
+        let v = oldTable[i].pop();
+        let k = oldTable[i].pop();
+        insert(k, v, newTable);
       }
     }
     this.table = newTable;
   }
-  getVal(key){
-    const { table } = this;
-    const {bucket1, bucket2} = getImportant(key, table);
-    let index1 = bucket1.indexOf(key);
-    let index2 = bucket2.indexOf(key);
-    
-    if(index1 % 2 === 0){
-      return bucket1[index1 + 1];
+  update(k, newVal) {
+    if (!this.contains(k)) {
+      return;
     }
-    else if(index2 % 2 ===0){
-      return bucket2[index2 + 1];
-    } 
+    const searchRes = search.call(this, k);
+    const { bucket, i } = searchRes;
+    bucket[i + 1] = newVal;
   }
-  keys(){
-    function notEmpty(bucket){
-      return bucket.length > 0;
-    }
-    const k = []
-    const filledBuckets = this.table.filter(notEmpty);
-    for(let i =0; i< filledBuckets.length; i++){
-      for(let j =0; j< filledBuckets[i].length; j+=2){
-        k.push(filledBuckets[i][j]);
+  keys() {
+    const table = this.table;
+    const keyArr = [];
+    for (let i = 0; i < table.length; i += 1) {
+      for (let j = 0; j < table[i].length; j += 2) {
+        keyArr.push(table[i][j]);
       }
     }
-    
-    return k;
+    return keyArr;
   }
-  contains(key){
-    const { table } = this;
-    const {bucket1, bucket2} = getImportant(key, table);
-    return (bucket1.indexOf(key) % 2 === 0) || (bucket2.indexOf(key) % 2 === 0);
-  }
-  size(){
-    return this.insert;
-  }
-  tableSize(){
+  tableSize() {
     return this.table.length;
   }
+  size() {
+    return this.inserts;
+  }
 }
-
 module.exports = HashMap;

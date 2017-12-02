@@ -45,7 +45,7 @@ function defaultEqual(a, b) {
 }
 /**
  *  @class Node container for list data
- *  
+ *
  */
 class Node {
   constructor(data) {
