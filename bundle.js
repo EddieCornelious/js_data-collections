@@ -62,15 +62,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BHeap = __webpack_require__(4);
 	var PriorityQueue = __webpack_require__(5);
 	var HashMap = __webpack_require__(6);
-	var BST = __webpack_require__(7);
-	var Graph = __webpack_require__(10);
-	var Trie = __webpack_require__(11);
+	var HashSet = __webpack_require__(7);
+	var BST = __webpack_require__(8);
+	var Graph = __webpack_require__(11);
+	var Trie = __webpack_require__(12);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, BST: BST, Graph: Graph, Trie: Trie };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie };
 
 /***/ },
 /* 1 */
@@ -693,12 +694,68 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var HashMap = __webpack_require__(6);
+
+	var HashSet = function () {
+	  function HashSet() {
+	    _classCallCheck(this, HashSet);
+
+	    this.set = new HashMap();
+	  }
+
+	  HashSet.prototype.add = function add(k) {
+	    return this.set.put(k, null);
+	  };
+
+	  HashSet.prototype.diff = function diff(thatSet) {
+	    var thatKeys = thatSet.keys();
+	    var context = this;
+	    thatKeys.forEach(function func(k) {
+	      context.remove(k);
+	    });
+	  };
+
+	  HashSet.prototype.has = function has(k) {
+	    return this.set.contains(k);
+	  };
+
+	  HashSet.prototype.keys = function keys() {
+	    return this.set.keys();
+	  };
+
+	  HashSet.prototype.remove = function remove(k) {
+	    return this.set.remove(k);
+	  };
+
+	  HashSet.prototype.intersect = function intersect(thatSet) {
+	    var thisKeys = this.keys();
+	    var context = this;
+	    thisKeys.forEach(function func(k) {
+	      if (!thatSet.has(k)) {
+	        context.remove(k);
+	      }
+	    });
+	  };
+
+	  return HashSet;
+	}();
+
+	module.exports = HashSet;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var BSTNode = __webpack_require__(8);
-	var BSTPrototype = __webpack_require__(9);
+	var BSTNode = __webpack_require__(9);
+	var BSTPrototype = __webpack_require__(10);
 
 	function defaulComp(a, b) {
 	  if (a < b) {
@@ -747,7 +804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BST;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -767,7 +824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BSTNode;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -933,7 +990,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1018,7 +1075,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Graph;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
