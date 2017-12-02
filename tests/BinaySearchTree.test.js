@@ -4,8 +4,13 @@ var expect= require("chai").expect;
 
 describe("Binary Search Tree", function(){
   let bst, expected, actual;
+  beforeEach(function(){
+    bst = new Structs.BST();
+  })
+  afterEach(function(){
+    bst, expected, actual = null;
+  })
   it("insert should insert into empty tree", function(){
-    bst = new Structs.BST()
     expected = ["a"]
     bst.insert("a", 1);
     actual = bst.inorder()
@@ -15,7 +20,7 @@ describe("Binary Search Tree", function(){
     expect(actual.length).to.be.equal(expected.length)
   })
   it("insert should insert into non empty tree right", function(){
-    bst = new Structs.BST()
+    
     expected = ["a", "b"]
     bst.insert("a", 1);
     bst.insert("b", 1);
@@ -26,7 +31,7 @@ describe("Binary Search Tree", function(){
     expect(actual.length).to.be.equal(expected.length)
   })
   it("insert should insert into non empty tree left", function(){
-    bst = new Structs.BST()
+   
     expected = ["a", "b"]
     bst.insert("b", 1);
     bst.insert("a", 1);
@@ -38,7 +43,7 @@ describe("Binary Search Tree", function(){
   })
   
   it("insert should not insert if key exists but update value", function(){
-    bst = new Structs.BST()
+    
     expected = ["b"]
     bst.insert("b", 1);
     bst.insert("b", 2);
@@ -52,8 +57,16 @@ describe("Binary Search Tree", function(){
   
 });
 
+ 
+  it("insert should update value if key exists", function(){
+   
+    bst.insert("b", 1);
+    bst.insert("b", 2);
+    expect(bst.find("b")).to.be.equal(2)
+});
+
 it("remove 0 children case root", function(){
-    bst = new Structs.BST()
+    
     bst.insert("b", 1);
     bst.remove("b")
     expected = [{key: undefined, parent: undefined}]
@@ -67,7 +80,7 @@ it("remove 0 children case root", function(){
 
 
 it("remove 0 children not root case", function(){
-    bst = new Structs.BST()
+  
     bst.insert("c", 1);
     bst.insert("a", 1)
     bst.insert("d", 1);
@@ -83,7 +96,7 @@ it("remove 0 children not root case", function(){
 
 
 it("remove 1 children root case", function(){
-    bst = new Structs.BST()
+    
     bst.insert("m", 1);
     bst.insert("o", 1)
     bst.insert("n", 1);
@@ -100,7 +113,7 @@ it("remove 1 children root case", function(){
 
 
 it("remove 1 children not root case rr", function(){
-    bst = new Structs.BST()
+   
     bst.insert("m", 1);
     bst.insert("a", 1)
     bst.insert("q", 1);
@@ -120,7 +133,7 @@ it("remove 1 children not root case rr", function(){
 });
 
 it("remove 1 children not root case rl", function(){
-    bst = new Structs.BST()
+    
     bst.insert("m", 1);
     bst.insert("a", 1)
     bst.insert("r", 1);
@@ -140,7 +153,7 @@ it("remove 1 children not root case rl", function(){
 });
 
 it("remove 2 children root case", function(){
-    bst = new Structs.BST()
+   
     bst.insert("m", 1);
     bst.insert("a", 1)
     bst.insert("p", 1);
@@ -158,7 +171,7 @@ it("remove 2 children root case", function(){
 });
 
 it("remove 2 children not root case", function(){
-    bst = new Structs.BST()
+  
     bst.insert("e", 1);
     bst.insert("a", 1)
     bst.insert("j", 1);
@@ -175,6 +188,35 @@ it("remove 2 children not root case", function(){
       expect(expected[i].key).to.be.equal(actual[i].key);
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
+});
+
+it("contains is true when tree contains key", function(){
+   
+    bst.insert("e", 1);
+    bst.insert("a", 1)
+    expect(bst.contains("a")).to.be.equal(true)
+    expect(bst.contains("e")).to.be.equal(true)
+});
+
+it("contains is false when tree does not contain key", function(){
+    
+    bst.insert("e", 1);
+    bst.insert("a", 1)
+    expect(bst.contains("u")).to.be.equal(false)
+    expect(bst.contains("f")).to.be.equal(false)
+});
+
+it("find return corret value for key", function(){
+   
+    bst.insert("e", 1);
+    bst.insert("a", "Boxer")
+    expect(bst.find("e")).to.be.equal(1)
+    expect(bst.find("a")).to.be.equal("Boxer")
+});
+
+it("find returns undefined for key for no existing key", function(){
+   
+    expect(bst.find("e")).to.be.equal(undefined)
 });
 
 });

@@ -5,9 +5,15 @@ var list;
 
 describe("List", function(){
   let list, expected, cur;
+  beforeEach(function(){
+    list = new Structs.List();
+  })
+  afterEach(function(){
+    list, expected, cur = null;
+  })
   
   it("constructor initializes private props correctly", function(){
-    list= new Structs.List()
+  
     
     expect(list.head).to.be.equal(null)
     expect(list.tail).to.be.equal(null)
@@ -15,7 +21,7 @@ describe("List", function(){
   })
   
   it("addToFront should add to the front of empty list", function(){
-    list= new Structs.List()
+   
     list.addToFront("a")
     expect(list.head.data).to.be.equal("a")
     expect(list.head.prev).to.be.equal(null)
@@ -25,7 +31,7 @@ describe("List", function(){
   })
   
   it("addToFront should add to the front of non-empty list", function(){
-    list= new Structs.List()
+    
     list.addToFront("a")
     .addToFront("b")
     expected= [null, "b", "a", null]
@@ -44,7 +50,7 @@ describe("List", function(){
   })
   
   it("addToBack should add to the back of non-empty list", function(){
-    list= new Structs.List()
+   
     list.addToBack("a")
     .addToBack("b")
     
@@ -64,7 +70,7 @@ describe("List", function(){
   })
   
   it("addToBack should add to the back of empty list", function(){
-    list= new Structs.List()
+   
     list.addToFront("a")
     expect(list.head.data).to.be.equal("a")
     expect(list.head.prev).to.be.equal(null)
@@ -74,7 +80,7 @@ describe("List", function(){
   })
   
   it("removeFront should remove the front of non-empty list", function(){
-    list= new Structs.List()
+    
     list.addToFront("a")
     .addToFront("b").addToFront("c")
     
@@ -95,12 +101,12 @@ describe("List", function(){
   })
   
   it("removeFront should fail silenty for empty list", function(){
-    list= new Structs.List()
+    
     list.removeFront()
   })
   
    it("removeFront should reset properly when removing front results in empty list", function(){
-    list= new Structs.List()
+    
     list.addToFront("a");
     list.removeFront()
     expect(list.length).to.be.equal(0)
@@ -110,7 +116,7 @@ describe("List", function(){
 
  
   it("removeBack should remove the back of non-empty list", function(){
-    list= new Structs.List()
+    
     list.addToFront("a")
     .addToFront("b").addToFront("c")
     
@@ -131,12 +137,12 @@ describe("List", function(){
   })
   
   it("removeBack should fail silenty for empty list", function(){
-    list= new Structs.List()
+    
     list.removeBack()
   })
   
    it("removeBack should reset properly when removing back results in empty list", function(){
-    list= new Structs.List()
+   
     list.addToFront("a");
     list.removeBack()
     expect(list.length).to.be.equal(0)
@@ -145,12 +151,12 @@ describe("List", function(){
 })
 
 it("insert should throw error when type is not number", function(){
-    list= new Structs.List()
+    
     expect(( () => list.insert("12", "Basketball"))).to.throw(TypeError);
 })
 
 it("insert should insert into middle of list", function(){
-    list= new Structs.List()
+    
     list.addToBack("a").addToBack("c").addToBack("d")
     expected= [null, "a", "b", "c", "d", null]
     list.insert(1, "b");
@@ -170,7 +176,7 @@ it("insert should insert into middle of list", function(){
 })
 
 it("remove should remove from middle of list", function(){
-    list= new Structs.List()
+   
     list.addToBack("a").addToBack("b").addToBack("d")
     expected= [null, "a", "d", null]
     list.remove(1);
@@ -191,7 +197,7 @@ it("remove should remove from middle of list", function(){
 
 
 it("insert should throw error when index is out of bounds", function(){
-    list= new Structs.List()
+    
     list.addToBack("a").addToBack("b").addToBack("d")
     expected= [4, -1]
     expect(( () => list.insert(4))).to.throw(RangeError);
@@ -201,7 +207,7 @@ it("insert should throw error when index is out of bounds", function(){
 
 
 it("remove should throw error when index is out of bounds", function(){
-    list= new Structs.List()
+   
     list.addToBack("a").addToBack("b").addToBack("d")
     expected= [4, -1]
     expect(( () => list.remove(4))).to.throw(RangeError);
@@ -211,7 +217,7 @@ it("remove should throw error when index is out of bounds", function(){
 })
 
 it("indexOf functions correctly", function(){
-    list= new Structs.List()
+   
     list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
     expected= [0, 1, 2, 3];
     
@@ -224,7 +230,7 @@ it("indexOf functions correctly", function(){
 })
 
 it("contains functions correctly", function(){
-    list= new Structs.List()
+    
     list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
     
     for(let i=0; i<list.length; i++){
@@ -236,7 +242,7 @@ it("contains functions correctly", function(){
 
 
 it("toArray makes array from list", function(){
-    list= new Structs.List()
+   
     list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
     let listArray = list.toArray();
     expected= [0, 1, 2, 3];
@@ -245,7 +251,7 @@ it("toArray makes array from list", function(){
 })
 
 it("forEach function like array.forEach", function(){
-    list= new Structs.List()
+    
     list.addToBack([0]).addToBack([1]).addToBack([2]).addToBack([3])
     let actual = list.forEach(element => element[0]= element[0]+1).toArray()
     
@@ -254,7 +260,7 @@ it("forEach function like array.forEach", function(){
 })
 
 it("elementAtIndex should return proper data at index", function(){
-    list= new Structs.List()
+    
     list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
     expected= [0, 1, 2, 3]
     

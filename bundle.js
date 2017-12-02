@@ -733,7 +733,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  BST.prototype.contains = function contains(key) {
-	    return this.find(key).key ? true : false;
+	    var node = BSTPrototype.search.call(this, this.root, key);
+	    return node ? true : false;
 	  };
 
 	  BST.prototype.inorder = function inorder() {

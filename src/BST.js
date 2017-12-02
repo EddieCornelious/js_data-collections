@@ -32,7 +32,8 @@ class BST {
   }
 
   contains(key) {
-    return this.find(key).key ? true : false;
+    const node = BSTPrototype.search.call(this, this.root, key);
+    return node ? true : false;
   }
 
   inorder() {
