@@ -31,6 +31,9 @@ class HashSet {
       } 
     });
   }
+  cardinality() {
+    return this.set.size();
+  }
 }
 
 module.exports = HashSet;

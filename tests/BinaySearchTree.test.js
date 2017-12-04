@@ -57,14 +57,6 @@ describe("Binary Search Tree", function(){
   
 });
 
- 
-  it("insert should update value if key exists", function(){
-   
-    bst.insert("b", 1);
-    bst.insert("b", 2);
-    expect(bst.find("b")).to.be.equal(2)
-});
-
 it("remove 0 children case root", function(){
     
     bst.insert("b", 1);
@@ -132,6 +124,27 @@ it("remove 1 children not root case rr", function(){
     }
 });
 
+
+it("remove 1 children not root case ll", function(){
+   
+    bst.insert("m", 1);
+    bst.insert("e", 1)
+    bst.insert("t", 1);
+    bst.insert("c", 1);
+    bst.insert("a", 1);
+    bst.insert("d", 1);
+    bst.remove("e")
+    expected = [{key: "a", parent: "c"}, {key: "c", parent: "m"},
+    {key: "d", parent: "c"},
+    {key: "m", parent: undefined},
+    {key: "t", parent: "m"}]
+    actual = bst.inorder();
+    for(let i=0; i<actual.length; i++){
+      expect(expected[i].key).to.be.equal(actual[i].key);
+      expect(expected[i].parent).to.be.equal(actual[i].parent.key);
+    }
+});
+
 it("remove 1 children not root case rl", function(){
     
     bst.insert("m", 1);
@@ -145,6 +158,25 @@ it("remove 1 children not root case rl", function(){
     {key: "n", parent: "p"},
     {key: "p", parent: "m"},
     {key: "q", parent: "p"}]
+    actual = bst.inorder();
+    for(let i=0; i<actual.length; i++){
+      expect(expected[i].key).to.be.equal(actual[i].key);
+      expect(expected[i].parent).to.be.equal(actual[i].parent.key);
+    }
+});
+
+it("remove 1 children not root case lr", function(){
+    bst.insert("m", 1);
+    bst.insert("c", 1)
+    bst.insert("t", 1);
+    bst.insert("g", 1);
+    bst.insert("d", 1);
+    bst.insert("h", 1);
+    bst.remove("c")
+    expected = [{key: "d", parent: "g"}, {key: "g", parent: "m"},
+    {key: "h", parent: "g"},
+    {key: "m", parent: undefined},
+    {key: "t", parent: "m"}]
     actual = bst.inorder();
     for(let i=0; i<actual.length; i++){
       expect(expected[i].key).to.be.equal(actual[i].key);
@@ -183,6 +215,28 @@ it("remove 2 children not root case", function(){
     {key: "h", parent: "k"},
     {key: "k", parent: "e"}, 
     {key: "l", parent: "k"}]
+    actual = bst.inorder();
+    for(let i=0; i<actual.length; i++){
+      expect(expected[i].key).to.be.equal(actual[i].key);
+      expect(expected[i].parent).to.be.equal(actual[i].parent.key);
+    }
+});
+
+it("remove 2 children not root case 2", function(){
+  
+    bst.insert(50, 1);
+    bst.insert(49, 1)
+    bst.insert(75, 1);
+    bst.insert(74, 1)
+    bst.insert(89, 1);
+    bst.insert(84, 1);
+    bst.insert(85, 1);
+    bst.remove(75)
+    expected = [{key: 49, parent: 50}, {key: 50, parent: undefined},
+    {key: 74, parent: 84},
+    {key: 84, parent: 50}, 
+    {key: 85, parent: 89}, 
+    {key: 89, parent: 84}]
     actual = bst.inorder();
     for(let i=0; i<actual.length; i++){
       expect(expected[i].key).to.be.equal(actual[i].key);

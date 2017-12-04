@@ -741,6 +741,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  };
 
+	  HashSet.prototype.cardinality = function cardinality() {
+	    return this.set.size();
+	  };
+
 	  return HashSet;
 	}();
 
