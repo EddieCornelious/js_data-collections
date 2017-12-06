@@ -1,12 +1,9 @@
-/** @private getNode
- *  @param index {Number} the index of the list to retrieve
- *  @returns a reference to node/data at pos @param index
- */
+
 function getNode(index) {
-  if (index < 0) {
+  let head = this.head;
+  if (index < 0 || !head) {
     throw new RangeError('out of bounds');
   }
-  let head = this.head;
   let i = 0;
   while (i < index) {
     head = head.next;
@@ -18,23 +15,13 @@ function getNode(index) {
   return head;
 }
 
-// TODO: add the below functions to prototype of base classes
-/** @private isNumber
- *  @param obj {Object} object to test if number or not
- *  @returns 1 if object is number, else throws TypeError
- */
 function isNumber(obj) {
   if (typeof obj !== 'number') {
     throw new TypeError('Invalid index must be of type number');
   }
   return 1;
 }
-/**
- *  @private defaultEqual
- *  @param a first object for comparison
- *  @param b object to compare against a
- *  @returns -1 if a < b  0 if a equals b  1 if a > b
- */
+
 function defaultEqual(a, b) {
   if (a < b) {
     return -1;
@@ -44,9 +31,10 @@ function defaultEqual(a, b) {
   return 1;
 }
 /**
- *  @class Node container for list data
- *
- */
+ * Nodes for Linked List
+ * @class
+ * @private
+ **/
 class Node {
   constructor(data) {
     this.data = data;
@@ -54,14 +42,27 @@ class Node {
     this.prev = null;
   }
 }
-
+/**Linked List Representation
+ * @class
+ * @public
+ * @example 
+ * const list = new Structs.List();
+ **/
 class List {
   constructor() {
     this.head = null;
     this.tail = null;
     this.length = 0;
   }
-
+  /** Adds data to far left of list
+   * @public
+   * @param {Object} data the info to insert into front of list
+   * @returns {@this List}
+   * @example
+   * list.addToFront("a")
+   * .addToFront("b")
+   * //result is <"b", "a">
+   **/
   addToFront(data) {
     const { head, length } = this;
     const newNode = new Node(data);
@@ -77,12 +78,28 @@ class List {
     head.prev = newNode;
     return this;
   }
-
+  /** returns element at the given index
+   * @public
+   * @param {Object} index- data at selected index
+   * @returns {Object} data field of list node or throws error
+   * if index out of bounds
+   * @example
+   * list.addTOFront("a");
+   * .addTOFront("b");
+   * .addTOFront("c");
+   * list.elementAtIndex(1);
+   * //returns b
+   **/
   elementAtIndex(index) {
     isNumber(index);
     const wanted = getNode.apply(this, [index]);
     return wanted ? wanted.data : undefined;
   }
+  /** Adds data to far right of list
+   * @public
+   * @param {Object} data to insert into front of list
+   * @returns {@this List}
+   **/
   addToBack(data) {
     const { tail, length } = this;
     const newNode = new Node(data);
@@ -98,7 +115,10 @@ class List {
     tail.next = newNode;
     return this;
   }
-
+  /** removes data from far left of list
+   * @public
+   * @returns {Object} removed item
+   **/
   removeFront() {
     const { head, length } = this;
     let removed;
@@ -116,7 +136,10 @@ class List {
     }
     return removed;
   }
-
+  /** removes data from far right of list
+   * @public
+   * @returns {Object} removed item
+   **/
   removeBack() {
     const { tail, length } = this;
     if (!this.tail) {
@@ -135,7 +158,7 @@ class List {
     this.tail = prev;
     return removed;
   }
-
+  
   insert(index, data) {
     isNumber(index);
     if (index === 0) {
