@@ -263,6 +263,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.tail = prev;
 	    return removed;
 	  };
+	  /**Inserts given data into specefic position in List
+	   * @param {Number} index to insert data
+	   * @param {Object} data to insert into List.
+	   * @public
+	   * @returns {@this List} 
+	   **/
+
 
 	  List.prototype.insert = function insert(index, data) {
 	    isNumber(index);
@@ -281,6 +288,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.length += 1;
 	    return this;
 	  };
+
+	  /**removes data from specefic position in List
+	   * @param {Number} index to insert data
+	   * @public
+	   * @returns {@this List} 
+	   **/
+
 
 	  List.prototype.remove = function remove(index) {
 	    isNumber(index);
@@ -305,6 +319,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.length = length - 1;
 	    return data;
 	  };
+	  /** figures out the index of a certain piece of data
+	   * @param {Object} data to insert into list
+	   * @param {Function} eqlFunc to use as comparator against List data
+	   * @public
+	   * @returns {Number} index of the item or -1 if not in List
+	   **/
+
 
 	  List.prototype.indexOf = function indexOf(data, eqlFunc) {
 	    var cmp = eqlFunc || defaultEqual;
@@ -319,24 +340,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return -1;
 	  };
+	  /** figures out the List contains a certain piece of data
+	   * @param {Object} data to search in List
+	   * @param {Function} eqlFunc to use as comparator against List data
+	   * @public
+	   * @returns {Number} index of the item in List or -1 
+	   **/
+
 
 	  List.prototype.contains = function contains(data, eqlFunc) {
 	    return this.indexOf(data, eqlFunc) !== -1;
 	  };
+	  /** empties Entire List
+	   * @public
+	   * @returns {Void}
+	   **/
+
 
 	  List.prototype.clear = function clear() {
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
 	  };
+	  /** the size of this List
+	   * @public
+	   * @returns {Number} number of items in this List
+	   **/
+
 
 	  List.prototype.size = function size() {
 	    return this.length;
 	  };
+	  /** finds out if this List is empty
+	   * @public
+	   * @returns {Number} true if this is empty and false otherwise
+	   **/
+
 
 	  List.prototype.isEmpty = function isEmpty() {
 	    return !this.head && !this.tail;
 	  };
+	  /** calls a function on each piece of data in List
+	   * @param {Function} callback function to be run on data
+	   * @public
+	   * @returns {@this List}
+	   **/
+
 
 	  List.prototype.forEach = function forEach(callback) {
 	    var func = callback;
@@ -348,6 +397,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return this;
 	  };
+	  /** Returns an array representaion of this
+	   * @public
+	   * @returns {Array} List to Native Array
+	   **/
+
 
 	  List.prototype.toArray = function toArray() {
 	    var temp = [];

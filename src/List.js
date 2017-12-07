@@ -158,7 +158,12 @@ class List {
     this.tail = prev;
     return removed;
   }
-  
+  /**Inserts given data into specefic position in List
+   * @param {Number} index to insert data
+   * @param {Object} data to insert into List.
+   * @public
+   * @returns {@this List} 
+   **/
   insert(index, data) {
     isNumber(index);
     if (index === 0) {
@@ -177,7 +182,11 @@ class List {
     return this;
   }
 
-
+  /**removes data from specefic position in List
+   * @param {Number} index to insert data
+   * @public
+   * @returns {@this List} 
+   **/
   remove(index) {
     isNumber(index);
     const { head, length } = this;
@@ -199,7 +208,12 @@ class List {
     this.length = length - 1;
     return data;
   }
-
+  /** figures out the index of a certain piece of data
+   * @param {Object} data to insert into list
+   * @param {Function} eqlFunc to use as comparator against List data
+   * @public
+   * @returns {Number} index of the item or -1 if not in List
+   **/
   indexOf(data, eqlFunc) {
     const cmp = eqlFunc || defaultEqual;
     let index = 0;
@@ -213,25 +227,43 @@ class List {
     }
     return -1;
   }
-
+  /** figures out the List contains a certain piece of data
+   * @param {Object} data to search in List
+   * @param {Function} eqlFunc to use as comparator against List data
+   * @public
+   * @returns {Number} index of the item in List or -1 
+   **/
   contains(data, eqlFunc) {
     return this.indexOf(data, eqlFunc) !== -1;
   }
-
+  /** empties Entire List
+   * @public
+   * @returns {Void}
+   **/
   clear() {
     this.head = null;
     this.tail = null;
     this.length = 0;
   }
-
+  /** the size of this List
+   * @public
+   * @returns {Number} number of items in this List
+   **/
   size() {
     return this.length;
   }
-
+  /** finds out if this List is empty
+   * @public
+   * @returns {Number} true if this is empty and false otherwise
+   **/
   isEmpty() {
     return !this.head && !this.tail;
   }
-
+  /** calls a function on each piece of data in List
+   * @param {Function} callback function to be run on data
+   * @public
+   * @returns {@this List}
+   **/
   forEach(callback) {
     const func = callback;
     let head = this.head;
@@ -242,7 +274,10 @@ class List {
     }
     return this;
   }
-
+  /** Returns an array representaion of this
+   * @public
+   * @returns {Array} List to Native Array
+   **/
   toArray() {
     const temp = [];
     this.forEach(element => temp.push(element));
