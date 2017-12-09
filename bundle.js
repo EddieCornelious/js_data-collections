@@ -631,11 +631,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	// from immutable.js implementation of java hashcode
+	//https://github.com/facebook/immutable-js/blob/master/src/Hash.js
+	//better distribution than fnv TODO: change fnv name
 	function fnv(str) {
-	  var hash = 0x811c9dc5;
+	  var hash = 0;
 	  for (var i = 0; i < str.length; i += 1) {
-	    hash ^= str.charCodeAt(i);
-	    hash *= 0x01000193;
+	    hash = 31 * hash + str.charCodeAt(i) | 0;
 	  }
 	  return hash;
 	}

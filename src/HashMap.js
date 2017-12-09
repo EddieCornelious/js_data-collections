@@ -1,9 +1,10 @@
-
+// from immutable.js implementation of java hashcode
+//https://github.com/facebook/immutable-js/blob/master/src/Hash.js
+//better distribution than fnv TODO: change fnv name
 function fnv(str) {
-  let hash = 0x811c9dc5;
+  let hash = 0;
   for (let i = 0; i < str.length; i += 1) {
-    hash ^= str.charCodeAt(i);
-    hash *= 0x01000193;
+    hash = (31 * hash + str.charCodeAt(i)) | 0;
   }
   return hash;
 }
