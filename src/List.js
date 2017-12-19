@@ -56,8 +56,8 @@ class List {
   }
   /** Adds data to far left of list
    * @public
-   * @param {Object} data the info to insert into front of list
-   * @returns {@this List}
+   * @param {*} data - the  data to insert into list
+   * @returns {this} 'this' List
    * @example
    * list.addToFront("a")
    * .addToFront("b")

@@ -22,20 +22,30 @@ function createTable(size) {
   }
   return newTable;
 }
+function toString(obj) {
+  const type = typeof obj;
+  if (type === "string" || type === "number") {
+    return obj.toString();
+  } else if (type === "boolean" || type === "function") {
+     return obj.toString();
+  } else {
+    return JSON.stringify(obj);
+  }
+}
 function insert(k, v, table) {
-  let hash = fnv(JSON.stringify(k) + typeof k);
+  let hash = fnv(toString(k) + typeof k);
   let location = mod(hash, table.length);
   let bucket = table[location];
   return bucket.push(k, v);
 }
 function search(k) {
   const { table } = this;
-  let toStr = JSON.stringify(k);
+  let toStr = toString(k);
   let hash = fnv(toStr + typeof k);
   let location = mod(hash, table.length);
   let bucket = table[location];
   for (let i = 0; i < bucket.length; i += 2) {
-    if (Object.is(k, bucket[i])) {
+    if (k === bucket[i]) {
       return { bucket, i };
     }
   }
@@ -85,12 +95,13 @@ class HashMap {
     const oldTable = this.table;
     const newTable = createTable(oldTable.length * 2);
     for (let i = 0; i < oldTable.length; i += 1) {
-      while (oldTable[i].length > 0) {
-        let v = oldTable[i].pop();
-        let k = oldTable[i].pop();
+      for (let j = 0; j<oldTable[i].length; j += 2) {
+        let k = oldTable[i][j];
+        let v = oldTable[i][j + 1];
         insert(k, v, newTable);
       }
     }
+    this.table.length = 0;
     this.table = newTable;
   }
   update(k, newVal) {

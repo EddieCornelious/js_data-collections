@@ -1,10 +1,16 @@
 const List = require('./List.js');
-
+/** LIFO stack 
+ * @class 
+ * @public
+ **/
 class Stack {
   constructor() {
     this.rep = new List();
   }
-
+  /**
+   * @param {object} data - data to push onto stack
+   * @returns {object} this - the current list
+   **/
   push(data) {
     this.rep.addToFront(data);
     return this;

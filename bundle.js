@@ -143,8 +143,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  /** Adds data to far left of list
 	   * @public
-	   * @param {Object} data the info to insert into front of list
-	   * @returns {@this List}
+	   * @param {*} data - the  data to insert into list
+	   * @returns {this} 'this' List
 	   * @example
 	   * list.addToFront("a")
 	   * .addToFront("b")
@@ -425,6 +425,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var List = __webpack_require__(1);
+	/** LIFO stack 
+	 * @class 
+	 * @public
+	 **/
 
 	var Stack = function () {
 	  function Stack() {
@@ -432,6 +436,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.rep = new List();
 	  }
+	  /**
+	   * @param {object} data - data to push onto stack
+	   * @returns {object} this - the current list
+	   **/
+
 
 	  Stack.prototype.push = function push(data) {
 	    this.rep.addToFront(data);
@@ -655,8 +664,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return newTable;
 	}
+	function toString(obj) {
+	  var type = typeof obj === "undefined" ? "undefined" : _typeof(obj);
+	  if (type === "string" || type === "number") {
+	    return obj.toString();
+	  } else if (type === "boolean" || type === "function") {
+	    return obj.toString();
+	  } else {
+	    return JSON.stringify(obj);
+	  }
+	}
 	function insert(k, v, table) {
-	  var hash = fnv(JSON.stringify(k) + (typeof k === "undefined" ? "undefined" : _typeof(k)));
+	  var hash = fnv(toString(k) + (typeof k === "undefined" ? "undefined" : _typeof(k)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
 	  return bucket.push(k, v);
@@ -664,12 +683,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	function search(k) {
 	  var table = this.table;
 
-	  var toStr = JSON.stringify(k);
+	  var toStr = toString(k);
 	  var hash = fnv(toStr + (typeof k === "undefined" ? "undefined" : _typeof(k)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
 	  for (var i = 0; i < bucket.length; i += 2) {
-	    if (Object.is(k, bucket[i])) {
+	    if (k === bucket[i]) {
 	      return { bucket: bucket, i: i };
 	    }
 	  }
@@ -735,12 +754,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var oldTable = this.table;
 	    var newTable = createTable(oldTable.length * 2);
 	    for (var i = 0; i < oldTable.length; i += 1) {
-	      while (oldTable[i].length > 0) {
-	        var v = oldTable[i].pop();
-	        var k = oldTable[i].pop();
+	      for (var j = 0; j < oldTable[i].length; j += 2) {
+	        var k = oldTable[i][j];
+	        var v = oldTable[i][j + 1];
 	        insert(k, v, newTable);
 	      }
 	    }
+	    this.table.length = 0;
 	    this.table = newTable;
 	  };
 
