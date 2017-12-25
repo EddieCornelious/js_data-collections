@@ -112,11 +112,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return 1;
 	}
-	/**
-	 * Nodes for Linked List
-	 * @class
-	 * @private
-	 **/
 
 	var Node = function Node(data) {
 	  _classCallCheck(this, Node);
@@ -125,13 +120,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.next = null;
 	  this.prev = null;
 	};
-	/**Linked List Representation
-	 * @class
-	 * @public
-	 * @example 
-	 * const list = new Structs.List();
-	 **/
-
 
 	var List = function () {
 	  function List() {
@@ -141,16 +129,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.tail = null;
 	    this.length = 0;
 	  }
-	  /** Adds data to far left of list
-	   * @public
-	   * @param {*} data - the  data to insert into list
-	   * @returns {this} 'this' List
-	   * @example
-	   * list.addToFront("a")
-	   * .addToFront("b")
-	   * //result is <"b", "a">
-	   **/
-
 
 	  List.prototype.addToFront = function addToFront(data) {
 	    var head = this.head,
@@ -158,7 +136,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var newNode = new Node(data);
 	    this.length = length + 1;
-
 	    if (!head) {
 	      this.head = newNode;
 	      this.tail = this.head;
@@ -169,31 +146,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    head.prev = newNode;
 	    return this;
 	  };
-	  /** returns element at the given index
-	   * @public
-	   * @param {Object} index- data at selected index
-	   * @returns {Object} data field of list node or throws error
-	   * if index out of bounds
-	   * @example
-	   * list.addTOFront("a");
-	   * .addTOFront("b");
-	   * .addTOFront("c");
-	   * list.elementAtIndex(1);
-	   * //returns b
-	   **/
-
 
 	  List.prototype.elementAtIndex = function elementAtIndex(index) {
 	    isNumber(index);
 	    var wanted = getNode.apply(this, [index]);
 	    return wanted ? wanted.data : undefined;
 	  };
-	  /** Adds data to far right of list
-	   * @public
-	   * @param {Object} data to insert into front of list
-	   * @returns {@this List}
-	   **/
-
 
 	  List.prototype.addToBack = function addToBack(data) {
 	    var tail = this.tail,
@@ -212,11 +170,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    tail.next = newNode;
 	    return this;
 	  };
-	  /** removes data from far left of list
-	   * @public
-	   * @returns {Object} removed item
-	   **/
-
 
 	  List.prototype.removeFront = function removeFront() {
 	    var head = this.head,
@@ -237,11 +190,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return removed;
 	  };
-	  /** removes data from far right of list
-	   * @public
-	   * @returns {Object} removed item
-	   **/
-
 
 	  List.prototype.removeBack = function removeBack() {
 	    var tail = this.tail,
@@ -263,13 +211,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.tail = prev;
 	    return removed;
 	  };
-	  /**Inserts given data into specefic position in List
-	   * @param {Number} index to insert data
-	   * @param {Object} data to insert into List.
-	   * @public
-	   * @returns {@this List} 
-	   **/
-
 
 	  List.prototype.insert = function insert(index, data) {
 	    isNumber(index);
@@ -288,13 +229,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.length += 1;
 	    return this;
 	  };
-
-	  /**removes data from specefic position in List
-	   * @param {Number} index to insert data
-	   * @public
-	   * @returns {@this List} 
-	   **/
-
 
 	  List.prototype.remove = function remove(index) {
 	    isNumber(index);
@@ -319,13 +253,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.length = length - 1;
 	    return data;
 	  };
-	  /** figures out the index of a certain piece of data
-	   * @param {Object} data to insert into list
-	   * @param {Function} eqlFunc to use as comparator against List data
-	   * @public
-	   * @returns {Number} index of the item or -1 if not in List
-	   **/
-
 
 	  List.prototype.indexOf = function indexOf(data, eqlFunc) {
 	    var cmp = eqlFunc || defaultEqual;
@@ -340,52 +267,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return -1;
 	  };
-	  /** figures out the List contains a certain piece of data
-	   * @param {Object} data to search in List
-	   * @param {Function} eqlFunc to use as comparator against List data
-	   * @public
-	   * @returns {Number} index of the item in List or -1 
-	   **/
-
 
 	  List.prototype.contains = function contains(data, eqlFunc) {
 	    return this.indexOf(data, eqlFunc) !== -1;
 	  };
-	  /** empties Entire List
-	   * @public
-	   * @returns {Void}
-	   **/
-
 
 	  List.prototype.clear = function clear() {
 	    this.head = null;
 	    this.tail = null;
 	    this.length = 0;
 	  };
-	  /** the size of this List
-	   * @public
-	   * @returns {Number} number of items in this List
-	   **/
-
 
 	  List.prototype.size = function size() {
 	    return this.length;
 	  };
-	  /** finds out if this List is empty
-	   * @public
-	   * @returns {Number} true if this is empty and false otherwise
-	   **/
-
 
 	  List.prototype.isEmpty = function isEmpty() {
 	    return !this.head && !this.tail;
 	  };
-	  /** calls a function on each piece of data in List
-	   * @param {Function} callback function to be run on data
-	   * @public
-	   * @returns {@this List}
-	   **/
-
 
 	  List.prototype.forEach = function forEach(callback) {
 	    var func = callback;
@@ -397,11 +296,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return this;
 	  };
-	  /** Returns an array representaion of this
-	   * @public
-	   * @returns {Array} List to Native Array
-	   **/
-
 
 	  List.prototype.toArray = function toArray() {
 	    var temp = [];
@@ -425,10 +319,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var List = __webpack_require__(1);
-	/** LIFO stack 
-	 * @class 
-	 * @public
-	 **/
 
 	var Stack = function () {
 	  function Stack() {
@@ -436,11 +326,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.rep = new List();
 	  }
-	  /**
-	   * @param {object} data - data to push onto stack
-	   * @returns {object} this - the current list
-	   **/
-
 
 	  Stack.prototype.push = function push(data) {
 	    this.rep.addToFront(data);
@@ -518,38 +403,52 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function maxHeapify(A, index, comp) {
+	function swap(array, index1, index2) {
+	  var oldIndex1 = array[index1];
+	  array[index1] = array[index2];
+	  array[index2] = oldIndex1;
+	}
+	/**
+	 * @private
+	 * @param {Array} array - Array to make a max/min heap
+	 * @param {index} index - Index to start sifting down from
+	 * @param {function(Object, Object)} comp - comparator function to compare indicies
+	 * @returns {undefined} 
+	 **/
+	function heapify(array, index, comp) {
 	  var left = 2 * index;
 	  var right = 2 * index + 1;
+	  var numIndicies = array.length - 1;
 	  var largest = void 0;
 
-	  if (left <= A.length - 1 && comp(A[left], A[index]) === 1) {
+	  if (left <= numIndicies && comp(array[left], array[index]) === 1) {
 	    largest = left;
 	  } else {
 	    largest = index;
 	  }
 
-	  if (right <= A.length - 1 && comp(A[right], A[largest]) === 1) {
+	  if (right <= numIndicies && comp(array[right], array[largest]) === 1) {
 	    largest = right;
 	  }
 
-	  if (comp(largest, index) !== 0) {
-	    var oldIndex = A[index];
-	    A[index] = A[largest];
-	    A[largest] = oldIndex;
-	    maxHeapify(A, largest, comp);
+	  if (largest !== index) {
+	    swap(array, index, largest);
+	    heapify(array, largest, comp);
 	  }
 	}
-
-	function siftUp(A, index, comp) {
-	  if (index >= 2) {
+	/**
+	 * @private
+	 * @param {Array} array - Array to make a max/min heap
+	 * @param {index} index - Index to start sifting up from
+	 * @param {function} comp - function to compare indicies
+	 * @returns {undefined}
+	 **/
+	function siftUp(array, index, comp) {
+	  if (index > 1) {
 	    var parent = Math.floor(index / 2);
-	    if (comp(A[parent], A[index]) === -1) {
-	      var oldParent = A[parent];
-	      A[parent] = A[index];
-	      A[index] = oldParent;
-
-	      siftUp(A, parent, comp);
+	    if (comp(array[parent], array[index]) === -1) {
+	      swap(array, parent, index);
+	      siftUp(array, parent, comp);
 	    }
 	  }
 	}
@@ -562,6 +461,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return 1;
 	}
+	/**Binary Heap representation (default comparator gives max heap)
+	 * @class
+	 * @public
+	 * @param {function} comparator - function to compare indicies
+	 **/
 
 	var BHeap = function () {
 	  function BHeap(comparator) {
@@ -570,21 +474,56 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.heap = [null];
 	    this.comp = comparator || defaultEqual;
 	  }
+	  /**Extracts the root of the heap and returns it
+	   * @public
+	   * @returns {*}  The data removed from the heap's root
+	   * @example
+	   * const heap = new Structs.BHeap()
+	   * heap.insert(1); heap.insert(2);
+	   * //2
+	   * ///\
+	   * //1
+	   * heap.extractRoot()
+	   * // extracts 2
+	   **/
+
 
 	  BHeap.prototype.extractRoot = function extractRoot() {
 	    var heap = this.heap;
 	    var max = heap[1];
 	    heap[1] = heap[heap.length - 1];
 	    heap.length -= 1;
-	    maxHeapify(heap, 1, this.comp);
+	    heapify(heap, 1, this.comp);
 	    return max;
 	  };
+	  /**Inserts given data into heap
+	   * @public
+	   * @param {*} data - the data to insert into heap
+	   * @returns {this} 'this' heap
+	   **/
+
 
 	  BHeap.prototype.insert = function insert(data) {
 	    var heap = this.heap;
 	    heap[heap.length] = data;
 	    siftUp(heap, heap.length - 1, this.comp);
+	    return this;
 	  };
+	  /**Converts 'this' heap into an Array
+	   * @public
+	   * @returns {Array} 'this' heap to an Array
+	   **/
+
+
+	  BHeap.prototype.toArray = function toArray() {
+	    return this.heap.slice(1);
+	  };
+	  /**
+	   * Returns the number of elements in 'this' heap
+	   * @public
+	   * @returns {number} the size of 'this' heap
+	   **/
+
 
 	  BHeap.prototype.size = function size() {
 	    return this.heap.length - 1;
@@ -634,15 +573,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	// from immutable.js implementation of java hashcode
-	//https://github.com/facebook/immutable-js/blob/master/src/Hash.js
-	//better distribution than fnv TODO: change fnv name
+	// https://github.com/facebook/immutable-js/blob/master/src/Hash.js
+	// better distribution than fnv TODO: change fnv name
 	function fnv(str) {
 	  var hash = 0;
 	  for (var i = 0; i < str.length; i += 1) {
@@ -665,17 +604,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return newTable;
 	}
 	function toString(obj) {
-	  var type = typeof obj === "undefined" ? "undefined" : _typeof(obj);
-	  if (type === "string" || type === "number") {
+	  var type = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
+	  if (type === 'string' || type === 'number') {
 	    return obj.toString();
-	  } else if (type === "boolean" || type === "function") {
+	  } else if (type === 'boolean' || type === 'function') {
 	    return obj.toString();
-	  } else {
-	    return JSON.stringify(obj);
 	  }
+	  return JSON.stringify(obj);
 	}
 	function insert(k, v, table) {
-	  var hash = fnv(toString(k) + (typeof k === "undefined" ? "undefined" : _typeof(k)));
+	  var hash = fnv(toString(k) + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
 	  return bucket.push(k, v);
@@ -684,7 +622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var table = this.table;
 
 	  var toStr = toString(k);
-	  var hash = fnv(toStr + (typeof k === "undefined" ? "undefined" : _typeof(k)));
+	  var hash = fnv(toStr + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
 	  for (var i = 0; i < bucket.length; i += 2) {
@@ -803,7 +741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 

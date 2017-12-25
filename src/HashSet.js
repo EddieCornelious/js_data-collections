@@ -1,4 +1,4 @@
-const HashMap = require("./HashMap.js");
+const HashMap = require('./HashMap.js');
 class HashSet {
   constructor() {
     this.set = new HashMap();
@@ -27,8 +27,8 @@ class HashSet {
     const context = this;
     thisKeys.forEach(function func(k) {
       if (!thatSet.has(k)) {
-        context.remove(k); 
-      } 
+        context.remove(k);
+      }
     });
   }
   cardinality() {

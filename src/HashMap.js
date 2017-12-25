@@ -1,10 +1,10 @@
 // from immutable.js implementation of java hashcode
-//https://github.com/facebook/immutable-js/blob/master/src/Hash.js
-//better distribution than fnv TODO: change fnv name
+// https://github.com/facebook/immutable-js/blob/master/src/Hash.js
+// better distribution than fnv TODO: change fnv name
 function fnv(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i += 1) {
-    hash = (31 * hash + str.charCodeAt(i)) | 0;
+    hash = ((31 * hash) + str.charCodeAt(i)) | 0;
   }
   return hash;
 }
@@ -24,13 +24,12 @@ function createTable(size) {
 }
 function toString(obj) {
   const type = typeof obj;
-  if (type === "string" || type === "number") {
+  if (type === 'string' || type === 'number') {
     return obj.toString();
-  } else if (type === "boolean" || type === "function") {
-     return obj.toString();
-  } else {
-    return JSON.stringify(obj);
+  } else if (type === 'boolean' || type === 'function') {
+    return obj.toString();
   }
+  return JSON.stringify(obj);
 }
 function insert(k, v, table) {
   let hash = fnv(toString(k) + typeof k);
@@ -95,7 +94,7 @@ class HashMap {
     const oldTable = this.table;
     const newTable = createTable(oldTable.length * 2);
     for (let i = 0; i < oldTable.length; i += 1) {
-      for (let j = 0; j<oldTable[i].length; j += 2) {
+      for (let j = 0; j < oldTable[i].length; j += 2) {
         let k = oldTable[i][j];
         let v = oldTable[i][j + 1];
         insert(k, v, newTable);
