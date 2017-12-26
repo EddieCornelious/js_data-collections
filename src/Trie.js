@@ -102,7 +102,6 @@ class Trie {
     }
     return true;
   }
-
   prefixAll(pfx) {
     if (!this.containsPrefix(pfx)) {
       return [];

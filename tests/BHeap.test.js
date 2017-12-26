@@ -101,6 +101,7 @@ describe("Heap", function() {
     }
     expect(heap.size()).to.be.equal(0);
   });
+  
   it("min heap works", function() {
     let minHeap = new Structs.BHeap(function(a, b) {
       if (a < b) {

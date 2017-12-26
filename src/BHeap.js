@@ -5,11 +5,11 @@ function swap(array, index1, index2) {
 }
 /**
  * @private
- * @param {Array} array - Array to make a max/min heap
- * @param {index} index - Index to start sifting down from
- * @param {function(Object, Object)} comp - comparator function to compare indicies
- * @returns {undefined} 
- **/
+ * @param {Array} array - The array to sift down on.
+ * @param {number} index - The index to start the sift down operation.
+ * @param {function} comp - Comparator to use against parent and child elements.
+ * @returns {undefined}
+ */
 function heapify(array, index, comp) {
   const left = (2 * index);
   const right = (2 * index) + 1;
@@ -33,11 +33,11 @@ function heapify(array, index, comp) {
 }
 /**
  * @private
- * @param {Array} array - Array to make a max/min heap
- * @param {index} index - Index to start sifting up from
- * @param {function} comp - function to compare indicies
+ * @param {Array} array - The array to sift up on.
+ * @param {number} index - The index to start the sift up operation.
+ * @param {function} comp - Comparator to use against parent and child elements.
  * @returns {undefined}
- **/
+ */
 function siftUp(array, index, comp) {
   if (index > 1) {
     const parent = Math.floor(index / 2);
@@ -56,28 +56,44 @@ function defaultEqual(a, b) {
   }
   return 1;
 }
-/**Binary Heap representation (default comparator gives max heap)
+/**
+ * Binary heap representation
  * @class
- * @public
- * @param {function} comparator - function to compare indicies
- **/
+ * @param {function(object, object)} [comparator] - function used to 
+ * compare parent cnad child for operations
+ * @example
+ * const heap = new Structs.BHeap();
+ * // this creates a max heap by default. For a min heap, swap return values for
+ * function (a, b){
+     if (a < b) {
+       return -1;
+    } else if (a > b) {
+       return 1;
+    } else {
+       return 0;
+    }
+ }
+ * // to get a min heap swap -1 and 1
+ * // you can also use objects : For instance, if your ojects have the pattern
+ * // user {id : "", age: 22} simply put something like
+ * if (a.age < b.age) {
+        return -1;
+ }
+ * // this will give u the person with the highest age at the top of the heap.
+ */
 class BHeap {
   constructor(comparator) {
     this.heap = [null];
     this.comp = comparator || defaultEqual;
   }
-  /**Extracts the root of the heap and returns it
-   * @public
-   * @returns {*}  The data removed from the heap's root
+  /**
+   * removes the root of the heap and returns the data to caller
    * @example
-   * const heap = new Structs.BHeap()
-   * heap.insert(1); heap.insert(2);
-   * //2
-   * ///\
-   * //1
-   * heap.extractRoot()
-   * // extracts 2
-   **/
+   * heap.insert(1).insert(2).insert(3);
+   * let root = heap.extractRoot();
+   * // root = 3;
+   * @returns {*} extracted data
+   */
   extractRoot() {
     const heap = this.heap;
     let max = heap[1];
@@ -86,29 +102,37 @@ class BHeap {
     heapify(heap, 1, this.comp);
     return max;
   }
-  /**Inserts given data into heap
-   * @public
-   * @param {*} data - the data to insert into heap
-   * @returns {this} 'this' heap
-   **/
+  /**
+   * inserts given data into heap
+   * @example
+   * heap.insert(1).insert(2).insert(3).insert(3);
+   * // this heap will contain both 3s
+   * // heap.extractRoot() // will be 3
+   * @param {*} [data] - optional data to insert into heap. Default is undefined
+   * @returns {BHeap} a reference to the instance that this method was called
+   */
   insert(data) {
     const heap = this.heap;
     heap[heap.length] = data;
     siftUp(heap, heap.length - 1, this.comp);
     return this;
   }
-  /**Converts 'this' heap into an Array
-   * @public
-   * @returns {Array} 'this' heap to an Array
-   **/
-  toArray(){
+  /**
+   * transforms 'this' heap instance into an array
+   * @example
+   * heap.insert(1).insert(2);
+   * heap.toArray() // will be [2, 1]
+   * @returns {Array} 'this' as an array
+   */
+  toArray() {
     return this.heap.slice(1);
   }
   /**
-   * Returns the number of elements in 'this' heap
-   * @public
-   * @returns {number} the size of 'this' heap
-   **/
+   * gives the size of 'this' heap.
+   * @example
+   * heap.size() // would be 0
+   * @returns this heap instance's number of elements
+   */
   size() {
     return this.heap.length - 1;
   }

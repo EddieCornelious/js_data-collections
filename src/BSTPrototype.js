@@ -1,32 +1,47 @@
-function BSTInsert(key = null, value = null, Node) {
+/**
+ * inserts given key and value into bst (maps key to value)
+ * @private
+ * @param {*} [key] - key to insert in bst
+ * @param {*} [value] - value that is mapped to by @param key
+ * @param {BSTNode} Node - Node type to insert into tree
+ * @returns null if the node was already in tree, thus not inserted
+ * or the new node that was just inserted successfully.
+ */
+ function BSTInsert(key = null, value = null, Node) {
   const comp = this.comp;
-  let x = this.root;
-  let z = new Node(key, value);
-  let y = new Node();
-  while (x.key !== undefined) {
-    y = x;
-    if (comp(z.key, x.key) === -1) {
-      x = x.left;
-    } else if (comp(z.key, x.key) === 1) {
-      x = x.right;
+  let root = this.root;
+  let newNode = new Node(key, value);
+  let prevRoot = new Node();
+  while (root.key !== undefined) {
+    prevRoot = root;
+    if (comp(newNode.key, root.key) === -1) {
+      root = root.left;
+    } else if (comp(newNode.key, root.key) === 1) {
+      root = root.right;
     } else {
-      x.value = value;
+      root.value = value;
       return null;
     }
   }
-  z.parent = y;
-  if (y.key === undefined) {
-    this.root = z;
-  } else if (comp(z.key, y.key) === -1) {
-    y.left = z;
+  newNode.parent = prevRoot;
+  if (prevRoot.key === undefined) {
+    this.root = newNode;
+  } else if (comp(newNode.key, prevRoot.key) === -1) {
+    prevRoot.left = newNode;
   } else {
-    y.right = z;
+    prevRoot.right = newNode;
   }
-  z.left = new Node();
-  z.right = new Node();
-  return z;
+  newNode.left = new Node();
+  newNode.right = new Node();
+  return newNode;
 }
-
+/**
+ * searches for the given key in tree
+ * @private
+ * @param {BSTNode} root - the root node to start search
+ * @param {*} key - the key to search for in bst
+ * @returns {null|BSTNode} null if not found. Or the actual node if found
+ */
 function search(root, key) {
   const comp = this.comp;
   if (!root || root.key === undefined) {
@@ -40,6 +55,12 @@ function search(root, key) {
   }
   return search.call(this, root.left, key);
 }
+/**
+ * finds the inorder successor of @param node
+ * @private
+ * @param {BSTNode} node - node to find the successor for
+ * @returns {BSTNode} the inorder successor of @param node
+ */
 function successor(node) {
   let suc = node.right;
   if (suc.left.key === undefined) {
@@ -50,6 +71,12 @@ function successor(node) {
   }
   return suc;
 }
+/**
+ * gets the number of children of the given node
+ * @private
+ * @param {BSTNode} node - node to geet number of children of
+ * @returns {0|1|2} indicating number of non-Nil children
+ */
 function numChildren(node) {
   const left = node.left.key;
   const right = node.right.key;
@@ -62,6 +89,13 @@ function numChildren(node) {
   }
   return 2;
 }
+/**
+ * removes given node from tree which has 0 children
+ * @private
+ * @param {BSTNode} node - node to remove from tree
+ * @param {NodeType} NodeType - type of node in BST
+ * @returns {undefined}
+ */
 function remove0(node, NodeType) {
   const comp = this.comp;
   if (comp(this.root.key, node.key) === 0) {
@@ -75,9 +109,15 @@ function remove0(node, NodeType) {
     parent.left = node.left;
   }
 }
-
+/**
+ * removes given node from tree which has 1 child
+ * @private
+ * @param {BSTNode} node - node to remove from tree
+ * @returns {undefined}
+ */
 function remove1(node) {
   const comp = this.comp;
+  // node is root
   if (comp(node.key, this.root.key) === 0) {
     const root = this.root;
     if (root.left.key !== undefined) {
@@ -110,22 +150,34 @@ function remove1(node) {
     node.left.parent = parent;
   }
 }
-
+/**
+ * removes given node from tree which has 2 children
+ * @private
+ * @param {BSTNode} node - node to remove from tree
+ * @returns {undefined}
+ */
 function remove2(node) {
   const nodeSucc = successor(node);
   const oldKey = node.key;
   node.key = nodeSucc.key;
   node.value = nodeSucc.value;
   nodeSucc.key = oldKey;
-  // successor can only have one child at most and must be right child, left child is
-  // contradiction
+  // successor can only have one child at most and that node
+  // must be right child. Or else, node has left child which is a
+  // contradiction as that node would be the minimum.
   const succChildren = numChildren(nodeSucc);
   if (succChildren === 0) {
     return remove0.call(this, nodeSucc);
   }
   return remove1.call(this, nodeSucc);
 }
-
+/**
+ * Searches for a node with given key and removes it from tree
+ * @private
+ * @param {*} key - key to search for in tree
+ * @param {BSTNode} nodeType - type of Nodes in the tree
+ * @returns {true|false} true if node was deleted and false otherwise
+ */
 function BSTRemove(key, nodeType) {
   let node = search.call(this, this.root, key);
   if (!node) {
@@ -133,22 +185,29 @@ function BSTRemove(key, nodeType) {
   }
   const children = numChildren(node);
   if (children === 0) {
-    remove0.call(this, node, nodeType);
-    return;
+    return remove0.call(this, node, nodeType);
   } else if (children === 1) {
-    remove1.call(this, node);
-    return;
+    return remove1.call(this, node);
   }
   remove2.call(this, node, nodeType);
 }
-
-function inorder(node) {
-  if (node && node.key !== undefined) {
+/**
+ * gets the inorder traversal starting at given root
+ * @private
+ * @param {BSTNode} root - root of tree
+ * @returns {Array(Object)} Array containing key and value info as well as 
+ * parent info for each node
+ */
+function inorder(root) {
+  if (root && root.key !== undefined) {
     let tmp = [];
-    return tmp.concat(inorder(node.left), node, inorder(node.right));
+    return tmp.concat(inorder(root.left), root, inorder(root.right));
   }
   return [];
 }
+/**
+ * @private
+ */
 module.exports = {
   BSTInsert,
   BSTRemove,
