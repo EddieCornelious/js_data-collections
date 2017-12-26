@@ -60,12 +60,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Stack = __webpack_require__(2);
 	var Queue = __webpack_require__(3);
 	var BHeap = __webpack_require__(4);
-	var PriorityQueue = __webpack_require__(5);
-	var HashMap = __webpack_require__(6);
-	var HashSet = __webpack_require__(7);
-	var BST = __webpack_require__(8);
-	var Graph = __webpack_require__(11);
-	var Trie = __webpack_require__(12);
+	var PriorityQueue = __webpack_require__(6);
+	var HashMap = __webpack_require__(7);
+	var HashSet = __webpack_require__(8);
+	var BST = __webpack_require__(9);
+	var Graph = __webpack_require__(12);
+	var Trie = __webpack_require__(13);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
@@ -397,22 +397,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
+	var _Util = __webpack_require__(5);
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function swap(array, index1, index2) {
-	  var oldIndex1 = array[index1];
-	  array[index1] = array[index2];
-	  array[index2] = oldIndex1;
-	}
 	/**
 	 * @private
-	 * @param {Array} array - The array to sift down on.
-	 * @param {number} index - The index to start the sift down operation.
-	 * @param {function} comp - Comparator to use against parent and child elements.
+	 * @param {Array} array - array to sift down on.
+	 * @param {number} index - index to start the sift down operation.
+	 * @param {function} comp - comparator to use against parent and child elements.
 	 * @returns {undefined}
 	 */
 	function heapify(array, index, comp) {
@@ -432,34 +429,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  if (largest !== index) {
-	    swap(array, index, largest);
+	    (0, _Util.swap)(array, index, largest);
 	    heapify(array, largest, comp);
 	  }
 	}
 	/**
 	 * @private
-	 * @param {Array} array - The array to sift up on.
-	 * @param {number} index - The index to start the sift up operation.
-	 * @param {function} comp - Comparator to use against parent and child elements.
+	 * @param {Array} array - array to sift up on.
+	 * @param {number} index - index to start the sift up operation.
+	 * @param {function} comp - comparator to use against parent and child elements.
 	 * @returns {undefined}
 	 */
 	function siftUp(array, index, comp) {
 	  if (index > 1) {
 	    var parent = Math.floor(index / 2);
 	    if (comp(array[parent], array[index]) === -1) {
-	      swap(array, parent, index);
+	      (0, _Util.swap)(array, parent, index);
 	      siftUp(array, parent, comp);
 	    }
 	  }
-	}
-
-	function defaultEqual(a, b) {
-	  if (a < b) {
-	    return -1;
-	  } else if (a === b) {
-	    return 0;
-	  }
-	  return 1;
 	}
 	/**
 	 * Binary heap representation
@@ -492,7 +480,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, BHeap);
 
 	    this.heap = [null];
-	    this.comp = comparator || defaultEqual;
+	    this.comp = comparator || _Util.defaultComp;
 	  }
 	  /**
 	   * removes the root of the heap and returns the data to caller
@@ -560,6 +548,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	/**
+	 * swap method for Structs BHeap and Array
+	 * @private
+	 * @param {Array} array - array to swap certain elements
+	 * @param {number} index1 - index to swap with @param index2
+	 * @param {number} index2 - index to swap with @param index1
+	 * @returns {undefined}
+	 */
+	function swap(array, index1, index2) {
+	  var oldIndex1 = array[index1];
+	  array[index1] = array[index2];
+	  array[index2] = oldIndex1;
+	}
+	/** 
+	 * default comparator for all Structs
+	 * @private
+	 * @param {(number|string)} a - first element to compare
+	 * @param {(number|string)} a - second element to compare
+	 * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
+	 */
+	function defaultComp(a, b) {
+	  if (a < b) {
+	    return -1;
+	  } else if (a > b) {
+	    return 1;
+	  }
+	  return 0;
+	}
+
+	module.exports = { swap: swap, defaultComp: defaultComp };
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -594,7 +619,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = PriorityQueue;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -762,14 +787,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = HashMap;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var HashMap = __webpack_require__(6);
+	var HashMap = __webpack_require__(7);
 
 	var HashSet = function () {
 	  function HashSet() {
@@ -822,24 +847,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = HashSet;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
+	var _Util = __webpack_require__(5);
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var BSTNode = __webpack_require__(9);
-	var BSTPrototype = __webpack_require__(10);
+	var BSTNode = __webpack_require__(10);
+	var BSTPrototype = __webpack_require__(11);
+	var BSTInsert = BSTPrototype.BSTInsert,
+	    BSTRemove = BSTPrototype.BSTRemove,
+	    BSTSearch = BSTPrototype.BSTSearch,
+	    BSTInorder = BSTPrototype.BSTInorder;
 
-	function defaulComp(a, b) {
-	  if (a < b) {
-	    return -1;
-	  } else if (a > b) {
-	    return 1;
-	  }
-	  return 0;
-	}
 	/**
 	 * Binary search tree representation
 	 * @class
@@ -850,13 +873,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * (a > b) : returns 1, else : 0
 	 * 
 	 */
-
 	var BST = function () {
 	  function BST(comparator) {
 	    _classCallCheck(this, BST);
 
 	    this.root = new BSTNode();
-	    this.comp = comparator || defaulComp;
+	    this.comp = comparator || _Util.defaultComp;
 	  }
 	  /**
 	  * inserts the given key and value into BST
@@ -870,7 +892,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.insert = function insert(key, value) {
-	    BSTPrototype.BSTInsert.call(this, key, value, BSTNode);
+	    BSTInsert.call(this, key, value, BSTNode);
 	    return this;
 	  };
 	  /**
@@ -887,7 +909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.remove = function remove(key) {
-	    BSTPrototype.BSTRemove.call(this, key, BSTNode);
+	    BSTRemove.call(this, key, BSTNode);
 	    return this;
 	  };
 	  /**
@@ -905,7 +927,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.find = function find(key) {
-	    var node = BSTPrototype.search.call(this, this.root, key);
+	    var node = BSTSearch.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
 	  /**
@@ -922,7 +944,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.contains = function contains(key) {
-	    var node = BSTPrototype.search.call(this, this.root, key);
+	    var node = BSTSearch.call(this, this.root, key);
 	    return node ? true : false;
 	  };
 	  /**
@@ -938,7 +960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.inorder = function inorder() {
-	    return BSTPrototype.inorder(this.root);
+	    return BSTInorder(this.root);
 	  };
 
 	  return BST;
@@ -947,7 +969,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BST;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -967,20 +989,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BSTNode;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
 
 	/**
-	 * inserts given key and value into bst (maps key to value)
-	 * @private
-	 * @param {*} [key] - key to insert in bst
-	 * @param {*} [value] - value that is mapped to by @param key
-	 * @param {BSTNode} Node - Node type to insert into tree
-	 * @returns null if the node was already in tree, thus not inserted
-	 * or the new node that was just inserted successfully.
-	 */
+	* inserts given key and value into bst (maps key to value)
+	* @private
+	* @param {*} [key] - key to insert in bst
+	* @param {*} [value] - value that is mapped to by @param key
+	* @param {BSTNode} Node - Node type to insert into tree
+	* @returns null if the node was already in tree, thus not inserted
+	* or the new node that was just inserted successfully.
+	*/
 	function BSTInsert() {
 	  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	  var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -1020,7 +1042,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} key - the key to search for in bst
 	 * @returns {null|BSTNode} null if not found. Or the actual node if found
 	 */
-	function search(root, key) {
+	function BSTSearch(root, key) {
 	  var comp = this.comp;
 	  if (!root || root.key === undefined) {
 	    return null;
@@ -1029,9 +1051,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return root;
 	  }
 	  if (comp(root.key, key) === -1) {
-	    return search.call(this, root.right, key);
+	    return BSTSearch.call(this, root.right, key);
 	  }
-	  return search.call(this, root.left, key);
+	  return BSTSearch.call(this, root.left, key);
 	}
 	/**
 	 * finds the inorder successor of @param node
@@ -1155,7 +1177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {true|false} true if node was deleted and false otherwise
 	 */
 	function BSTRemove(key, nodeType) {
-	  var node = search.call(this, this.root, key);
+	  var node = BSTSearch.call(this, this.root, key);
 	  if (!node) {
 	    return false;
 	  }
@@ -1171,13 +1193,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * gets the inorder traversal starting at given root
 	 * @private
 	 * @param {BSTNode} root - root of tree
-	 * @returns {Array(Object)} Array containing key and value info as well as 
+	 * @returns {Array(Object)} Array containing key and value info as well as
 	 * parent info for each node
 	 */
-	function inorder(root) {
+	function BSTInorder(root) {
 	  if (root && root.key !== undefined) {
 	    var tmp = [];
-	    return tmp.concat(inorder(root.left), root, inorder(root.right));
+	    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
 	  }
 	  return [];
 	}
@@ -1187,12 +1209,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = {
 	  BSTInsert: BSTInsert,
 	  BSTRemove: BSTRemove,
-	  search: search,
-	  inorder: inorder
+	  BSTSearch: BSTSearch,
+	  BSTInorder: BSTInorder
 	};
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1277,7 +1299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Graph;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";

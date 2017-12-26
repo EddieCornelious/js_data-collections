@@ -1,28 +1,27 @@
 const BSTNode = require('./BSTNode.js');
 const BSTPrototype = require('./BSTPrototype.js');
-
-function defaulComp(a, b) {
-  if (a < b) {
-    return -1;
-  } else if (a > b) {
-    return 1;
-  }
-  return 0;
-}
+const { BSTInsert, BSTRemove, BSTSearch, BSTInorder } = BSTPrototype;
+import { defaultComp } from "./Util.js";
 /**
  * Binary search tree representation
  * @class
  * @param {function} [comparator] - function used to compare nodes in tree
  * @example
- * const bst = new Structs.BST()
- * default comparator simply compares (a < b) : returns -1
- * (a > b) : returns 1, else : 0
- * 
+ * // custom comparator example
+ * const bst = new Structs.BST(function(a, b){
+ *   if (a.data < b.data) {
+ *     return -1;
+ *   } else if (a.data > b.data) {
+ *      return 1;
+ *   } else { return 0;}
+ * });
+ * // default comparator simply compares (a < b) : returns -1
+ * //(a > b) : returns 1, else : 0
  */
 class BST {
   constructor(comparator) {
     this.root = new BSTNode();
-    this.comp = comparator || defaulComp;
+    this.comp = comparator || defaultComp;
   }
   /**
   * inserts the given key and value into BST
@@ -34,11 +33,11 @@ class BST {
   * @returns {BST} the instance that this method was called with
   */
   insert(key, value) {
-    BSTPrototype.BSTInsert.call(this, key, value, BSTNode);
+    BSTInsert.call(this, key, value, BSTNode);
     return this;
   }
   /**
-   * removes a key and it's associated value from BST
+   * removes a key and it's associated from BST
    * @example
    * bst.insert(1, 5).insert(5, 10);
    * bst.remove(1);
@@ -49,7 +48,7 @@ class BST {
    * @returns {BST} the instance that this method was called with
    */
   remove(key) {
-    BSTPrototype.BSTRemove.call(this, key, BSTNode);
+    BSTRemove.call(this, key, BSTNode);
     return this;
   }
   /**
@@ -65,11 +64,11 @@ class BST {
    * if not found
    */
   find(key) {
-    const node = BSTPrototype.search.call(this, this.root, key);
+    const node = BSTSearch.call(this, this.root, key);
     return node ? node.value : undefined;
   }
    /**
-   * determines if 'this' BST contains the given key
+   * determines if BST contains the given key
    * @example
    * bst.insert(1, 5).insert(5, 10);
    * bst.contains(5);
@@ -80,11 +79,11 @@ class BST {
    * @returns {boolean} true if BST contains @param key and false otherwise
    */
   contains(key) {
-    const node = BSTPrototype.search.call(this, this.root, key);
+    const node = BSTSearch.call(this, this.root, key);
     return node ? true : false;
   }
    /**
-   * gives the inorder traversal of 'this' BST
+   * gives the inorder traversal of a BST
    * @example
    * bst.insert(1, 5).insert(5, 10).insert(2, 10);
    * bst.inorder();
@@ -94,7 +93,7 @@ class BST {
    * if not found
    */
   inorder() {
-    return BSTPrototype.inorder(this.root);
+    return BSTInorder(this.root);
   }
 }
 

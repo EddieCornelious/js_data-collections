@@ -1,13 +1,9 @@
-function swap(array, index1, index2) {
-  const oldIndex1 = array[index1];
-  array[index1] = array[index2];
-  array[index2] = oldIndex1;
-}
+import { swap, defaultComp } from "./Util.js";
 /**
  * @private
- * @param {Array} array - The array to sift down on.
- * @param {number} index - The index to start the sift down operation.
- * @param {function} comp - Comparator to use against parent and child elements.
+ * @param {Array} array - array to sift down on.
+ * @param {number} index - index to start the sift down operation.
+ * @param {function} comp - comparator to use against parent and child elements.
  * @returns {undefined}
  */
 function heapify(array, index, comp) {
@@ -33,9 +29,9 @@ function heapify(array, index, comp) {
 }
 /**
  * @private
- * @param {Array} array - The array to sift up on.
- * @param {number} index - The index to start the sift up operation.
- * @param {function} comp - Comparator to use against parent and child elements.
+ * @param {Array} array - array to sift up on.
+ * @param {number} index - index to start the sift up operation.
+ * @param {function} comp - comparator to use against parent and child elements.
  * @returns {undefined}
  */
 function siftUp(array, index, comp) {
@@ -47,23 +43,14 @@ function siftUp(array, index, comp) {
     }
   }
 }
-
-function defaultEqual(a, b) {
-  if (a < b) {
-    return -1;
-  } else if (a === b) {
-    return 0;
-  }
-  return 1;
-}
 /**
  * Binary heap representation
  * @class
- * @param {function(object, object)} [comparator] - function used to 
- * compare parent cnad child for operations
+ * @param {function} [comparator] - function used to 
+ * compare parent and child for heap operations
  * @example
  * const heap = new Structs.BHeap();
- * // this creates a max heap by default. For a min heap, swap return values for
+ * // this creates a max heap by default.
  * function (a, b){
      if (a < b) {
        return -1;
@@ -74,17 +61,18 @@ function defaultEqual(a, b) {
     }
  }
  * // to get a min heap swap -1 and 1
- * // you can also use objects : For instance, if your ojects have the pattern
+ * // you can also use a custom comparator for objects : For example, 
+ * // if your ojects have the pattern
  * // user {id : "", age: 22} simply put something like
  * if (a.age < b.age) {
         return -1;
- }
+ }........
  * // this will give u the person with the highest age at the top of the heap.
  */
 class BHeap {
   constructor(comparator) {
     this.heap = [null];
-    this.comp = comparator || defaultEqual;
+    this.comp = comparator || defaultComp;
   }
   /**
    * removes the root of the heap and returns the data to caller
@@ -103,7 +91,7 @@ class BHeap {
     return max;
   }
   /**
-   * inserts given data into heap
+   * inserts given data into BHeap
    * @example
    * heap.insert(1).insert(2).insert(3).insert(3);
    * // this heap will contain both 3s
@@ -118,20 +106,20 @@ class BHeap {
     return this;
   }
   /**
-   * transforms 'this' heap instance into an array
+   * transforms a BHeap into an array
    * @example
    * heap.insert(1).insert(2);
    * heap.toArray() // will be [2, 1]
-   * @returns {Array} 'this' as an array
+   * @returns {Array} 'this' BHeap instance as an array
    */
   toArray() {
     return this.heap.slice(1);
   }
   /**
-   * gives the size of 'this' heap.
+   * gives the number of elements in the BHeap.
    * @example
    * heap.size() // would be 0
-   * @returns this heap instance's number of elements
+   * @returns 'this' BHeap instance's number of elements
    */
   size() {
     return this.heap.length - 1;

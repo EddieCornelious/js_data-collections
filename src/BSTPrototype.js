@@ -1,13 +1,13 @@
 /**
- * inserts given key and value into bst (maps key to value)
- * @private
- * @param {*} [key] - key to insert in bst
- * @param {*} [value] - value that is mapped to by @param key
- * @param {BSTNode} Node - Node type to insert into tree
- * @returns null if the node was already in tree, thus not inserted
- * or the new node that was just inserted successfully.
- */
- function BSTInsert(key = null, value = null, Node) {
+* inserts given key and value into bst (maps key to value)
+* @private
+* @param {*} [key] - key to insert in bst
+* @param {*} [value] - value that is mapped to by @param key
+* @param {BSTNode} Node - Node type to insert into tree
+* @returns null if the node was already in tree, thus not inserted
+* or the new node that was just inserted successfully.
+*/
+function BSTInsert(key = null, value = null, Node) {
   const comp = this.comp;
   let root = this.root;
   let newNode = new Node(key, value);
@@ -42,7 +42,7 @@
  * @param {*} key - the key to search for in bst
  * @returns {null|BSTNode} null if not found. Or the actual node if found
  */
-function search(root, key) {
+function BSTSearch(root, key) {
   const comp = this.comp;
   if (!root || root.key === undefined) {
     return null;
@@ -51,9 +51,9 @@ function search(root, key) {
     return root;
   }
   if (comp(root.key, key) === -1) {
-    return search.call(this, root.right, key);
+    return BSTSearch.call(this, root.right, key);
   }
-  return search.call(this, root.left, key);
+  return BSTSearch.call(this, root.left, key);
 }
 /**
  * finds the inorder successor of @param node
@@ -179,7 +179,7 @@ function remove2(node) {
  * @returns {true|false} true if node was deleted and false otherwise
  */
 function BSTRemove(key, nodeType) {
-  let node = search.call(this, this.root, key);
+  let node = BSTSearch.call(this, this.root, key);
   if (!node) {
     return false;
   }
@@ -195,13 +195,13 @@ function BSTRemove(key, nodeType) {
  * gets the inorder traversal starting at given root
  * @private
  * @param {BSTNode} root - root of tree
- * @returns {Array(Object)} Array containing key and value info as well as 
+ * @returns {Array(Object)} Array containing key and value info as well as
  * parent info for each node
  */
-function inorder(root) {
+function BSTInorder(root) {
   if (root && root.key !== undefined) {
     let tmp = [];
-    return tmp.concat(inorder(root.left), root, inorder(root.right));
+    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
   }
   return [];
 }
@@ -211,6 +211,6 @@ function inorder(root) {
 module.exports = {
   BSTInsert,
   BSTRemove,
-  search,
-  inorder
+  BSTSearch,
+  BSTInorder
 };
