@@ -102,6 +102,26 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(0);
   });
   
+   it("extractRoot with continuous example (ref types) maintains references", function() {
+    let tempHeap = new Structs.BHeap(function(a, b){
+      if(a.data < b.data) {
+        return -1;
+      } else if(a.data > b.data) {
+        return 1;
+      }
+      return 0;
+    });
+    for (let i = 0; i < 1000; i += 1) {
+      tempHeap.insert({data: i });
+    }
+    let count = 999;
+    while(tempHeap.size() > 0) {
+      expect(tempHeap.extractRoot().data).to.be.equal(count);
+      count -= 1;
+    }
+    expect(tempHeap.size()).to.be.equal(0);
+  });
+  
   it("min heap works", function() {
     let minHeap = new Structs.BHeap(function(a, b) {
       if (a < b) {
