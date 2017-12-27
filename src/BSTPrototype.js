@@ -1,13 +1,13 @@
 /**
 * inserts given key and value into bst (maps key to value)
 * @private
-* @param {*} [key] - key to insert in bst
-* @param {*} [value] - value that is mapped to by @param key
+* @param {*} key - key to insert in bst
+* @param {*} value - value that is mapped to by @param key
 * @param {BSTNode} Node - Node type to insert into tree
 * @returns null if the node was already in tree, thus not inserted
 * or the new node that was just inserted successfully.
 */
-function BSTInsert(key = null, value = null, Node) {
+function insert(key, value, Node) {
   const comp = this.comp;
   let root = this.root;
   let newNode = new Node(key, value);
@@ -42,7 +42,7 @@ function BSTInsert(key = null, value = null, Node) {
  * @param {*} key - the key to search for in bst
  * @returns {null|BSTNode} null if not found. Or the actual node if found
  */
-function BSTSearch(root, key) {
+function search(root, key) {
   const comp = this.comp;
   if (!root || root.key === undefined) {
     return null;
@@ -51,9 +51,9 @@ function BSTSearch(root, key) {
     return root;
   }
   if (comp(root.key, key) === -1) {
-    return BSTSearch.call(this, root.right, key);
+    return search.call(this, root.right, key);
   }
-  return BSTSearch.call(this, root.left, key);
+  return search.call(this, root.left, key);
 }
 /**
  * finds the inorder successor of @param node
@@ -178,8 +178,8 @@ function remove2(node) {
  * @param {BSTNode} nodeType - type of Nodes in the tree
  * @returns {true|false} true if node was deleted and false otherwise
  */
-function BSTRemove(key, nodeType) {
-  let node = BSTSearch.call(this, this.root, key);
+function remove(key, nodeType) {
+  let node = search.call(this, this.root, key);
   if (!node) {
     return false;
   }
@@ -198,10 +198,10 @@ function BSTRemove(key, nodeType) {
  * @returns {Array(Object)} Array containing key and value info as well as
  * parent info for each node
  */
-function BSTInorder(root) {
+function inorder(root) {
   if (root && root.key !== undefined) {
     let tmp = [];
-    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
+    return tmp.concat(inorder(root.left), root, inorder(root.right));
   }
   return [];
 }
@@ -209,8 +209,8 @@ function BSTInorder(root) {
  * @private
  */
 module.exports = {
-  BSTInsert,
-  BSTRemove,
-  BSTSearch,
-  BSTInorder
+  insert,
+  remove,
+  search,
+  inorder
 };

@@ -452,11 +452,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Binary heap representation
 	 * @class
-	 * @param {function(object, object)} [comparator] - function used to 
-	 * compare parent cnad child for operations
+	 * @param {function} [comparator] - function used to 
+	 * compare parent and child for heap operations
 	 * @example
 	 * const heap = new Structs.BHeap();
-	 * // this creates a max heap by default. For a min heap, swap return values for
+	 * // this creates a max heap by default.
 	 * function (a, b){
 	     if (a < b) {
 	       return -1;
@@ -467,11 +467,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	 }
 	 * // to get a min heap swap -1 and 1
-	 * // you can also use objects : For instance, if your ojects have the pattern
+	 * // you can also use a custom comparator for objects : For example, 
+	 * // if your ojects have the pattern
 	 * // user {id : "", age: 22} simply put something like
 	 * if (a.age < b.age) {
 	        return -1;
-	 }
+	 }........
 	 * // this will give u the person with the highest age at the top of the heap.
 	 */
 
@@ -484,11 +485,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  /**
 	   * removes the root of the heap and returns the data to caller
+	   * @returns {*} extracted data
 	   * @example
 	   * heap.insert(1).insert(2).insert(3);
 	   * let root = heap.extractRoot();
 	   * // root = 3;
-	   * @returns {*} extracted data
 	   */
 
 
@@ -501,13 +502,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return max;
 	  };
 	  /**
-	   * inserts given data into heap
+	   * inserts given data into BHeap
+	   * @param {*} [data] - optional data to insert into heap. Default is undefined
+	   * @returns {BHeap} a reference to the instance that this method was called
 	   * @example
 	   * heap.insert(1).insert(2).insert(3).insert(3);
 	   * // this heap will contain both 3s
 	   * // heap.extractRoot() // will be 3
-	   * @param {*} [data] - optional data to insert into heap. Default is undefined
-	   * @returns {BHeap} a reference to the instance that this method was called
 	   */
 
 
@@ -518,11 +519,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  };
 	  /**
-	   * transforms 'this' heap instance into an array
+	   * transforms a BHeap into an array
+	   * @returns {Array} 'this' BHeap instance as an array
 	   * @example
 	   * heap.insert(1).insert(2);
 	   * heap.toArray() // will be [2, 1]
-	   * @returns {Array} 'this' as an array
 	   */
 
 
@@ -530,10 +531,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.heap.slice(1);
 	  };
 	  /**
-	   * gives the size of 'this' heap.
+	   * gives the number of elements in the BHeap.
+	   * @returns 'this' BHeap instance's number of elements
 	   * @example
 	   * heap.size() // would be 0
-	   * @returns this heap instance's number of elements
 	   */
 
 
@@ -858,20 +859,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var BSTNode = __webpack_require__(10);
 	var BSTPrototype = __webpack_require__(11);
-	var BSTInsert = BSTPrototype.BSTInsert,
-	    BSTRemove = BSTPrototype.BSTRemove,
-	    BSTSearch = BSTPrototype.BSTSearch,
-	    BSTInorder = BSTPrototype.BSTInorder;
+	var _insert = BSTPrototype.insert,
+	    _remove = BSTPrototype.remove,
+	    search = BSTPrototype.search,
+	    _inorder = BSTPrototype.inorder;
 
 	/**
 	 * Binary search tree representation
 	 * @class
 	 * @param {function} [comparator] - function used to compare nodes in tree
 	 * @example
-	 * const bst = new Structs.BST()
-	 * default comparator simply compares (a < b) : returns -1
-	 * (a > b) : returns 1, else : 0
-	 * 
+	 * // custom comparator example
+	 * const bst = new Structs.BST(function(a, b){
+	 *   if (a.data < b.data) {
+	 *     return -1;
+	 *   } else if (a.data > b.data) {
+	 *      return 1;
+	 *   } else { return 0;}
+	 * });
+	 * // default comparator simply compares (a < b) : returns -1
+	 * //(a > b) : returns 1, else : 0
 	 */
 	var BST = function () {
 	  function BST(comparator) {
@@ -882,85 +889,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  /**
 	  * inserts the given key and value into BST
-	  * @example
-	  * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
-	  * // ed now maps to kane because it already existed before.
 	  * @param {*} key - the key to insert into BST
 	  * @param {*} value - the value that is mapped to by @param key
 	  * @returns {BST} the instance that this method was called with
+	  * @example
+	  * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
+	  * // ed now maps to kane because it already existed before.
 	  */
 
 
 	  BST.prototype.insert = function insert(key, value) {
-	    BSTInsert.call(this, key, value, BSTNode);
+	    _insert.call(this, key, value, BSTNode);
 	    return this;
 	  };
 	  /**
-	   * removes a key and it's associated value from BST
-	   * @example
-	   * bst.insert(1, 5).insert(5, 10);
-	   * bst.remove(1);
-	   * // 1 and it's associated value are removed from tree
-	   * bst.remove("dog");
-	   * // this call fails silently as dog never existed in tree
+	   * removes a key and it's associated from BST
 	   * @param {*} key - the key to search for
 	   * @returns {BST} the instance that this method was called with
+	   * @example
+	   * bst.insert(1, 5).insert(5, 10);
+	   * bst.remove(1); // 1 and it's associated value are removed from tree
+	   * bst.remove("dog"); // this call fails silently as dog never existed in tree
 	   */
 
 
 	  BST.prototype.remove = function remove(key) {
-	    BSTRemove.call(this, key, BSTNode);
+	    _remove.call(this, key, BSTNode);
 	    return this;
 	  };
 	  /**
 	   * finds the value associated with given key
-	   * @example
-	   * bst.insert(1, 5).insert(5, 10);
-	   * bst.find(5);
-	   * // returns 10
-	   * bst.find(67);
-	   * // returns undefined
 	   * @param {*} key to search for in BST
 	   * @returns {(*|undefined)} value associated with @param key or undefined
-	   * if not found
+	   * if not found.
+	   * @example
+	   * bst.insert(1, 5).insert(5, 10);
+	   * bst.find(5); // returns 10
+	   * bst.find(67); // returns undefined
 	   */
 
 
 	  BST.prototype.find = function find(key) {
-	    var node = BSTSearch.call(this, this.root, key);
+	    var node = search.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
 	  /**
-	  * determines if 'this' BST contains the given key
-	  * @example
-	  * bst.insert(1, 5).insert(5, 10);
-	  * bst.contains(5);
-	  * // returns true
-	  * bst.find(67);
-	  * // returns false
+	  * determines if BST contains the given key
 	  * @param {*} key to search for in BST
 	  * @returns {boolean} true if BST contains @param key and false otherwise
+	  * @example
+	  * bst.insert(1, 5).insert(5, 10);
+	  * bst.contains(5); // returns true
+	  * bst.find(67); // returns false
 	  */
 
 
 	  BST.prototype.contains = function contains(key) {
-	    var node = BSTSearch.call(this, this.root, key);
+	    var node = search.call(this, this.root, key);
 	    return node ? true : false;
 	  };
 	  /**
-	  * gives the inorder traversal of 'this' BST
-	  * @example
-	  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
-	  * bst.inorder();
-	  * [{key: 1, value:5, parent: undefined}, {key: 5, value:10, parent: 1}..... ]
+	  * gives the inorder traversal of a BST
 	  * @param {*} key to search for in BST
 	  * @returns {*|undefined} value associated with @param key or undefined
-	  * if not found
+	  * if not found.
+	  * @example
+	  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
+	  * bst.inorder(); // [{key: 1, value:5, parent: undefined},
+	  * {key: 5, value:10, parent: 1}..... ]
 	  */
 
 
 	  BST.prototype.inorder = function inorder() {
-	    return BSTInorder(this.root);
+	    return _inorder(this.root);
 	  };
 
 	  return BST;
@@ -997,17 +998,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* inserts given key and value into bst (maps key to value)
 	* @private
-	* @param {*} [key] - key to insert in bst
-	* @param {*} [value] - value that is mapped to by @param key
+	* @param {*} key - key to insert in bst
+	* @param {*} value - value that is mapped to by @param key
 	* @param {BSTNode} Node - Node type to insert into tree
 	* @returns null if the node was already in tree, thus not inserted
 	* or the new node that was just inserted successfully.
 	*/
-	function BSTInsert() {
-	  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-	  var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  var Node = arguments[2];
-
+	function insert(key, value, Node) {
 	  var comp = this.comp;
 	  var root = this.root;
 	  var newNode = new Node(key, value);
@@ -1042,7 +1039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} key - the key to search for in bst
 	 * @returns {null|BSTNode} null if not found. Or the actual node if found
 	 */
-	function BSTSearch(root, key) {
+	function search(root, key) {
 	  var comp = this.comp;
 	  if (!root || root.key === undefined) {
 	    return null;
@@ -1051,9 +1048,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return root;
 	  }
 	  if (comp(root.key, key) === -1) {
-	    return BSTSearch.call(this, root.right, key);
+	    return search.call(this, root.right, key);
 	  }
-	  return BSTSearch.call(this, root.left, key);
+	  return search.call(this, root.left, key);
 	}
 	/**
 	 * finds the inorder successor of @param node
@@ -1176,8 +1173,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {BSTNode} nodeType - type of Nodes in the tree
 	 * @returns {true|false} true if node was deleted and false otherwise
 	 */
-	function BSTRemove(key, nodeType) {
-	  var node = BSTSearch.call(this, this.root, key);
+	function remove(key, nodeType) {
+	  var node = search.call(this, this.root, key);
 	  if (!node) {
 	    return false;
 	  }
@@ -1196,10 +1193,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {Array(Object)} Array containing key and value info as well as
 	 * parent info for each node
 	 */
-	function BSTInorder(root) {
+	function inorder(root) {
 	  if (root && root.key !== undefined) {
 	    var tmp = [];
-	    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
+	    return tmp.concat(inorder(root.left), root, inorder(root.right));
 	  }
 	  return [];
 	}
@@ -1207,10 +1204,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 	module.exports = {
-	  BSTInsert: BSTInsert,
-	  BSTRemove: BSTRemove,
-	  BSTSearch: BSTSearch,
-	  BSTInorder: BSTInorder
+	  insert: insert,
+	  remove: remove,
+	  search: search,
+	  inorder: inorder
 	};
 
 /***/ },

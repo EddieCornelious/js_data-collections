@@ -76,11 +76,11 @@ class BHeap {
   }
   /**
    * removes the root of the heap and returns the data to caller
+   * @returns {*} extracted data
    * @example
    * heap.insert(1).insert(2).insert(3);
    * let root = heap.extractRoot();
    * // root = 3;
-   * @returns {*} extracted data
    */
   extractRoot() {
     const heap = this.heap;
@@ -92,12 +92,12 @@ class BHeap {
   }
   /**
    * inserts given data into BHeap
+   * @param {*} [data] - optional data to insert into heap. Default is undefined
+   * @returns {BHeap} a reference to the instance that this method was called
    * @example
    * heap.insert(1).insert(2).insert(3).insert(3);
    * // this heap will contain both 3s
    * // heap.extractRoot() // will be 3
-   * @param {*} [data] - optional data to insert into heap. Default is undefined
-   * @returns {BHeap} a reference to the instance that this method was called
    */
   insert(data) {
     const heap = this.heap;
@@ -107,19 +107,19 @@ class BHeap {
   }
   /**
    * transforms a BHeap into an array
+   * @returns {Array} 'this' BHeap instance as an array
    * @example
    * heap.insert(1).insert(2);
    * heap.toArray() // will be [2, 1]
-   * @returns {Array} 'this' BHeap instance as an array
    */
   toArray() {
     return this.heap.slice(1);
   }
   /**
    * gives the number of elements in the BHeap.
+   * @returns 'this' BHeap instance's number of elements
    * @example
    * heap.size() // would be 0
-   * @returns 'this' BHeap instance's number of elements
    */
   size() {
     return this.heap.length - 1;
