@@ -553,7 +553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	/**
 	 * swap method for Structs BHeap and Array
@@ -584,7 +584,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return 0;
 	}
 
-	module.exports = { swap: swap, defaultComp: defaultComp };
+	function isNumber(obj) {
+	  if (isNaN(obj)) {
+	    throw new TypeError('Argument must be of type number or Number');
+	  }
+	}
+
+	module.exports = { swap: swap, defaultComp: defaultComp, isNumber: isNumber };
 
 /***/ },
 /* 6 */
@@ -1487,10 +1493,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Util = __webpack_require__(5);
 
-	var _Util2 = _interopRequireDefault(_Util);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function pushValToArray(val) {
@@ -1502,18 +1504,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Math.floor(Math.random() * limit);
 	}
 
-	function lRotate(arr, time) {
-	  var rotations = time;
+	function lRotate(arr, times) {
+	  var rotations = times;
+	  var top = void 0;
 	  while (rotations < 0) {
-	    var top = arr.shift();
+	    top = arr.shift();
 	    arr.push(top);
 	    rotations += 1;
 	  }
 	}
-	function rRotate(arr, time) {
-	  var rotations = time;
+	function rRotate(arr, times) {
+	  var rotations = times;
+	  var top = void 0;
 	  while (rotations > 0) {
-	    var top = arr.pop();
+	    top = arr.pop();
 	    arr.unshift(top);
 	    rotations -= 1;
 	  }
@@ -1525,22 +1529,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } // eslint-disable-line no-empty-function
 
 
-	  ArrayUtils.remove = function remove() {
-	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
+	  ArrayUtils.remove = function remove(arr, i) {
 	    return i >= 0 ? arr.splice(i, 1) : [];
 	  };
 
-	  ArrayUtils.removeObj = function removeObj() {
-	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-	    var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0';
-
+	  ArrayUtils.removeObj = function removeObj(arr, obj) {
 	    var index = arr.indexOf(obj);
-	    return ArrayUtils.remove(index);
+	    return ArrayUtils.remove(arr, index);
 	  };
 
 	  ArrayUtils.rotate = function rotate(arr, times) {
+	    (0, _Util.isNumber)(times);
 	    if (times < 0) {
 	      return lRotate(arr, times);
 	    }
@@ -1577,7 +1576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    for (var i = 0; i < Math.floor(len / 2); i += 1) {
 	      var index1 = genRand(len);
 	      var index2 = genRand(len);
-	      (0, _Util2['default'])(arr, index1, index2);
+	      (0, _Util.swap)(arr, index1, index2);
 	    }
 	  };
 

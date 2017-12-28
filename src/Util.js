@@ -27,4 +27,10 @@ function defaultComp(a, b) {
   return 0;
 }
 
-module.exports = { swap, defaultComp };
+function isNumber(obj) {
+  if (isNaN(obj)) {
+    throw new TypeError('Argument must be of type number or Number');
+  }
+}
+
+module.exports = { swap, defaultComp, isNumber };

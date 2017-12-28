@@ -59,4 +59,30 @@ describe("ArrayUtils", function() {
     expected = ["A"];
     expect(actual).to.have.ordered.members(expected);
   });
+  it("removeObj should work properly if object is in array", function(){
+    actual.push("A");
+    ArrayUtils.removeObj(actual, "A");
+    expected = [];
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("removeObj should not alter array if object is not in array", function(){
+    actual.push("A", "B");
+    ArrayUtils.removeObj(actual, "C");
+    expected = ["A", "B"];
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("rotate should not work for OBVIOUS non numbers", function(){
+    actual.push("A", "B");
+    expect(() => ArrayUtils.rotate(actual, "a")).to.throw(TypeError);
+    expect(() => ArrayUtils.rotate(actual, {})).to.throw(TypeError);
+    expect(() => ArrayUtils.rotate(actual, [1, 2])).to.throw(TypeError);
+    expected = ["A", "B"];
+    expect(actual).to.have.ordered.members(expected);
+  });
+   it("rotate should work for negative numbers", function(){
+    actual.push("A", "B", "C", "D");
+    expected = ["B", "C", "D", "A"];
+    ArrayUtils.rotate(actual, -1);
+    expect(actual).to.have.ordered.members(expected);
+  });
 });

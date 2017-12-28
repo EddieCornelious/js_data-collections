@@ -1,4 +1,4 @@
-import swap from './Util.js';
+import { swap, isNumber } from './Util.js';
 
 function pushValToArray(val) {
   const arr = [];
@@ -9,18 +9,20 @@ function genRand(limit) {
   return Math.floor(Math.random() * limit);
 }
 
-function lRotate(arr, time) {
-  let rotations = time;
+function lRotate(arr, times) {
+  let rotations = times;
+  let top;
   while (rotations < 0) {
-    let top = arr.shift();
+    top = arr.shift();
     arr.push(top);
     rotations += 1;
   }
 }
-function rRotate(arr, time) {
-  let rotations = time;
+function rRotate(arr, times) {
+  let rotations = times;
+  let top;
   while (rotations > 0) {
-    let top = arr.pop();
+    top = arr.pop();
     arr.unshift(top);
     rotations -= 1;
   }
@@ -28,14 +30,15 @@ function rRotate(arr, time) {
 
 class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function
-  static remove(arr = [], i = 0) {
+  static remove(arr, i) {
     return i >= 0 ? arr.splice(i, 1) : [];
   }
-  static removeObj(arr = 0, obj = '0') {
-    let index = arr.indexOf(obj);
-    return ArrayUtils.remove(index);
+  static removeObj(arr, obj) {
+    const index = arr.indexOf(obj);
+    return ArrayUtils.remove(arr, index);
   }
   static rotate(arr, times) {
+    isNumber(times);
     if (times < 0) {
       return lRotate(arr, times);
     }
