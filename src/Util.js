@@ -11,7 +11,7 @@ function swap(array, index1, index2) {
   array[index1] = array[index2];
   array[index2] = oldIndex1;
 }
-/** 
+/**
  * default comparator for all Structs
  * @private
  * @param {(number|string)} a - first element to compare

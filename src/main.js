@@ -8,10 +8,12 @@ var HashSet = require('./HashSet.js');
 var BST = require('./BST.js');
 var Graph = require('./Graph.js');
 var Trie = require('./Trie.js');
+var HashMultiMap = require('./HashMultiMap.js');
+var ArrayUtils = require('./ArrayUtils.js');
 
 Array.prototype.SWAG = function (){
     return "This is where I can place shims";
 };
 
-module.exports = { List, Stack, Queue, BHeap, PriorityQueue, HashMap, HashSet, BST, Graph, Trie };
+module.exports = { List, Stack, Queue, BHeap, PriorityQueue, HashMap, HashMultiMap, HashSet, BST, Graph, Trie, ArrayUtils };
 

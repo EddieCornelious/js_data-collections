@@ -66,12 +66,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BST = __webpack_require__(9);
 	var Graph = __webpack_require__(12);
 	var Trie = __webpack_require__(13);
+	var HashMultiMap = __webpack_require__(14);
+	var ArrayUtils = __webpack_require__(15);
 
 	Array.prototype.SWAG = function () {
 	    return "This is where I can place shims";
 	};
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils };
 
 /***/ },
 /* 1 */
@@ -399,7 +401,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _Util = __webpack_require__(5);
 
@@ -452,7 +454,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Binary heap representation
 	 * @class
-	 * @param {function} [comparator] - function used to 
+	 * @param {function} [comparator] - function used to
 	 * compare parent and child for heap operations
 	 * @example
 	 * const heap = new Structs.BHeap();
@@ -467,7 +469,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	 }
 	 * // to get a min heap swap -1 and 1
-	 * // you can also use a custom comparator for objects : For example, 
+	 * // you can also use a custom comparator for objects : For example,
 	 * // if your ojects have the pattern
 	 * // user {id : "", age: 22} simply put something like
 	 * if (a.age < b.age) {
@@ -566,7 +568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  array[index1] = array[index2];
 	  array[index2] = oldIndex1;
 	}
-	/** 
+	/**
 	 * default comparator for all Structs
 	 * @private
 	 * @param {(number|string)} a - first element to compare
@@ -853,16 +855,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _BSTPrototype = __webpack_require__(10);
+
 	var _Util = __webpack_require__(5);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var BSTNode = __webpack_require__(10);
-	var BSTPrototype = __webpack_require__(11);
-	var _insert = BSTPrototype.insert,
-	    _remove = BSTPrototype.remove,
-	    search = BSTPrototype.search,
-	    _inorder = BSTPrototype.inorder;
+	var BSTNode = __webpack_require__(11);
 
 	/**
 	 * Binary search tree representation
@@ -899,7 +898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.insert = function insert(key, value) {
-	    _insert.call(this, key, value, BSTNode);
+	    _BSTPrototype.insert.call(this, key, value, BSTNode);
 	    return this;
 	  };
 	  /**
@@ -914,23 +913,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.remove = function remove(key) {
-	    _remove.call(this, key, BSTNode);
+	    _BSTPrototype.remove.call(this, key, BSTNode);
 	    return this;
 	  };
 	  /**
-	   * finds the value associated with given key
-	   * @param {*} key to search for in BST
-	   * @returns {(*|undefined)} value associated with @param key or undefined
-	   * if not found.
-	   * @example
-	   * bst.insert(1, 5).insert(5, 10);
-	   * bst.find(5); // returns 10
-	   * bst.find(67); // returns undefined
-	   */
+	  * finds the value associated with given key
+	  * @param {*} key to search for in BST
+	  * @returns {(*|undefined)} value associated with @param key or undefined
+	  * if not found.
+	  * @example
+	  * bst.insert(1, 5).insert(5, 10);
+	  * bst.find(5); // returns 10
+	  * bst.find(67); // returns undefined
+	  */
 
 
 	  BST.prototype.find = function find(key) {
-	    var node = search.call(this, this.root, key);
+	    var node = _BSTPrototype.search.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
 	  /**
@@ -940,12 +939,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10);
 	  * bst.contains(5); // returns true
-	  * bst.find(67); // returns false
+	  * bst.contains(67); // returns false
 	  */
 
 
 	  BST.prototype.contains = function contains(key) {
-	    var node = search.call(this, this.root, key);
+	    var node = _BSTPrototype.search.call(this, this.root, key);
 	    return node ? true : false;
 	  };
 	  /**
@@ -961,7 +960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.inorder = function inorder() {
-	    return _inorder(this.root);
+	    return (0, _BSTPrototype.inorder)(this.root);
 	  };
 
 	  return BST;
@@ -971,26 +970,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 10 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var BSTNode = function BSTNode(key, value) {
-	  _classCallCheck(this, BSTNode);
-
-	  this.parent = null;
-	  this.left = null;
-	  this.right = null;
-	  this.key = key;
-	  this.value = value;
-	};
-
-	module.exports = BSTNode;
-
-/***/ },
-/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1184,7 +1163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else if (children === 1) {
 	    return remove1.call(this, node);
 	  }
-	  remove2.call(this, node, nodeType);
+	  return remove2.call(this, node, nodeType);
 	}
 	/**
 	 * gets the inorder traversal starting at given root
@@ -1209,6 +1188,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  search: search,
 	  inorder: inorder
 	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BSTNode = function BSTNode(key, value) {
+	  _classCallCheck(this, BSTNode);
+
+	  this.parent = null;
+	  this.left = null;
+	  this.right = null;
+	  this.key = key;
+	  this.value = value;
+	};
+
+	module.exports = BSTNode;
 
 /***/ },
 /* 12 */
@@ -1328,6 +1327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	function hasChild(obj) {
 	  for (var prop in obj) {
+	    // eslint-disable-line no-restricted-syntax
 	    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
 	      return true;
 	    }
@@ -1426,6 +1426,175 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = Trie;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _HashMap2 = __webpack_require__(7);
+
+	var _HashMap3 = _interopRequireDefault(_HashMap2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HashMultiMap = function (_HashMap) {
+	  _inherits(HashMultiMap, _HashMap);
+
+	  function HashMultiMap(size) {
+	    _classCallCheck(this, HashMultiMap);
+
+	    return _possibleConstructorReturn(this, _HashMap.call(this, size));
+	  }
+
+	  HashMultiMap.prototype.put = function put(key, value) {
+	    var retVal = _HashMap.prototype.getVal.call(this, key);
+	    if (retVal) {
+	      if (retVal.indexOf(value) === -1) {
+	        return retVal.push(value);
+	      }
+	    } else {
+	      var newValArr = [];
+	      newValArr.push(value);
+	      return _HashMap.prototype.put.call(this, key, newValArr);
+	    }
+	    return true;
+	  };
+
+	  HashMultiMap.prototype.getVal = function getVal(key) {
+	    return _HashMap.prototype.getVal.call(this, key);
+	  };
+
+	  return HashMultiMap;
+	}(_HashMap3['default']);
+
+	exports['default'] = HashMultiMap;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _Util = __webpack_require__(5);
+
+	var _Util2 = _interopRequireDefault(_Util);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function pushValToArray(val) {
+	  var arr = [];
+	  arr.push(val);
+	  return arr;
+	}
+	function genRand(limit) {
+	  return Math.floor(Math.random() * limit);
+	}
+
+	function lRotate(arr, time) {
+	  var rotations = time;
+	  while (rotations < 0) {
+	    var top = arr.shift();
+	    arr.push(top);
+	    rotations += 1;
+	  }
+	}
+	function rRotate(arr, time) {
+	  var rotations = time;
+	  while (rotations > 0) {
+	    var top = arr.pop();
+	    arr.unshift(top);
+	    rotations -= 1;
+	  }
+	}
+
+	var ArrayUtils = function () {
+	  function ArrayUtils() {
+	    _classCallCheck(this, ArrayUtils);
+	  } // eslint-disable-line no-empty-function
+
+
+	  ArrayUtils.remove = function remove() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+	    return i >= 0 ? arr.splice(i, 1) : [];
+	  };
+
+	  ArrayUtils.removeObj = function removeObj() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	    var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0';
+
+	    var index = arr.indexOf(obj);
+	    return ArrayUtils.remove(index);
+	  };
+
+	  ArrayUtils.rotate = function rotate(arr, times) {
+	    if (times < 0) {
+	      return lRotate(arr, times);
+	    }
+	    return rRotate(arr, times);
+	  };
+
+	  ArrayUtils.popMany = function popMany(arr, times) {
+	    var diff = this.length - times;
+	    if (diff < 0) {
+	      return [];
+	    }
+	    return this.slice(0, diff);
+	  };
+
+	  ArrayUtils.pushMany = function pushMany(arr, toPush) {
+	    // eslint-disable-line no-unused-vars
+	    var args = [].concat(Array.prototype.slice.call(arguments));
+	    // throw out array arg
+	    args.shift();
+	    return arr.concat(args);
+	  };
+
+	  ArrayUtils.getRand = function getRand(arr) {
+	    return Math.floor(1 + Math.random() * arr.length);
+	  };
+
+	  ArrayUtils.removeRand = function removeRand(arr) {
+	    var rand = genRand(arr.length);
+	    return ArrayUtils.remove(rand);
+	  };
+
+	  ArrayUtils.shuffle = function shuffle(arr) {
+	    var len = arr.length;
+	    for (var i = 0; i < Math.floor(len / 2); i += 1) {
+	      var index1 = genRand(len);
+	      var index2 = genRand(len);
+	      (0, _Util2['default'])(arr, index1, index2);
+	    }
+	  };
+
+	  ArrayUtils.flatten = function flatten(arr) {
+	    var newArr = [];
+	    var cur = void 0;
+	    for (var i = 0; i < arr.length; i += 1) {
+	      cur = arr[i];
+	      newArr = Array.isArray(cur) ? newArr.concat(ArrayUtils.flatten(cur)) : newArr.concat(pushValToArray(cur));
+	    }
+	    return newArr;
+	  };
+
+	  return ArrayUtils;
+	}();
+
+	module.exports = ArrayUtils;
 
 /***/ }
 /******/ ])

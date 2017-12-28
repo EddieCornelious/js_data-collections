@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha tests -w",
     "build": "webpack --watch", 
-    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json"
+    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md"
   },
   "keywords": [],
   "author": "Eddie Cornelious",

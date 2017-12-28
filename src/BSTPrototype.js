@@ -189,7 +189,7 @@ function remove(key, nodeType) {
   } else if (children === 1) {
     return remove1.call(this, node);
   }
-  remove2.call(this, node, nodeType);
+  return remove2.call(this, node, nodeType);
 }
 /**
  * gets the inorder traversal starting at given root

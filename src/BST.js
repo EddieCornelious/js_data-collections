@@ -1,7 +1,11 @@
 const BSTNode = require('./BSTNode.js');
-const BSTPrototype = require('./BSTPrototype.js');
-const { insert, remove, search, inorder } = BSTPrototype;
-import { defaultComp } from "./Util.js";
+import {
+  insert,
+  remove,
+  search,
+  inorder
+} from './BSTPrototype.js';
+import { defaultComp } from './Util.js';
 /**
  * Binary search tree representation
  * @class
@@ -50,42 +54,42 @@ class BST {
     return this;
   }
   /**
-   * finds the value associated with given key
-   * @param {*} key to search for in BST
-   * @returns {(*|undefined)} value associated with @param key or undefined
-   * if not found.
-   * @example
-   * bst.insert(1, 5).insert(5, 10);
-   * bst.find(5); // returns 10
-   * bst.find(67); // returns undefined
-   */
+  * finds the value associated with given key
+  * @param {*} key to search for in BST
+  * @returns {(*|undefined)} value associated with @param key or undefined
+  * if not found.
+  * @example
+  * bst.insert(1, 5).insert(5, 10);
+  * bst.find(5); // returns 10
+  * bst.find(67); // returns undefined
+  */
   find(key) {
     const node = search.call(this, this.root, key);
     return node ? node.value : undefined;
   }
-   /**
-   * determines if BST contains the given key
-   * @param {*} key to search for in BST
-   * @returns {boolean} true if BST contains @param key and false otherwise
-   * @example
-   * bst.insert(1, 5).insert(5, 10);
-   * bst.contains(5); // returns true
-   * bst.contains(67); // returns false
-   */
+  /**
+  * determines if BST contains the given key
+  * @param {*} key to search for in BST
+  * @returns {boolean} true if BST contains @param key and false otherwise
+  * @example
+  * bst.insert(1, 5).insert(5, 10);
+  * bst.contains(5); // returns true
+  * bst.contains(67); // returns false
+  */
   contains(key) {
     const node = search.call(this, this.root, key);
     return node ? true : false;
   }
-   /**
-   * gives the inorder traversal of a BST
-   * @param {*} key to search for in BST
-   * @returns {*|undefined} value associated with @param key or undefined
-   * if not found.
-   * @example
-   * bst.insert(1, 5).insert(5, 10).insert(2, 10);
-   * bst.inorder(); // [{key: 1, value:5, parent: undefined},
-   * {key: 5, value:10, parent: 1}..... ]
-   */
+  /**
+  * gives the inorder traversal of a BST
+  * @param {*} key to search for in BST
+  * @returns {*|undefined} value associated with @param key or undefined
+  * if not found.
+  * @example
+  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
+  * bst.inorder(); // [{key: 1, value:5, parent: undefined},
+  * {key: 5, value:10, parent: 1}..... ]
+  */
   inorder() {
     return inorder(this.root);
   }

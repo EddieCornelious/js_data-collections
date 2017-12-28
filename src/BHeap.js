@@ -1,4 +1,4 @@
-import { swap, defaultComp } from "./Util.js";
+import { swap, defaultComp } from './Util.js';
 /**
  * @private
  * @param {Array} array - array to sift down on.
@@ -46,7 +46,7 @@ function siftUp(array, index, comp) {
 /**
  * Binary heap representation
  * @class
- * @param {function} [comparator] - function used to 
+ * @param {function} [comparator] - function used to
  * compare parent and child for heap operations
  * @example
  * const heap = new Structs.BHeap();
@@ -61,7 +61,7 @@ function siftUp(array, index, comp) {
     }
  }
  * // to get a min heap swap -1 and 1
- * // you can also use a custom comparator for objects : For example, 
+ * // you can also use a custom comparator for objects : For example,
  * // if your ojects have the pattern
  * // user {id : "", age: 22} simply put something like
  * if (a.age < b.age) {

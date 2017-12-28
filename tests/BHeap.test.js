@@ -3,7 +3,7 @@ const expect = require("chai").expect;
 
 describe("Heap", function() {
   let heap, expected, actual;
-  beforeEach(function() {
+  beforeEach( function() {
     heap = new Structs.BHeap();
   });
   afterEach( function() {

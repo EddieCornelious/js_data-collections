@@ -22,7 +22,7 @@ function recurseTree(node, arr) {
   }
 }
 function hasChild(obj) {
-  for (let prop in obj) {
+  for (let prop in obj) { // eslint-disable-line no-restricted-syntax
     if (Object.prototype.hasOwnProperty.call(obj, prop)) {
       return true;
     }
