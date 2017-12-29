@@ -116,10 +116,51 @@ describe("ArrayUtils", function() {
     ArrayUtils.rotate(actual, -3);
     expect(actual).to.have.ordered.members(expected);
   });
-  it("rotate zero times sgould do nothing to array", function(){
+  it("rotate zero times should do nothing to array", function(){
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
     ArrayUtils.rotate(actual);
     expect(actual).to.have.ordered.members(expected);
   });
+  it("popMany is immutable method", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    ArrayUtils.popMany(actual, 2);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("popMany should pop 1 time", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B"];
+    expect(ArrayUtils.popMany(actual, 1)).to.have.ordered.members(expected);
+  });
+  it("popMany should pop all items when times to pop is length", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.popMany(actual, 3)).to.have.ordered.members([]);
+  });
+  it("popMany should pop all items when times to pop is greater length", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.popMany(actual, 4)).to.have.ordered.members([]);
+  });
+  it("popMany should not pop anything when times to pop is less than 0", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.popMany(actual, -1)).to.have.ordered.members(expected);
+  });
+  it("popMany should not pop anything when times to pop is 0", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.popMany(actual, 0)).to.have.ordered.members(expected);
+  });
+  it("popMany should return empty array when given empty array", function(){
+    expected = [];
+    expect(ArrayUtils.popMany(actual, 0)).to.have.ordered.members(expected);
+  });
+  it("popMany should work properly when array length 1 pop 1 case", function(){
+    actual.push("A");
+    expected = [];
+    expect(ArrayUtils.popMany(actual, 1)).to.have.ordered.members(expected);
+  });
+  
 });

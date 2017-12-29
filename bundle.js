@@ -1558,11 +1558,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  ArrayUtils.popMany = function popMany(arr, times) {
-	    var diff = this.length - times;
-	    if (diff < 0) {
-	      return [];
-	    }
-	    return this.slice(0, diff);
+	    var diff = arr.length - times;
+	    return diff > 0 ? arr.slice(0, diff) : [];
 	  };
 
 	  ArrayUtils.pushMany = function pushMany(arr, toPush) {

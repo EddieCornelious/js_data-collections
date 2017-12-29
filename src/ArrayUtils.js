@@ -46,15 +46,12 @@ class ArrayUtils {
     }
     return rRotate(arr, times);
   }
-  static popMany(arr, times) {
-    const diff = this.length - times;
-    if (diff < 0) {
-      return [];
-    }
-    return this.slice(0, diff);
+  static popMany(arr = [], times = 0) {
+    const diff = arr.length - times;
+    return diff > 0 ? arr.slice(0, diff) : [];
   }
-  static pushMany(arr, toPush) { // eslint-disable-line no-unused-vars
-    let args = [...arguments];
+  static pushMany(arr = []) { // eslint-disable-line no-unused-vars
+    const args = [...arguments];
     // throw out array arg
     args.shift();
     return arr.concat(args);
