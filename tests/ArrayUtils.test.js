@@ -85,4 +85,41 @@ describe("ArrayUtils", function() {
     ArrayUtils.rotate(actual, -1);
     expect(actual).to.have.ordered.members(expected);
   });
+  it("rotate should work for negative numbers", function(){
+    actual.push("A", "B", "C", "D");
+    expected = ["B", "C", "D", "A"];
+    ArrayUtils.rotate(actual, -1);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("rotate should work for positive numbers", function(){
+    actual.push("A", "B", "C", "D");
+    expected = ["B", "C", "D", "A"];
+    ArrayUtils.rotate(actual, 3);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("rotate should not do anything for empty array", function(){
+    expected = [];
+    ArrayUtils.rotate(actual, 20);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("rotate should be same array when length is 1", function(){
+    actual.push("A");
+    expected = ["A"];
+    ArrayUtils.rotate(actual, 13);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("rotate should revert to normal array when rotations equal |length|", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    ArrayUtils.rotate(actual, 3);
+    expect(actual).to.have.ordered.members(expected);
+    ArrayUtils.rotate(actual, -3);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  it("rotate zero times sgould do nothing to array", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    ArrayUtils.rotate(actual);
+    expect(actual).to.have.ordered.members(expected);
+  });
 });

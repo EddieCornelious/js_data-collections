@@ -12,7 +12,8 @@ function genRand(limit) {
 function lRotate(arr, times) {
   let rotations = times;
   let top;
-  while (rotations < 0) {
+  const len = arr.length;
+  while (rotations < 0 && len) {
     top = arr.shift();
     arr.push(top);
     rotations += 1;
@@ -21,7 +22,8 @@ function lRotate(arr, times) {
 function rRotate(arr, times) {
   let rotations = times;
   let top;
-  while (rotations > 0) {
+  const len = arr.length;
+  while (rotations > 0 && len) {
     top = arr.pop();
     arr.unshift(top);
     rotations -= 1;
@@ -30,14 +32,14 @@ function rRotate(arr, times) {
 
 class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function
-  static remove(arr, i) {
+  static remove(arr = [], i = 1) {
     return i >= 0 ? arr.splice(i, 1) : [];
   }
-  static removeObj(arr, obj) {
+  static removeObj(arr = [], obj) {
     const index = arr.indexOf(obj);
     return ArrayUtils.remove(arr, index);
   }
-  static rotate(arr, times) {
+  static rotate(arr = [], times = 0) {
     isNumber(times);
     if (times < 0) {
       return lRotate(arr, times);

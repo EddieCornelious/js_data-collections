@@ -1507,7 +1507,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function lRotate(arr, times) {
 	  var rotations = times;
 	  var top = void 0;
-	  while (rotations < 0) {
+	  var len = arr.length;
+	  while (rotations < 0 && len) {
 	    top = arr.shift();
 	    arr.push(top);
 	    rotations += 1;
@@ -1516,7 +1517,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function rRotate(arr, times) {
 	  var rotations = times;
 	  var top = void 0;
-	  while (rotations > 0) {
+	  var len = arr.length;
+	  while (rotations > 0 && len) {
 	    top = arr.pop();
 	    arr.unshift(top);
 	    rotations -= 1;
@@ -1529,16 +1531,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } // eslint-disable-line no-empty-function
 
 
-	  ArrayUtils.remove = function remove(arr, i) {
+	  ArrayUtils.remove = function remove() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
 	    return i >= 0 ? arr.splice(i, 1) : [];
 	  };
 
-	  ArrayUtils.removeObj = function removeObj(arr, obj) {
+	  ArrayUtils.removeObj = function removeObj() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var obj = arguments[1];
+
 	    var index = arr.indexOf(obj);
 	    return ArrayUtils.remove(arr, index);
 	  };
 
-	  ArrayUtils.rotate = function rotate(arr, times) {
+	  ArrayUtils.rotate = function rotate() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
 	    (0, _Util.isNumber)(times);
 	    if (times < 0) {
 	      return lRotate(arr, times);
