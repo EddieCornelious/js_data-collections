@@ -138,7 +138,7 @@ describe("ArrayUtils", function() {
     expected = ["A", "B", "C"];
     expect(ArrayUtils.popMany(actual, 3)).to.have.ordered.members([]);
   });
-  it("popMany should pop all items when times to pop is greater length", function(){
+  it("popMany should pop all items when times to pop is greater than array length", function(){
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
     expect(ArrayUtils.popMany(actual, 4)).to.have.ordered.members([]);
@@ -155,12 +155,126 @@ describe("ArrayUtils", function() {
   });
   it("popMany should return empty array when given empty array", function(){
     expected = [];
-    expect(ArrayUtils.popMany(actual, 0)).to.have.ordered.members(expected);
-  });
-  it("popMany should work properly when array length 1 pop 1 case", function(){
-    actual.push("A");
-    expected = [];
     expect(ArrayUtils.popMany(actual, 1)).to.have.ordered.members(expected);
   });
+  it("pushMany should push many things onto empty array", function(){
+    expected = [1, 2, 3, 4, 5];
+    expect(ArrayUtils.pushMany(actual, 1, 2, 3, 4, 5)
+    ).to.have.ordered.members(expected);
+    
+  });
+  it("pushMany should push many things onto non-empty array", function(){
+    actual.push(-1, 0);
+    expected = [-1, 0, 1, 2, 3, 4, 5];
+    expect(ArrayUtils.pushMany(actual, 1, 2, 3, 4, 5)
+    ).to.have.ordered.members(expected);
+    
+  });
+  it("pushMany is immutable method", function(){
+    actual.push("a", "b", "c");
+    expected = ["a", "b", "c", 1, 2] ;
+    expect(ArrayUtils.pushMany(actual, 1, 2)).to.have.ordered.members(expected);
+    expect(actual).to.have.ordered.members(["a", "b", "c"]);
+  });
+  it("getRand returns random number in array", function(){
+    actual.push("a", "b", "c");
+    for (let i = 0; i < 100; i += 1) {
+      let rand = ArrayUtils.getRand(actual);
+      expect(actual.indexOf(rand)).to.not.equal(-1);
+    }
+  });
+  it("removeRand removes random index in array", function(){
+    actual.push("a", "b", "c");
+    while(actual.length > 0){
+      ArrayUtils.removeRand(actual);
+    }
+    // loop finished
+    expect(true).to.be.equal(true);
+  });
+  it("removeRand returns removed item", function(){
+    actual.push("a", "b", "c");
+    let removed = ArrayUtils.removeRand(actual).pop();
+    if(removed === "a" || removed === "b" || removed === "c") {
+      expect(true).to.be.equal(true);
+    } else {
+      expect(false).to.be.equal(true);
+    }
+  });
   
+  it("shuffle shufles array indicies", function(){
+    actual.push("a", "b", "c", "d", "e", 1, 4);
+    for (let i = 0; i < 20; i += 1) {
+      ArrayUtils.shuffle(actual);
+    }
+    expect(actual).to.have.members(["a", "b", "c", 4, 1, "e", "d"]);
+  });
+  
+  it("shuffle does not shuffle empty array", function(){
+    for (let i = 0; i < 20; i += 1) {
+      ArrayUtils.shuffle(actual);
+    }
+    expect(actual).to.have.members([]);
+  });
+  
+  it("flatten does not flatten flat array", function(){
+    actual.push("a", "b");
+    ArrayUtils.flatten(actual);
+    expected = ["a", "b"];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten one level deep elements", function(){
+    actual.push(["a"], ["b"]);
+    ArrayUtils.flatten(actual);
+    expected = ["a", "b"];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten four level deep elements", function(){
+    actual.push([[[["a"]]]], [[[[["b"]]]]]);
+    ArrayUtils.flatten(actual);
+    expected = ["a", "b"];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten some elmeents array, some not", function(){
+    actual.push([1, 2, 3], "e", "f", [7, 8]);
+    ArrayUtils.flatten(actual);
+    expected = [1, 2, 3, "e", "f", 7, 8];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten some elmeents array, some not multiple levels (arrays of arrays)", function(){
+    actual.push([1, [2, 2.5, 2.6, [2.7, [2.8, 2.9, [2.91]]]], 3]
+    , ["e"], "f", [[7, 8]]);
+    ArrayUtils.flatten(actual);
+    expected = [1, 2, 2.5, 2.6, 2.7, 2.8, 2.9, 2.91, 3, "e", "f", 7, 8];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten some elmeents array, some not multiple levels (arrays of arrays)", function(){
+    actual.push([1,[2,[3,[[[[[[[[[[[4,[[[[[[[5,[[[["help"]]]]]]]]]]]]]
+    ]]]]]]]]]]],6]);
+    ArrayUtils.flatten(actual);
+    expected = [1, 2,3, 4, 5, "help", 6];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten flattens with objects", function(){
+    let obj = {};
+    let a = [];
+    actual.push([1,[obj,[3,[[[[[[[[[[[4,[[[[[[[a,[[[["help"]]]]]]]]]]]]]
+    ]]]]]]]]]]],obj, a]);
+    ArrayUtils.flatten(actual);
+    expected = [1, obj,3, 4, "help", obj];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+   it("flatten flattens with objects and arrays", function(){
+    let obj = {};
+    let a = ["InArray"];
+    actual.push([1,[obj,[3,[[[[[[[[[[[4,[[[[[[[a,[[[["help"]]]]]]]]]]]]]
+    ]]]]]]]]]]],obj, a]);
+    ArrayUtils.flatten(actual);
+    expected = [1, obj,3, 4, "InArray", "help", obj, "InArray"];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten should not flatten empty array", function(){
+    ArrayUtils.flatten(actual);
+    expected = [];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
 });

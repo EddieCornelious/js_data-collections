@@ -57,11 +57,11 @@ class ArrayUtils {
     return arr.concat(args);
   }
   static getRand(arr) {
-    return Math.floor(1 + (Math.random() * arr.length));
+    return arr[genRand(arr.length)];
   }
   static removeRand(arr) {
     const rand = genRand(arr.length);
-    return ArrayUtils.remove(rand);
+    return ArrayUtils.remove(arr, rand);
   }
   static shuffle(arr) {
     const len = arr.length;

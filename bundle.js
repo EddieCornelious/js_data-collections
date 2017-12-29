@@ -1557,12 +1557,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return rRotate(arr, times);
 	  };
 
-	  ArrayUtils.popMany = function popMany(arr, times) {
+	  ArrayUtils.popMany = function popMany() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
 	    var diff = arr.length - times;
 	    return diff > 0 ? arr.slice(0, diff) : [];
 	  };
 
-	  ArrayUtils.pushMany = function pushMany(arr, toPush) {
+	  ArrayUtils.pushMany = function pushMany() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    // eslint-disable-line no-unused-vars
 	    var args = [].concat(Array.prototype.slice.call(arguments));
 	    // throw out array arg
@@ -1571,12 +1575,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  ArrayUtils.getRand = function getRand(arr) {
-	    return Math.floor(1 + Math.random() * arr.length);
+	    return arr[genRand(arr.length)];
 	  };
 
 	  ArrayUtils.removeRand = function removeRand(arr) {
 	    var rand = genRand(arr.length);
-	    return ArrayUtils.remove(rand);
+	    return ArrayUtils.remove(arr, rand);
 	  };
 
 	  ArrayUtils.shuffle = function shuffle(arr) {
