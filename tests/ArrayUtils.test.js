@@ -254,7 +254,7 @@ describe("ArrayUtils", function() {
     expected = [1, 2,3, 4, 5, "help", 6];
     expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
   });
-  it("flatten flattens with objects", function(){
+  it("flatten flattens with objects and arrays (1)", function(){
     let obj = {};
     let a = [];
     actual.push([1,[obj,[3,[[[[[[[[[[[4,[[[[[[[a,[[[["help"]]]]]]]]]]]]]
@@ -263,7 +263,7 @@ describe("ArrayUtils", function() {
     expected = [1, obj,3, 4, "help", obj];
     expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
   });
-   it("flatten flattens with objects and arrays", function(){
+   it("flatten flattens with objects and arrays (2)", function(){
     let obj = {};
     let a = ["InArray"];
     actual.push([1,[obj,[3,[[[[[[[[[[[4,[[[[[[[a,[[[["help"]]]]]]]]]]]]]
@@ -275,6 +275,14 @@ describe("ArrayUtils", function() {
   it("flatten should not flatten empty array", function(){
     ArrayUtils.flatten(actual);
     expected = [];
+    expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
+  });
+  it("flatten empty arrays and objects", function(){
+    let y = {};
+    let z = {};
+    actual.push([], [], [], [], y, z);
+    ArrayUtils.flatten(actual);
+    expected = [y, z];
     expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
   });
 });

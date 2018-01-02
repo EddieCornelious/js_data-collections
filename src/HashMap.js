@@ -1,7 +1,7 @@
 // from immutable.js implementation of java hashcode
 // https://github.com/facebook/immutable-js/blob/master/src/Hash.js
 // better distribution than fnv TODO: change fnv name
-function fnv(str) {
+function hashStr(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i += 1) {
     hash = ((31 * hash) + str.charCodeAt(i)) | 0;
@@ -32,84 +32,79 @@ function toString(obj) {
   return JSON.stringify(obj);
 }
 function insert(k, v, table) {
-  let hash = fnv(toString(k) + typeof k);
+  let hash = hashStr(toString(k) + typeof k);
   let location = mod(hash, table.length);
   let bucket = table[location];
   return bucket.push(k, v);
 }
-function search(k) {
-  const { table } = this;
+function search(k, table) {
   let toStr = toString(k);
-  let hash = fnv(toStr + typeof k);
+  let hash = hashStr(toStr + typeof k);
   let location = mod(hash, table.length);
   let bucket = table[location];
-  for (let i = 0; i < bucket.length; i += 2) {
-    if (k === bucket[i]) {
-      return { bucket, i };
+  for (let index = 0; index < bucket.length; index += 2) {
+    if (k === bucket[index]) {
+      return { bucket, index };
     }
   }
-  return { bucket: undefined, i: -1 };
+  return { bucket: undefined, index: -1 };
 }
+function shouldRehash(inserts, table) {
+  if ((inserts / table.length) >= 0.75) {
+    return true;
+  }
+}
+
 class HashMap {
   constructor(size = 13) {
     this.inserts = 0;
     this.table = createTable(size);
   }
-  put(k, v) {
-    if (this.contains(k)) {
-      return false;
-    }
-    const { table } = this;
-    insert(k, v, table);
-    this.inserts += 1;
-    if ((this.inserts / this.table.length) >= 0.75) {
-      this.rehash();
+  put(key = null, value = null) {
+    const { table, inserts } = this;
+    const searchRes = search(key, table);
+    const { bucket, index } = searchRes;
+    if (index === -1) {
+      insert(key, value, table);
+      this.inserts += 1;
+      if (shouldRehash(inserts + 1, table)) {
+        this.rehash();
+      }
+    } else {
+      bucket[index + 1] = value;
     }
     return true;
   }
-  getVal(k) {
-    if (!this.contains(k)) {
-      return;
-    }
-    const searchRes = search.call(this, k);
-    const { bucket, i } = searchRes;
-    return bucket[i + 1];
+  getVal(key) {
+    const searchRes = search(key, this.table);
+    const { bucket, index } = searchRes;
+    return index !== -1 ? bucket[index + 1] : undefined;
   }
-  remove(k) {
-    if (!this.contains(k)) {
-      return;
+  remove(key) {
+    const searchRes = search(key, this.table);
+    const { bucket, index } = searchRes;
+    if (index !== -1) {
+      bucket.splice(index, 2);
+      this.inserts -= 1;
+      return true;
     }
-    const searchRes = search.call(this, k);
-    const { bucket, i } = searchRes;
-    bucket.splice(i, 1);
-    bucket.splice(i, 1);
-    this.inserts -= 1;
+    return false;
   }
-  contains(k) {
-    const searchRes = search.call(this, k);
-    const { i } = searchRes;
-    return i !== -1;
+  contains(key) {
+    return this.getVal(key) !== undefined;
   }
   rehash() {
     const oldTable = this.table;
     const newTable = createTable(oldTable.length * 2);
     for (let i = 0; i < oldTable.length; i += 1) {
       for (let j = 0; j < oldTable[i].length; j += 2) {
-        let k = oldTable[i][j];
-        let v = oldTable[i][j + 1];
-        insert(k, v, newTable);
+        let oldKey = oldTable[i][j];
+        let oldValue = oldTable[i][j + 1];
+        insert(oldKey, oldValue, newTable);
       }
     }
     this.table.length = 0;
     this.table = newTable;
-  }
-  update(k, newVal) {
-    if (!this.contains(k)) {
-      return;
-    }
-    const searchRes = search.call(this, k);
-    const { bucket, i } = searchRes;
-    bucket[i + 1] = newVal;
   }
   keys() {
     const table = this.table;

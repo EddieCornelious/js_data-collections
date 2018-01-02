@@ -640,7 +640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// from immutable.js implementation of java hashcode
 	// https://github.com/facebook/immutable-js/blob/master/src/Hash.js
 	// better distribution than fnv TODO: change fnv name
-	function fnv(str) {
+	function hashStr(str) {
 	  var hash = 0;
 	  for (var i = 0; i < str.length; i += 1) {
 	    hash = 31 * hash + str.charCodeAt(i) | 0;
@@ -671,24 +671,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return JSON.stringify(obj);
 	}
 	function insert(k, v, table) {
-	  var hash = fnv(toString(k) + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
+	  var hash = hashStr(toString(k) + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
 	  return bucket.push(k, v);
 	}
-	function search(k) {
-	  var table = this.table;
-
+	function search(k, table) {
 	  var toStr = toString(k);
-	  var hash = fnv(toStr + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
+	  var hash = hashStr(toStr + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
-	  for (var i = 0; i < bucket.length; i += 2) {
-	    if (k === bucket[i]) {
-	      return { bucket: bucket, i: i };
+	  for (var index = 0; index < bucket.length; index += 2) {
+	    if (k === bucket[index]) {
+	      return { bucket: bucket, index: index };
 	    }
 	  }
-	  return { bucket: undefined, i: -1 };
+	  return { bucket: undefined, index: -1 };
+	}
+	function shouldRehash(inserts, table) {
+	  if (inserts / table.length >= 0.75) {
+	    return true;
+	  }
 	}
 
 	var HashMap = function () {
@@ -701,49 +704,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.table = createTable(size);
 	  }
 
-	  HashMap.prototype.put = function put(k, v) {
-	    if (this.contains(k)) {
-	      return false;
-	    }
-	    var table = this.table;
+	  HashMap.prototype.put = function put() {
+	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	    var table = this.table,
+	        inserts = this.inserts;
 
-	    insert(k, v, table);
-	    this.inserts += 1;
-	    if (this.inserts / this.table.length >= 0.75) {
-	      this.rehash();
+	    var searchRes = search(key, table);
+	    var bucket = searchRes.bucket,
+	        index = searchRes.index;
+
+	    if (index === -1) {
+	      insert(key, value, table);
+	      this.inserts += 1;
+	      if (shouldRehash(inserts + 1, table)) {
+	        this.rehash();
+	      }
+	    } else {
+	      bucket[index + 1] = value;
 	    }
 	    return true;
 	  };
 
-	  HashMap.prototype.getVal = function getVal(k) {
-	    if (!this.contains(k)) {
-	      return;
-	    }
-	    var searchRes = search.call(this, k);
+	  HashMap.prototype.getVal = function getVal(key) {
+	    var searchRes = search(key, this.table);
 	    var bucket = searchRes.bucket,
-	        i = searchRes.i;
+	        index = searchRes.index;
 
-	    return bucket[i + 1];
+	    return index !== -1 ? bucket[index + 1] : undefined;
 	  };
 
-	  HashMap.prototype.remove = function remove(k) {
-	    if (!this.contains(k)) {
-	      return;
-	    }
-	    var searchRes = search.call(this, k);
+	  HashMap.prototype.remove = function remove(key) {
+	    var searchRes = search(key, this.table);
 	    var bucket = searchRes.bucket,
-	        i = searchRes.i;
+	        index = searchRes.index;
 
-	    bucket.splice(i, 1);
-	    bucket.splice(i, 1);
-	    this.inserts -= 1;
+	    if (index !== -1) {
+	      bucket.splice(index, 2);
+	      this.inserts -= 1;
+	      return true;
+	    }
+	    return false;
 	  };
 
-	  HashMap.prototype.contains = function contains(k) {
-	    var searchRes = search.call(this, k);
-	    var i = searchRes.i;
-
-	    return i !== -1;
+	  HashMap.prototype.contains = function contains(key) {
+	    return this.getVal(key) !== undefined;
 	  };
 
 	  HashMap.prototype.rehash = function rehash() {
@@ -751,24 +756,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var newTable = createTable(oldTable.length * 2);
 	    for (var i = 0; i < oldTable.length; i += 1) {
 	      for (var j = 0; j < oldTable[i].length; j += 2) {
-	        var k = oldTable[i][j];
-	        var v = oldTable[i][j + 1];
-	        insert(k, v, newTable);
+	        var oldKey = oldTable[i][j];
+	        var oldValue = oldTable[i][j + 1];
+	        insert(oldKey, oldValue, newTable);
 	      }
 	    }
 	    this.table.length = 0;
 	    this.table = newTable;
-	  };
-
-	  HashMap.prototype.update = function update(k, newVal) {
-	    if (!this.contains(k)) {
-	      return;
-	    }
-	    var searchRes = search.call(this, k);
-	    var bucket = searchRes.bucket,
-	        i = searchRes.i;
-
-	    bucket[i + 1] = newVal;
 	  };
 
 	  HashMap.prototype.keys = function keys() {
