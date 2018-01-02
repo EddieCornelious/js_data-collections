@@ -1,4 +1,5 @@
 import HashMap from './HashMap.js';
+
 class HashMultiMap extends HashMap {
   constructor(size) {
     super(size);
@@ -16,9 +17,6 @@ class HashMultiMap extends HashMap {
     }
     return true;
   }
-  getVal(key) {
-    return super.getVal(key);
-  }
 }
 
-export default HashMultiMap;
+module.exports = HashMultiMap;

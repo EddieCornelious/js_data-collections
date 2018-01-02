@@ -1215,44 +1215,72 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _Queue = __webpack_require__(3);
+
+	var _Queue2 = _interopRequireDefault(_Queue);
+
+	var _Stack = __webpack_require__(2);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _HashMap = __webpack_require__(7);
+
+	var _HashMap2 = _interopRequireDefault(_HashMap);
+
+	var _HashSet = __webpack_require__(8);
+
+	var _HashSet2 = _interopRequireDefault(_HashSet);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Queue = __webpack_require__(3);
-	var Stack = __webpack_require__(2);
-
 	var Graph = function () {
-	  function Graph() {
+	  function Graph(numVerticies) {
 	    _classCallCheck(this, Graph);
 
-	    this.graph = {};
+	    this.graph = new _HashMap2['default'](numVerticies);
 	  }
 
-	  Graph.prototype.addVertex = function addVertex(v) {
-	    this.graph[v] = [];
-	  };
+	  Graph.prototype.addVertex = function addVertex(vertex) {
+	    var graph = this.graph;
+	    // so user does not accidentally overwrite values array
 
-	  Graph.prototype.addEdge = function addEdge(v1, v2, w) {
-	    // replace with PQ
-	    if (this.graph[v1] && this.graph[v2]) {
-	      this.graph[v1].push({ v: v2, w: w });
-	      this.graph[v2].push({ v: v1, w: w });
+	    if (!graph.contains(vertex)) {
+	      graph.put(vertex, []);
 	    }
 	  };
 
-	  Graph.prototype.BFS = function BFS(v) {
+	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2, weight) {
+	    // TODO: replace with PQ for Prim's 
 	    var graph = this.graph;
+
+	    var v1neighbors = graph.getVal(vertex1);
+	    var v2neighbors = graph.getVal(vertex2);
+	    // they both exist as verticies
+	    if (v1neighbors && v2neighbors) {
+	      v1neighbors.push({ vertex: vertex2, weight: weight });
+	      v2neighbors.push({ vertex: vertex1, weight: weight });
+	    }
+	  };
+
+	  Graph.prototype.BFS = function BFS(startingVertex) {
+	    var graph = this.graph;
+
 	    var bfs = [];
-	    var visited = {};
-	    var q = new Queue();
-	    q.enqueue(v);
+	    var visited = new _HashSet2['default'](graph.size());
+	    var q = new _Queue2['default']();
+	    q.enqueue(startingVertex);
 	    while (q.size() !== 0) {
-	      var x = q.dequeue();
-	      if (!visited[x]) {
-	        visited[x] = true;
-	        bfs.push(x);
-	        for (var i = 0; i < graph[x].length; i += 1) {
-	          if (!visited[graph[x][i].v]) {
-	            q.enqueue(graph[x][i].v);
+	      var currentVertex = q.dequeue();
+	      if (!visited.has(currentVertex)) {
+	        visited.add(currentVertex);
+	        bfs.push(currentVertex);
+	        var current_vertex_neighbors = graph.getVal(currentVertex).length;
+	        for (var i = 0; i < current_vertex_neighbors; i += 1) {
+	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	          if (!visited.has(curNeighbor)) {
+	            q.enqueue(curNeighbor);
 	          }
 	        }
 	      }
@@ -1260,20 +1288,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return bfs;
 	  };
 
-	  Graph.prototype.DFS = function DFS(v) {
+	  Graph.prototype.DFS = function DFS(vertex) {
 	    var graph = this.graph;
 	    var dfs = [];
-	    var visited = {};
-	    var s = new Stack();
-	    s.push(v);
+	    var visited = new _HashSet2['default'](graph.size());
+	    var s = new _Stack2['default']();
+	    s.push(vertex);
 	    while (s.size() !== 0) {
-	      var x = s.pop();
-	      if (!visited[x]) {
-	        visited[x] = true;
-	        dfs.push(x);
-	        for (var i = 0; i < graph[x].length; i += 1) {
-	          if (!visited[graph[x][i].v]) {
-	            s.push(graph[x][i].v);
+	      var currentVertex = s.pop();
+	      if (!visited.has(currentVertex)) {
+	        visited.add(currentVertex);
+	        dfs.push(currentVertex);
+	        var current_vertex_neighbors = graph.getVal(currentVertex).length;
+	        for (var i = 0; i < current_vertex_neighbors; i += 1) {
+	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	          if (!visited.has(curNeighbor)) {
+	            s.push(curNeighbor);
 	          }
 	        }
 	      }
@@ -1284,7 +1314,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Graph.prototype.isConnected = function isConnected() {
 	    var graph = this.graph;
 	    var firstKey = '';
-	    var verticies = Object.keys(graph);
+	    var verticies = graph.keys();
 	    firstKey = verticies[0];
 	    return this.BFS(firstKey).length === verticies.length;
 	  };
@@ -1433,8 +1463,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	exports.__esModule = true;
-
 	var _HashMap2 = __webpack_require__(7);
 
 	var _HashMap3 = _interopRequireDefault(_HashMap2);
@@ -1470,14 +1498,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return true;
 	  };
 
-	  HashMultiMap.prototype.getVal = function getVal(key) {
-	    return _HashMap.prototype.getVal.call(this, key);
-	  };
-
 	  return HashMultiMap;
 	}(_HashMap3['default']);
 
-	exports['default'] = HashMultiMap;
+	module.exports = HashMultiMap;
 
 /***/ },
 /* 15 */

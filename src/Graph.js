@@ -1,53 +1,68 @@
-const Queue = require('./Queue.js');
-const Stack = require('./Stack.js');
+import Queue from './Queue.js';
+import Stack from './Stack.js';
+import HashMap from "./HashMap.js";
+import HashSet from "./HashSet.js";
+
 class Graph {
-  constructor() {
-    this.graph = {};
+  constructor(numVerticies) {
+    this.graph = new HashMap(numVerticies);
   }
-  addVertex(v) {
-    this.graph[v] = [];
-  }
-  addEdge(v1, v2, w) {
-    // replace with PQ
-    if (this.graph[v1] && this.graph[v2]) {
-      this.graph[v1].push({ v: v2, w });
-      this.graph[v2].push({ v: v1, w });
+  addVertex(vertex) {
+    const { graph } = this;
+    // so user does not accidentally overwrite values array
+    if(!graph.contains(vertex) && vertex !== undefined) {
+      graph.put(vertex, []);
     }
   }
-  BFS(v) {
-    const graph = this.graph;
+  addEdge(vertex1, vertex2, weight = 0) {
+    // TODO: replace with PQ for Prim's 
+    const { graph } = this;
+    const v1neighbors = graph.getVal(vertex1);
+    const v2neighbors = graph.getVal(vertex2);
+    // they both exist as verticies
+    if (v1neighbors && v2neighbors) {
+      v1neighbors.push({ vertex: vertex2, weight });
+      v2neighbors.push({ vertex: vertex1, weight });
+    }
+  }
+  BFS(startingVertex) {
+    const { graph } = this;
     const bfs = [];
-    const visited = {};
+    const visited = new HashSet(graph.size());
     let q = new Queue();
-    q.enqueue(v);
+    q.enqueue(startingVertex);
     while (q.size() !== 0) {
-      let x = q.dequeue();
-      if (!visited[x]) {
-        visited[x] = true;
-        bfs.push(x);
-        for (let i = 0; i < graph[x].length; i += 1) {
-          if (!visited[graph[x][i].v]) {
-            q.enqueue(graph[x][i].v);
+      let currentVertex = q.dequeue();
+      if (!visited.has(currentVertex)) {
+        visited.add(currentVertex);
+        bfs.push(currentVertex);
+        let current_vertex_neighbors = graph.getVal(currentVertex).length;
+        for (let i = 0; i < current_vertex_neighbors; i += 1) {
+          let curNeighbor = graph.getVal(currentVertex)[i].vertex;
+          if (!visited.has(curNeighbor)) {
+            q.enqueue(curNeighbor);
           }
         }
       }
     }
     return bfs;
   }
-  DFS(v) {
+  DFS(vertex) {
     const graph = this.graph;
     const dfs = [];
-    const visited = {};
+    const visited = new HashSet(graph.size());
     let s = new Stack();
-    s.push(v);
+    s.push(vertex);
     while (s.size() !== 0) {
-      let x = s.pop();
-      if (!visited[x]) {
-        visited[x] = true;
-        dfs.push(x);
-        for (let i = 0; i < graph[x].length; i += 1) {
-          if (!visited[graph[x][i].v]) {
-            s.push(graph[x][i].v);
+      let currentVertex = s.pop();
+      if (!visited.has(currentVertex)) {
+        visited.add(currentVertex);
+        dfs.push(currentVertex);
+        let current_vertex_neighbors = graph.getVal(currentVertex).length;
+        for (let i = 0; i < current_vertex_neighbors; i += 1) {
+          let curNeighbor = graph.getVal(currentVertex)[i].vertex;
+          if (!visited.has(curNeighbor)) {
+            s.push(curNeighbor);
           }
         }
       }
@@ -58,7 +73,7 @@ class Graph {
   isConnected() {
     const graph = this.graph;
     let firstKey = '';
-    const verticies = Object.keys(graph);
+    const verticies = graph.keys();
     firstKey = verticies[0];
     return this.BFS(firstKey).length === verticies.length;
   }
