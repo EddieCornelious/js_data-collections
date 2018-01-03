@@ -74,6 +74,8 @@ describe("ArrayUtils", function() {
   it("rotate should not work for OBVIOUS non numbers", function(){
     actual.push("A", "B");
     expect(() => ArrayUtils.rotate(actual, "a")).to.throw(TypeError);
+    expect(() => ArrayUtils.rotate(actual, null)).to.throw(TypeError);
+    expect(() => ArrayUtils.rotate(actual, "9")).to.throw(TypeError);
     expect(() => ArrayUtils.rotate(actual, {})).to.throw(TypeError);
     expect(() => ArrayUtils.rotate(actual, [1, 2])).to.throw(TypeError);
     expected = ["A", "B"];

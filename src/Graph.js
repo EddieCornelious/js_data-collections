@@ -1,7 +1,7 @@
 import Queue from './Queue.js';
 import Stack from './Stack.js';
-import HashMap from "./HashMap.js";
-import HashSet from "./HashSet.js";
+import HashMap from './HashMap.js';
+import HashSet from './HashSet.js';
 
 class Graph {
   constructor(numVerticies) {
@@ -10,12 +10,12 @@ class Graph {
   addVertex(vertex) {
     const { graph } = this;
     // so user does not accidentally overwrite values array
-    if(!graph.contains(vertex) && vertex !== undefined) {
+    if (!graph.contains(vertex) && vertex !== undefined) {
       graph.put(vertex, []);
     }
   }
   addEdge(vertex1, vertex2, weight = 0) {
-    // TODO: replace with PQ for Prim's 
+    // TODO: replace with PQ for Prim's
     const { graph } = this;
     const v1neighbors = graph.getVal(vertex1);
     const v2neighbors = graph.getVal(vertex2);
@@ -36,8 +36,8 @@ class Graph {
       if (!visited.has(currentVertex)) {
         visited.add(currentVertex);
         bfs.push(currentVertex);
-        let current_vertex_neighbors = graph.getVal(currentVertex).length;
-        for (let i = 0; i < current_vertex_neighbors; i += 1) {
+        let currentVertexNeighbors = graph.getVal(currentVertex).length;
+        for (let i = 0; i < currentVertexNeighbors; i += 1) {
           let curNeighbor = graph.getVal(currentVertex)[i].vertex;
           if (!visited.has(curNeighbor)) {
             q.enqueue(curNeighbor);
@@ -58,8 +58,8 @@ class Graph {
       if (!visited.has(currentVertex)) {
         visited.add(currentVertex);
         dfs.push(currentVertex);
-        let current_vertex_neighbors = graph.getVal(currentVertex).length;
-        for (let i = 0; i < current_vertex_neighbors; i += 1) {
+        let currentVertexNeighbors = graph.getVal(currentVertex).length;
+        for (let i = 0; i < currentVertexNeighbors; i += 1) {
           let curNeighbor = graph.getVal(currentVertex)[i].vertex;
           if (!visited.has(curNeighbor)) {
             s.push(curNeighbor);

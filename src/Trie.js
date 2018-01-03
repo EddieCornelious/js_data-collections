@@ -1,8 +1,11 @@
-function getPrefix(pfx) {
-  let cur = this.root.children;
+function getPrefix(root, pfx) {
+  let cur = root.children;
   let char;
-  for (let i = 0; i < pfx.length - 1; i += 1) {
+  for (let i = 0; i < pfx.length; i += 1) {
     char = pfx.charAt(i);
+    if (!cur[char]) {
+      return false;
+    }
     cur = cur[char].children;
   }
   return cur;
@@ -12,13 +15,13 @@ function recurseTree(node, arr) {
   if (!node) {
     return;
   }
-  const keys = Object.keys(node.children);
+  const keys = Object.keys(node);
   for (let i = 0; i < keys.length; i += 1) {
-    const curChild = node.children[keys[i]];
+    const curChild = node[keys[i]];
     if (curChild.word) {
       words.push(curChild.word);
     }
-    recurseTree(curChild, arr);
+    recurseTree(curChild.children, arr);
   }
 }
 function hasChild(obj) {
@@ -45,9 +48,6 @@ class Trie {
 
   addWord(word) {
     let cur = this.root.children;
-    if (word.length === 0) {
-      return;
-    }
     let wrd = word.toString().toLowerCase();
     let char;
     for (let i = 0; i < wrd.length; i += 1) {
@@ -64,9 +64,6 @@ class Trie {
   }
 
   containsWord(word) {
-    if (word.length === 0) {
-      return false;
-    }
     let cur = this.root.children;
     // check contains word first
     for (let i = 0; i < word.length; i += 1) {
@@ -84,32 +81,25 @@ class Trie {
     if (pfx.length === 0) {
       return false;
     }
-    let cur = this.root.children;
-
-    for (let i = 0; i < pfx.length; i += 1) {
-      let char = pfx.charAt(i);
-      if (!cur[char]) {
-        return false;
-      } else if (cur[char].word === pfx) {
-        // if word and has no children, it cannot be prefix, but can be word and still be prefix
-        const noChildren = hasChild(cur[char].children) === false;
-        if (noChildren) {
-          return false;
-        }
+    let curRoot = this.root;
+    const foundPrefix = getPrefix(curRoot, pfx.toString());
+    if (foundPrefix) {
+      const hasChildren = hasChild(foundPrefix);
+      if (hasChildren) {
         return true;
       }
-      cur = cur[char].children;
+      return false;
     }
-    return true;
+    return false;
   }
+
   prefixAll(pfx) {
     if (!this.containsPrefix(pfx)) {
       return [];
     }
-    const prefixTail = getPrefix.call(this, pfx);
+    const prefixTail = getPrefix(this.root, pfx);
     const prefixes = [];
-    const lastChar = pfx.charAt(pfx.length - 1);
-    recurseTree(prefixTail[lastChar], prefixes);
+    recurseTree(prefixTail, prefixes);
     return prefixes;
   }
 }

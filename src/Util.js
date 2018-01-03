@@ -26,9 +26,14 @@ function defaultComp(a, b) {
   }
   return 0;
 }
-
+/**
+ * Number.isNaN polyfill from
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+ * /Global_Objects/Number/isFinite
+ */
 function isNumber(obj) {
-  if (isNaN(obj)) {
+  if (typeof obj !== 'number'
+  || !isFinite(obj)) { // eslint-disable-line no-restricted-globals
     throw new TypeError('Argument must be of type number or Number');
   }
 }

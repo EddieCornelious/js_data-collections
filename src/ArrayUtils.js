@@ -82,6 +82,13 @@ class ArrayUtils {
     }
     return newArr;
   }
+  static chunk(arr, bits) {
+    const newArr = [];
+    for (let i = 0; i < arr.length; i += bits) {
+      newArr.push(arr.slice(i, i + bits));
+    }
+    return newArr;
+  }
 }
 module.exports = ArrayUtils;
 

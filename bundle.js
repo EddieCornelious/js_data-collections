@@ -583,9 +583,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return 0;
 	}
-
+	/**
+	 * Number.isNaN polyfill from
+	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+	 * /Global_Objects/Number/isFinite
+	 */
 	function isNumber(obj) {
-	  if (isNaN(obj)) {
+	  if (typeof obj !== 'number' || !isFinite(obj)) {
+	    // eslint-disable-line no-restricted-globals
 	    throw new TypeError('Argument must be of type number or Number');
 	  }
 	}
@@ -1246,13 +1251,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var graph = this.graph;
 	    // so user does not accidentally overwrite values array
 
-	    if (!graph.contains(vertex)) {
+	    if (!graph.contains(vertex) && vertex !== undefined) {
 	      graph.put(vertex, []);
 	    }
 	  };
 
-	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2, weight) {
-	    // TODO: replace with PQ for Prim's 
+	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
+	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+	    // TODO: replace with PQ for Prim's
 	    var graph = this.graph;
 
 	    var v1neighbors = graph.getVal(vertex1);
@@ -1276,8 +1283,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!visited.has(currentVertex)) {
 	        visited.add(currentVertex);
 	        bfs.push(currentVertex);
-	        var current_vertex_neighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < current_vertex_neighbors; i += 1) {
+	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
 	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
 	          if (!visited.has(curNeighbor)) {
 	            q.enqueue(curNeighbor);
@@ -1299,8 +1306,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!visited.has(currentVertex)) {
 	        visited.add(currentVertex);
 	        dfs.push(currentVertex);
-	        var current_vertex_neighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < current_vertex_neighbors; i += 1) {
+	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
 	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
 	          if (!visited.has(curNeighbor)) {
 	            s.push(curNeighbor);
@@ -1332,11 +1339,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function getPrefix(pfx) {
-	  var cur = this.root.children;
+	function getPrefix(root, pfx) {
+	  var cur = root.children;
 	  var char = void 0;
-	  for (var i = 0; i < pfx.length - 1; i += 1) {
+	  for (var i = 0; i < pfx.length; i += 1) {
 	    char = pfx.charAt(i);
+	    if (!cur[char]) {
+	      return false;
+	    }
 	    cur = cur[char].children;
 	  }
 	  return cur;
@@ -1346,13 +1356,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!node) {
 	    return;
 	  }
-	  var keys = Object.keys(node.children);
+	  var keys = Object.keys(node);
 	  for (var i = 0; i < keys.length; i += 1) {
-	    var curChild = node.children[keys[i]];
+	    var curChild = node[keys[i]];
 	    if (curChild.word) {
 	      words.push(curChild.word);
 	    }
-	    recurseTree(curChild, arr);
+	    recurseTree(curChild.children, arr);
 	  }
 	}
 	function hasChild(obj) {
@@ -1382,9 +1392,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Trie.prototype.addWord = function addWord(word) {
 	    var cur = this.root.children;
-	    if (word.length === 0) {
-	      return;
-	    }
 	    var wrd = word.toString().toLowerCase();
 	    var char = void 0;
 	    for (var i = 0; i < wrd.length; i += 1) {
@@ -1401,9 +1408,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Trie.prototype.containsWord = function containsWord(word) {
-	    if (word.length === 0) {
-	      return false;
-	    }
 	    var cur = this.root.children;
 	    // check contains word first
 	    for (var i = 0; i < word.length; i += 1) {
@@ -1422,33 +1426,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (pfx.length === 0) {
 	      return false;
 	    }
-	    var cur = this.root.children;
-
-	    for (var i = 0; i < pfx.length; i += 1) {
-	      var char = pfx.charAt(i);
-	      if (!cur[char]) {
-	        return false;
-	      } else if (cur[char].word === pfx) {
-	        // if word and has no children, it cannot be prefix, but can be word and still be prefix
-	        var noChildren = hasChild(cur[char].children) === false;
-	        if (noChildren) {
-	          return false;
-	        }
+	    var curRoot = this.root;
+	    var foundPrefix = getPrefix(curRoot, pfx.toString());
+	    if (foundPrefix) {
+	      var hasChildren = hasChild(foundPrefix);
+	      if (hasChildren) {
 	        return true;
 	      }
-	      cur = cur[char].children;
+	      return false;
 	    }
-	    return true;
+	    return false;
 	  };
 
 	  Trie.prototype.prefixAll = function prefixAll(pfx) {
 	    if (!this.containsPrefix(pfx)) {
 	      return [];
 	    }
-	    var prefixTail = getPrefix.call(this, pfx);
+	    var prefixTail = getPrefix(this.root, pfx);
 	    var prefixes = [];
-	    var lastChar = pfx.charAt(pfx.length - 1);
-	    recurseTree(prefixTail[lastChar], prefixes);
+	    recurseTree(prefixTail, prefixes);
 	    return prefixes;
 	  };
 
@@ -1616,6 +1612,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    for (var i = 0; i < arr.length; i += 1) {
 	      cur = arr[i];
 	      newArr = Array.isArray(cur) ? newArr.concat(ArrayUtils.flatten(cur)) : newArr.concat(pushValToArray(cur));
+	    }
+	    return newArr;
+	  };
+
+	  ArrayUtils.chunk = function chunk(arr, bits) {
+	    var newArr = [];
+	    for (var i = 0; i < arr.length; i += bits) {
+	      newArr.push(arr.slice(i, i + bits));
 	    }
 	    return newArr;
 	  };
