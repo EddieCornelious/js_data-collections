@@ -30,6 +30,7 @@ function defaultComp(a, b) {
  * Number.isNaN polyfill from
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
  * /Global_Objects/Number/isFinite
+ * @private
  */
 function isNumber(obj) {
   if (typeof obj !== 'number'

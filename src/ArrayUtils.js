@@ -14,6 +14,7 @@ function pushValToArray(value) {
 
 /**
  * Generates a random number integer between 0 and limit (exclusive)
+ * @private
  * @param {number} limit - Upper bound on random number
  * @returns {number} Random number in the range [0, @param number)
  */
@@ -23,6 +24,7 @@ function genRand(limit) {
 
 /**
  * Rotates array elements to the left
+ * @private
  * @param {Array} array - Array to rotate
  * @param {number} times - Number of times to rotate
  * @returns {undefined}
@@ -40,6 +42,7 @@ function lRotate(array, times) {
 }
 /**
  * Rotates array elements to the right
+ * @private
  * @param {Array} array - Array to rotate
  * @param {number} times - Number of times to rotate
  * @returns {undefined}

@@ -587,6 +587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Number.isNaN polyfill from
 	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 	 * /Global_Objects/Number/isFinite
+	 * @private
 	 */
 	function isNumber(obj) {
 	  if (typeof obj !== 'number' || !isFinite(obj)) {
@@ -1523,6 +1524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Generates a random number integer between 0 and limit (exclusive)
+	 * @private
 	 * @param {number} limit - Upper bound on random number
 	 * @returns {number} Random number in the range [0, @param number)
 	 */
@@ -1532,6 +1534,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Rotates array elements to the left
+	 * @private
 	 * @param {Array} array - Array to rotate
 	 * @param {number} times - Number of times to rotate
 	 * @returns {undefined}
@@ -1549,6 +1552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	/**
 	 * Rotates array elements to the right
+	 * @private
 	 * @param {Array} array - Array to rotate
 	 * @param {number} times - Number of times to rotate
 	 * @returns {undefined}
