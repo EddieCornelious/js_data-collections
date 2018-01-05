@@ -1,10 +1,10 @@
 /**
-* inserts given key and value into bst (maps key to value)
+* Inserts given key and value into bst (maps key to value)
 * @private
-* @param {*} key - key to insert in bst
-* @param {*} value - value that is mapped to by @param key
+* @param {*} key - Key to insert in bst
+* @param {*} value - Value that is mapped to by @param key
 * @param {BSTNode} Node - Node type to insert into tree
-* @returns null if the node was already in tree, thus not inserted
+* @returns {BSTNode|null} Null if the node was already in tree, thus not inserted
 * or the new node that was just inserted successfully.
 */
 function insert(key, value, Node) {
@@ -35,12 +35,13 @@ function insert(key, value, Node) {
   newNode.right = new Node();
   return newNode;
 }
+
 /**
- * searches for the given key in tree
+ * Searches for the given key in tree
  * @private
- * @param {BSTNode} root - the root node to start search
- * @param {*} key - the key to search for in bst
- * @returns {null|BSTNode} null if not found. Or the actual node if found
+ * @param {BSTNode} root - The root node to start search
+ * @param {*} key - The key to search for in bst
+ * @returns {null|BSTNode} Null if not found. Or the actual node if found
  */
 function search(root, key) {
   const comp = this.comp;
@@ -55,11 +56,12 @@ function search(root, key) {
   }
   return search.call(this, root.left, key);
 }
+
 /**
- * finds the inorder successor of @param node
+ * Finds the inorder successor of a node
  * @private
- * @param {BSTNode} node - node to find the successor for
- * @returns {BSTNode} the inorder successor of @param node
+ * @param {BSTNode} node - Node to find the successor for
+ * @returns {BSTNode} The inorder successor of @param node
  */
 function successor(node) {
   let suc = node.right;
@@ -71,11 +73,12 @@ function successor(node) {
   }
   return suc;
 }
+
 /**
- * gets the number of children of the given node
+ * Gets the number of children of a given node
  * @private
- * @param {BSTNode} node - node to geet number of children of
- * @returns {0|1|2} indicating number of non-Nil children
+ * @param {BSTNode} node - Node to get number of children of
+ * @returns {number} indicating number of non-Nil children 0 || 1 || 2
  */
 function numChildren(node) {
   const left = node.left.key;
@@ -89,11 +92,12 @@ function numChildren(node) {
   }
   return 2;
 }
+
 /**
- * removes given node from tree which has 0 children
+ * Removes given node from tree which has 0 children
  * @private
- * @param {BSTNode} node - node to remove from tree
- * @param {NodeType} NodeType - type of node in BST
+ * @param {BSTNode} node - Node to remove from tree
+ * @param {NodeType} NodeType - Type of node in BST
  * @returns {undefined}
  */
 function remove0(node, NodeType) {
@@ -109,17 +113,18 @@ function remove0(node, NodeType) {
     parent.left = node.left;
   }
 }
+
 /**
- * removes given node from tree which has 1 child
+ * Removes given node from tree which has 1 child
  * @private
- * @param {BSTNode} node - node to remove from tree
+ * @param {BSTNode} node - Node to remove from tree
  * @returns {undefined}
  */
 function remove1(node) {
   const comp = this.comp;
   // node is root
-  if (comp(node.key, this.root.key) === 0) {
-    const root = this.root;
+  const root = this.root;
+  if (comp(node.key, root.key) === 0) {
     if (root.left.key !== undefined) {
       this.root = root.left;
       root.left.parent = root.parent;
@@ -150,10 +155,11 @@ function remove1(node) {
     node.left.parent = parent;
   }
 }
+
 /**
- * removes given node from tree which has 2 children
+ * Removes given node from tree which has 2 children
  * @private
- * @param {BSTNode} node - node to remove from tree
+ * @param {BSTNode} node - Node to remove from tree
  * @returns {undefined}
  */
 function remove2(node) {
@@ -171,12 +177,13 @@ function remove2(node) {
   }
   return remove1.call(this, nodeSucc);
 }
+
 /**
  * Searches for a node with given key and removes it from tree
  * @private
- * @param {*} key - key to search for in tree
- * @param {BSTNode} nodeType - type of Nodes in the tree
- * @returns {true|false} true if node was deleted and false otherwise
+ * @param {*} key - Key to search for in tree
+ * @param {BSTNode} nodeType - Type of Nodes in the tree
+ * @returns {boolean} true if node was deleted and false otherwise
  */
 function remove(key, nodeType) {
   let node = search.call(this, this.root, key);
@@ -191,10 +198,11 @@ function remove(key, nodeType) {
   }
   return remove2.call(this, node, nodeType);
 }
+
 /**
- * gets the inorder traversal starting at given root
+ * Gets the inorder traversal starting at given root
  * @private
- * @param {BSTNode} root - root of tree
+ * @param {BSTNode} root - Root of tree
  * @returns {Array(Object)} Array containing key and value info as well as
  * parent info for each node
  */
@@ -205,12 +213,10 @@ function inorder(root) {
   }
   return [];
 }
-/**
- * @private
- */
+
 module.exports = {
-  insert,
-  remove,
-  search,
-  inorder
+  BSTInsert: insert,
+  BSTRemove: remove,
+  BSTSearch: search,
+  BSTInorder: inorder
 };

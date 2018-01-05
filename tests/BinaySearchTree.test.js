@@ -2,14 +2,17 @@ var Structs = require("../bundle.js");
 var expect = require("chai").expect;
 describe("Binary Search Tree", function() {
   let bst, expected, actual;
+
   beforeEach(function() {
     bst = new Structs.BST();
   });
+
   afterEach(function() {
     bst
     , expected
     , actual = null;
   });
+
   it("insert should insert into empty tree", function() {
     expected = ["a"];
     bst.insert("a", 1);
@@ -19,8 +22,9 @@ describe("Binary Search Tree", function() {
     }
     expect(actual.length).to.be.equal(expected.length);
   });
+
   it("insert should insert into non empty tree right", function() {
-    expected = ["a", "b"]
+    expected = ["a", "b"];
     bst.insert("a", 1);
     bst.insert("b", 1);
     actual = bst.inorder();
@@ -29,6 +33,7 @@ describe("Binary Search Tree", function() {
     }
     expect(actual.length).to.be.equal(expected.length);
   });
+
   it("insert should insert into non empty tree left", function() {
     expected = ["a", "b"];
     bst.insert("b", 1);
@@ -39,6 +44,7 @@ describe("Binary Search Tree", function() {
     }
     expect(actual.length).to.be.equal(expected.length);
   });
+
   it("insert should not insert if key exists but update value", function() {
     expected = ["b"];
     bst.insert("b", 1);
@@ -51,6 +57,7 @@ describe("Binary Search Tree", function() {
     }
     expect(actual.length).to.be.equal(expected.length);
   });
+
   it("remove node with 0 children root case", function() {
     bst.insert("b", 1);
     bst.remove("b");
@@ -64,6 +71,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent);
     }
   });
+
   it("remove node with 0 children not root case", function() {
     bst.insert("c", 1);
     bst.insert("a", 1);
@@ -86,6 +94,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 1 child root case", function() {
     bst.insert("m", 1);
     bst.insert("o", 1);
@@ -110,6 +119,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 1 child rr case", function() {
     bst.insert("m", 1);
     bst.insert("a", 1);
@@ -144,6 +154,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 1 child ll case", function() {
     bst.insert("m", 1);
     bst.insert("e", 1);
@@ -178,6 +189,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 1 child rl case", function() {
     bst.insert("m", 1);
     bst.insert("a", 1);
@@ -212,6 +224,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 1 child lr case", function() {
     bst.insert("m", 1);
     bst.insert("c", 1);
@@ -246,6 +259,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 2 children root case", function() {
     bst.insert("m", 1);
     bst.insert("a", 1);
@@ -275,6 +289,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 2 children not root case (1)", function() {
     bst.insert("e", 1);
     bst.insert("a", 1);
@@ -309,6 +324,7 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("remove node with 2 children not root case (2)", function() {
     bst.insert(50, 1);
     bst.insert(49, 1);
@@ -348,25 +364,30 @@ describe("Binary Search Tree", function() {
       expect(expected[i].parent).to.be.equal(actual[i].parent.key);
     }
   });
+
   it("contains is true when tree contains key", function() {
     bst.insert("e", 1);
     bst.insert("a", 1);
     expect(bst.contains("a")).to.be.equal(true);
     expect(bst.contains("e")).to.be.equal(true);
   });
+
   it("contains is false when tree does not contain key", function() {
     bst.insert("e", 1);
     bst.insert("a", 1);
     expect(bst.contains("u")).to.be.equal(false);
     expect(bst.contains("f")).to.be.equal(false);
   });
+
   it("find returns correct value for key", function() {
     bst.insert("e", 1);
     bst.insert("a", "Boxer");
     expect(bst.find("e")).to.be.equal(1);
     expect(bst.find("a")).to.be.equal("Boxer");
   });
+
   it("find returns undefined for key for no existing key", function() {
     expect(bst.find("e")).to.be.equal(undefined);
   });
+
 });

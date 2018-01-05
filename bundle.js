@@ -871,13 +871,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _BSTPrototype = __webpack_require__(10);
+	var _BSTNode = __webpack_require__(10);
+
+	var _BSTNode2 = _interopRequireDefault(_BSTNode);
+
+	var _BSTPrototype = __webpack_require__(11);
 
 	var _Util = __webpack_require__(5);
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var BSTNode = __webpack_require__(11);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
 	 * Binary search tree representation
@@ -899,28 +903,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function BST(comparator) {
 	    _classCallCheck(this, BST);
 
-	    this.root = new BSTNode();
+	    this.root = new _BSTNode2['default']();
 	    this.comp = comparator || _Util.defaultComp;
 	  }
+
 	  /**
-	  * inserts the given key and value into BST
-	  * @param {*} key - the key to insert into BST
-	  * @param {*} value - the value that is mapped to by @param key
-	  * @returns {BST} the instance that this method was called with
+	  * Inserts the given key and value into BST
+	  * @param {*} key - The key to insert into BST
+	  * @param {*} value - The value that is mapped to by @param key
+	  * @returns {BST} The instance that this method was called with
 	  * @example
 	  * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
-	  * // ed now maps to kane because it already existed before.
+	  * // ed now maps to kane because ed already existed before.
 	  */
 
 
 	  BST.prototype.insert = function insert(key, value) {
-	    _BSTPrototype.insert.call(this, key, value, BSTNode);
+	    _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
 	    return this;
 	  };
+
 	  /**
-	   * removes a key and it's associated from BST
-	   * @param {*} key - the key to search for
-	   * @returns {BST} the instance that this method was called with
+	   * Removes a key and it's associated from BST
+	   * @param {*} key - The key to search for
+	   * @returns {BST} The instance that this method was called with
 	   * @example
 	   * bst.insert(1, 5).insert(5, 10);
 	   * bst.remove(1); // 1 and it's associated value are removed from tree
@@ -929,11 +935,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.remove = function remove(key) {
-	    _BSTPrototype.remove.call(this, key, BSTNode);
+	    _BSTPrototype.BSTRemove.call(this, key, _BSTNode2['default']);
 	    return this;
 	  };
+
 	  /**
-	  * finds the value associated with given key
+	  * Finds the value associated with given key
 	  * @param {*} key to search for in BST
 	  * @returns {(*|undefined)} value associated with @param key or undefined
 	  * if not found.
@@ -945,11 +952,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.find = function find(key) {
-	    var node = _BSTPrototype.search.call(this, this.root, key);
+	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
 	  /**
-	  * determines if BST contains the given key
+	  * Determines if BST contains the given key
 	  * @param {*} key to search for in BST
 	  * @returns {boolean} true if BST contains @param key and false otherwise
 	  * @example
@@ -960,11 +967,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.contains = function contains(key) {
-	    var node = _BSTPrototype.search.call(this, this.root, key);
-	    return node ? true : false;
+	    return this.find(key) !== undefined;
 	  };
+
 	  /**
-	  * gives the inorder traversal of a BST
+	  * Gives the inorder traversal of a BST
 	  * @param {*} key to search for in BST
 	  * @returns {*|undefined} value associated with @param key or undefined
 	  * if not found.
@@ -976,7 +983,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.inorder = function inorder() {
-	    return (0, _BSTPrototype.inorder)(this.root);
+	    return (0, _BSTPrototype.BSTInorder)(this.root);
 	  };
 
 	  return BST;
@@ -990,13 +997,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BSTNode = function BSTNode(key, value) {
+	  _classCallCheck(this, BSTNode);
+
+	  this.parent = null;
+	  this.left = null;
+	  this.right = null;
+	  this.key = key;
+	  this.value = value;
+	};
+
+	module.exports = BSTNode;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
 	/**
-	* inserts given key and value into bst (maps key to value)
+	* Inserts given key and value into bst (maps key to value)
 	* @private
-	* @param {*} key - key to insert in bst
-	* @param {*} value - value that is mapped to by @param key
+	* @param {*} key - Key to insert in bst
+	* @param {*} value - Value that is mapped to by @param key
 	* @param {BSTNode} Node - Node type to insert into tree
-	* @returns null if the node was already in tree, thus not inserted
+	* @returns {BSTNode|null} Null if the node was already in tree, thus not inserted
 	* or the new node that was just inserted successfully.
 	*/
 	function insert(key, value, Node) {
@@ -1027,12 +1054,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  newNode.right = new Node();
 	  return newNode;
 	}
+
 	/**
-	 * searches for the given key in tree
+	 * Searches for the given key in tree
 	 * @private
-	 * @param {BSTNode} root - the root node to start search
-	 * @param {*} key - the key to search for in bst
-	 * @returns {null|BSTNode} null if not found. Or the actual node if found
+	 * @param {BSTNode} root - The root node to start search
+	 * @param {*} key - The key to search for in bst
+	 * @returns {null|BSTNode} Null if not found. Or the actual node if found
 	 */
 	function search(root, key) {
 	  var comp = this.comp;
@@ -1047,11 +1075,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return search.call(this, root.left, key);
 	}
+
 	/**
-	 * finds the inorder successor of @param node
+	 * Finds the inorder successor of a node
 	 * @private
-	 * @param {BSTNode} node - node to find the successor for
-	 * @returns {BSTNode} the inorder successor of @param node
+	 * @param {BSTNode} node - Node to find the successor for
+	 * @returns {BSTNode} The inorder successor of @param node
 	 */
 	function successor(node) {
 	  var suc = node.right;
@@ -1063,11 +1092,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return suc;
 	}
+
 	/**
-	 * gets the number of children of the given node
+	 * Gets the number of children of a given node
 	 * @private
-	 * @param {BSTNode} node - node to geet number of children of
-	 * @returns {0|1|2} indicating number of non-Nil children
+	 * @param {BSTNode} node - Node to get number of children of
+	 * @returns {number} indicating number of non-Nil children 0 || 1 || 2
 	 */
 	function numChildren(node) {
 	  var left = node.left.key;
@@ -1079,11 +1109,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return 2;
 	}
+
 	/**
-	 * removes given node from tree which has 0 children
+	 * Removes given node from tree which has 0 children
 	 * @private
-	 * @param {BSTNode} node - node to remove from tree
-	 * @param {NodeType} NodeType - type of node in BST
+	 * @param {BSTNode} node - Node to remove from tree
+	 * @param {NodeType} NodeType - Type of node in BST
 	 * @returns {undefined}
 	 */
 	function remove0(node, NodeType) {
@@ -1099,17 +1130,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    parent.left = node.left;
 	  }
 	}
+
 	/**
-	 * removes given node from tree which has 1 child
+	 * Removes given node from tree which has 1 child
 	 * @private
-	 * @param {BSTNode} node - node to remove from tree
+	 * @param {BSTNode} node - Node to remove from tree
 	 * @returns {undefined}
 	 */
 	function remove1(node) {
 	  var comp = this.comp;
 	  // node is root
-	  if (comp(node.key, this.root.key) === 0) {
-	    var root = this.root;
+	  var root = this.root;
+	  if (comp(node.key, root.key) === 0) {
 	    if (root.left.key !== undefined) {
 	      this.root = root.left;
 	      root.left.parent = root.parent;
@@ -1140,10 +1172,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    node.left.parent = parent;
 	  }
 	}
+
 	/**
-	 * removes given node from tree which has 2 children
+	 * Removes given node from tree which has 2 children
 	 * @private
-	 * @param {BSTNode} node - node to remove from tree
+	 * @param {BSTNode} node - Node to remove from tree
 	 * @returns {undefined}
 	 */
 	function remove2(node) {
@@ -1161,12 +1194,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return remove1.call(this, nodeSucc);
 	}
+
 	/**
 	 * Searches for a node with given key and removes it from tree
 	 * @private
-	 * @param {*} key - key to search for in tree
-	 * @param {BSTNode} nodeType - type of Nodes in the tree
-	 * @returns {true|false} true if node was deleted and false otherwise
+	 * @param {*} key - Key to search for in tree
+	 * @param {BSTNode} nodeType - Type of Nodes in the tree
+	 * @returns {boolean} true if node was deleted and false otherwise
 	 */
 	function remove(key, nodeType) {
 	  var node = search.call(this, this.root, key);
@@ -1181,10 +1215,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return remove2.call(this, node, nodeType);
 	}
+
 	/**
-	 * gets the inorder traversal starting at given root
+	 * Gets the inorder traversal starting at given root
 	 * @private
-	 * @param {BSTNode} root - root of tree
+	 * @param {BSTNode} root - Root of tree
 	 * @returns {Array(Object)} Array containing key and value info as well as
 	 * parent info for each node
 	 */
@@ -1195,35 +1230,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return [];
 	}
-	/**
-	 * @private
-	 */
+
 	module.exports = {
-	  insert: insert,
-	  remove: remove,
-	  search: search,
-	  inorder: inorder
+	  BSTInsert: insert,
+	  BSTRemove: remove,
+	  BSTSearch: search,
+	  BSTInorder: inorder
 	};
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var BSTNode = function BSTNode(key, value) {
-	  _classCallCheck(this, BSTNode);
-
-	  this.parent = null;
-	  this.left = null;
-	  this.right = null;
-	  this.key = key;
-	  this.value = value;
-	};
-
-	module.exports = BSTNode;
 
 /***/ },
 /* 12 */

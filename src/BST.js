@@ -1,11 +1,14 @@
-const BSTNode = require('./BSTNode.js');
+import BSTNode from './BSTNode.js';
+
 import {
-  insert,
-  remove,
-  search,
-  inorder
+  BSTInsert,
+  BSTRemove,
+  BSTSearch,
+  BSTInorder
 } from './BSTPrototype.js';
+
 import { defaultComp } from './Util.js';
+
 /**
  * Binary search tree representation
  * @class
@@ -27,34 +30,37 @@ class BST {
     this.root = new BSTNode();
     this.comp = comparator || defaultComp;
   }
+
   /**
-  * inserts the given key and value into BST
-  * @param {*} key - the key to insert into BST
-  * @param {*} value - the value that is mapped to by @param key
-  * @returns {BST} the instance that this method was called with
+  * Inserts the given key and value into BST
+  * @param {*} key - The key to insert into BST
+  * @param {*} value - The value that is mapped to by @param key
+  * @returns {BST} The instance that this method was called with
   * @example
   * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
-  * // ed now maps to kane because it already existed before.
+  * // ed now maps to kane because ed already existed before.
   */
   insert(key, value) {
-    insert.call(this, key, value, BSTNode);
+    BSTInsert.call(this, key, value, BSTNode);
     return this;
   }
+
   /**
-   * removes a key and it's associated from BST
-   * @param {*} key - the key to search for
-   * @returns {BST} the instance that this method was called with
+   * Removes a key and it's associated from BST
+   * @param {*} key - The key to search for
+   * @returns {BST} The instance that this method was called with
    * @example
    * bst.insert(1, 5).insert(5, 10);
    * bst.remove(1); // 1 and it's associated value are removed from tree
    * bst.remove("dog"); // this call fails silently as dog never existed in tree
    */
   remove(key) {
-    remove.call(this, key, BSTNode);
+    BSTRemove.call(this, key, BSTNode);
     return this;
   }
+
   /**
-  * finds the value associated with given key
+  * Finds the value associated with given key
   * @param {*} key to search for in BST
   * @returns {(*|undefined)} value associated with @param key or undefined
   * if not found.
@@ -64,11 +70,11 @@ class BST {
   * bst.find(67); // returns undefined
   */
   find(key) {
-    const node = search.call(this, this.root, key);
+    const node = BSTSearch.call(this, this.root, key);
     return node ? node.value : undefined;
   }
   /**
-  * determines if BST contains the given key
+  * Determines if BST contains the given key
   * @param {*} key to search for in BST
   * @returns {boolean} true if BST contains @param key and false otherwise
   * @example
@@ -77,11 +83,11 @@ class BST {
   * bst.contains(67); // returns false
   */
   contains(key) {
-    const node = search.call(this, this.root, key);
-    return node ? true : false;
+    return this.find(key) !== undefined;
   }
+
   /**
-  * gives the inorder traversal of a BST
+  * Gives the inorder traversal of a BST
   * @param {*} key to search for in BST
   * @returns {*|undefined} value associated with @param key or undefined
   * if not found.
@@ -91,7 +97,7 @@ class BST {
   * {key: 5, value:10, parent: 1}..... ]
   */
   inorder() {
-    return inorder(this.root);
+    return BSTInorder(this.root);
   }
 }
 
