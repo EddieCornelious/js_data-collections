@@ -955,6 +955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
+
 	  /**
 	  * Determines if BST contains the given key
 	  * @param {*} key to search for in BST

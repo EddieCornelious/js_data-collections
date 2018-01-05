@@ -8,7 +8,9 @@
     "build": "webpack --watch", 
     "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md"
   },
-  "keywords": [],
+  "keywords": ["data-structures", "library", "data", "structures", "binary searchtree"
+  , "linked list", "heap", "graph", "hashmap", "hashset", "priorityqueue", "trie", "stack"
+  , "queue", "array", "help"],
   "author": "Eddie Cornelious",
   "license": "MIT",
   "dependencies": {},
