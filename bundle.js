@@ -1697,8 +1697,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ArrayUtils.removeRand = function removeRand() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    var rand = genRand(array.length);
-	    return ArrayUtils.remove(array, rand);
+	    var randIndex = genRand(array.length);
+	    return ArrayUtils.remove(array, randIndex);
 	  };
 
 	  /**

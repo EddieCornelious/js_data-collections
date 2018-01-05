@@ -152,8 +152,8 @@ class ArrayUtils {
    * @returns {Array} array - Array of elements removed from @param array
    */
   static removeRand(array = []) {
-    const rand = genRand(array.length);
-    return ArrayUtils.remove(array, rand);
+    const randIndex = genRand(array.length);
+    return ArrayUtils.remove(array, randIndex);
   }
 
   /**
