@@ -28,6 +28,7 @@ function heapify(array, index, comp) {
     heapify(array, largest, comp);
   }
 }
+
 /**
  * @private
  * @param {Array} array - array to sift up on.
@@ -44,10 +45,11 @@ function siftUp(array, index, comp) {
     }
   }
 }
+
 /**
  * Binary heap representation
  * @class
- * @param {function} [comparator] - function used to
+ * @param {function} [comparator] - Function used to
  * compare parent and child for heap operations
  * @example
  * const heap = new Structs.BHeap();
@@ -69,15 +71,18 @@ function siftUp(array, index, comp) {
         return -1;
  }........
  * // this will give u the person with the highest age at the top of the heap.
+ * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE
  */
 class BHeap {
   constructor(comparator) {
     this.heap = [null];
     this.comp = comparator || defaultComp;
   }
+
   /**
-   * removes the root of the heap and returns the data to caller
-   * @returns {*} extracted data
+   * Removes the root of the heap and returns the data
+   * @returns {*} Extracted data
+   *
    * @example
    * heap.insert(1).insert(2).insert(3);
    * let root = heap.extractRoot();
@@ -91,10 +96,12 @@ class BHeap {
     heapify(heap, 1, this.comp);
     return max;
   }
+
   /**
-   * inserts given data into BHeap
-   * @param {*} [data] - optional data to insert into heap. Default is undefined
-   * @returns {BHeap} a reference to the instance that this method was called
+   * Inserts given data into BHeap
+   * @param {*} data - Data to insert into heap.
+   * @returns {BHeap} A reference to the instance that this method was called
+   *
    * @example
    * heap.insert(1).insert(2).insert(3).insert(3);
    * // this heap will contain both 3s
@@ -106,9 +113,11 @@ class BHeap {
     siftUp(heap, heap.length - 1, this.comp);
     return this;
   }
+
   /**
-   * transforms a BHeap into an array
+   * Transforms a BHeap into an array
    * @returns {Array} 'this' BHeap instance as an array
+   *
    * @example
    * heap.insert(1).insert(2);
    * heap.toArray() // will be [2, 1]
@@ -117,8 +126,9 @@ class BHeap {
     return this.heap.slice(1);
   }
   /**
-   * gives the number of elements in the BHeap.
+   * Gives the number of elements in the BHeap.
    * @returns 'this' BHeap instance's number of elements
+   *
    * @example
    * heap.size() // would be 0
    */

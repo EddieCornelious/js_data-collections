@@ -26,6 +26,7 @@ describe("Heap", function() {
     }
     expect(heap.size()).to.be.equal(4);
   });
+
   it("insert should not siftUp when un needed", function() {
     heap.insert(10);
     heap.insert(9);
@@ -38,6 +39,7 @@ describe("Heap", function() {
     }
     expect(heap.size()).to.be.equal(4);
   });
+
   it("insert should insert duplicate values", function() {
     heap.insert(10);
     heap.insert(9);
@@ -50,6 +52,7 @@ describe("Heap", function() {
     }
     expect(heap.size()).to.be.equal(4);
   });
+
   it("insert should update max correctly for multiple max changing calls", function() {
     heap.insert(1);
     heap.insert(2);
@@ -63,6 +66,7 @@ describe("Heap", function() {
     }
     expect(heap.size()).to.be.equal(5);
   });
+
   it("extractRoot should update heap properly after deletion", function() {
     heap.insert(1);
     heap.insert(2);
@@ -77,6 +81,7 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(3);
     expect(extracted).to.be.equal(4);
   });
+
   it("extractRoot from empty heap should return undefined", function() {
     let extracted = heap.extractRoot();
     heap.extractRoot();
@@ -89,6 +94,7 @@ describe("Heap", function() {
     actual = heap.toArray();
     expect(actual).to.be.deep.equal([]);
   });
+
   it("extractRoot with continuous example", function() {
     heap.insert(1);
     heap.insert(2);
@@ -146,4 +152,5 @@ describe("Heap", function() {
     }
     expect(minHeap.size()).to.be.equal(5);
   });
+
 });
