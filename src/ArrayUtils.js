@@ -64,6 +64,8 @@ function rRotate(array, times) {
  * Various utility methods that can be called with arrays
  * @class
  * @static
+ * @example
+ * const arrayMethods = Structs.ArrayUtils;
  */
 class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function
@@ -74,6 +76,11 @@ class ArrayUtils {
    * @param {Array} array - An array to remove elements from
    * @param {number} index - Index of element to remove
    * @returns {Array} Array of elements removed
+   *
+   * @example
+   * const myArray = [1, 2, 3, 4];
+   * let changedArray = arrayMethods.remove(myArray, 1);
+   * // changedArray contains [2] and myArray is [1, 3, 4]
    */
   static remove(array = [], index = 1) {
     return index >= 0 ? array.splice(index, 1) : [];
@@ -85,8 +92,13 @@ class ArrayUtils {
    * @param {Array} array - An array to remove elements from
    * @param {*} value - Value to remove from @param array
    * @returns {Array} Array of removed elements
+   *
+   * @example
+   * const myArray = [1, 2, 3, 4];
+   * let changedArray = arrayMethods.removeElement(myArray, 3);
+   * // changedArray contains [3] and myArray is [1, 2, 4]
    */
-  static removeObj(array = [], value) {
+  static removeElement(array = [], value) {
     const index = array.indexOf(value);
     return ArrayUtils.remove(array, index);
   }
@@ -98,6 +110,13 @@ class ArrayUtils {
    * @param {number} times - Number of times to rotate @param array
    * @throws {TypeError} If @param times is not primitive number
    * @returns {undefined}
+   *
+   * @example
+   * const myArray = [1, 2, 3, 4];
+   * arrayMethods.rotate(myArray, 2);
+   * // myArray is [3, 4, 1, 2]
+   * arrayMethods.rotate(myArray, -2);
+   * // myArray is back to original positioning [1, 2, 3, 4]
    */
   static rotate(array = [], times = 0) {
     // avoid infinite loop is rotate methods
@@ -115,6 +134,11 @@ class ArrayUtils {
    * @param {number} times - Number of times to pop @param array
    * @returns {Array} A new array equal to
    * [@param array - popped elements]
+   *
+   * @example
+   * const myArray = [1, 2, 3, 4];
+   * const altered = arrayMethods.popMany(myArray, 3);
+   * // myArray is [1, 2, 3, 4] ; altered is [3]
    */
   static popMany(array = [], times = 0) {
     const diff = array.length - times;
@@ -125,8 +149,13 @@ class ArrayUtils {
    * Pushes many elements into an array
    * @static
    * @param {Array} array - Array to push onto
-   * @param {number} times - Number of times to pop @param array
+   * @param {*} args - Consecutive arguments to push into array
    * @returns {Array} A new array equal to [@param array + pushed elements]
+   *
+   * @example
+   * const myArray = [1, 2];
+   * const altered = arrayMethods.pushMany(myArray, "push", "me");
+   * // myArray is unchanged ; altered = [1, 2, "push", "me"]
    */
   static pushMany(array = []) { // eslint-disable-line no-unused-vars
     const args = [...arguments];
@@ -139,7 +168,12 @@ class ArrayUtils {
    * Returns a random index in a array
    * @static
    * @param {Array} array - Array to get random index from
-   * @returns {*} Random index in @param array
+   * @returns {*} Random element in @param array
+   *
+   * @example
+   * const myArray = [1, 2];
+   * const altered = arrayMethods.getRand(myArray);
+   * // altered could be 1 or 2
    */
   static getRand(array = []) {
     return array[genRand(array.length)];
@@ -150,6 +184,11 @@ class ArrayUtils {
    * @static
    * @param {Array} array - Array to remove random element from
    * @returns {Array} array - Array of elements removed from @param array
+   *
+   * @example
+   * const myArray = [1, 2];
+   * const altered = arrayMethods.removeRand(myArray);
+   * // altered could be 1 or 2 ; myArray's length decreases by 1
    */
   static removeRand(array = []) {
     const randIndex = genRand(array.length);
@@ -175,6 +214,11 @@ class ArrayUtils {
    * Turns an n dimensional array into a 1 dimensional array
    * @param {Array} array - Array to flatten
    * @returns {Array} The flattened array
+   *
+   * @example
+   * const myArray = [[2], [3], [4, 5]];
+   * const altered = arrayMethods.flatten(myArray);
+   * // altered will be [2, 3, 4, 5] ; myArray unchanged
    */
   static flatten(array) {
     let newArr = [];
@@ -192,6 +236,11 @@ class ArrayUtils {
    * Splits an array into chunks
    * @param {Array} array - Array to chunk
    * @returns {Array} A new array split into @param bits
+   *
+   * @exmaple
+   * const myArray = [1, 2, 3, 4];
+   * const altered = arrayMethods.chunk(myArray, 2);
+   * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
    */
   static chunk(arr, bits) {
     const newArr = [];

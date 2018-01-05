@@ -409,9 +409,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @private
-	 * @param {Array} array - array to sift down on.
-	 * @param {number} index - index to start the sift down operation.
-	 * @param {function} comp - comparator to use against parent and child elements.
+	 * @param {Array} array - Array to sift down on.
+	 * @param {number} index - Index to start the sift down operation.
+	 * @param {function} comp - Comparator to use against parent and child elements.
 	 * @returns {undefined}
 	 */
 	function heapify(array, index, comp) {
@@ -1574,6 +1574,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Various utility methods that can be called with arrays
 	 * @class
 	 * @static
+	 * @example
+	 * const arrayMethods = Structs.ArrayUtils;
 	 */
 
 	var ArrayUtils = function () {
@@ -1587,6 +1589,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {Array} array - An array to remove elements from
 	   * @param {number} index - Index of element to remove
 	   * @returns {Array} Array of elements removed
+	   *
+	   * @example
+	   * const myArray = [1, 2, 3, 4];
+	   * let changedArray = arrayMethods.remove(myArray, 1);
+	   * // changedArray contains [2] and myArray is [1, 3, 4]
 	   */
 
 
@@ -1603,10 +1610,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {Array} array - An array to remove elements from
 	   * @param {*} value - Value to remove from @param array
 	   * @returns {Array} Array of removed elements
+	   *
+	   * @example
+	   * const myArray = [1, 2, 3, 4];
+	   * let changedArray = arrayMethods.removeElement(myArray, 3);
+	   * // changedArray contains [3] and myArray is [1, 2, 4]
 	   */
 
 
-	  ArrayUtils.removeObj = function removeObj() {
+	  ArrayUtils.removeElement = function removeElement() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var value = arguments[1];
 
@@ -1621,6 +1633,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} times - Number of times to rotate @param array
 	   * @throws {TypeError} If @param times is not primitive number
 	   * @returns {undefined}
+	   *
+	   * @example
+	   * const myArray = [1, 2, 3, 4];
+	   * arrayMethods.rotate(myArray, 2);
+	   * // myArray is [3, 4, 1, 2]
+	   * arrayMethods.rotate(myArray, -2);
+	   * // myArray is back to original positioning [1, 2, 3, 4]
 	   */
 
 
@@ -1643,6 +1662,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {number} times - Number of times to pop @param array
 	   * @returns {Array} A new array equal to
 	   * [@param array - popped elements]
+	   *
+	   * @example
+	   * const myArray = [1, 2, 3, 4];
+	   * const altered = arrayMethods.popMany(myArray, 3);
+	   * // myArray is [1, 2, 3, 4] ; altered is [3]
 	   */
 
 
@@ -1658,8 +1682,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Pushes many elements into an array
 	   * @static
 	   * @param {Array} array - Array to push onto
-	   * @param {number} times - Number of times to pop @param array
+	   * @param {*} args - Consecutive arguments to push into array
 	   * @returns {Array} A new array equal to [@param array + pushed elements]
+	   *
+	   * @example
+	   * const myArray = [1, 2];
+	   * const altered = arrayMethods.pushMany(myArray, "push", "me");
+	   * // myArray is unchanged ; altered = [1, 2, "push", "me"]
 	   */
 
 
@@ -1676,7 +1705,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Returns a random index in a array
 	   * @static
 	   * @param {Array} array - Array to get random index from
-	   * @returns {*} Random index in @param array
+	   * @returns {*} Random element in @param array
+	   *
+	   * @example
+	   * const myArray = [1, 2];
+	   * const altered = arrayMethods.getRand(myArray);
+	   * // altered could be 1 or 2
 	   */
 
 
@@ -1691,6 +1725,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @static
 	   * @param {Array} array - Array to remove random element from
 	   * @returns {Array} array - Array of elements removed from @param array
+	   *
+	   * @example
+	   * const myArray = [1, 2];
+	   * const altered = arrayMethods.removeRand(myArray);
+	   * // altered could be 1 or 2 ; myArray's length decreases by 1
 	   */
 
 
@@ -1722,6 +1761,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Turns an n dimensional array into a 1 dimensional array
 	   * @param {Array} array - Array to flatten
 	   * @returns {Array} The flattened array
+	   *
+	   * @example
+	   * const myArray = [[2], [3], [4, 5]];
+	   * const altered = arrayMethods.flatten(myArray);
+	   * // altered will be [2, 3, 4, 5] ; myArray unchanged
 	   */
 
 
@@ -1739,6 +1783,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Splits an array into chunks
 	   * @param {Array} array - Array to chunk
 	   * @returns {Array} A new array split into @param bits
+	   *
+	   * @exmaple
+	   * const myArray = [1, 2, 3, 4];
+	   * const altered = arrayMethods.chunk(myArray, 2);
+	   * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
 	   */
 
 

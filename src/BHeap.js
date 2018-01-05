@@ -1,9 +1,10 @@
 import { swap, defaultComp } from './Util.js';
+
 /**
  * @private
- * @param {Array} array - array to sift down on.
- * @param {number} index - index to start the sift down operation.
- * @param {function} comp - comparator to use against parent and child elements.
+ * @param {Array} array - Array to sift down on.
+ * @param {number} index - Index to start the sift down operation.
+ * @param {function} comp - Comparator to use against parent and child elements.
  * @returns {undefined}
  */
 function heapify(array, index, comp) {

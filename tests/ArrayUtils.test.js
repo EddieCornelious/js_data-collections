@@ -70,16 +70,16 @@ describe("ArrayUtils", function() {
     expect(actual).to.have.ordered.members(expected);
   });
 
-  it("removeObj should remove item from array", function(){
+  it("removeElement should remove item from array", function(){
     actual.push("A");
-    ArrayUtils.removeObj(actual, "A");
+    ArrayUtils.removeElement(actual, "A");
     expected = [];
     expect(actual).to.have.ordered.members(expected);
   });
 
-  it("removeObj should not alter array if object is not in array", function(){
+  it("removeElement should not alter array if object is not in array", function(){
     actual.push("A", "B");
-    ArrayUtils.removeObj(actual, "C");
+    ArrayUtils.removeElement(actual, "C");
     expected = ["A", "B"];
     expect(actual).to.have.ordered.members(expected);
   });

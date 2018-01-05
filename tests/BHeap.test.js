@@ -3,14 +3,17 @@ const expect = require("chai").expect;
 
 describe("Heap", function() {
   let heap, expected, actual;
+
   beforeEach( function() {
     heap = new Structs.BHeap();
   });
+
   afterEach( function() {
     heap,
     expected,
     actual = null;
   });
+
   it("insert should siftup from bottom to root", function() {
     heap.insert(10)
     .insert(9)
