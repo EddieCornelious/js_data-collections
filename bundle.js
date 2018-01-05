@@ -1511,7 +1511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
-	 * Pushes a value to an array
+	 * Pushes a value to an array and returns the array
 	 * @private
 	 * @param {*} value - The value to push to array
 	 * @returns {Array} Array of length one with @param value in it
@@ -1523,10 +1523,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Generates a random number integer between 0 and limit (exclusive)
+	 * Generates a random integer between 0 and limit (exclusive)
 	 * @private
 	 * @param {number} limit - Upper bound on random number
-	 * @returns {number} Random number in the range [0, @param number)
+	 * @returns {number} Random number in the range [0, @param limit)
 	 */
 	function genRand(limit) {
 	  return Math.floor(Math.random() * limit);
@@ -1536,7 +1536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Rotates array elements to the left
 	 * @private
 	 * @param {Array} array - Array to rotate
-	 * @param {number} times - Number of times to rotate
+	 * @param {number} times - Number of times to rotate left
 	 * @returns {undefined}
 	 */
 	function lRotate(array, times) {
@@ -1550,11 +1550,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	}
+
 	/**
 	 * Rotates array elements to the right
 	 * @private
 	 * @param {Array} array - Array to rotate
-	 * @param {number} times - Number of times to rotate
+	 * @param {number} times - Number of times to rotate right
 	 * @returns {undefined}
 	 */
 	function rRotate(array, times) {
@@ -1568,6 +1569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	}
+
 	/**
 	 * Various utility methods that can be called with arrays
 	 * @class
@@ -1580,7 +1582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } // eslint-disable-line no-empty-function
 
 	  /**
-	   * Removes the element at a given position
+	   * Removes an element at the given position
 	   * @static
 	   * @param {Array} array - An array to remove elements from
 	   * @param {number} index - Index of element to remove
@@ -1599,7 +1601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Removes a given value from array
 	   * @static
 	   * @param {Array} array - An array to remove elements from
-	   * @param {*} value - value to remove from @param array
+	   * @param {*} value - Value to remove from @param array
 	   * @returns {Array} Array of removed elements
 	   */
 
@@ -1617,6 +1619,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @static
 	   * @param {Array} array - Array to rotate
 	   * @param {number} times - Number of times to rotate @param array
+	   * @throws {TypeError} If @param times is not primitive number
 	   * @returns {undefined}
 	   */
 
@@ -1625,6 +1628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
+	    // avoid infinite loop is rotate methods
 	    (0, _Util.isNumber)(times);
 	    if (times < 0) {
 	      return lRotate(array, times);
@@ -1637,7 +1641,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @static
 	   * @param {Array} array - Array to pop
 	   * @param {number} times - Number of times to pop @param array
-	   * @returns {Array} A new array A new array equal to
+	   * @returns {Array} A new array equal to
 	   * [@param array - popped elements]
 	   */
 
@@ -1651,11 +1655,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Pushes many elemnts into an array
+	   * Pushes many elements into an array
 	   * @static
 	   * @param {Array} array - Array to push onto
 	   * @param {number} times - Number of times to pop @param array
-	   * @returns {Array} A new array equal to [@param array + new elements]
+	   * @returns {Array} A new array equal to [@param array + pushed elements]
 	   */
 
 
@@ -1734,7 +1738,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Splits an array into chunks
 	   * @param {Array} array - Array to chunk
-	   * @returns {Array} A new array with split into @param bits
+	   * @returns {Array} A new array split into @param bits
 	   */
 
 

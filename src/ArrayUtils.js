@@ -1,7 +1,7 @@
 import { swap, isNumber } from './Util.js';
 
 /**
- * Pushes a value to an array
+ * Pushes a value to an array and returns the array
  * @private
  * @param {*} value - The value to push to array
  * @returns {Array} Array of length one with @param value in it
@@ -13,10 +13,10 @@ function pushValToArray(value) {
 }
 
 /**
- * Generates a random number integer between 0 and limit (exclusive)
+ * Generates a random integer between 0 and limit (exclusive)
  * @private
  * @param {number} limit - Upper bound on random number
- * @returns {number} Random number in the range [0, @param number)
+ * @returns {number} Random number in the range [0, @param limit)
  */
 function genRand(limit) {
   return Math.floor(Math.random() * limit);
@@ -26,7 +26,7 @@ function genRand(limit) {
  * Rotates array elements to the left
  * @private
  * @param {Array} array - Array to rotate
- * @param {number} times - Number of times to rotate
+ * @param {number} times - Number of times to rotate left
  * @returns {undefined}
  */
 function lRotate(array, times) {
@@ -40,11 +40,12 @@ function lRotate(array, times) {
     }
   }
 }
+
 /**
  * Rotates array elements to the right
  * @private
  * @param {Array} array - Array to rotate
- * @param {number} times - Number of times to rotate
+ * @param {number} times - Number of times to rotate right
  * @returns {undefined}
  */
 function rRotate(array, times) {
@@ -58,6 +59,7 @@ function rRotate(array, times) {
     }
   }
 }
+
 /**
  * Various utility methods that can be called with arrays
  * @class
@@ -67,7 +69,7 @@ class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function
 
   /**
-   * Removes the element at a given position
+   * Removes an element at the given position
    * @static
    * @param {Array} array - An array to remove elements from
    * @param {number} index - Index of element to remove
@@ -81,7 +83,7 @@ class ArrayUtils {
    * Removes a given value from array
    * @static
    * @param {Array} array - An array to remove elements from
-   * @param {*} value - value to remove from @param array
+   * @param {*} value - Value to remove from @param array
    * @returns {Array} Array of removed elements
    */
   static removeObj(array = [], value) {
@@ -94,9 +96,11 @@ class ArrayUtils {
    * @static
    * @param {Array} array - Array to rotate
    * @param {number} times - Number of times to rotate @param array
+   * @throws {TypeError} If @param times is not primitive number
    * @returns {undefined}
    */
   static rotate(array = [], times = 0) {
+    // avoid infinite loop is rotate methods
     isNumber(times);
     if (times < 0) {
       return lRotate(array, times);
@@ -109,7 +113,7 @@ class ArrayUtils {
    * @static
    * @param {Array} array - Array to pop
    * @param {number} times - Number of times to pop @param array
-   * @returns {Array} A new array A new array equal to
+   * @returns {Array} A new array equal to
    * [@param array - popped elements]
    */
   static popMany(array = [], times = 0) {
@@ -118,11 +122,11 @@ class ArrayUtils {
   }
 
   /**
-   * Pushes many elemnts into an array
+   * Pushes many elements into an array
    * @static
    * @param {Array} array - Array to push onto
    * @param {number} times - Number of times to pop @param array
-   * @returns {Array} A new array equal to [@param array + new elements]
+   * @returns {Array} A new array equal to [@param array + pushed elements]
    */
   static pushMany(array = []) { // eslint-disable-line no-unused-vars
     const args = [...arguments];
@@ -187,7 +191,7 @@ class ArrayUtils {
   /**
    * Splits an array into chunks
    * @param {Array} array - Array to chunk
-   * @returns {Array} A new array with split into @param bits
+   * @returns {Array} A new array split into @param bits
    */
   static chunk(arr, bits) {
     const newArr = [];
