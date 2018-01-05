@@ -1,9 +1,15 @@
 import { swap, isNumber } from './Util.js';
 
-function pushValToArray(val) {
-  const arr = [];
-  arr.push(val);
-  return arr;
+/**
+ * Pushes a value to an array
+ * @private
+ * @param {*} value - the value to push to array
+ * @returns {Array} array of length one with @param value in it
+ */
+function pushValToArray(value) {
+  const array = [];
+  array.push(value);
+  return array;
 }
 function genRand(limit) {
   return Math.floor(Math.random() * limit);
@@ -84,6 +90,9 @@ class ArrayUtils {
   }
   static chunk(arr, bits) {
     const newArr = [];
+    if (bits <= 0) {
+      return [];
+    }
     for (let i = 0; i < arr.length; i += bits) {
       newArr.push(arr.slice(i, i + bits));
     }

@@ -287,4 +287,47 @@ describe("ArrayUtils", function() {
     expected = [y, z];
     expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
   });
+  it("chunk should return an empty array for array of length 0", function(){
+    expected = [];
+    expect(ArrayUtils.chunk(actual, 1)).to.have.ordered.members(expected);
+  });
+  it("chunk should return the input array when chunk size is array length", function(){
+    actual.push(1, 2, 3, 4);
+    actual = ArrayUtils.chunk(actual, 4);
+    expected = [[1, 2, 3, 4]];
+    for (let i = 0; i<actual.length; i += 1) {
+      expect(actual[i]).to.have.ordered.members(expected[i]);
+    }
+    
+  });
+   it("chunk should return the input array when chunk size is greater than array length", function(){
+    actual.push(1, 2, 3, 4);
+    actual = ArrayUtils.chunk(actual, 5);
+    expected = [[1, 2, 3, 4]];
+    for (let i = 0; i < actual.length; i += 1) {
+      expect(actual[i]).to.have.ordered.members(expected[i]);
+    }
+  });
+  it("chunk should return the input array when chunk size is less than or equal to zero", function(){
+    actual.push(1, 2, 3, 4);
+    expected = [];
+    expect(ArrayUtils.chunk(actual, -1)).to.have.ordered.members(expected);
+    expect(ArrayUtils.chunk(actual, 0)).to.have.ordered.members(expected);
+  });
+  it("chunk should return as many possible times (arrayLength/chunks) as possible and add the remainder divides oddly", function(){
+    actual.push(1, 2, 3, 4, 5);
+    actual = ArrayUtils.chunk(actual, 2);
+    expected = [[1, 2], [3, 4], [5]];
+    for (let i = 0; i < actual.length; i += 1) {
+      expect(actual[i]).to.have.ordered.members(expected[i]);
+    }
+  });
+  it("chunk should return as many possible times (arrayLength/chunks) as possible divides evenly", function(){
+    actual.push(1, 2, 3);
+    actual = ArrayUtils.chunk(actual, 1);
+    expected = [[1], [2], [3]];
+    for (let i = 0; i < actual.length; i += 1) {
+      expect(actual[i]).to.have.ordered.members(expected[i]);
+    }
+  });
 });
