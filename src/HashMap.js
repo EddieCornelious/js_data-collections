@@ -138,7 +138,7 @@ class HashMap {
    * Inserts given key and value into HashMap
    * @param {*} key - Key value
    * @param {*} value - Value mapped to by @param key
-   * @returns {boolean}
+   * @returns {boolean} True
    *
    * @example
    * map.put("ed", "jones");

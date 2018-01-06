@@ -797,7 +797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Inserts given key and value into HashMap
 	   * @param {*} key - Key value
 	   * @param {*} value - Value mapped to by @param key
-	   * @returns {boolean}
+	   * @returns {boolean} True
 	   *
 	   * @example
 	   * map.put("ed", "jones");
@@ -1727,27 +1727,51 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	/**
+	 * HashMultiMap representation
+	 * @class
+	 * @param {number} [initialCapacity=13] - Initial size of the hashmultimap
+	 * @inheritdoc
+	 * @example
+	 * const map = new Structs.HashMultiMap();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
+	 */
 	var HashMultiMap = function (_HashMap) {
 	  _inherits(HashMultiMap, _HashMap);
 
-	  function HashMultiMap(size) {
+	  function HashMultiMap(initialCapacity) {
 	    _classCallCheck(this, HashMultiMap);
 
-	    return _possibleConstructorReturn(this, _HashMap.call(this, size));
+	    return _possibleConstructorReturn(this, _HashMap.call(this, initialCapacity));
 	  }
 
-	  HashMultiMap.prototype.put = function put(key, value) {
+	  /**
+	   * Inserts given key and value into HashMultiMap
+	   * @param {*} key - Key value
+	   * @param {*} value - Value mapped to by @param key
+	   * @returns {boolean} True
+	   *
+	   * @example
+	   * map.put("ed", "jones");
+	   * map.put("ed", "james");
+	   * // ed now maps to jones and james.
+	   */
+
+
+	  HashMultiMap.prototype.put = function put(key) {
+	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 	    var retVal = _HashMap.prototype.getVal.call(this, key);
 	    if (retVal) {
+	      // no duplicate values for one key
 	      if (retVal.indexOf(value) === -1) {
 	        return retVal.push(value);
 	      }
-	    } else {
-	      var newValArr = [];
-	      newValArr.push(value);
-	      return _HashMap.prototype.put.call(this, key, newValArr);
+	      return false;
 	    }
-	    return true;
+	    var newValArr = [];
+	    newValArr.push(value);
+	    return _HashMap.prototype.put.call(this, key, newValArr);
 	  };
 
 	  return HashMultiMap;
