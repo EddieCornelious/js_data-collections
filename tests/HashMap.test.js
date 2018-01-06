@@ -4,13 +4,15 @@ var expect= require("chai").expect;
 
 describe("HashMap", function() {
   let map, expected, actual;
-  // More tests later
+
   beforeEach(function() {
       map = new Structs.HashMap();
    });
+
    beforeEach(function() {
       expected, map, actual = null;
    });
+
    it("put inserts data into map correctly", function(){
      map.put("a", "A");
      map.put("b", "B");

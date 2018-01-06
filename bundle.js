@@ -1265,12 +1265,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/**
+	 * Undirected, weighted graph representation
+	 * @class
+	 * @param {number} numVerticies - Number of expected verticies for the graph
+	 *
+	 * @example
+	 * const graph = new Structs.Graph(97);
+	 * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE
+	 */
 	var Graph = function () {
 	  function Graph(numVerticies) {
 	    _classCallCheck(this, Graph);
 
 	    this.graph = new _HashMap2['default'](numVerticies);
 	  }
+
+	  /**
+	   * Adds a vertex to to the graph
+	   * @param {*} vertex - The vertex to place into graph
+	   * @returns {undefined}
+	   *
+	   * @example
+	   * graph.addVertex("A");
+	   * graph.addVertex("B");
+	   * // two verticies with id "A" and "B" are added to graph
+	   */
+
 
 	  Graph.prototype.addVertex = function addVertex(vertex) {
 	    var graph = this.graph;
@@ -1280,6 +1301,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      graph.put(vertex, []);
 	    }
 	  };
+
+	  /**
+	   * Connects two verticies to create an undirected edge
+	   * @param {*} vertex1 - First vertex
+	   * @param {*} vertex2 - Second vertex
+	   * @param {number} [weight=0] - Optional cost of
+	   * edge between @param vertex1, vertex2
+	   * @returns {undefined}
+	   *
+	   * @example
+	   * graph.addVertex("A");
+	   * graph.addVertex("B");
+	   * graph.addEdge("A", "B", 4); // adds edge between "A" & "B" of weight 4
+	   */
+
 
 	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
 	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
@@ -1291,13 +1327,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var v2neighbors = graph.getVal(vertex2);
 	    // they both exist as verticies
 	    if (v1neighbors && v2neighbors) {
-	      v1neighbors.push({ vertex: vertex2, weight: weight });
-	      v2neighbors.push({ vertex: vertex1, weight: weight });
+	      // make sure edge does not already exist
+	      if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
+	        // body
+	        v1neighbors.push({ vertex: vertex2, weight: weight });
+	        v2neighbors.push({ vertex: vertex1, weight: weight });
+	      }
 	    }
 	  };
 
+	  /**
+	   * Performs Breadth First Search
+	   * @param {*} startingVertex - The vertex to start Search from
+	   * @returns {Array} An Array containing verticies in order visited
+	   * through BFS
+	   */
+
+
 	  Graph.prototype.BFS = function BFS(startingVertex) {
 	    var graph = this.graph;
+
+	    if (!graph.contains(startingVertex)) {
+	      return [];
+	    }
 
 	    var bfs = [];
 	    var visited = new _HashSet2['default'](graph.size());
@@ -1305,6 +1357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    q.enqueue(startingVertex);
 	    while (q.size() !== 0) {
 	      var currentVertex = q.dequeue();
+
 	      if (!visited.has(currentVertex)) {
 	        visited.add(currentVertex);
 	        bfs.push(currentVertex);
@@ -1320,14 +1373,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return bfs;
 	  };
 
-	  Graph.prototype.DFS = function DFS(vertex) {
+	  /**
+	   * Performs Depth First Search
+	   * @param {*} startingVertex - The vertex to start Search from
+	   * @returns {Array} An Array containing verticies in order visited
+	   * through DFS
+	   */
+
+
+	  Graph.prototype.DFS = function DFS(startingVertex) {
 	    var graph = this.graph;
+	    if (!graph.contains(startingVertex)) {
+	      return [];
+	    }
+
 	    var dfs = [];
 	    var visited = new _HashSet2['default'](graph.size());
 	    var s = new _Stack2['default']();
-	    s.push(vertex);
+	    s.push(startingVertex);
 	    while (s.size() !== 0) {
 	      var currentVertex = s.pop();
+
 	      if (!visited.has(currentVertex)) {
 	        visited.add(currentVertex);
 	        dfs.push(currentVertex);
@@ -1342,6 +1408,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return dfs;
 	  };
+
+	  /**
+	   * Reports whether a graph is connected
+	   * @returns {boolean} true if connected and false otherwise
+	   */
+
 
 	  Graph.prototype.isConnected = function isConnected() {
 	    var graph = this.graph;
