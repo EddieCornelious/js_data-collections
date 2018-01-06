@@ -116,7 +116,7 @@ class BHeap {
 
   /**
    * Transforms a BHeap into an array
-   * @returns {Array} 'this' BHeap instance as an array
+   * @returns {Array} A BHeap instance as an array
    *
    * @example
    * heap.insert(1).insert(2);
@@ -127,7 +127,7 @@ class BHeap {
   }
   /**
    * Gives the number of elements in the BHeap.
-   * @returns 'this' BHeap instance's number of elements
+   * @returns A BHeap instance's number of elements
    *
    * @example
    * heap.size() // would be 0

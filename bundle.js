@@ -530,7 +530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Transforms a BHeap into an array
-	   * @returns {Array} 'this' BHeap instance as an array
+	   * @returns {Array} A BHeap instance as an array
 	   *
 	   * @example
 	   * heap.insert(1).insert(2);
@@ -543,7 +543,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	  /**
 	   * Gives the number of elements in the BHeap.
-	   * @returns 'this' BHeap instance's number of elements
+	   * @returns A BHeap instance's number of elements
 	   *
 	   * @example
 	   * heap.size() // would be 0
@@ -653,9 +653,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	// from immutable.js implementation of java hashcode
-	// https://github.com/facebook/immutable-js/blob/master/src/Hash.js
-	// better distribution than fnv TODO: change fnv name
+	/**
+	 * From immutable.js implementation of java hashcode
+	 * https://github.com/facebook/immutable-js/blob/master/src/Hash.js
+	 * better distribution than fnv hash
+	 *
+	 * Returns the hashcode for a string
+	 * @private
+	 * @param {string} str - String to hash
+	 * @returns {number} @param str's hashcode
+	 */
 	function hashStr(str) {
 	  var hash = 0;
 	  for (var i = 0; i < str.length; i += 1) {
@@ -663,6 +670,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return hash;
 	}
+
+	/**
+	 * Returns the modulo of two numbers
+	 * @private
+	 * @param {number} a - Dividend
+	 * @param {number} b - Divisor
+	 * @returns {number} Positive number when (a mod b) is calculated
+	 */
 	function mod(a, b) {
 	  var modulo = a % b;
 	  if (a < 0) {
@@ -670,6 +685,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return modulo;
 	}
+
+	/**
+	 * Creates a 2 dimensional array of a certain size
+	 * @private
+	 * @param {number} size - Size of the 2d array
+	 * @returns {Array} A 1d array with @param size inner arrays
+	 */
 	function createTable(size) {
 	  var newTable = [];
 	  for (var i = 0; i < size; i += 1) {
@@ -677,48 +699,113 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return newTable;
 	}
-	function toString(obj) {
-	  var type = typeof obj === 'undefined' ? 'undefined' : _typeof(obj);
+
+	/**
+	 * Converts a given value to a string
+	 * @private
+	 * @param {*} value - The value to convert to a string
+	 * @returns {string} @param value to string or stringified by JSON
+	 */
+	function toString(value) {
+	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
 	  if (type === 'string' || type === 'number') {
-	    return obj.toString();
+	    return value.toString();
 	  } else if (type === 'boolean' || type === 'function') {
-	    return obj.toString();
+	    return value.toString();
 	  }
-	  return JSON.stringify(obj);
+	  return JSON.stringify(value);
 	}
-	function insert(k, v, table) {
-	  var hash = hashStr(toString(k) + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
+
+	/**
+	 * Inserts into a hashtable based on a hashcode of @param key
+	 * @private
+	 * @param {*} key - The key
+	 * @param {*} value - The value mapped to by key
+	 * @param {Array} table - Associative Array
+	 * @returns {number} 1 for true
+	 */
+	function insert(key, value, table) {
+	  var hash = hashStr(toString(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
-	  return bucket.push(k, v);
+	  return bucket.push(key, value);
 	}
-	function search(k, table) {
-	  var toStr = toString(k);
-	  var hash = hashStr(toStr + (typeof k === 'undefined' ? 'undefined' : _typeof(k)));
+
+	/**
+	 * Searches a hashtable based on the hashcode of @param key
+	 * @private
+	 * @param {*} key - Key to look for
+	 * @param {Array} table - Associative Array
+	 * @returns {Object} Objet literal with the bucket where @param key is found
+	 * and the index of @param key in that bucket or undefined and -1 if not found
+	 */
+	function search(key, table) {
+	  var toStr = toString(key);
+	  var hash = hashStr(toStr + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
+	  // skip values [k1, v1, k2, v2]
 	  for (var index = 0; index < bucket.length; index += 2) {
-	    if (k === bucket[index]) {
+	    if (key === bucket[index]) {
 	      return { bucket: bucket, index: index };
 	    }
 	  }
 	  return { bucket: undefined, index: -1 };
 	}
+
+	/**
+	 * Figures out if a given hashtable should grow larger
+	 * @private
+	 * @param {number} inserts - The number of items in the table
+	 * @param {Array} table - Associative Array
+	 * @returns {boolean} True if table should rehash and false otherwise
+	 */
 	function shouldRehash(inserts, table) {
-	  if (inserts / table.length >= 0.75) {
-	    return true;
-	  }
+	  var loadFactor = inserts / table.length;
+	  return loadFactor >= 0.75 ? true : false;
 	}
+
+	/**
+	 * HashMap representation
+	 * @class
+	 * @param {number} [initialCapacity=13] - Initial size of the hashmap
+	 * IMPORTANT : It is not recommended that you choose a size that will be a
+	 * close or approximate upper bound on your data, so that number
+	 * of rehashes of the inner hashtable will be small. For example, if
+	 * you know you only need 100,000 inserts, a good initial capacity would not be
+	 * approximately 100,000 as the hastable will resize once 75,000
+	 * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
+	 * which is 112,500 , greater than your space needed.
+	 * So, try something around 150,000. Or you can just rehash a lot :)
+	 *
+	 * @example
+	 * const map = new Structs.HashMap(37);
+	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
+	 */
 
 	var HashMap = function () {
 	  function HashMap() {
-	    var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 13;
+	    var initialCapacity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 13;
 
 	    _classCallCheck(this, HashMap);
 
 	    this.inserts = 0;
-	    this.table = createTable(size);
+	    this.table = createTable(initialCapacity);
 	  }
+
+	  /**
+	   * Inserts given key and value into HashMap
+	   * @param {*} key - Key value
+	   * @param {*} value - Value mapped to by @param key
+	   * @returns {boolean}
+	   *
+	   * @example
+	   * map.put("ed", "jones");
+	   * // ed maps to jones
+	   * map.put("ed", "james");
+	   * // now same ed maps to james
+	   */
+
 
 	  HashMap.prototype.put = function put() {
 	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -742,6 +829,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return true;
 	  };
 
+	  /**
+	   * Retrieves the value mapped to by @param key
+	   * @param {*} key - Key to lookup
+	   * @returns {*} Value associated with @param key
+	   *
+	   * @example
+	   * map.put(99, "problems");
+	   * map.getVal(99); // returns "promblems"
+	   */
+
+
 	  HashMap.prototype.getVal = function getVal(key) {
 	    var searchRes = search(key, this.table);
 	    var bucket = searchRes.bucket,
@@ -749,6 +847,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return index !== -1 ? bucket[index + 1] : undefined;
 	  };
+
+	  /**
+	   * Removes a key and its associated value from the HashMap
+	   * @param {*} key - Key to lookup
+	   * @returns {boolean} True if the key was removed and false otherwise
+	   *
+	   * @example
+	   * map.put(99, "problems");
+	   * map.remove(88); // returns false
+	   * map.remove(99); // return true
+	   */
+
 
 	  HashMap.prototype.remove = function remove(key) {
 	    var searchRes = search(key, this.table);
@@ -763,9 +873,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return false;
 	  };
 
+	  /**
+	   * Reports whether a HashMap contains a key
+	   * @param {*} key - Key to lookup
+	   * @returns {boolean} True if @param key is found and false otherwise
+	   *
+	   * @example
+	   * map.contains("empty"); // return false
+	   */
+
+
 	  HashMap.prototype.contains = function contains(key) {
 	    return this.getVal(key) !== undefined;
 	  };
+
+	  /**
+	   * Resizes and rehashes all keys in HashMap
+	   * @returns {undefined}
+	   */
+
 
 	  HashMap.prototype.rehash = function rehash() {
 	    var oldTable = this.table;
@@ -781,6 +907,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.table = newTable;
 	  };
 
+	  /**
+	   * Returns all of the keys in the HashMap
+	   * @returns {Array} An array of keys
+	   *
+	   * @example
+	   * map.put(1, "b");
+	   * map.put(2, "c");
+	   * map.put(3, "d");
+	   * map.keys() // returns ["a", "b", "c"] permutation (order not guarenteed)
+	   * // but presence is
+	   */
+
+
 	  HashMap.prototype.keys = function keys() {
 	    var table = this.table;
 	    var keyArr = [];
@@ -792,9 +931,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return keyArr;
 	  };
 
+	  /**
+	   * Returns the size of the inner HashTable
+	   * @returns {number} Size of HashTable
+	   *
+	   * @example
+	   * new Structs.HashMap().tableSize() // 13 initial value empty args
+	   */
+
+
 	  HashMap.prototype.tableSize = function tableSize() {
 	    return this.table.length;
 	  };
+
+	  /**
+	   * Returns number of elements in the HashMap
+	   * @returns {number} Number of insertions
+	   *
+	   * @example
+	   * const newMap = map.put(99, "problems");
+	   * newMap.size() // 1
+	   * newMap.tableSize(); // 13
+	   */
+
 
 	  HashMap.prototype.size = function size() {
 	    return this.inserts;
@@ -1272,7 +1431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @example
 	 * const graph = new Structs.Graph(97);
-	 * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE
+	 * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var Graph = function () {
 	  function Graph(numVerticies) {
@@ -1282,7 +1441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Adds a vertex to to the graph
+	   * Adds a vertex to the graph
 	   * @param {*} vertex - The vertex to place into graph
 	   * @returns {undefined}
 	   *
