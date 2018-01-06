@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Graph - Documentation</title>
+    <title>HashSet - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Graph</h1>
+    <h1 class="page-title">HashSet</h1>
     
 
     
@@ -40,10 +40,10 @@
 <header>
     
         <h2>
-        Graph
+        HashSet
         </h2>
         
-            <div class="class-description">Undirected, weighted graph representation</div>
+            <div class="class-description">HashSet representation</div>
         
     
 </header>
@@ -57,7 +57,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Graph"><span class="type-signature"></span>new Graph<span class="signature">(numVerticies)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="HashSet"><span class="type-signature"></span>new HashSet<span class="signature">(initialCapacity<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -113,8 +113,8 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const graph = new Structs.Graph(97);
-// FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE</code></pre>
+    <pre class="prettyprint"><code>const set = new Structs.HashSet();
+// FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE</code></pre>
 
 
 
@@ -132,7 +132,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -144,7 +148,7 @@
 
         <tr>
             
-                <td class="name"><code>numVerticies</code></td>
+                <td class="name"><code>initialCapacity</code></td>
             
 
             <td class="type">
@@ -157,10 +161,26 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Number of expected verticies for the graph</td>
+            
+                <td class="default">
+                
+                    <code>13</code>
+                
+                </td>
+            
+
+            <td class="description last">Initial size of the hashset</td>
         </tr>
 
     
@@ -205,7 +225,7 @@
 
     
 
-    <h4 class="name" id="addEdge"><span class="type-signature"></span>addEdge<span class="signature">(vertex1, vertex2, weight<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(element)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -252,7 +272,7 @@
 
 
 <div class="description">
-    Connects two verticies to create an undirected edge
+    Adds an element to the set. Does nothing if already in set
 </div>
 
 
@@ -265,9 +285,10 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>graph.addVertex("A");
-graph.addVertex("B");
-graph.addEdge("A", "B", 4); // adds edge between "A" &amp; "B" of weight 4</code></pre>
+    <pre class="prettyprint"><code>set.add(1);
+set.add(2);
+set.add(1);
+// set contains [1, 2] with no guarenteed order</code></pre>
 
 
 
@@ -285,11 +306,7 @@ graph.addEdge("A", "B", 4); // adds edge between "A" &amp; "B" of weight 4</code
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -301,7 +318,7 @@ graph.addEdge("A", "B", 4); // adds edge between "A" &amp; "B" of weight 4</code
 
         <tr>
             
-                <td class="name"><code>vertex1</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
@@ -314,97 +331,257 @@ graph.addEdge("A", "B", 4); // adds edge between "A" &amp; "B" of weight 4</code
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">First vertex</td>
+            <td class="description last">Element to add to the set</td>
         </tr>
 
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="cardinality"><span class="type-signature"></span>cardinality<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Returns ths size of the set
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>set.add(1);
+set.add(2);
+set.cardinality() ; // 2</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="diff"><span class="type-signature"></span>diff<span class="signature">(thatSet)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Updates 'this' with the mathematical set difference of 'this' set and
+another set
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>set.add(1);
+set.add(2);
+set2 = new Structs.HashSet();
+set2.add(2);
+set.diff(set2);
+// set is now [1] and set2 is unchanged</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>vertex2</code></td>
+                <td class="name"><code>thatSet</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type"><a href="HashSet.html">HashSet</a></span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Second vertex</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>weight</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>0</code>
-                
-                </td>
-            
-
-            <td class="description last">Optional cost of
-edge between @param vertex1, vertex2</td>
+            <td class="description last">another HashSet instance</td>
         </tr>
 
     
@@ -449,7 +626,7 @@ edge between @param vertex1, vertex2</td>
 
     
 
-    <h4 class="name" id="addVertex"><span class="type-signature"></span>addVertex<span class="signature">(vertex)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+    <h4 class="name" id="has"><span class="type-signature"></span>has<span class="signature">(element)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -496,7 +673,7 @@ edge between @param vertex1, vertex2</td>
 
 
 <div class="description">
-    Adds a vertex to the graph
+    Reports whether the set contains a given value
 </div>
 
 
@@ -509,9 +686,9 @@ edge between @param vertex1, vertex2</td>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>graph.addVertex("A");
-graph.addVertex("B");
-// two verticies with id "A" and "B" are added to graph</code></pre>
+    <pre class="prettyprint"><code>set.add(1);
+set.add(2);
+set.has(3); // false</code></pre>
 
 
 
@@ -541,7 +718,7 @@ graph.addVertex("B");
 
         <tr>
             
-                <td class="name"><code>vertex</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
@@ -557,7 +734,168 @@ graph.addVertex("B");
 
             
 
-            <td class="description last">The vertex to place into graph</td>
+            <td class="description last">Element to find</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if set contains @param element and false otherwise
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="intersect"><span class="type-signature"></span>intersect<span class="signature">(thatSet)</span><span class="type-signature"> &rarr; {undefined}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Updates 'this' with the mathematical set intersection of 'this' set and
+another set
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>set.add(1);
+set.add(2);
+set2 = new Structs.HashSet();
+set2.add(2);
+set.intersect(set2);
+// set1 is now [2] and set2 is unchanged</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>thatSet</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="HashSet.html">HashSet</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">another HashSet instance</td>
         </tr>
 
     
@@ -602,7 +940,7 @@ graph.addVertex("B");
 
     
 
-    <h4 class="name" id="BFS"><span class="type-signature"></span>BFS<span class="signature">(startingVertex)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="keys"><span class="type-signature"></span>keys<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 
@@ -649,7 +987,7 @@ graph.addVertex("B");
 
 
 <div class="description">
-    Performs Breadth First Search
+    Returns all elements in the set
 </div>
 
 
@@ -660,55 +998,6 @@ graph.addVertex("B");
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>startingVertex</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The vertex to start Search from</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -727,8 +1016,7 @@ graph.addVertex("B");
 
         
 <div class="param-desc">
-    An Array containing verticies in order visited
-through BFS
+    Array with all elements in the set
 </div>
 
 
@@ -753,7 +1041,7 @@ through BFS
 
     
 
-    <h4 class="name" id="DFS"><span class="type-signature"></span>DFS<span class="signature">(startingVertex)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -800,158 +1088,7 @@ through BFS
 
 
 <div class="description">
-    Performs Depth First Search
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>startingVertex</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The vertex to start Search from</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    An Array containing verticies in order visited
-through DFS
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="isConnected"><span class="type-signature"></span>isConnected<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Reports whether a graph is connected
+    Removes an element from the set
 </div>
 
 
@@ -980,7 +1117,7 @@ through DFS
 
         
 <div class="param-desc">
-    true if connected and false otherwise
+    true if @param element was removed and false otherwise
 </div>
 
 

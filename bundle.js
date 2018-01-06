@@ -970,50 +970,142 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _HashMap = __webpack_require__(7);
+
+	var _HashMap2 = _interopRequireDefault(_HashMap);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var HashMap = __webpack_require__(7);
-
+	/**
+	 * HashSet representation
+	 * @class
+	 * @param {number} [initialCapacity=13] - Initial size of the hashset
+	 *
+	 * @example
+	 * const set = new Structs.HashSet();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE
+	 */
 	var HashSet = function () {
-	  function HashSet() {
+	  function HashSet(initialCapacity) {
 	    _classCallCheck(this, HashSet);
 
-	    this.set = new HashMap();
+	    this.set = new _HashMap2['default'](initialCapacity);
 	  }
 
-	  HashSet.prototype.add = function add(k) {
-	    return this.set.put(k, null);
+	  /**
+	   * Adds an element to the set. Does nothing if already in set
+	   * @param {*} element - Element to add to the set
+	   * @returns {boolean} True
+	   *
+	   * @example
+	   * set.add(1);
+	   * set.add(2);
+	   * set.add(1);
+	   * // set contains [1, 2] with no guarenteed order
+	   */
+
+
+	  HashSet.prototype.add = function add(element) {
+	    return this.set.put(element);
 	  };
+
+	  /**
+	   * Updates 'this' with the mathematical set difference of 'this' set and
+	   * another set
+	   * @param {HashSet} thatSet - another HashSet instance
+	   * @returns {undefined}
+	   *
+	   * @example
+	   * set.add(1);
+	   * set.add(2);
+	   * set2 = new Structs.HashSet();
+	   * set2.add(2);
+	   * set.diff(set2);
+	   * // set is now [1] and set2 is unchanged
+	   */
+
 
 	  HashSet.prototype.diff = function diff(thatSet) {
 	    var thatKeys = thatSet.keys();
 	    var context = this;
-	    thatKeys.forEach(function func(k) {
-	      context.remove(k);
+	    thatKeys.forEach(function (element) {
+	      context.remove(element);
 	    });
 	  };
 
-	  HashSet.prototype.has = function has(k) {
-	    return this.set.contains(k);
+	  /**
+	   * Reports whether the set contains a given value
+	   * @param {*} element - Element to find
+	   * @returns {boolean} True if set contains @param element and false otherwise
+	   *
+	   * @example
+	   * set.add(1);
+	   * set.add(2);
+	   * set.has(3); // false
+	   */
+
+
+	  HashSet.prototype.has = function has(element) {
+	    return this.set.contains(element);
 	  };
+
+	  /**
+	   * Returns all elements in the set
+	   * @returns {Array} Array with all elements in the set
+	   */
+
 
 	  HashSet.prototype.keys = function keys() {
 	    return this.set.keys();
 	  };
 
-	  HashSet.prototype.remove = function remove(k) {
-	    return this.set.remove(k);
+	  /**
+	   * Removes an element from the set
+	   * @returns {boolean} true if @param element was removed and false otherwise
+	   */
+
+
+	  HashSet.prototype.remove = function remove(element) {
+	    return this.set.remove(element);
 	  };
+
+	  /**
+	   * Updates 'this' with the mathematical set intersection of 'this' set and
+	   * another set
+	   * @param {HashSet} thatSet - another HashSet instance
+	   * @returns {undefined}
+	   *
+	   * @example
+	   * set.add(1);
+	   * set.add(2);
+	   * set2 = new Structs.HashSet();
+	   * set2.add(2);
+	   * set.intersect(set2);
+	   * // set1 is now [2] and set2 is unchanged
+	   */
+
 
 	  HashSet.prototype.intersect = function intersect(thatSet) {
 	    var thisKeys = this.keys();
 	    var context = this;
-	    thisKeys.forEach(function func(k) {
-	      if (!thatSet.has(k)) {
-	        context.remove(k);
+	    thisKeys.forEach(function (element) {
+	      if (!thatSet.has(element)) {
+	        context.remove(element);
 	      }
 	    });
 	  };
+
+	  /**
+	   * Returns ths size of the set
+	   *
+	   * @example
+	   * set.add(1);
+	   * set.add(2);
+	   * set.cardinality() ; // 2
+	   */
+
 
 	  HashSet.prototype.cardinality = function cardinality() {
 	    return this.set.size();
@@ -1730,6 +1822,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * HashMultiMap representation
 	 * @class
+	 * @extends HashMap
 	 * @param {number} [initialCapacity=13] - Initial size of the hashmultimap
 	 * @inheritdoc
 	 * @example

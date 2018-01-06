@@ -3,6 +3,7 @@ import HashMap from './HashMap.js';
 /**
  * HashMultiMap representation
  * @class
+ * @extends HashMap
  * @param {number} [initialCapacity=13] - Initial size of the hashmultimap
  * @inheritdoc
  * @example
