@@ -1,25 +1,27 @@
+import { isNumber, throwRangeErr } from "./Util.js";
 
+/**
+ * Returns a node at given index in linked list
+ * @private
+ * @param {number} index - The index of the node to return
+ * @returns {(object)} Node @param index
+ */
 function getNode(index) {
+  isNumber(index);
   let head = this.head;
   if (index < 0 || !head) {
-    throw new RangeError('out of bounds');
+    throwRangeErr(index);
   }
   let i = 0;
   while (i < index) {
     head = head.next;
     i += 1;
+    // index wanted is > than list size
     if (!head) {
-      throw new RangeError('index out of Bounds');
+      throwRangeErr(index);
     }
   }
   return head;
-}
-
-function isNumber(obj) {
-  if (typeof obj !== 'number') {
-    throw new TypeError('Invalid index must be of type number');
-  }
-  return 1;
 }
 
 function defaultEqual(a, b) {

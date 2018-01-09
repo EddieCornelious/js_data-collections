@@ -1,3 +1,4 @@
+
 /**
  * swap method for Structs BHeap and Array
  * @private
@@ -11,6 +12,7 @@ function swap(array, index1, index2) {
   array[index1] = array[index2];
   array[index2] = oldIndex1;
 }
+
 /**
  * default comparator for all Structs
  * @private
@@ -26,17 +28,29 @@ function defaultComp(a, b) {
   }
   return 0;
 }
+
 /**
  * Number.isNaN polyfill from
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
  * /Global_Objects/Number/isFinite
  * @private
  */
-function isNumber(obj) {
-  if (typeof obj !== 'number'
-  || !isFinite(obj)) { // eslint-disable-line no-restricted-globals
+function isNumber(value) {
+  if (typeof value !== 'number'
+  || !isFinite(value)) { // eslint-disable-line no-restricted-globals
     throw new TypeError('Argument must be of type number or Number');
   }
 }
 
-module.exports = { swap, defaultComp, isNumber };
+/**
+ * Throws a range error with custom message
+ * @private
+ * @throws {RangeError}
+ * @param {string} message - message to display with error
+ * @returns {undefined}
+ */
+ function throwRangeErr(message) {
+   throw new RangeError('Index out of bounds : ' + message);
+ }
+
+module.exports = { swap, defaultComp, isNumber, throwRangeErr };
