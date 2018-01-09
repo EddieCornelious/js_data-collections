@@ -23,9 +23,10 @@ describe("HashSet", function() {
     expect(Set.has("a")).to.be.equal(true);
     expect(Set.has("b")).to.be.equal(true);
     expect(Set.has("c")).to.be.equal(true);
+    expect(Set.cardinality()).to.be.equal(3);
   });
 
-  it("intersect should update to contain intersection of the two sets", function() {
+  it("intersect should update 'this' set to contain intersection of the two sets", function() {
     Set.add("a");
     Set.add("b");
     Set.add("c");
@@ -49,6 +50,8 @@ describe("HashSet", function() {
     expect(Set.has("a")).to.be.equal(false);
     expect(Set.has("b")).to.be.equal(false);
     expect(Set.has("c")).to.be.equal(false);
+    expect(Set.cardinality()).to.be.equal(0);
+    expect(Set2.cardinality()).to.be.equal(4);
   });
 
   it("intersect should update 'this' set with intersection when other set is empty", function() {
@@ -72,7 +75,7 @@ describe("HashSet", function() {
     expect(Set2.cardinality()).to.be.equal(0);
   });
 
-  it("diff should update 'this' with difference when no difference", function() {
+  it("diff should update 'this' set with difference when no difference", function() {
     Set.add("a");
     Set.add("b");
     Set.add("c");
@@ -83,9 +86,11 @@ describe("HashSet", function() {
     expect(Set.has("a")).to.be.equal(true);
     expect(Set.has("b")).to.be.equal(true);
     expect(Set.has("c")).to.be.equal(true);
+    expect(Set.cardinality()).to.be.equal(3);
+    expect(Set2.cardinality()).to.be.equal(3);
   });
 
-  it("diff should update 'this' with difference when difference", function() {
+  it("diff should update 'this' set with difference when difference", function() {
     Set.add("a");
     Set.add("b");
     Set.add("c");
@@ -94,9 +99,11 @@ describe("HashSet", function() {
     expect(Set.has("a")).to.be.equal(true);
     expect(Set.has("b")).to.be.equal(true);
     expect(Set.has("c")).to.be.equal(false);
+    expect(Set.cardinality()).to.be.equal(2);
+    expect(Set2.cardinality()).to.be.equal(1);
   });
 
-  it("diff should update this with difference when 'this' is empty", function() {
+  it("diff should update this with difference when 'this' set is empty", function() {
     Set2.add("f");
     Set.diff(Set2);
     Set.intersect(Set2);
@@ -104,7 +111,7 @@ describe("HashSet", function() {
     expect(Set2.cardinality()).to.be.equal(1);
   });
 
-  it("diff should update 'this' with difference when other set is empty", function() {
+  it("diff should update 'this' set with difference when other set is empty", function() {
     Set.add("a");
     Set.add("b");
     Set.add("c");
@@ -113,7 +120,7 @@ describe("HashSet", function() {
     expect(Set2.cardinality()).to.be.equal(0);
   });
 
-  it("diff should update this with difference when both are empty", function() {
+  it("diff should update 'this' set with difference when both are empty", function() {
     Set.diff(Set2);
     expect(Set.cardinality()).to.be.equal(0);
     expect(Set2.cardinality()).to.be.equal(0);
