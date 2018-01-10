@@ -42,15 +42,8 @@ function isNumber(value) {
   }
 }
 
-/**
- * Throws a range error with custom message
- * @private
- * @throws {RangeError}
- * @param {string} message - message to display with error
- * @returns {undefined}
- */
- function throwRangeErr(message) {
-   throw new RangeError('Index out of bounds : ' + message);
- }
-
-module.exports = { swap, defaultComp, isNumber, throwRangeErr };
+module.exports = {
+  swap,
+  defaultComp,
+  isNumber
+};

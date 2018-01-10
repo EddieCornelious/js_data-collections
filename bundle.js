@@ -57,9 +57,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var List = __webpack_require__(1);
-	var Stack = __webpack_require__(2);
-	var Queue = __webpack_require__(3);
-	var BHeap = __webpack_require__(4);
+	var Stack = __webpack_require__(3);
+	var Queue = __webpack_require__(4);
+	var BHeap = __webpack_require__(5);
 	var PriorityQueue = __webpack_require__(6);
 	var HashMap = __webpack_require__(7);
 	var HashSet = __webpack_require__(8);
@@ -77,51 +77,64 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
+	var _Util = __webpack_require__(2);
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/**
+	 * Returns the node at given index in linked list
+	 * @private
+	 * @param {number} index - The index of the node to return
+	 * @throws {TypeError} When @param index is not a number
+	 * @returns {(Node|undefined)} Node @param index or undefined if not found
+	 */
 	function getNode(index) {
+	  (0, _Util.isNumber)(index);
 	  var head = this.head;
 	  if (index < 0 || !head) {
-	    throw new RangeError('out of bounds');
+	    return;
 	  }
 	  var i = 0;
 	  while (i < index) {
 	    head = head.next;
 	    i += 1;
+	    // index wanted is > than list size
 	    if (!head) {
-	      throw new RangeError('index out of Bounds');
+	      return;
 	    }
 	  }
 	  return head;
 	}
 
-	function isNumber(obj) {
-	  if (typeof obj !== 'number') {
-	    throw new TypeError('Invalid index must be of type number');
-	  }
-	  return 1;
-	}
-
-	function defaultEqual(a, b) {
-	  if (a < b) {
-	    return -1;
-	  } else if (a === b) {
-	    return 0;
-	  }
-	  return 1;
-	}
+	/**
+	 * Linked List Node
+	 * @private
+	 * @class
+	 * @param {*} The data to assign to the node
+	 */
 
 	var Node = function Node(data) {
 	  _classCallCheck(this, Node);
 
 	  this.data = data;
 	  this.next = null;
+	  // previous node
 	  this.prev = null;
 	};
+
+	/**
+	 * Linked List representation
+	 * @class
+	 *
+	 * @example
+	 * const list = new Structs.LinkedList();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME list IS CLEARED BEFORE EACH EXAMPLE
+	 */
+
 
 	var List = function () {
 	  function List() {
@@ -132,46 +145,98 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.length = 0;
 	  }
 
+	  /**
+	   * Adds the given data to left-most end of linked list
+	   * @param {*} data - Data to insert
+	   * @returns {List} The instance this method was called
+	   *
+	   * @example
+	   * list.addToFront("a")
+	   *  .addToFront("b"); // list is <"b", "a">
+	   */
+
+
 	  List.prototype.addToFront = function addToFront(data) {
 	    var head = this.head,
 	        length = this.length;
 
 	    var newNode = new Node(data);
-	    this.length = length + 1;
 	    if (!head) {
 	      this.head = newNode;
 	      this.tail = this.head;
-	      return this;
+	    } else {
+	      // non-empty list
+	      this.head = newNode;
+	      newNode.next = head;
+	      head.prev = newNode;
 	    }
-	    this.head = newNode;
-	    newNode.next = head;
-	    head.prev = newNode;
+	    this.length = length + 1;
 	    return this;
 	  };
 
-	  List.prototype.elementAtIndex = function elementAtIndex(index) {
-	    isNumber(index);
-	    var wanted = getNode.apply(this, [index]);
+	  /**
+	   * Returns the data at given index
+	   * @param {number} index - Index to look at
+	   * @throws {TypeError} Will throw error if @param index is not number
+	   * @returns {(*|undefined)} Index of element if @param index is in range
+	   * or undefined
+	   *
+	   * @example
+	   * list.addToFront("a")
+	   *  .addToFront("b")
+	   *  .addToFront("c");
+	   * const getSomething = list.elementAtIndex(2); // "a"
+	   * list.elementAtIndex(13); // undefined
+	   */
+
+
+	  List.prototype.elementAtIndex = function elementAtIndex() {
+	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+	    (0, _Util.isNumber)(index);
+	    var wanted = getNode.call(this, index);
 	    return wanted ? wanted.data : undefined;
 	  };
+
+	  /**
+	   * Adds the given data to right-most end of linked list
+	   * @param {*} data - Data to insert
+	   * @returns {List} The instance this method was called
+	   *
+	   * @example
+	   * list.addToBack("a")
+	   *  .addToBack("b"); // list is <"a", "b">
+	   */
+
 
 	  List.prototype.addToBack = function addToBack(data) {
 	    var tail = this.tail,
 	        length = this.length;
 
 	    var newNode = new Node(data);
-	    this.length = length + 1;
-
 	    if (!tail) {
 	      this.head = newNode;
 	      this.tail = this.head;
-	      return this;
+	    } else {
+	      this.tail = newNode;
+	      newNode.prev = tail;
+	      tail.next = newNode;
 	    }
-	    this.tail = newNode;
-	    newNode.prev = tail;
-	    tail.next = newNode;
+	    this.length = length + 1;
 	    return this;
 	  };
+
+	  /**
+	   * Removes the left-most element in the linked list
+	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
+	   *
+	   * @example
+	   * list.addToBack("a")
+	   *  .addToBack("b");
+	   * const removedData = list.removeFront(); // "a"
+	   * // list is now <"b">
+	   */
+
 
 	  List.prototype.removeFront = function removeFront() {
 	    var head = this.head,
@@ -182,82 +247,150 @@ return /******/ (function(modules) { // webpackBootstrap
 	      removed = head.data;
 	      this.length = length - 1;
 	      this.head = head.next;
+
+	      // current state after removal
 	      var newHead = this.head;
 	      // list is now empty...adjust tail
 	      if (!newHead) {
-	        this.tail = this.head;
-	        return removed;
+	        this.tail = null;
+	        this.head = this.tail;
+	      } else {
+	        // front of list rule
+	        newHead.prev = null;
 	      }
-	      newHead.prev = null;
 	    }
 	    return removed;
 	  };
+
+	  /**
+	   * Removes the right-most element in the linked list
+	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
+	   *
+	   * @example
+	   * list.addToBack("a")
+	   *  .addToBack("b");
+	   * const removedData = list.removeBack(); // "b"
+	   * // list is now <"a">
+	   */
+
 
 	  List.prototype.removeBack = function removeBack() {
 	    var tail = this.tail,
 	        length = this.length;
 
-	    if (!this.tail) {
-	      return this;
+	    var removed = void 0;
+	    if (tail) {
+	      removed = tail.data;
+	      var prev = tail.prev;
+	      this.length = length - 1;
+	      // list now empty
+	      if (!prev) {
+	        this.tail = null;
+	        this.head = this.tail;
+	      } else {
+	        prev.next = null;
+	        this.tail = prev;
+	      }
 	    }
-	    var removed = tail.data;
-	    var prev = tail.prev;
-	    this.length = length - 1;
-	    // list now empty
-	    if (!prev) {
-	      this.tail = null;
-	      this.head = null;
-	      return removed;
-	    }
-	    prev.next = null;
-	    this.tail = prev;
 	    return removed;
 	  };
 
-	  List.prototype.insert = function insert(index, data) {
-	    isNumber(index);
+	  /**
+	   * Inserts given data into specific position in the linked list
+	   * @param {index} index - Index to insert data into
+	   * @param {*} data - Data to insert into @param index
+	   * @returns {List} - The instance this method was called
+	   *
+	   * @example
+	   * list.addToBack("a")
+	   *  .addToBack("b");
+	   * list.insert(1, "$");
+	   * // list is now <"a, "$, "b">
+	   */
+
+
+	  List.prototype.insert = function insert() {
+	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	    var data = arguments[1];
+
+	    (0, _Util.isNumber)(index);
+	    var length = this.length;
+
 	    if (index === 0) {
 	      return this.addToFront(data);
-	    } else if (index === this.length) {
+	    } else if (index >= length) {
 	      return this.addToBack(data);
 	    }
-	    var node = getNode.apply(this, [index - 1]);
-	    var newNode = new Node(data);
-	    var aft = node.next;
-	    newNode.next = aft;
-	    aft.prev = newNode;
-	    node.next = newNode;
-	    newNode.prev = node;
-	    this.length += 1;
+	    // parent of wanted node
+	    var prevNode = getNode.call(this, index - 1);
+	    if (prevNode) {
+	      var newNode = new Node(data);
+	      var aft = prevNode.next;
+	      newNode.next = aft;
+	      aft.prev = newNode;
+	      prevNode.next = newNode;
+	      newNode.prev = prevNode;
+	      this.length = length + 1;
+	    }
 	    return this;
 	  };
 
+	  /**
+	   * Removes data at specific position in the linked list
+	   * @param {index} index - Index to insert data into
+	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
+	   *
+	   * @example
+	   * list.addToBack("a")
+	   *  .addToBack("b");
+	   * list.remove(1);
+	   * // list is now <"a">
+	   */
+
+
 	  List.prototype.remove = function remove(index) {
-	    isNumber(index);
-	    var head = this.head,
-	        length = this.length;
+	    (0, _Util.isNumber)(index);
+	    var length = this.length;
 
-	    if (!head) {
-	      return this;
-	    }
-
+	    var removed = void 0;
 	    if (index === 0) {
 	      return this.removeFront();
-	    } else if (index === length) {
+	    } else if (index >= length) {
 	      return this.removeBack();
 	    }
-	    var node = getNode.apply(this, [index - 1]);
-	    var data = node.data;
-	    var del = node.next;
-	    var after = del.next;
-	    node.next = after;
-	    after.prev = node;
-	    this.length = length - 1;
-	    return data;
+	    // parent of wanted node
+	    var prevNode = getNode.call(this, index - 1);
+	    if (prevNode) {
+	      var toRemove = prevNode.next;
+	      removed = toRemove.data;
+	      var after = toRemove.next;
+	      prevNode.next = after;
+	      after.prev = prevNode;
+	      this.length = length - 1;
+	    }
+	    return removed;
 	  };
 
-	  List.prototype.indexOf = function indexOf(data, eqlFunc) {
-	    var cmp = eqlFunc || defaultEqual;
+	  /**
+	   * Returns the index of the given data in the linked list
+	   * @param {*} data - The data to find index of
+	   * @param {function} comparator - function to compare for equality
+	   * @returns {number} The index of @param data or -1 if not found
+	   *
+	   * @example
+	   * const customComparator = function(a, b) {
+	   *   if(a.age < b.age) { return -1;}
+	   *   else if(a.age > b.age) { return 1:}
+	   *   else { return 0; }
+	   * }
+	   * list.addToBack({ age : 2})
+	   *  .addToBack({ age : 3});
+	   * list.indexOf({ age : 2}, customComparator) // 0
+	   */
+
+
+	  List.prototype.indexOf = function indexOf(data, comparator) {
+	    var cmp = comparator || _Util.defaultComp;
 	    var index = 0;
 	    var head = this.head;
 	    while (head) {
@@ -270,9 +403,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return -1;
 	  };
 
-	  List.prototype.contains = function contains(data, eqlFunc) {
-	    return this.indexOf(data, eqlFunc) !== -1;
+	  /**
+	   * Returns whether the linked list contains the given data
+	   * @param {*} data - The data to insert into linked list
+	   * @param {function} comparator - function to compare for equality
+	   * @returns {number} The index of @param data or -1 if not found
+	   */
+
+
+	  List.prototype.contains = function contains(data, comparator) {
+	    return this.indexOf(data, comparator) !== -1;
 	  };
+
+	  /**
+	   * Empties the called instance
+	   * @returns {undefined}
+	   */
+
 
 	  List.prototype.clear = function clear() {
 	    this.head = null;
@@ -280,24 +427,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.length = 0;
 	  };
 
+	  /**
+	   * Returns the size of the linked list
+	   * @returns {number} The size of the linked list
+	   */
+
+
 	  List.prototype.size = function size() {
 	    return this.length;
 	  };
+
+	  /**
+	   * Returns whether the linked list has elements in it
+	   * @returns {boolean} True if the list has elements and false otherwise
+	   */
+
 
 	  List.prototype.isEmpty = function isEmpty() {
 	    return !this.head && !this.tail;
 	  };
 
+	  /**
+	   * Calls a callback function for each element in the list
+	   * @param {function} callback - Function executed for each element
+	   * (data, index)
+	   * @returns {List} The instance that this method was called
+	   */
+
+
 	  List.prototype.forEach = function forEach(callback) {
 	    var func = callback;
 	    var head = this.head;
-
+	    var index = 0;
 	    while (head) {
-	      func(head.data);
+	      func(head.data, index);
 	      head = head.next;
+	      index += 1;
 	    }
 	    return this;
 	  };
+
+	  /**
+	   * Transforms a linked list to an array
+	   * @returns {Array} An array representation of 'this' List
+	   */
+
 
 	  List.prototype.toArray = function toArray() {
 	    var temp = [];
@@ -314,6 +488,61 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * swap method for Structs BHeap and Array
+	 * @private
+	 * @param {Array} array - array to swap certain elements
+	 * @param {number} index1 - index to swap with @param index2
+	 * @param {number} index2 - index to swap with @param index1
+	 * @returns {undefined}
+	 */
+	function swap(array, index1, index2) {
+	  var oldIndex1 = array[index1];
+	  array[index1] = array[index2];
+	  array[index2] = oldIndex1;
+	}
+
+	/**
+	 * default comparator for all Structs
+	 * @private
+	 * @param {(number|string)} a - first element to compare
+	 * @param {(number|string)} a - second element to compare
+	 * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
+	 */
+	function defaultComp(a, b) {
+	  if (a < b) {
+	    return -1;
+	  } else if (a > b) {
+	    return 1;
+	  }
+	  return 0;
+	}
+
+	/**
+	 * Number.isNaN polyfill from
+	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+	 * /Global_Objects/Number/isFinite
+	 * @private
+	 */
+	function isNumber(value) {
+	  if (typeof value !== 'number' || !isFinite(value)) {
+	    // eslint-disable-line no-restricted-globals
+	    throw new TypeError('Argument must be of type number or Number');
+	  }
+	}
+
+	module.exports = {
+	  swap: swap,
+	  defaultComp: defaultComp,
+	  isNumber: isNumber
+	};
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -352,7 +581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Stack;
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -398,12 +627,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Queue;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Util = __webpack_require__(5);
+	var _Util = __webpack_require__(2);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -560,55 +789,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BHeap;
 
 /***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * swap method for Structs BHeap and Array
-	 * @private
-	 * @param {Array} array - array to swap certain elements
-	 * @param {number} index1 - index to swap with @param index2
-	 * @param {number} index2 - index to swap with @param index1
-	 * @returns {undefined}
-	 */
-	function swap(array, index1, index2) {
-	  var oldIndex1 = array[index1];
-	  array[index1] = array[index2];
-	  array[index2] = oldIndex1;
-	}
-	/**
-	 * default comparator for all Structs
-	 * @private
-	 * @param {(number|string)} a - first element to compare
-	 * @param {(number|string)} a - second element to compare
-	 * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
-	 */
-	function defaultComp(a, b) {
-	  if (a < b) {
-	    return -1;
-	  } else if (a > b) {
-	    return 1;
-	  }
-	  return 0;
-	}
-	/**
-	 * Number.isNaN polyfill from
-	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
-	 * /Global_Objects/Number/isFinite
-	 * @private
-	 */
-	function isNumber(obj) {
-	  if (typeof obj !== 'number' || !isFinite(obj)) {
-	    // eslint-disable-line no-restricted-globals
-	    throw new TypeError('Argument must be of type number or Number');
-	  }
-	}
-
-	module.exports = { swap: swap, defaultComp: defaultComp, isNumber: isNumber };
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -616,7 +796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var BHeap = __webpack_require__(4);
+	var BHeap = __webpack_require__(5);
 
 	function min(a, b) {
 	  if (a.p < b.p) {
@@ -1128,7 +1308,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _BSTPrototype = __webpack_require__(11);
 
-	var _Util = __webpack_require__(5);
+	var _Util = __webpack_require__(2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -1496,11 +1676,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _Queue = __webpack_require__(3);
+	var _Queue = __webpack_require__(4);
 
 	var _Queue2 = _interopRequireDefault(_Queue);
 
-	var _Stack = __webpack_require__(2);
+	var _Stack = __webpack_require__(3);
 
 	var _Stack2 = _interopRequireDefault(_Stack);
 
@@ -1878,7 +2058,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _Util = __webpack_require__(5);
+	var _Util = __webpack_require__(2);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 

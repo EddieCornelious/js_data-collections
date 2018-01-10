@@ -1,274 +1,119 @@
-var Structs= require("../bundle.js");
-var expect= require("chai").expect;
+const Structs= require("../bundle.js");
+const expect= require("chai").expect;
 
-var list;
 
 describe("List", function(){
-  let list, expected, cur;
+  let list, expected, actual;
+
   beforeEach(function(){
     list = new Structs.List();
-  })
+  });
+  
   afterEach(function(){
-    list, expected, cur = null;
-  })
+    list, expected, actual = null;
+  });
   
-  it("constructor initializes private props correctly", function(){
-  
-    
-    expect(list.head).to.be.equal(null)
-    expect(list.tail).to.be.equal(null)
-    expect(list.length).to.be.equal(0) 
-  })
-  
-  it("addToFront should add to the front of empty list", function(){
-   
+  it("addToFront should add data to far left of list", function(){
     list.addToFront("a")
-    expect(list.head.data).to.be.equal("a")
-    expect(list.head.prev).to.be.equal(null)
-    expect(list.head.next).to.be.equal(null)
-    expect(list.tail.data).to.be.equal("a")
-    expect(list.length).to.be.equal(1) 
-  })
+     .addToFront("b")
+     .addToFront("c");
+     expected = ["c", "b", "a"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(3);
+  });
   
-  it("addToFront should add to the front of non-empty list", function(){
-    
+   it("elementAtIndex should return proper element at index for existing elements", function(){
     list.addToFront("a")
-    .addToFront("b")
-    expected= [null, "b", "a", null]
-    cur= list.head;
-    expect(expected[0]).to.be.equal(cur.prev);
-    for(let i=1; i<expected.length-1; i++){
-      if(i>1){
-        expect(expected[i-1]).to.be.equal(cur.prev.data);
-      }
-      expect(expected[i]).to.be.equal(cur.data);
-      cur= cur.next;
-    }
-    expect(expected[expected.length-1]).to.be.equal(cur)
-    expect(list.tail.data).to.be.equal(expected[2])
-    expect(list.length).to.be.equal(2)
-  })
+     .addToFront("b")
+     .addToFront("c");
+     expect(list.elementAtIndex(0)).to.be.equal("c");
+     expect(list.elementAtIndex(1)).to.be.equal("b");
+     expect(list.elementAtIndex(2)).to.be.equal("a");
+  });
   
-  it("addToBack should add to the back of non-empty list", function(){
-   
-    list.addToBack("a")
-    .addToBack("b")
-    
-    expected= [null, "a", "b", null]
-    cur= list.head;
-    expect(expected[0]).to.be.equal(cur.prev);
-    for(let i=1; i<expected.length-1; i++){
-      if(i>1){
-        expect(expected[i-1]).to.be.equal(cur.prev.data);
-      }
-      expect(expected[i]).to.be.equal(cur.data);
-      cur= cur.next;
-    }
-    expect(expected[expected.length-1]).to.be.equal(cur)
-    expect(list.tail.data).to.be.equal(expected[2])
-    expect(list.length).to.be.equal(2)
-  })
+  it("elementAtIndex should return proper element at index for non-existing indicies", function(){
+     expect(list.elementAtIndex(0)).to.be.equal(undefined);
+     expect(list.elementAtIndex(1)).to.be.equal(undefined);
+     expect(list.elementAtIndex(2)).to.be.equal(undefined);
+     expect(list.elementAtIndex(-1)).to.be.equal(undefined);
+  });
   
-  it("addToBack should add to the back of empty list", function(){
-   
-    list.addToFront("a")
-    expect(list.head.data).to.be.equal("a")
-    expect(list.head.prev).to.be.equal(null)
-    expect(list.head.next).to.be.equal(null)
-    expect(list.tail.data).to.be.equal("a")
-    expect(list.length).to.be.equal(1) 
-  })
+  it("addToBack should add to far right of list", function(){
+     list.addToBack("a")
+       .addToBack("b")
+       .addToBack("c");
+       expected = ["a", "b", "c"];
+       actual = list.toArray();
+       expect(expected).to.have.ordered.members(actual);
+       expect(list.size()).to.be.equal(3);
+  });
   
-  it("removeFront should remove the front of non-empty list", function(){
-    
-    list.addToFront("a")
-    .addToFront("b").addToFront("c")
-    
-    expected= [null, "b", "a", null]
-    list.removeFront();
-    cur= list.head;
-    expect(expected[0]).to.be.equal(cur.prev);
-    for(let i=1; i<expected.length-1; i++){
-      if(i>1){
-        expect(expected[i-1]).to.be.equal(cur.prev.data);
-      }
-      expect(expected[i]).to.be.equal(cur.data);
-      cur= cur.next;
-    }
-    expect(expected[expected.length-1]).to.be.equal(cur)
-    expect(list.tail.data).to.be.equal(expected[2])
-    expect(list.length).to.be.equal(2)
-  })
+   it("removeFront from empty list should return undefined", function(){
+       expected = [];
+       let removed = list.removeFront();
+       actual = list.toArray();
+       expect(expected).to.have.ordered.members(actual);
+       expect(list.size()).to.be.equal(0);
+       expect(removed).to.be.equal(undefined);
+  });
   
-  it("removeFront should fail silenty for empty list", function(){
-    
-    list.removeFront()
-  })
+   it("removeFront from list of length 1 should remove left-most element", function(){
+       list.addToFront("a");
+       expected = [];
+       let removed = list.removeFront();
+       actual = list.toArray();
+       expect(expected).to.have.ordered.members(actual);
+       expect(list.size()).to.be.equal(0);
+       expect(removed).to.be.equal("a");
+  });
   
-   it("removeFront should reset properly when removing front results in empty list", function(){
-    
-    list.addToFront("a");
-    list.removeFront()
-    expect(list.length).to.be.equal(0)
-    expect(list.head).to.be.equal(null)
-    expect(list.tail).to.be.equal(null)
-})
-
- 
-  it("removeBack should remove the back of non-empty list", function(){
-    
-    list.addToFront("a")
-    .addToFront("b").addToFront("c")
-    
-    expected= [null, "c", "b", null]
-    list.removeBack();
-    cur= list.head;
-    expect(expected[0]).to.be.equal(cur.prev);
-    for(let i=1; i<expected.length-1; i++){
-      if(i>1){
-        expect(expected[i-1]).to.be.equal(cur.prev.data);
-      }
-      expect(expected[i]).to.be.equal(cur.data);
-      cur= cur.next;
-    }
-    expect(expected[expected.length-1]).to.be.equal(cur)
-    expect(list.tail.data).to.be.equal(expected[2])
-    expect(list.length).to.be.equal(2)
-  })
+    it("removeFront continuous example", function(){
+       for(let i=0; i<100; i += 1){
+         expected.push(i);
+         list.addToBack(i);
+       }
+       
+       while(list.size()>0){
+         let removedList = list.removeFront();
+         let removedArr = expected.shift();
+         expect(removedList).to.be.equal(removedArr);
+       }
+       expect(expected.shift()).to.be.equal(list.removeFront());
+  });
   
-  it("removeBack should fail silenty for empty list", function(){
-    
-    list.removeBack()
-  })
+   it("removeBack from empty list should return undefined", function(){
+       expected = [];
+       let removed = list.removeBack();
+       actual = list.toArray();
+       expect(expected).to.have.ordered.members(actual);
+       expect(list.size()).to.be.equal(0);
+       expect(removed).to.be.equal(undefined);
+  });
   
-   it("removeBack should reset properly when removing back results in empty list", function(){
-   
-    list.addToFront("a");
-    list.removeBack()
-    expect(list.length).to.be.equal(0)
-    expect(list.head).to.be.equal(null)
-    expect(list.tail).to.be.equal(null)
-})
-
-it("insert should throw error when type is not number", function(){
-    
-    expect(( () => list.insert("12", "Basketball"))).to.throw(TypeError);
-})
-
-it("insert should insert into middle of list", function(){
-    
-    list.addToBack("a").addToBack("c").addToBack("d")
-    expected= [null, "a", "b", "c", "d", null]
-    list.insert(1, "b");
-    cur= list.head;
-    expect(expected[0]).to.be.equal(cur.prev);
-    for(let i=1; i<expected.length-1; i++){
-      if(i>1){
-        expect(expected[i-1]).to.be.equal(cur.prev.data);
-      }
-      expect(expected[i]).to.be.equal(cur.data);
-      cur= cur.next;
-    }
-    expect(expected[expected.length-1]).to.be.equal(cur)
-    expect(list.tail.data).to.be.equal(expected[4])
-    expect(list.length).to.be.equal(4)
-    
-})
-
-it("remove should remove from middle of list", function(){
-   
-    list.addToBack("a").addToBack("b").addToBack("d")
-    expected= [null, "a", "d", null]
-    list.remove(1);
-    cur= list.head;
-    expect(expected[0]).to.be.equal(cur.prev);
-    for(let i=1; i<expected.length-1; i++){
-      if(i>1){
-        expect(expected[i-1]).to.be.equal(cur.prev.data);
-      }
-      expect(expected[i]).to.be.equal(cur.data);
-      cur= cur.next;
-    }
-    expect(expected[expected.length-1]).to.be.equal(cur)
-    expect(list.tail.data).to.be.equal(expected[2])
-    expect(list.length).to.be.equal(2)
-    
-})
-
-
-it("insert should throw error when index is out of bounds", function(){
-    
-    list.addToBack("a").addToBack("b").addToBack("d")
-    expected= [4, -1]
-    expect(( () => list.insert(4))).to.throw(RangeError);
-    expect(( () => list.insert(-1))).to.throw(RangeError);
-    
-})
-
-
-it("remove should throw error when index is out of bounds", function(){
-   
-    list.addToBack("a").addToBack("b").addToBack("d")
-    expected= [4, -1]
-    expect(( () => list.remove(4))).to.throw(RangeError);
-    expect(( () => list.remove(-1))).to.throw(RangeError);
-   
-    
-})
-
-it("indexOf functions correctly", function(){
-   
-    list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
-    expected= [0, 1, 2, 3];
-    
-    for(let i=0; i<expected.length; i++){
-      expect(expected.indexOf(i)).to.be.equal(list.indexOf(i));
-    }
-    //tested false case quickly :)
-    expect(expected.indexOf(4)).to.be.equal(list.indexOf(4));
-    
-})
-
-it("contains functions correctly", function(){
-    
-    list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
-    
-    for(let i=0; i<list.length; i++){
-      expect(list.contains(i)).to.be.equal(true);
-    }
-    expect(list.contains(4)).to.be.equal(false);
-    
-})
-
-
-it("toArray makes array from list", function(){
-   
-    list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
-    let listArray = list.toArray();
-    expected= [0, 1, 2, 3];
-    expect(expected).to.deep.equal(listArray)
-    
-})
-
-it("forEach function like array.forEach", function(){
-    
-    list.addToBack([0]).addToBack([1]).addToBack([2]).addToBack([3])
-    let actual = list.forEach(element => element[0]= element[0]+1).toArray()
-    
-    expected= [[1], [2], [3],[ 4]]
-    expect(expected).to.deep.equal(actual)
-})
-
-it("elementAtIndex should return proper data at index", function(){
-    
-    list.addToBack(0).addToBack(1).addToBack(2).addToBack(3)
-    expected= [0, 1, 2, 3]
-    
-    for(let i=0 ; i<expected.length; i++){
-      expect(expected[i]).to.be.equal(list.elementAtIndex(i));
-    }
-})
-
-
+   it("removeBack from list of length 1 should remove right-most element", function(){
+       list.addToBack("a");
+       expected = [];
+       let removed = list.removeBack();
+       actual = list.toArray();
+       expect(expected).to.have.ordered.members(actual);
+       expect(list.size()).to.be.equal(0);
+       expect(removed).to.be.equal("a");
+  });
+  
+    it("removeBack continuous example", function(){
+       for(let i=0; i<100; i += 1){
+         expected.push(i);
+         list.addToBack(i);
+       }
+       
+       while(list.size()>0){
+         let removedList = list.removeBack();
+         let removedArr = expected.pop();
+         expect(removedList).to.be.equal(removedArr);
+       }
+       expect(expected.shift()).to.be.equal(list.removeFront());
+  });
+  
 
 })

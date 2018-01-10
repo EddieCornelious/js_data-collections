@@ -120,9 +120,11 @@ describe("Heap", function() {
       }
       return 0;
     });
+
     for (let i = 0; i < 1000; i += 1) {
       tempHeap.insert({data: i });
     }
+
     let count = 999;
     while(tempHeap.size() > 0) {
       expect(tempHeap.extractRoot().data).to.be.equal(count);
