@@ -438,16 +438,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns whether the linked list has elements in it
-	   * @returns {boolean} True if the list has elements and false otherwise
-	   */
-
-
-	  List.prototype.isEmpty = function isEmpty() {
-	    return !this.head && !this.tail;
-	  };
-
-	  /**
 	   * Calls a callback function for each element in the list
 	   * @param {function} callback - Function executed for each element
 	   * (data, index)

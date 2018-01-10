@@ -265,5 +265,63 @@ describe("List", function(){
      expect(list.size()).to.be.equal(3);
      expect(removed).to.be.equal(undefined);
   });
+  
+  it("indexOf should return proper index when element is in list", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     expect(list.indexOf("a")).to.be.equal(1);
+     expect(list.indexOf("b")).to.be.equal(0);
+     expect(list.indexOf("c")).to.be.equal(2);
+  });
+  
+  it("indexOf should return proper index when element is not in list", function(){
+     expect(list.indexOf("a")).to.be.equal(-1);
+     expect(list.indexOf("b")).to.be.equal(-1);
+     expect(list.indexOf("c")).to.be.equal(-1);
+  });
+  
+  it("indexOf should return proper index with custon comparator", function(){
+     list.addToBack({age:"b"})
+     .addToBack({age:"a"})
+     .addToBack({age:"c"});
+     function customCompare(a, b){
+      if(a.age < b.age){
+       return -1;
+      } else if(a.age > b.age){
+       return 1;
+      } 
+      return 0;
+     }
 
+     expect(list.indexOf({age:"b"}, customCompare)).to.be.equal(0);
+     expect(list.indexOf({age: "a"}, customCompare)).to.be.equal(1);
+     expect(list.indexOf({age:"c"}, customCompare)).to.be.equal(2);
+  });
+  
+  it("forEach pushes element and proper index to callback", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+    actual = [];
+   expected = [2, 4, 6, 8, 10];
+   let i = 0;
+   list.forEach( (element, index) => {
+    actual.push(element * 2);
+    expect(index).to.be.equal(i);
+    i += 1;
+   });
+  });
+  
+  it("clear does clear 'this'", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+    list.clear();
+    expect(list.toArray()).to.have.ordered.members([]);
+  });
 })
