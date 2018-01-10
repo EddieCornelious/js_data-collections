@@ -115,5 +115,155 @@ describe("List", function(){
        expect(expected.shift()).to.be.equal(list.removeFront());
   });
   
+   it("insert should insert to front of list when index is zero (empty)", function(){
+     list.insert(0, "a");
+     expected = ["a"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(1);
+  });
+  
+   it("insert should insert to front of list when index is zero (non-empty)", function(){
+     list.addToFront("b");
+     list.insert(0, "a");
+     expected = ["a", "b"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(2);
+  });
+  
+   it("insert should insert to middle of list", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     list.insert(1, "hi");
+     expected = ["b", "hi", "a", "c"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(4);
+  });
+  
+  it("insert should insert to end of list when index equals length", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     list.insert(3, "hi");
+     expected = ["b", "a", "c", "hi"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(4);
+  });
+  
+  it("insert should insert to end of list when index equals length-1", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     list.insert(2, "hi");
+     expected = ["b", "a", "hi", "c"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(4);
+  });
+  
+  it("insert should insert to end of list when index > length", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     list.insert(4, "hi");
+     expected = ["b", "a", "c", "hi"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(4);
+  });
+  
+  it("insert should do nothing when index < 0", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     list.insert(-1, "hi");
+     expected = ["b", "a", "c"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(3);
+  });
+  
+  it("remove should return undefined when index is zero (empty)", function(){
+     let removed = list.remove(0);
+     expected = [];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(0);
+     expect(removed).to.be.equal(undefined);
+  });
+  
+   it("remove should remove front of list when index is zero (non-empty)", function(){
+     list.addToFront("b");
+     let removed = list.remove(0);
+     expected = [];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(0);
+     expect(removed).to.be.equal("b");
+  });
+  
+   it("remove should remove from middle of list", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     let removed = list.remove(1);
+     expected = ["b", "c"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(2);
+     expect(removed).to.be.equal("a");
+  });
+  
+  it("remove should remove from end of list when index equals length", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     let removed = list.remove(3);
+     expected = ["b", "a"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(2);
+     expect(removed).to.be.equal("c");
+  });
+  
+  it("remove should remove from end of list when index equals length-1", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     let removed = list.remove(2);
+     expected = ["b", "a"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(2);
+     expect(removed).to.be.equal("c");
+  });
+  
+  it("remove should remove from end of list when index > length", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     let removed = list.remove(4);
+     expected = ["b", "a"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(2);
+     expect(removed).to.be.equal("c");
+  });
+  
+  it("remove should remove from end of list when index < 0", function(){
+     list.addToBack("b")
+     .addToBack("a")
+     .addToBack("c");
+     let removed = list.remove(-1);
+     expected = ["b", "a", "c"];
+     actual = list.toArray();
+     expect(expected).to.have.ordered.members(actual);
+     expect(list.size()).to.be.equal(3);
+     expect(removed).to.be.equal(undefined);
+  });
 
 })

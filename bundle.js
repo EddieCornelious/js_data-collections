@@ -355,7 +355,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var removed = void 0;
 	    if (index === 0) {
 	      return this.removeFront();
-	    } else if (index >= length) {
+	    } else if (index >= length - 1) {
 	      return this.removeBack();
 	    }
 	    // parent of wanted node

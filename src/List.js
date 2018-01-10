@@ -239,7 +239,7 @@ class List {
     let removed;
     if (index === 0) {
       return this.removeFront();
-    } else if (index >= length) {
+    } else if (index >= length - 1) {
       return this.removeBack();
     }
     // parent of wanted node
