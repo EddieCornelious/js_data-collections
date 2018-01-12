@@ -537,32 +537,80 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _List = __webpack_require__(1);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var List = __webpack_require__(1);
-
+	/**
+	 * Stack representation
+	 * @class
+	 *
+	 * @example
+	 * const stack = new Structs.Stack();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME stack IS CLEARED BEFORE EACH EXAMPLE
+	 */
 	var Stack = function () {
 	  function Stack() {
 	    _classCallCheck(this, Stack);
 
-	    this.rep = new List();
+	    this.stack = new _List2['default']();
 	  }
 
+	  /**
+	   * Pushes the given data onto the stack
+	   * @param {data} data - The data to push onto stack
+	   * @returns {Stack} The instance this method was called
+	   *
+	   * @example
+	   * stack.push(1).push(2);
+	   */
+
+
 	  Stack.prototype.push = function push(data) {
-	    this.rep.addToFront(data);
+	    this.stack.addToFront(data);
 	    return this;
 	  };
 
+	  /**
+	   * Removes data from stack in a last in first out manner
+	   * @returns {*} The reomved data
+	   *
+	   * @example
+	   * // FROM example above
+	   * stack.pop(); // result is 2
+	   */
+
+
 	  Stack.prototype.pop = function pop() {
-	    return this.rep.removeFront();
+	    return this.stack.removeFront();
 	  };
+
+	  /**
+	   * Reports but does not remove the staged element to be removed next
+	   * @returns {*} Element staged to be removed next
+	   *
+	   * @example
+	   * stack.enqueue(1);
+	   * queue.peek() // returns 1 but does not remove it
+	   */
+
 
 	  Stack.prototype.peek = function peek() {
-	    return this.rep.elementAtIndex(0);
+	    return this.stack.elementAtIndex(0);
 	  };
 
+	  /**
+	   * Reports the size of the queue
+	   * @returns {number} The size of the queue
+	   */
+
+
 	  Stack.prototype.size = function size() {
-	    return this.rep.size();
+	    return this.stack.size();
 	  };
 
 	  return Stack;
@@ -580,35 +628,77 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var List = __webpack_require__(1);
 
+	/**
+	 * Queue Representation
+	 * @class
+	 *
+	 * @example
+	 * const queue = new Structs.Queue();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME queue IS CLEARED BEFORE EACH EXAMPLE
+	 */
+
 	var Queue = function () {
 	  function Queue() {
 	    _classCallCheck(this, Queue);
 
-	    this.rep = new List();
+	    this.queue = new List();
 	  }
 
+	  /**
+	   * Inserts given data into queue
+	   * @param {*} data - Data to insert into queue
+	   * @returns {Queue} The instance that this method was called
+	   *
+	   * @example
+	   * queue.enqueue(1).enqueue(2);
+	   *
+	   */
+
+
 	  Queue.prototype.enqueue = function enqueue(data) {
-	    this.rep.addToBack(data);
+	    var queue = this.queue;
+
+	    queue.addToBack(data);
 	    return this;
 	  };
 
+	  /**
+	   * Removes from queue in a First in first out manner
+	   * @returns {*} The removed data
+	   * @example
+	   * // FROM example above
+	   * queue.dequeue() // 1 as it was inserted first
+	   */
+
+
 	  Queue.prototype.dequeue = function dequeue() {
-	    return this.rep.removeFront();
-	  };
-	  // TODO: Create a list method that reports tail which is 0(1) or keep this?
-
-
-	  Queue.prototype.back = function back() {
-	    var back = this.rep.tail;
-	    return back ? back.data : undefined;
+	    return this.queue.removeFront();
 	  };
 
-	  Queue.prototype.front = function front() {
-	    return this.rep.elementAtIndex(0);
+	  /**
+	   * Reports but does not remove the staged element to be removed next
+	   * @returns {*} Element staged to be removed next
+	   *
+	   * @example
+	   * queue.enqueue(1);
+	   * queue.peek() // returns 1 but does not remove it
+	   */
+
+
+	  Queue.prototype.peek = function peek() {
+	    var queue = this.queue;
+
+	    return queue.elementAtIndex(0);
 	  };
+
+	  /**
+	   * Reports the size of the queue
+	   * @returns {number} The size of the queue
+	   */
+
 
 	  Queue.prototype.size = function size() {
-	    return this.rep.size();
+	    return this.queue.size();
 	  };
 
 	  return Queue;
