@@ -1,38 +1,81 @@
-function getPrefix(root, pfx) {
-  let cur = root.children;
-  let char;
-  for (let i = 0; i < pfx.length; i += 1) {
-    char = pfx.charAt(i);
-    if (!cur[char]) {
+import { toString } from './Util.js';
+
+/**
+ * Converts the given data to a lowercase string
+ * @param {*} data - The data to convert
+ * @returns @param data to a string
+ */
+function toLowerCaseString(data) {
+  return toString(data).toLowerCase();
+}
+/**
+ * Returns a reference to the tail of the prefix if trie contains it
+ * @private
+ * @param {TrieNode} root - The root of the trie
+ * @param {string} prefix - The prefix to search for
+ * @returns {(TrieNode|boolean)} Returns a reference to the prefix's last word
+ * or false if prefix not found in trie
+ */
+function getPrefix(root, prefix) {
+  if (prefix.length === 0) {
+    return false;
+  }
+  let currentNode = root.children;
+  let currentChar;
+  for (let i = 0; i < prefix.length; i += 1) {
+    currentChar = prefix.charAt(i);
+    if (!currentNode[currentChar]) {
       return false;
     }
-    cur = cur[char].children;
+    currentNode = currentNode[currentChar].children;
   }
-  return cur;
+  return currentNode;
 }
-function recurseTree(node, arr) {
-  const words = arr;
-  if (!node) {
+
+/**
+ * Recursively searches a trie to find all words starting at root
+ * @param {TrieNode} node - The starting node
+ * @param {Array} array - The array to add words to
+ * @returns {undefined}
+ */
+function recurseTree(trieNode, array) {
+  if (!trieNode) {
     return;
   }
-  const keys = Object.keys(node);
+  // all character children
+  const keys = Object.keys(trieNode);
   for (let i = 0; i < keys.length; i += 1) {
-    const curChild = node[keys[i]];
-    if (curChild.word) {
-      words.push(curChild.word);
+    const currentNode = trieNode[keys[i]];
+    if (currentNode.endOfWord) {
+      array.push(currentNode.word);
     }
-    recurseTree(curChild.children, arr);
+    recurseTree(currentNode.children, array);
   }
 }
-function hasChild(obj) {
-  for (let prop in obj) { // eslint-disable-line no-restricted-syntax
-    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+
+/**
+ * Reports whether the given trieNode has at least one child
+ * @param {TrieNode} trieNode - The trie node to check children of
+ * @returns {boolean} True if the node has children and false otherwise
+ */
+function hasChild(trieNode) {
+  /**
+   *Using this instead of Object.keys because I only need existence of one child
+   *not all
+   */
+  for (let prop in trieNode) { // eslint-disable-line no-restricted-syntax
+    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
       return true;
     }
   }
   return false;
 }
 
+/**
+ * Nodes for Trie
+ * @class
+ * @private
+ */
 class TrieNode {
   constructor() {
     this.children = {};
@@ -41,48 +84,81 @@ class TrieNode {
   }
 }
 
+/**
+ * Trie (prefix tree) representation
+ * @class
+ *
+ * @example
+ * const trie = new Structs.Trie();
+ * // FOR ALL EXAMPLES BELOW. ASSUME trie IS CLEARED BEFORE EACH EXAMPLE
+ */
 class Trie {
   constructor() {
     this.root = new TrieNode();
   }
 
-  addWord(word) {
-    let cur = this.root.children;
-    let wrd = word.toString().toLowerCase();
-    let char;
-    for (let i = 0; i < wrd.length; i += 1) {
-      char = wrd.charAt(i);
-      if (!cur[char]) {
-        cur[char] = new TrieNode();
+  /**
+   * Converts the given data to string and adds it to trie
+   * @param {*} word - Word to add into trie
+   * @returns {undefined}
+   */
+  addWord(data = '') {
+    let currentNode = this.root.children;
+    const word = toLowerCaseString(data);
+    let currentChar;
+    for (let i = 0; i < word.length; i += 1) {
+      currentChar = word.charAt(i);
+      // path does not exist currently in trie
+      if (!currentNode[currentChar]) {
+        currentNode[currentChar] = new TrieNode();
       }
-      if (i === wrd.length - 1) {
-        cur[char].endOfWord = true;
-        cur[char].word = wrd;
+      // add end of word and word flags
+      if (i === word.length - 1) {
+        currentNode[currentChar].endOfWord = true;
+        currentNode[currentChar].word = word;
       }
-      cur = cur[char].children;
+      // trickle down the tree
+      currentNode = currentNode[currentChar].children;
     }
   }
 
-  containsWord(word) {
-    let cur = this.root.children;
+  /**
+   * Reports whether the trie contains the given word
+   * @param {*} data - The data to search for
+   * @returns {boolean} True if the trie contains @param data.toString()
+   * or false if it does not
+   */
+  containsWord(data = '') {
+    let currentNode = this.root.children;
+    const word = toLowerCaseString(data);
     // check contains word first
     for (let i = 0; i < word.length; i += 1) {
-      let char = cur[word[i]];
-      if (!char) {
+      let currentChar = word.charAt(i);
+      if (!currentNode[currentChar]) {
         return false;
-      } else if (char.word === word) {
+      } else if (currentNode[currentChar].word === word) {
         return true;
       }
-      cur = cur[word[i]].children;
+      currentNode = currentNode[currentChar].children;
     }
     return false;
   }
-  containsPrefix(pfx) {
-    if (pfx.length === 0) {
-      return false;
-    }
-    let curRoot = this.root;
-    const foundPrefix = getPrefix(curRoot, pfx.toString());
+
+  /**
+   * Reports whether the trie contains the given prefix
+   * @param {*} prefix - The prefix to search for
+   * @returns {boolean} True if the trie contains @param prefix.toString()
+   * or false if it does not
+   *
+   * @example
+   * trie.addWord("apple");
+   * trie.addWord.("app");
+   * trie.containsPrefix("apple"); // false
+   * trie.containsPrefix("app"); // true
+   */
+  containsPrefix(prefix = '') {
+    const root = this.root;
+    const foundPrefix = getPrefix(root, toLowerCaseString(prefix));
     if (foundPrefix) {
       const hasChildren = hasChild(foundPrefix);
       if (hasChildren) {
@@ -93,11 +169,22 @@ class Trie {
     return false;
   }
 
-  prefixAll(pfx) {
-    if (!this.containsPrefix(pfx)) {
+  /**
+   * Gives all of the words in the trie with the given prefix
+   * @param {*} prefix - Prefix to search for
+   * @returns {Array} An array with all the words that are prefixed by
+   * @param prefix
+   *
+   * @example
+   * trie.addWord("apple");
+   * trie.addWord.("app");
+   * trie.prefixAll("app"); // returns only apple because app is equal to prefix
+   */
+  prefixAll(prefix = '') {
+    if (!this.containsPrefix(prefix)) {
       return [];
     }
-    const prefixTail = getPrefix(this.root, pfx);
+    const prefixTail = getPrefix(this.root, toLowerCaseString(prefix));
     const prefixes = [];
     recurseTree(prefixTail, prefixes);
     return prefixes;

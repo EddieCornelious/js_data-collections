@@ -482,6 +482,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	/**
 	 * swap method for Structs BHeap and Array
 	 * @private
@@ -497,8 +499,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * default comparator for all Structs
+	 * Converts a given value to a string
 	 * @private
+	 * @param {*} value - The value to convert to a string
+	 * @returns {string} @param value to string or stringified by JSON
+	 */
+	function toString(value) {
+	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	  if (type === 'string') {
+	    return value;
+	  } else if (type === 'number' || type === 'boolean' || type === 'function') {
+	    return value.toString();
+	  }
+	  return JSON.stringify(value);
+	}
+
+	/**
+	 * default comparator for all Structs
+	 * @callback defaultComparator
 	 * @param {(number|string)} a - first element to compare
 	 * @param {(number|string)} a - second element to compare
 	 * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
@@ -528,7 +546,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = {
 	  swap: swap,
 	  defaultComp: defaultComp,
-	  isNumber: isNumber
+	  isNumber: isNumber,
+	  toString: toString
 	};
 
 /***/ },
@@ -967,11 +986,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _Util = __webpack_require__(2);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1023,22 +1044,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Converts a given value to a string
-	 * @private
-	 * @param {*} value - The value to convert to a string
-	 * @returns {string} @param value to string or stringified by JSON
-	 */
-	function toString(value) {
-	  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-	  if (type === 'string' || type === 'number') {
-	    return value.toString();
-	  } else if (type === 'boolean' || type === 'function') {
-	    return value.toString();
-	  }
-	  return JSON.stringify(value);
-	}
-
-	/**
 	 * Inserts into a hashtable based on a hashcode of @param key
 	 * @private
 	 * @param {*} key - The key
@@ -1047,7 +1052,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {number} 1 for true
 	 */
 	function insert(key, value, table) {
-	  var hash = hashStr(toString(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
+	  var hash = hashStr((0, _Util.toString)(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
 	  return bucket.push(key, value);
@@ -1062,7 +1067,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * and the index of @param key in that bucket or undefined and -1 if not found
 	 */
 	function search(key, table) {
-	  var toStr = toString(key);
+	  var toStr = (0, _Util.toString)(key);
 	  var hash = hashStr(toStr + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
 	  var location = mod(hash, table.length);
 	  var bucket = table[location];
@@ -2003,47 +2008,91 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 13 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+
+	var _Util = __webpack_require__(2);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function getPrefix(root, pfx) {
-	  var cur = root.children;
-	  var char = void 0;
-	  for (var i = 0; i < pfx.length; i += 1) {
-	    char = pfx.charAt(i);
-	    if (!cur[char]) {
+	/**
+	 * Converts the given data to a lowercase string
+	 * @param {*} data - The data to convert
+	 * @returns @param data to a string
+	 */
+	function toLowerCaseString(data) {
+	  return (0, _Util.toString)(data).toLowerCase();
+	}
+	/**
+	 * Returns a reference to the tail of the prefix if trie contains it
+	 * @private
+	 * @param {TrieNode} root - The root of the trie
+	 * @param {string} prefix - The prefix to search for
+	 * @returns {(TrieNode|boolean)} Returns a reference to the prefix's last word
+	 * or false if prefix not found in trie
+	 */
+	function getPrefix(root, prefix) {
+	  if (prefix.length === 0) {
+	    return false;
+	  }
+	  var currentNode = root.children;
+	  var currentChar = void 0;
+	  for (var i = 0; i < prefix.length; i += 1) {
+	    currentChar = prefix.charAt(i);
+	    if (!currentNode[currentChar]) {
 	      return false;
 	    }
-	    cur = cur[char].children;
+	    currentNode = currentNode[currentChar].children;
 	  }
-	  return cur;
+	  return currentNode;
 	}
-	function recurseTree(node, arr) {
-	  var words = arr;
-	  if (!node) {
+
+	/**
+	 * Recursively searches a trie to find all words starting at root
+	 * @param {TrieNode} node - The starting node
+	 * @param {Array} array - The array to add words to
+	 * @returns {undefined}
+	 */
+	function recurseTree(trieNode, array) {
+	  if (!trieNode) {
 	    return;
 	  }
-	  var keys = Object.keys(node);
+	  // all character children
+	  var keys = Object.keys(trieNode);
 	  for (var i = 0; i < keys.length; i += 1) {
-	    var curChild = node[keys[i]];
-	    if (curChild.word) {
-	      words.push(curChild.word);
+	    var currentNode = trieNode[keys[i]];
+	    if (currentNode.endOfWord) {
+	      array.push(currentNode.word);
 	    }
-	    recurseTree(curChild.children, arr);
+	    recurseTree(currentNode.children, array);
 	  }
 	}
-	function hasChild(obj) {
-	  for (var prop in obj) {
+
+	/**
+	 * Reports whether the given trieNode has at least one child
+	 * @param {TrieNode} trieNode - The trie node to check children of
+	 * @returns {boolean} True if the node has children and false otherwise
+	 */
+	function hasChild(trieNode) {
+	  /**
+	   *Using this instead of Object.keys because I only need existence of one child
+	   *not all
+	   */
+	  for (var prop in trieNode) {
 	    // eslint-disable-line no-restricted-syntax
-	    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+	    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
 	      return true;
 	    }
 	  }
 	  return false;
 	}
+
+	/**
+	 * Nodes for Trie
+	 * @class
+	 * @private
+	 */
 
 	var TrieNode = function TrieNode() {
 	  _classCallCheck(this, TrieNode);
@@ -2053,6 +2102,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.word = null;
 	};
 
+	/**
+	 * Trie (prefix tree) representation
+	 * @class
+	 *
+	 * @example
+	 * const trie = new Structs.Trie();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME trie IS CLEARED BEFORE EACH EXAMPLE
+	 */
+
+
 	var Trie = function () {
 	  function Trie() {
 	    _classCallCheck(this, Trie);
@@ -2060,44 +2119,80 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.root = new TrieNode();
 	  }
 
-	  Trie.prototype.addWord = function addWord(word) {
-	    var cur = this.root.children;
-	    var wrd = word.toString().toLowerCase();
-	    var char = void 0;
-	    for (var i = 0; i < wrd.length; i += 1) {
-	      char = wrd.charAt(i);
-	      if (!cur[char]) {
-	        cur[char] = new TrieNode();
+	  /**
+	   * Converts the given data to string and adds it to trie
+	   * @param {*} word - Word to add into trie
+	   * @returns {undefined}
+	   */
+
+
+	  Trie.prototype.addWord = function addWord() {
+	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    var currentNode = this.root.children;
+	    var word = toLowerCaseString(data);
+	    var currentChar = void 0;
+	    for (var i = 0; i < word.length; i += 1) {
+	      currentChar = word.charAt(i);
+	      // path does not exist currently in trie
+	      if (!currentNode[currentChar]) {
+	        currentNode[currentChar] = new TrieNode();
 	      }
-	      if (i === wrd.length - 1) {
-	        cur[char].endOfWord = true;
-	        cur[char].word = wrd;
+	      // add end of word and word flags
+	      if (i === word.length - 1) {
+	        currentNode[currentChar].endOfWord = true;
+	        currentNode[currentChar].word = word;
 	      }
-	      cur = cur[char].children;
+	      // trickle down the tree
+	      currentNode = currentNode[currentChar].children;
 	    }
 	  };
 
-	  Trie.prototype.containsWord = function containsWord(word) {
-	    var cur = this.root.children;
+	  /**
+	   * Reports whether the trie contains the given word
+	   * @param {*} data - The data to search for
+	   * @returns {boolean} True if the trie contains @param data.toString()
+	   * or false if it does not
+	   */
+
+
+	  Trie.prototype.containsWord = function containsWord() {
+	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    var currentNode = this.root.children;
+	    var word = toLowerCaseString(data);
 	    // check contains word first
 	    for (var i = 0; i < word.length; i += 1) {
-	      var char = cur[word[i]];
-	      if (!char) {
+	      var currentChar = word.charAt(i);
+	      if (!currentNode[currentChar]) {
 	        return false;
-	      } else if (char.word === word) {
+	      } else if (currentNode[currentChar].word === word) {
 	        return true;
 	      }
-	      cur = cur[word[i]].children;
+	      currentNode = currentNode[currentChar].children;
 	    }
 	    return false;
 	  };
 
-	  Trie.prototype.containsPrefix = function containsPrefix(pfx) {
-	    if (pfx.length === 0) {
-	      return false;
-	    }
-	    var curRoot = this.root;
-	    var foundPrefix = getPrefix(curRoot, pfx.toString());
+	  /**
+	   * Reports whether the trie contains the given prefix
+	   * @param {*} prefix - The prefix to search for
+	   * @returns {boolean} True if the trie contains @param prefix.toString()
+	   * or false if it does not
+	   *
+	   * @example
+	   * trie.addWord("apple");
+	   * trie.addWord.("app");
+	   * trie.containsPrefix("apple"); // false
+	   * trie.containsPrefix("app"); // true
+	   */
+
+
+	  Trie.prototype.containsPrefix = function containsPrefix() {
+	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    var root = this.root;
+	    var foundPrefix = getPrefix(root, toLowerCaseString(prefix));
 	    if (foundPrefix) {
 	      var hasChildren = hasChild(foundPrefix);
 	      if (hasChildren) {
@@ -2108,11 +2203,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return false;
 	  };
 
-	  Trie.prototype.prefixAll = function prefixAll(pfx) {
-	    if (!this.containsPrefix(pfx)) {
+	  /**
+	   * Gives all of the words in the trie with the given prefix
+	   * @param {*} prefix - Prefix to search for
+	   * @returns {Array} An array with all the words that are prefixed by
+	   * @param prefix
+	   *
+	   * @example
+	   * trie.addWord("apple");
+	   * trie.addWord.("app");
+	   * trie.prefixAll("app"); // returns only apple because app is equal to prefix
+	   */
+
+
+	  Trie.prototype.prefixAll = function prefixAll() {
+	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    if (!this.containsPrefix(prefix)) {
 	      return [];
 	    }
-	    var prefixTail = getPrefix(this.root, pfx);
+	    var prefixTail = getPrefix(this.root, toLowerCaseString(prefix));
 	    var prefixes = [];
 	    recurseTree(prefixTail, prefixes);
 	    return prefixes;

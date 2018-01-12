@@ -1,3 +1,4 @@
+import { toString } from './Util.js';
 
 /**
  * From immutable.js implementation of java hashcode
@@ -44,22 +45,6 @@ function createTable(size) {
     newTable.push([]);
   }
   return newTable;
-}
-
-/**
- * Converts a given value to a string
- * @private
- * @param {*} value - The value to convert to a string
- * @returns {string} @param value to string or stringified by JSON
- */
-function toString(value) {
-  const type = typeof value;
-  if (type === 'string' || type === 'number') {
-    return value.toString();
-  } else if (type === 'boolean' || type === 'function') {
-    return value.toString();
-  }
-  return JSON.stringify(value);
 }
 
 /**
