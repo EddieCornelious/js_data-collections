@@ -1,9 +1,9 @@
-const Structs= require("../bundle.js");
+const Structs= require("../structs.js");
 const expect= require("chai").expect;
 
 
 describe("PriorityQueue", function(){
-  let pq, expected, actual;
+  let pq, expected;
 
   beforeEach( function() {
     pq = new Structs.PriorityQueue();
@@ -11,8 +11,7 @@ describe("PriorityQueue", function(){
 
   afterEach( function() {
     pq,
-    expected,
-    actual = null;
+    expected;
   });
 
   it("Priority queue behaces like a priority queue", function(){

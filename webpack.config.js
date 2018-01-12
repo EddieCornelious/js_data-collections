@@ -3,7 +3,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: __dirname,
-    filename: 'bundle.js',
+    filename: 'structs.js',
     library: "Structs",
     libraryTarget: "umd", 
     umdNamedDefine: true

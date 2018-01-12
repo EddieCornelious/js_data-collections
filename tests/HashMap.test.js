@@ -1,4 +1,4 @@
-var Structs = require("../bundle.js");
+var Structs = require("../structs.js");
 var expect = require("chai").expect;
 
 

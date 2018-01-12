@@ -1,4 +1,4 @@
-const Structs = require("../bundle.js");
+const Structs = require("../structs.js");
 const expect = require("chai").expect;
 
 describe("Stack-Behavior", function() {
