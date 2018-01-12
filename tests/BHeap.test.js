@@ -121,11 +121,11 @@ describe("Heap", function() {
       return 0;
     });
 
-    for (let i = 0; i < 1000; i += 1) {
+    for (let i = 0; i < 10000; i += 1) {
       tempHeap.insert({data: i });
     }
 
-    let count = 999;
+    let count = 9999;
     while(tempHeap.size() > 0) {
       expect(tempHeap.extractRoot().data).to.be.equal(count);
       count -= 1;

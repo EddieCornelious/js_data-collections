@@ -270,6 +270,7 @@ describe("List", function(){
      list.addToBack("b")
      .addToBack("a")
      .addToBack("c");
+     
      expect(list.indexOf("a")).to.be.equal(1);
      expect(list.indexOf("b")).to.be.equal(0);
      expect(list.indexOf("c")).to.be.equal(2);
@@ -285,6 +286,7 @@ describe("List", function(){
      list.addToBack({age:"b"})
      .addToBack({age:"a"})
      .addToBack({age:"c"});
+     
      function customCompare(a, b){
       if(a.age < b.age){
        return -1;
@@ -308,11 +310,13 @@ describe("List", function(){
     actual = [];
    expected = [2, 4, 6, 8, 10];
    let i = 0;
+
    list.forEach( (element, index) => {
     actual.push(element * 2);
     expect(index).to.be.equal(i);
     i += 1;
    });
+   
   });
   
   it("clear does clear 'this'", function(){
