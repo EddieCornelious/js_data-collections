@@ -516,12 +516,50 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * default comparator for all Structs
-	 * @callback defaultComparator
+	 * @function defaultComparator
 	 * @param {(number|string)} a - first element to compare
-	 * @param {(number|string)} a - second element to compare
+	 * @param {(number|string)} b - second element to compare
 	 * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
+	 *
+	 * @example
+	 * function(a, b) {
+	   if(a < b) {
+	     return -1;
+	   } else if(a > b) {
+	     return 1;
+	   }
+	   return 0;
+	 }
 	 */
 	function defaultComp(a, b) {
+	  if (a < b) {
+	    return -1;
+	  } else if (a > b) {
+	    return 1;
+	  }
+	  return 0;
+	}
+
+	/**
+	 * Custom comparator example for all Structs
+	 * @function customComparator
+	 * @param {*} a - first element to compare
+	 * @param {*} b - second element to compare
+	 * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
+	 *
+	 * @example
+	 * // suppose data is of the form { age : 2 } , { age : 12 }....etc
+	 * function(a, b) {
+	   if(a.age < b.age) {
+	     return -1;
+	   } else if(a.age > b.age) {
+	     return 1;
+	   }
+	   return 0;
+	 }
+	 */
+	function customComp(a, b) {
+	  // eslint-disable-line no-unused-vars
 	  if (a < b) {
 	    return -1;
 	  } else if (a > b) {
@@ -748,9 +786,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @private
-	 * @param {Array} array - Array to sift down on.
-	 * @param {number} index - Index to start the sift down operation.
-	 * @param {function} comp - Comparator to use against parent and child elements.
+	 * @param {Array} array - The array to sift down on.
+	 * @param {number} index - The index to start the sift down operation.
+	 * @param {function} comp - The comparator to use against parent and
+	 * child elements.
 	 * @returns {undefined}
 	 */
 	function heapify(array, index, comp) {
@@ -777,9 +816,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * @private
-	 * @param {Array} array - array to sift up on.
-	 * @param {number} index - index to start the sift up operation.
-	 * @param {function} comp - comparator to use against parent and child elements.
+	 * @param {Array} array - The array to sift up on.
+	 * @param {number} index - The index to start the sift up operation.
+	 * @param {function} comp - The comparator to use against parent
+	 * and child elements.
 	 * @returns {undefined}
 	 */
 	function siftUp(array, index, comp) {
@@ -795,28 +835,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Binary heap representation
 	 * @class
-	 * @param {function} [comparator] - Function used to
-	 * compare parent and child for heap operations
+	 * @param {defaultComp} - {@link /global.html|defaultComp}
 	 * @example
 	 * const heap = new Structs.BHeap();
 	 * // this creates a max heap by default.
-	 * function (a, b){
-	     if (a < b) {
-	       return -1;
-	    } else if (a > b) {
-	       return 1;
-	    } else {
-	       return 0;
-	    }
-	 }
-	 * // to get a min heap swap -1 and 1
-	 * // you can also use a custom comparator for objects : For example,
-	 * // if your ojects have the pattern
-	 * // user {id : "", age: 22} simply put something like
-	 * if (a.age < b.age) {
-	        return -1;
-	 }........
-	 * // this will give u the person with the highest age at the top of the heap.
+	 * // for a min heap, see @link above and swap 1 and -1
 	 * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -830,7 +853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Removes the root of the heap and returns the data
-	   * @returns {*} Extracted data
+	   * @returns {*} The extracted data
 	   *
 	   * @example
 	   * heap.insert(1).insert(2).insert(3);
@@ -840,36 +863,41 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BHeap.prototype.extractRoot = function extractRoot() {
-	    var heap = this.heap;
+	    var heap = this.heap,
+	        comp = this.comp;
+
 	    var max = heap[1];
 	    heap[1] = heap[heap.length - 1];
 	    heap.length -= 1;
-	    heapify(heap, 1, this.comp);
+	    heapify(heap, 1, comp);
 	    return max;
 	  };
 
 	  /**
-	   * Inserts given data into BHeap
-	   * @param {*} data - Data to insert into heap.
+	   * Inserts the given data into BHeap
+	   * @param {*} data - The data to insert into heap.
 	   * @returns {BHeap} A reference to the instance that this method was called
 	   *
 	   * @example
 	   * heap.insert(1).insert(2).insert(3).insert(3);
 	   * // this heap will contain both 3s
-	   * // heap.extractRoot() // will be 3
+	   *
+	   * heap.extractRoot() // will be 3
 	   */
 
 
 	  BHeap.prototype.insert = function insert(data) {
-	    var heap = this.heap;
+	    var heap = this.heap,
+	        comp = this.comp;
+
 	    heap[heap.length] = data;
-	    siftUp(heap, heap.length - 1, this.comp);
+	    siftUp(heap, heap.length - 1, comp);
 	    return this;
 	  };
 
 	  /**
-	   * Transforms a BHeap into an array
-	   * @returns {Array} A BHeap instance as an array
+	   * Transforms the BHeap into an array
+	   * @returns {Array} The BHeap instance as an array
 	   *
 	   * @example
 	   * heap.insert(1).insert(2);
@@ -880,9 +908,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BHeap.prototype.toArray = function toArray() {
 	    return this.heap.slice(1);
 	  };
+
 	  /**
-	   * Gives the number of elements in the BHeap.
-	   * @returns A BHeap instance's number of elements
+	   * Reports the number of elements in the BHeap.
+	   * @returns The BHeap instance's number of elements
 	   *
 	   * @example
 	   * heap.size() // would be 0
