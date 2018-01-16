@@ -11,9 +11,7 @@ var Trie = require('./Trie.js');
 var HashMultiMap = require('./HashMultiMap.js');
 var ArrayUtils = require('./ArrayUtils.js');
 
-Array.prototype.SWAG = function (){
-    return "This is where I can place shims";
-};
+// TODO : add ie8 support and maybe load polyfills right here
 
 module.exports = { List, Stack, Queue, BHeap, PriorityQueue, HashMap, HashMultiMap, HashSet, BST, Graph, Trie, ArrayUtils };
 

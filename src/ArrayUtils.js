@@ -114,7 +114,7 @@ class ArrayUtils {
     isNumber(times);
     if (times < 0) {
       return lRotate(array, times);
-    } else if(times > 0) {
+    } else if (times > 0) {
       return rRotate(array, times);
     }
   }

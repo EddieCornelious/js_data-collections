@@ -60,7 +60,7 @@ class List {
 
   /**
    * Adds the given data to left-most end of linked list
-   * @param {*} data - Data to insert
+   * @param {*} data - The data to insert
    * @returns {List} The instance this method was called
    *
    * @example
@@ -85,7 +85,7 @@ class List {
 
   /**
    * Returns the data at given index
-   * @param {number} index - Index to look at
+   * @param {number} index - The index to look at
    * @throws {TypeError} Will throw error if @param index is not number
    * @returns {(*|undefined)} Index of element if @param index is in range
    * or undefined
@@ -105,7 +105,7 @@ class List {
 
   /**
    * Adds the given data to right-most end of linked list
-   * @param {*} data - Data to insert
+   * @param {*} data - the data to insert
    * @returns {List} The instance this method was called
    *
    * @example
@@ -190,8 +190,9 @@ class List {
 
   /**
    * Inserts given data into specific position in the linked list
-   * @param {index} index - Index to insert data into
-   * @param {*} data - Data to insert into @param index
+   * @param {index} index - The index to insert data into
+   * @param {*} data - The data to insert into @param index
+   * @throws {TypeError} Will throw error if @param index is not number
    * @returns {List} - The instance this method was called
    *
    * @example
@@ -224,7 +225,8 @@ class List {
 
   /**
    * Removes data at specific position in the linked list
-   * @param {index} index - Index to insert data into
+   * @param {index} index - The index to insert data into
+   * @throws {TypeError} Will throw error if @param index is not number
    * @returns {(*|undefined)} The removed data or undefined if nothing removed
    *
    * @example

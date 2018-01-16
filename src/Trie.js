@@ -2,6 +2,7 @@ import { toString } from './Util.js';
 
 /**
  * Converts the given data to a lowercase string
+ * @private
  * @param {*} data - The data to convert
  * @returns @param data to a string
  */
@@ -34,6 +35,7 @@ function getPrefix(root, prefix) {
 
 /**
  * Recursively searches a trie to find all words starting at root
+ * @private
  * @param {TrieNode} node - The starting node
  * @param {Array} array - The array to add words to
  * @returns {undefined}
@@ -55,6 +57,7 @@ function recurseTree(trieNode, array) {
 
 /**
  * Reports whether the given trieNode has at least one child
+ * @private
  * @param {TrieNode} trieNode - The trie node to check children of
  * @returns {boolean} True if the node has children and false otherwise
  */
@@ -99,7 +102,7 @@ class Trie {
 
   /**
    * Converts the given data to string and adds it to trie
-   * @param {*} word - Word to add into trie
+   * @param {*} word - The word to add into trie
    * @returns {undefined}
    */
   addWord(data = '') {
@@ -171,7 +174,7 @@ class Trie {
 
   /**
    * Gives all of the words in the trie with the given prefix
-   * @param {*} prefix - Prefix to search for
+   * @param {*} prefix - The prefix to search for
    * @returns {Array} An array with all the words that are prefixed by
    * @param prefix
    *

@@ -51,7 +51,7 @@ function siftUp(array, index, comp) {
 /**
  * Binary heap representation
  * @class
- * @param {defaultComp} - @see Global#defaultComp for examples
+ * @param {function} comparator - @see Global#defaultComp for examples
  * @example
  * const heap = new Structs.BHeap();
  * // this creates a max heap by default.

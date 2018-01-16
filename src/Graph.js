@@ -37,8 +37,8 @@ class Graph {
 
   /**
    * Connects two verticies to create an undirected edge
-   * @param {*} vertex1 - First vertex
-   * @param {*} vertex2 - Second vertex
+   * @param {*} vertex1 - The first vertex
+   * @param {*} vertex2 - The second vertex
    * @param {number} [weight=0] - Optional cost of
    * edge between @param vertex1, vertex2
    * @returns {undefined}
@@ -135,7 +135,7 @@ class Graph {
 
   /**
    * Reports whether a graph is connected
-   * @returns {boolean} true if connected and false otherwise
+   * @returns {boolean} True if connected and false otherwise
    */
   isConnected() {
     const graph = this.graph;

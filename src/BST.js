@@ -12,18 +12,10 @@ import { defaultComp } from './Util.js';
 /**
  * Binary search tree representation
  * @class
- * @param {function} [comparator] - function used to compare nodes in tree
+ * @param {function} comparator - @see Global#defaultComp for examples
  * @example
- * // custom comparator example
- * const bst = new Structs.BST(function(a, b){
- *   if (a.data < b.data) {
- *     return -1;
- *   } else if (a.data > b.data) {
- *      return 1;
- *   } else { return 0;}
- * });
- * // default comparator simply compares (a < b) : returns -1
- * //(a > b) : returns 1, else : 0
+ * const bst = new Structs.BST();
+ * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
  */
 class BST {
   constructor(comparator) {
@@ -36,6 +28,7 @@ class BST {
   * @param {*} key - The key to insert into BST
   * @param {*} value - The value that is mapped to by @param key
   * @returns {BST} The instance that this method was called with
+  *
   * @example
   * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
   * // ed now maps to kane because ed already existed before.
@@ -46,9 +39,10 @@ class BST {
   }
 
   /**
-   * Removes a key and it's associated from BST
+   * Removes the given key and its associated value from BST
    * @param {*} key - The key to search for
    * @returns {BST} The instance that this method was called with
+   *
    * @example
    * bst.insert(1, 5).insert(5, 10);
    * bst.remove(1); // 1 and it's associated value are removed from tree
@@ -61,9 +55,10 @@ class BST {
 
   /**
   * Finds the value associated with given key
-  * @param {*} key to search for in BST
-  * @returns {(*|undefined)} value associated with @param key or undefined
+  * @param {*} key - The key to search for in BST
+  * @returns {(*|undefined)} The value associated with @param key or undefined
   * if not found.
+  *
   * @example
   * bst.insert(1, 5).insert(5, 10);
   * bst.find(5); // returns 10
@@ -78,6 +73,7 @@ class BST {
   * Determines if BST contains the given key
   * @param {*} key to search for in BST
   * @returns {boolean} true if BST contains @param key and false otherwise
+  *
   * @example
   * bst.insert(1, 5).insert(5, 10);
   * bst.contains(5); // returns true
@@ -92,6 +88,7 @@ class BST {
   * @param {*} key to search for in BST
   * @returns {*|undefined} value associated with @param key or undefined
   * if not found.
+  *
   * @example
   * bst.insert(1, 5).insert(5, 10).insert(2, 10);
   * bst.inorder(); // [{key: 1, value:5, parent: undefined},

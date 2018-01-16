@@ -62,6 +62,10 @@ class PriorityQueue {
     return queue.extractRoot().data;
   }
 
+  /**
+   * Reports the size of the priorityqueue
+   * @returns {number} The size of the queue
+   */
   size() {
     const { queue } = this;
     return queue.size();

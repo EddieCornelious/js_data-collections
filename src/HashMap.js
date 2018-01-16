@@ -7,7 +7,7 @@ import { toString } from './Util.js';
  *
  * Returns the hashcode for a string
  * @private
- * @param {string} str - String to hash
+ * @param {string} str - The string to hash
  * @returns {number} @param str's hashcode
  */
 function hashStr(str) {
@@ -21,13 +21,13 @@ function hashStr(str) {
 /**
  * Returns the modulo of two numbers
  * @private
- * @param {number} a - Dividend
- * @param {number} b - Divisor
- * @returns {number} Positive number when (a mod b) is calculated
+ * @param {number} dividend - The dividend
+ * @param {number} divisor - The divisor
+ * @returns {number} Positive number when (dividend mod divisor) is calculated
  */
-function mod(a, b) {
-  const modulo = a % b;
-  if (a < 0) {
+function mod(dividend, divisor) {
+  const modulo = dividend % divisor;
+  if (dividend < 0) {
     return modulo * -1;
   }
   return modulo;
@@ -36,7 +36,7 @@ function mod(a, b) {
 /**
  * Creates a 2 dimensional array of a certain size
  * @private
- * @param {number} size - Size of the 2d array
+ * @param {number} size - The size of the 2d array
  * @returns {Array} A 1d array with @param size inner arrays
  */
 function createTable(size) {
@@ -48,7 +48,7 @@ function createTable(size) {
 }
 
 /**
- * Inserts into a hashtable based on a hashcode of @param key
+ * Inserts into a hashtable based on a hashcode of the given key
  * @private
  * @param {*} key - The key
  * @param {*} value - The value mapped to by key
@@ -63,7 +63,7 @@ function insert(key, value, table) {
 }
 
 /**
- * Searches a hashtable based on the hashcode of @param key
+ * Searches a hashtable based on the hashcode of the given key
  * @private
  * @param {*} key - Key to look for
  * @param {Array} table - Associative Array
@@ -121,8 +121,8 @@ class HashMap {
 
   /**
    * Inserts given key and value into HashMap
-   * @param {*} key - Key value
-   * @param {*} value - Value mapped to by @param key
+   * @param {*} key - The key
+   * @param {*} value - The value mapped to by @param key
    * @returns {boolean} True
    *
    * @example
@@ -148,9 +148,9 @@ class HashMap {
   }
 
   /**
-   * Retrieves the value mapped to by @param key
-   * @param {*} key - Key to lookup
-   * @returns {*} Value associated with @param key
+   * Retrieves the value mapped to by the given key
+   * @param {*} key - The key to lookup
+   * @returns {*} The value associated with @param key
    *
    * @example
    * map.put(99, "problems");
@@ -163,8 +163,8 @@ class HashMap {
   }
 
   /**
-   * Removes a key and its associated value from the HashMap
-   * @param {*} key - Key to lookup
+   * Removes the given key and its associated value from the HashMap
+   * @param {*} key - The key to lookup
    * @returns {boolean} True if the key was removed and false otherwise
    *
    * @example
@@ -184,8 +184,8 @@ class HashMap {
   }
 
   /**
-   * Reports whether a HashMap contains a key
-   * @param {*} key - Key to lookup
+   * Reports whether the HashMap contains the given key
+   * @param {*} key - The key to lookup
    * @returns {boolean} True if @param key is found and false otherwise
    *
    * @example
@@ -196,7 +196,7 @@ class HashMap {
   }
 
   /**
-   * Resizes and rehashes all keys in HashMap
+   * Resizes (2x) and rehashes all keys in HashMap
    * @returns {undefined}
    */
   rehash() {
@@ -209,7 +209,7 @@ class HashMap {
         insert(oldKey, oldValue, newTable);
       }
     }
-    this.table.length = 0;
+    oldTable.length = 0;
     this.table = newTable;
   }
 
@@ -248,7 +248,7 @@ class HashMap {
 
   /**
    * Returns number of elements in the HashMap
-   * @returns {number} Number of insertions
+   * @returns {number} The number of insertions
    *
    * @example
    * const newMap = map.put(99, "problems");

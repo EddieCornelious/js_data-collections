@@ -17,7 +17,7 @@ class HashMultiMap extends HashMap {
 
   /**
    * Inserts given key and value into HashMultiMap
-   * @param {*} key - Key value
+   * @param {*} key - The key
    * @param {*} value - Value mapped to by @param key
    * @returns {boolean} True
    *

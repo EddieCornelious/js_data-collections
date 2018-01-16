@@ -69,9 +69,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMultiMap = __webpack_require__(14);
 	var ArrayUtils = __webpack_require__(15);
 
-	Array.prototype.SWAG = function () {
-	    return "This is where I can place shims";
-	};
+	// TODO : add ie8 support and maybe load polyfills right here
 
 	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils };
 
@@ -147,7 +145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Adds the given data to left-most end of linked list
-	   * @param {*} data - Data to insert
+	   * @param {*} data - The data to insert
 	   * @returns {List} The instance this method was called
 	   *
 	   * @example
@@ -176,7 +174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Returns the data at given index
-	   * @param {number} index - Index to look at
+	   * @param {number} index - The index to look at
 	   * @throws {TypeError} Will throw error if @param index is not number
 	   * @returns {(*|undefined)} Index of element if @param index is in range
 	   * or undefined
@@ -200,7 +198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Adds the given data to right-most end of linked list
-	   * @param {*} data - Data to insert
+	   * @param {*} data - the data to insert
 	   * @returns {List} The instance this method was called
 	   *
 	   * @example
@@ -297,8 +295,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Inserts given data into specific position in the linked list
-	   * @param {index} index - Index to insert data into
-	   * @param {*} data - Data to insert into @param index
+	   * @param {index} index - The index to insert data into
+	   * @param {*} data - The data to insert into @param index
+	   * @throws {TypeError} Will throw error if @param index is not number
 	   * @returns {List} - The instance this method was called
 	   *
 	   * @example
@@ -337,7 +336,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Removes data at specific position in the linked list
-	   * @param {index} index - Index to insert data into
+	   * @param {index} index - The index to insert data into
+	   * @throws {TypeError} Will throw error if @param index is not number
 	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
 	   *
 	   * @example
@@ -835,7 +835,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Binary heap representation
 	 * @class
-	 * @param {defaultComp} - {@link /global.html|defaultComp}
+	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
 	 * const heap = new Structs.BHeap();
 	 * // this creates a max heap by default.
@@ -1013,6 +1013,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return queue.extractRoot().data;
 	  };
 
+	  /**
+	   * Reports the size of the priorityqueue
+	   * @returns {number} The size of the queue
+	   */
+
+
 	  PriorityQueue.prototype.size = function size() {
 	    var queue = this.queue;
 
@@ -1043,7 +1049,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * Returns the hashcode for a string
 	 * @private
-	 * @param {string} str - String to hash
+	 * @param {string} str - The string to hash
 	 * @returns {number} @param str's hashcode
 	 */
 	function hashStr(str) {
@@ -1057,13 +1063,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Returns the modulo of two numbers
 	 * @private
-	 * @param {number} a - Dividend
-	 * @param {number} b - Divisor
-	 * @returns {number} Positive number when (a mod b) is calculated
+	 * @param {number} dividend - The dividend
+	 * @param {number} divisor - The divisor
+	 * @returns {number} Positive number when (dividend mod divisor) is calculated
 	 */
-	function mod(a, b) {
-	  var modulo = a % b;
-	  if (a < 0) {
+	function mod(dividend, divisor) {
+	  var modulo = dividend % divisor;
+	  if (dividend < 0) {
 	    return modulo * -1;
 	  }
 	  return modulo;
@@ -1072,7 +1078,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Creates a 2 dimensional array of a certain size
 	 * @private
-	 * @param {number} size - Size of the 2d array
+	 * @param {number} size - The size of the 2d array
 	 * @returns {Array} A 1d array with @param size inner arrays
 	 */
 	function createTable(size) {
@@ -1084,7 +1090,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Inserts into a hashtable based on a hashcode of @param key
+	 * Inserts into a hashtable based on a hashcode of the given key
 	 * @private
 	 * @param {*} key - The key
 	 * @param {*} value - The value mapped to by key
@@ -1099,7 +1105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Searches a hashtable based on the hashcode of @param key
+	 * Searches a hashtable based on the hashcode of the given key
 	 * @private
 	 * @param {*} key - Key to look for
 	 * @param {Array} table - Associative Array
@@ -1162,8 +1168,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Inserts given key and value into HashMap
-	   * @param {*} key - Key value
-	   * @param {*} value - Value mapped to by @param key
+	   * @param {*} key - The key
+	   * @param {*} value - The value mapped to by @param key
 	   * @returns {boolean} True
 	   *
 	   * @example
@@ -1197,9 +1203,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Retrieves the value mapped to by @param key
-	   * @param {*} key - Key to lookup
-	   * @returns {*} Value associated with @param key
+	   * Retrieves the value mapped to by the given key
+	   * @param {*} key - The key to lookup
+	   * @returns {*} The value associated with @param key
 	   *
 	   * @example
 	   * map.put(99, "problems");
@@ -1216,8 +1222,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Removes a key and its associated value from the HashMap
-	   * @param {*} key - Key to lookup
+	   * Removes the given key and its associated value from the HashMap
+	   * @param {*} key - The key to lookup
 	   * @returns {boolean} True if the key was removed and false otherwise
 	   *
 	   * @example
@@ -1241,8 +1247,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Reports whether a HashMap contains a key
-	   * @param {*} key - Key to lookup
+	   * Reports whether the HashMap contains the given key
+	   * @param {*} key - The key to lookup
 	   * @returns {boolean} True if @param key is found and false otherwise
 	   *
 	   * @example
@@ -1255,7 +1261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Resizes and rehashes all keys in HashMap
+	   * Resizes (2x) and rehashes all keys in HashMap
 	   * @returns {undefined}
 	   */
 
@@ -1270,7 +1276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        insert(oldKey, oldValue, newTable);
 	      }
 	    }
-	    this.table.length = 0;
+	    oldTable.length = 0;
 	    this.table = newTable;
 	  };
 
@@ -1313,7 +1319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Returns number of elements in the HashMap
-	   * @returns {number} Number of insertions
+	   * @returns {number} The number of insertions
 	   *
 	   * @example
 	   * const newMap = map.put(99, "problems");
@@ -1348,7 +1354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * HashSet representation
 	 * @class
-	 * @param {number} [initialCapacity=13] - Initial size of the hashset
+	 * @param {number} [initialCapacity=13] - The initial size of the hashset
 	 *
 	 * @example
 	 * const set = new Structs.HashSet();
@@ -1504,18 +1510,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Binary search tree representation
 	 * @class
-	 * @param {function} [comparator] - function used to compare nodes in tree
+	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
-	 * // custom comparator example
-	 * const bst = new Structs.BST(function(a, b){
-	 *   if (a.data < b.data) {
-	 *     return -1;
-	 *   } else if (a.data > b.data) {
-	 *      return 1;
-	 *   } else { return 0;}
-	 * });
-	 * // default comparator simply compares (a < b) : returns -1
-	 * //(a > b) : returns 1, else : 0
+	 * const bst = new Structs.BST();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var BST = function () {
 	  function BST(comparator) {
@@ -1530,6 +1528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {*} key - The key to insert into BST
 	  * @param {*} value - The value that is mapped to by @param key
 	  * @returns {BST} The instance that this method was called with
+	  *
 	  * @example
 	  * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
 	  * // ed now maps to kane because ed already existed before.
@@ -1542,9 +1541,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Removes a key and it's associated from BST
+	   * Removes the given key and its associated value from BST
 	   * @param {*} key - The key to search for
 	   * @returns {BST} The instance that this method was called with
+	   *
 	   * @example
 	   * bst.insert(1, 5).insert(5, 10);
 	   * bst.remove(1); // 1 and it's associated value are removed from tree
@@ -1559,9 +1559,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Finds the value associated with given key
-	  * @param {*} key to search for in BST
-	  * @returns {(*|undefined)} value associated with @param key or undefined
+	  * @param {*} key - The key to search for in BST
+	  * @returns {(*|undefined)} The value associated with @param key or undefined
 	  * if not found.
+	  *
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10);
 	  * bst.find(5); // returns 10
@@ -1578,6 +1579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * Determines if BST contains the given key
 	  * @param {*} key to search for in BST
 	  * @returns {boolean} true if BST contains @param key and false otherwise
+	  *
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10);
 	  * bst.contains(5); // returns true
@@ -1594,6 +1596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {*} key to search for in BST
 	  * @returns {*|undefined} value associated with @param key or undefined
 	  * if not found.
+	  *
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
 	  * bst.inorder(); // [{key: 1, value:5, parent: undefined},
@@ -1639,10 +1642,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Inserts given key and value into bst (maps key to value)
 	* @private
-	* @param {*} key - Key to insert in bst
-	* @param {*} value - Value that is mapped to by @param key
-	* @param {BSTNode} Node - Node type to insert into tree
-	* @returns {BSTNode|null} Null if the node was already in tree, thus not inserted
+	* @param {*} key - The key to insert in bst
+	* @param {*} value - the value that is mapped to by @param key
+	* @param {BSTNode} Node - The Node type to insert into tree
+	* @returns {(BSTNode|null)} Null if the node was already in tree, thus not inserted
 	* or the new node that was just inserted successfully.
 	*/
 	function insert(key, value, Node) {
@@ -1661,6 +1664,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return null;
 	    }
 	  }
+
 	  newNode.parent = prevRoot;
 	  if (prevRoot.key === undefined) {
 	    this.root = newNode;
@@ -1679,7 +1683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @param {BSTNode} root - The root node to start search
 	 * @param {*} key - The key to search for in bst
-	 * @returns {null|BSTNode} Null if not found. Or the actual node if found
+	 * @returns {(null|BSTNode)} Null if not found. Or the actual node if found
 	 */
 	function search(root, key) {
 	  var comp = this.comp;
@@ -1696,9 +1700,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Finds the inorder successor of a node
+	 * Finds the inorder successor of the given node
 	 * @private
-	 * @param {BSTNode} node - Node to find the successor for
+	 * @param {BSTNode} node - The Node to find the successor for
 	 * @returns {BSTNode} The inorder successor of @param node
 	 */
 	function successor(node) {
@@ -1715,8 +1719,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Gets the number of children of a given node
 	 * @private
-	 * @param {BSTNode} node - Node to get number of children of
-	 * @returns {number} indicating number of non-Nil children 0 || 1 || 2
+	 * @param {BSTNode} node - The Node to get number of children of
+	 * @returns {number} The number of non-Nil children 0 || 1 || 2
 	 */
 	function numChildren(node) {
 	  var left = node.left.key;
@@ -1732,8 +1736,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Removes given node from tree which has 0 children
 	 * @private
-	 * @param {BSTNode} node - Node to remove from tree
-	 * @param {NodeType} NodeType - Type of node in BST
+	 * @param {BSTNode} node - The Node to remove from tree
+	 * @param {NodeType} NodeType - The type of node in BST
 	 * @returns {undefined}
 	 */
 	function remove0(node, NodeType) {
@@ -1753,7 +1757,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Removes given node from tree which has 1 child
 	 * @private
-	 * @param {BSTNode} node - Node to remove from tree
+	 * @param {BSTNode} node - The Node to remove from tree
 	 * @returns {undefined}
 	 */
 	function remove1(node) {
@@ -1795,7 +1799,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Removes given node from tree which has 2 children
 	 * @private
-	 * @param {BSTNode} node - Node to remove from tree
+	 * @param {BSTNode} node - The Node to remove from tree
 	 * @returns {undefined}
 	 */
 	function remove2(node) {
@@ -1819,7 +1823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @param {*} key - Key to search for in tree
 	 * @param {BSTNode} nodeType - Type of Nodes in the tree
-	 * @returns {boolean} true if node was deleted and false otherwise
+	 * @returns {boolean} Returns True if node was deleted and false otherwise
 	 */
 	function remove(key, nodeType) {
 	  var node = search.call(this, this.root, key);
@@ -1838,7 +1842,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Gets the inorder traversal starting at given root
 	 * @private
-	 * @param {BSTNode} root - Root of tree
+	 * @param {BSTNode} root - The root of tree
 	 * @returns {Array(Object)} Array containing key and value info as well as
 	 * parent info for each node
 	 */
@@ -1922,8 +1926,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Connects two verticies to create an undirected edge
-	   * @param {*} vertex1 - First vertex
-	   * @param {*} vertex2 - Second vertex
+	   * @param {*} vertex1 - The first vertex
+	   * @param {*} vertex2 - The second vertex
 	   * @param {number} [weight=0] - Optional cost of
 	   * edge between @param vertex1, vertex2
 	   * @returns {undefined}
@@ -2029,7 +2033,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Reports whether a graph is connected
-	   * @returns {boolean} true if connected and false otherwise
+	   * @returns {boolean} True if connected and false otherwise
 	   */
 
 
@@ -2058,6 +2062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Converts the given data to a lowercase string
+	 * @private
 	 * @param {*} data - The data to convert
 	 * @returns @param data to a string
 	 */
@@ -2090,6 +2095,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Recursively searches a trie to find all words starting at root
+	 * @private
 	 * @param {TrieNode} node - The starting node
 	 * @param {Array} array - The array to add words to
 	 * @returns {undefined}
@@ -2111,6 +2117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Reports whether the given trieNode has at least one child
+	 * @private
 	 * @param {TrieNode} trieNode - The trie node to check children of
 	 * @returns {boolean} True if the node has children and false otherwise
 	 */
@@ -2161,7 +2168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Converts the given data to string and adds it to trie
-	   * @param {*} word - Word to add into trie
+	   * @param {*} word - The word to add into trie
 	   * @returns {undefined}
 	   */
 
@@ -2245,7 +2252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Gives all of the words in the trie with the given prefix
-	   * @param {*} prefix - Prefix to search for
+	   * @param {*} prefix - The prefix to search for
 	   * @returns {Array} An array with all the words that are prefixed by
 	   * @param prefix
 	   *
@@ -2312,7 +2319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Inserts given key and value into HashMultiMap
-	   * @param {*} key - Key value
+	   * @param {*} key - The key
 	   * @param {*} value - Value mapped to by @param key
 	   * @returns {boolean} True
 	   *

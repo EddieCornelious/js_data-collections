@@ -3,7 +3,7 @@ import HashMap from './HashMap.js';
 /**
  * HashSet representation
  * @class
- * @param {number} [initialCapacity=13] - Initial size of the hashset
+ * @param {number} [initialCapacity=13] - The initial size of the hashset
  *
  * @example
  * const set = new Structs.HashSet();
