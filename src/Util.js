@@ -58,9 +58,20 @@ function isNumber(value) {
   }
 }
 
+/**
+ * Generates a random integer between 0 and limit (exclusive)
+ * @private
+ * @param {number} limit - Upper bound on random number
+ * @returns {number} Random number in the range [0, @param limit)
+ */
+function genRand(limit) {
+  return Math.floor(Math.random() * limit);
+}
+
 module.exports = {
   swap,
   defaultComp,
   isNumber,
-  toString
+  toString,
+  genRand
 };
