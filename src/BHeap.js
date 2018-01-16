@@ -2,9 +2,10 @@ import { swap, defaultComp } from './Util.js';
 
 /**
  * @private
- * @param {Array} array - Array to sift down on.
- * @param {number} index - Index to start the sift down operation.
- * @param {function} comp - Comparator to use against parent and child elements.
+ * @param {Array} array - The array to sift down on.
+ * @param {number} index - The index to start the sift down operation.
+ * @param {function} comp - The comparator to use against parent and
+ * child elements.
  * @returns {undefined}
  */
 function heapify(array, index, comp) {
@@ -31,9 +32,10 @@ function heapify(array, index, comp) {
 
 /**
  * @private
- * @param {Array} array - array to sift up on.
- * @param {number} index - index to start the sift up operation.
- * @param {function} comp - comparator to use against parent and child elements.
+ * @param {Array} array - The array to sift up on.
+ * @param {number} index - The index to start the sift up operation.
+ * @param {function} comp - The comparator to use against parent
+ * and child elements.
  * @returns {undefined}
  */
 function siftUp(array, index, comp) {
@@ -49,28 +51,11 @@ function siftUp(array, index, comp) {
 /**
  * Binary heap representation
  * @class
- * @param {function} [comparator] - Function used to
- * compare parent and child for heap operations
+ * @param {defaultComp} - @see Global#defaultComp for examples
  * @example
  * const heap = new Structs.BHeap();
  * // this creates a max heap by default.
- * function (a, b){
-     if (a < b) {
-       return -1;
-    } else if (a > b) {
-       return 1;
-    } else {
-       return 0;
-    }
- }
- * // to get a min heap swap -1 and 1
- * // you can also use a custom comparator for objects : For example,
- * // if your ojects have the pattern
- * // user {id : "", age: 22} simply put something like
- * if (a.age < b.age) {
-        return -1;
- }........
- * // this will give u the person with the highest age at the top of the heap.
+ * // for a min heap, see @link above and swap 1 and -1
  * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE
  */
 class BHeap {
@@ -81,7 +66,7 @@ class BHeap {
 
   /**
    * Removes the root of the heap and returns the data
-   * @returns {*} Extracted data
+   * @returns {*} The extracted data
    *
    * @example
    * heap.insert(1).insert(2).insert(3);
@@ -89,34 +74,35 @@ class BHeap {
    * // root = 3;
    */
   extractRoot() {
-    const heap = this.heap;
+    const { heap, comp } = this;
     let max = heap[1];
     heap[1] = heap[heap.length - 1];
     heap.length -= 1;
-    heapify(heap, 1, this.comp);
+    heapify(heap, 1, comp);
     return max;
   }
 
   /**
-   * Inserts given data into BHeap
-   * @param {*} data - Data to insert into heap.
+   * Inserts the given data into BHeap
+   * @param {*} data - The data to insert into heap.
    * @returns {BHeap} A reference to the instance that this method was called
    *
    * @example
    * heap.insert(1).insert(2).insert(3).insert(3);
    * // this heap will contain both 3s
-   * // heap.extractRoot() // will be 3
+   *
+   * heap.extractRoot() // will be 3
    */
   insert(data) {
-    const heap = this.heap;
+    const { heap, comp } = this;
     heap[heap.length] = data;
-    siftUp(heap, heap.length - 1, this.comp);
+    siftUp(heap, heap.length - 1, comp);
     return this;
   }
 
   /**
-   * Transforms a BHeap into an array
-   * @returns {Array} A BHeap instance as an array
+   * Transforms the BHeap into an array
+   * @returns {Array} The BHeap instance as an array
    *
    * @example
    * heap.insert(1).insert(2);
@@ -125,9 +111,10 @@ class BHeap {
   toArray() {
     return this.heap.slice(1);
   }
+
   /**
-   * Gives the number of elements in the BHeap.
-   * @returns A BHeap instance's number of elements
+   * Reports the number of elements in the BHeap.
+   * @returns The BHeap instance's number of elements
    *
    * @example
    * heap.size() // would be 0
