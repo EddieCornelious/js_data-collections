@@ -202,7 +202,7 @@
 
 
 <div class="description">
-    Splits an array into chunks
+    Splits the given array into chunks
 </div>
 
 
@@ -256,7 +256,7 @@
 
             
 
-            <td class="description last">Array to chunk</td>
+            <td class="description last">The array to chunk</td>
         </tr>
 
     
@@ -367,7 +367,7 @@
     
     <pre class="prettyprint"><code>const myArray = [[2], [3], [4, 5]];
 const altered = arrayMethods.flatten(myArray);
-// altered will be [2, 3, 4, 5] ; myArray unchanged</code></pre>
+// altered will be [2, 3, 4, 5] ; myArray is unchanged</code></pre>
 
 
 
@@ -413,7 +413,7 @@ const altered = arrayMethods.flatten(myArray);
 
             
 
-            <td class="description last">Array to flatten</td>
+            <td class="description last">The array to flatten</td>
         </tr>
 
     
@@ -437,7 +437,7 @@ const altered = arrayMethods.flatten(myArray);
 
         
 <div class="param-desc">
-    The flattened array
+    @param array to a one dimensional array
 </div>
 
 
@@ -509,7 +509,7 @@ const altered = arrayMethods.flatten(myArray);
 
 
 <div class="description">
-    Returns a random index in a array
+    Returns a random index in the given array
 </div>
 
 
@@ -570,7 +570,7 @@ const altered = arrayMethods.getRand(myArray);
 
             
 
-            <td class="description last">Array to get random index from</td>
+            <td class="description last">The array to get random index from</td>
         </tr>
 
     
@@ -666,7 +666,7 @@ const altered = arrayMethods.getRand(myArray);
 
 
 <div class="description">
-    Pops an array several times
+    Pops the given array a given amount of times
 </div>
 
 
@@ -681,7 +681,7 @@ const altered = arrayMethods.getRand(myArray);
     
     <pre class="prettyprint"><code>const myArray = [1, 2, 3, 4];
 const altered = arrayMethods.popMany(myArray, 3);
-// myArray is [1, 2, 3, 4] ; altered is [3]</code></pre>
+// myArray is [1, 2, 3, 4] ; altered is [1]</code></pre>
 
 
 
@@ -733,7 +733,7 @@ const altered = arrayMethods.popMany(myArray, 3);
                 </td>
             
 
-            <td class="description last">Array to pop</td>
+            <td class="description last">The array to pop</td>
         </tr>
 
     
@@ -762,7 +762,7 @@ const altered = arrayMethods.popMany(myArray, 3);
                 </td>
             
 
-            <td class="description last">Number of times to pop @param array</td>
+            <td class="description last">The number of times to pop @param array</td>
         </tr>
 
     
@@ -859,7 +859,7 @@ const altered = arrayMethods.popMany(myArray, 3);
 
 
 <div class="description">
-    Pushes many elements into an array
+    Pushes many elements into the given array
 </div>
 
 
@@ -920,7 +920,7 @@ const altered = arrayMethods.pushMany(myArray, "push", "me");
 
             
 
-            <td class="description last">Array to push onto</td>
+            <td class="description last">The array to push elements into</td>
         </tr>
 
     
@@ -1039,7 +1039,7 @@ const altered = arrayMethods.pushMany(myArray, "push", "me");
 
 
 <div class="description">
-    Removes an element at the given position
+    Removes an element at the given position in the given array
 </div>
 
 
@@ -1053,8 +1053,8 @@ const altered = arrayMethods.pushMany(myArray, "push", "me");
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>const myArray = [1, 2, 3, 4];
-let changedArray = arrayMethods.remove(myArray, 1);
-// changedArray contains [2] and myArray is [1, 3, 4]</code></pre>
+let removedItems = arrayMethods.remove(myArray, 1);
+// removedItems contains [2] and myArray is [1, 3, 4]</code></pre>
 
 
 
@@ -1106,7 +1106,7 @@ let changedArray = arrayMethods.remove(myArray, 1);
                 </td>
             
 
-            <td class="description last">An array to remove elements from</td>
+            <td class="description last">The array to remove elements from</td>
         </tr>
 
     
@@ -1135,7 +1135,7 @@ let changedArray = arrayMethods.remove(myArray, 1);
                 </td>
             
 
-            <td class="description last">Index of element to remove</td>
+            <td class="description last">The index to remove from @param array</td>
         </tr>
 
     
@@ -1231,7 +1231,7 @@ let changedArray = arrayMethods.remove(myArray, 1);
 
 
 <div class="description">
-    Removes a given value from array
+    Removes the first occurence of the given value from array
 </div>
 
 
@@ -1245,7 +1245,7 @@ let changedArray = arrayMethods.remove(myArray, 1);
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>const myArray = [1, 2, 3, 4];
-let changedArray = arrayMethods.removeElement(myArray, 3);
+let removedItems = arrayMethods.removeElement(myArray, 3);
 // changedArray contains [3] and myArray is [1, 2, 4]</code></pre>
 
 
@@ -1292,7 +1292,7 @@ let changedArray = arrayMethods.removeElement(myArray, 3);
 
             
 
-            <td class="description last">An array to remove elements from</td>
+            <td class="description last">The array to remove elements from</td>
         </tr>
 
     
@@ -1315,7 +1315,7 @@ let changedArray = arrayMethods.removeElement(myArray, 3);
 
             
 
-            <td class="description last">Value to remove from @param array</td>
+            <td class="description last">The value to remove from @param array</td>
         </tr>
 
     
@@ -1411,7 +1411,7 @@ let changedArray = arrayMethods.removeElement(myArray, 3);
 
 
 <div class="description">
-    Removes a random element from an array
+    Removes a random element from the given array
 </div>
 
 
@@ -1472,7 +1472,7 @@ const altered = arrayMethods.removeRand(myArray);
 
             
 
-            <td class="description last">Array to remove random element from</td>
+            <td class="description last">The array to remove random element from</td>
         </tr>
 
     
@@ -1496,7 +1496,8 @@ const altered = arrayMethods.removeRand(myArray);
 
         
 <div class="param-desc">
-    array - Array of elements removed from @param array
+    An array of length 1 containing the element removed
+from @param array
 </div>
 
 
@@ -1568,7 +1569,7 @@ const altered = arrayMethods.removeRand(myArray);
 
 
 <div class="description">
-    Rotates an array left(negative number) right(positive number)
+    Rotates the given array left(negative number) or right(positive number)
 </div>
 
 
@@ -1637,7 +1638,7 @@ arrayMethods.rotate(myArray, -2);
                 </td>
             
 
-            <td class="description last">Array to rotate</td>
+            <td class="description last">The array to rotate</td>
         </tr>
 
     
@@ -1666,7 +1667,7 @@ arrayMethods.rotate(myArray, -2);
                 </td>
             
 
-            <td class="description last">Number of times to rotate @param array</td>
+            <td class="description last">The number of times to rotate @param array</td>
         </tr>
 
     
@@ -1691,7 +1692,7 @@ arrayMethods.rotate(myArray, -2);
 <dl>
     <dt>
         <div class="param-desc">
-        If @param times is not primitive number
+        If @param times is not a primitive number
         </div>
     </dt>
     <dd></dd>
@@ -1841,7 +1842,7 @@ arrayMethods.rotate(myArray, -2);
 
             
 
-            <td class="description last">Array to shuffle</td>
+            <td class="description last">The array to shuffle</td>
         </tr>
 
     
@@ -1899,7 +1900,7 @@ arrayMethods.rotate(myArray, -2);
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jan 12 2018 18:14:59 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 16 2018 13:52:51 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
