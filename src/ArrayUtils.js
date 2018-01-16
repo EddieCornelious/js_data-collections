@@ -110,7 +110,7 @@ class ArrayUtils {
    * // myArray is back to original positioning [1, 2, 3, 4]
    */
   static rotate(array = [], times = 0) {
-    // avoid infinite loop is rotate methods
+    // avoid infinite loop in rotate methods for unconventional args
     isNumber(times);
     if (times < 0) {
       return lRotate(array, times);
@@ -228,6 +228,7 @@ class ArrayUtils {
   /**
    * Splits the given array into chunks
    * @param {Array} array - The array to chunk
+   * @throws {TypeError} If @param bits is not a primitive number
    * @returns {Array} A new array split into @param bits
    *
    * @exmaple
@@ -236,6 +237,7 @@ class ArrayUtils {
    * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
    */
   static chunk(arr, bits) {
+    isNumber(bits);
     const newArr = [];
     if (bits <= 0) {
       return [];
