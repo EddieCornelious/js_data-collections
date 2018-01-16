@@ -31,12 +31,49 @@ function toString(value) {
 
 /**
  * default comparator for all Structs
- * @callback defaultComparator
+ * @function defaultComparator
  * @param {(number|string)} a - first element to compare
- * @param {(number|string)} a - second element to compare
+ * @param {(number|string)} b - second element to compare
  * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
+ *
+ * @example
+ * function(a, b) {
+   if(a < b) {
+     return -1;
+   } else if(a > b) {
+     return 1;
+   }
+   return 0;
+ }
  */
 function defaultComp(a, b) {
+  if (a < b) {
+    return -1;
+  } else if (a > b) {
+    return 1;
+  }
+  return 0;
+}
+
+/**
+ * Custom comparator example for all Structs
+ * @function customComparator
+ * @param {*} a - first element to compare
+ * @param {*} b - second element to compare
+ * @returns {number} -1 if a < b, 1 if a > b, and 0 if equal
+ *
+ * @example
+ * // suppose data is of the form { age : 2 } , { age : 12 }....etc
+ * function(a, b) {
+   if(a.age < b.age) {
+     return -1;
+   } else if(a.age > b.age) {
+     return 1;
+   }
+   return 0;
+ }
+ */
+function customComp(a, b) { // eslint-disable-line no-unused-vars
   if (a < b) {
     return -1;
   } else if (a > b) {
