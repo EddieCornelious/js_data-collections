@@ -1,7 +1,7 @@
-import { swap, isNumber } from './Util.js';
+import { swap, isNumber, genRand } from './Util.js';
 
 /**
- * Pushes a value to an array and returns the array
+ * Pushes a value to an array and returns the new array
  * @private
  * @param {*} value - The value to push to array
  * @returns {Array} Array of length one with @param value in it
@@ -13,26 +13,16 @@ function pushValToArray(value) {
 }
 
 /**
- * Generates a random integer between 0 and limit (exclusive)
+ * Rotates array elements to the lefta fixed number of times
  * @private
- * @param {number} limit - Upper bound on random number
- * @returns {number} Random number in the range [0, @param limit)
- */
-function genRand(limit) {
-  return Math.floor(Math.random() * limit);
-}
-
-/**
- * Rotates array elements to the left
- * @private
- * @param {Array} array - Array to rotate
- * @param {number} times - Number of times to rotate left
+ * @param {Array} array - The array to rotate
+ * @param {number} times - The number of times to rotate left
  * @returns {undefined}
  */
 function lRotate(array, times) {
   let rotations = times;
   let front;
-  if (array.length > 0) {
+  if (array.length > 1) {
     while (rotations < 0) {
       front = array.shift();
       array.push(front);
@@ -44,14 +34,14 @@ function lRotate(array, times) {
 /**
  * Rotates array elements to the right
  * @private
- * @param {Array} array - Array to rotate
- * @param {number} times - Number of times to rotate right
+ * @param {Array} array - The array to rotate
+ * @param {number} times -The number of times to rotate right
  * @returns {undefined}
  */
 function rRotate(array, times) {
   let rotations = times;
   let back;
-  if (array.length > 0) {
+  if (array.length > 1) {
     while (rotations > 0) {
       back = array.pop();
       array.unshift(back);
@@ -64,6 +54,7 @@ function rRotate(array, times) {
  * Various utility methods that can be called with arrays
  * @class
  * @static
+ *
  * @example
  * const arrayMethods = Structs.ArrayUtils;
  */
@@ -71,44 +62,44 @@ class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function
 
   /**
-   * Removes an element at the given position
+   * Removes an element at the given position in the given array
    * @static
-   * @param {Array} array - An array to remove elements from
-   * @param {number} index - Index of element to remove
+   * @param {Array} array - The array to remove elements from
+   * @param {number} index - The index to remove from @param array
    * @returns {Array} Array of elements removed
    *
    * @example
    * const myArray = [1, 2, 3, 4];
-   * let changedArray = arrayMethods.remove(myArray, 1);
-   * // changedArray contains [2] and myArray is [1, 3, 4]
+   * let removedItems = arrayMethods.remove(myArray, 1);
+   * // removedItems contains [2] and myArray is [1, 3, 4]
    */
   static remove(array = [], index = 1) {
     return index >= 0 ? array.splice(index, 1) : [];
   }
 
   /**
-   * Removes a given value from array
+   * Removes the first occurence of the given value from array
    * @static
-   * @param {Array} array - An array to remove elements from
-   * @param {*} value - Value to remove from @param array
+   * @param {Array} array - The array to remove elements from
+   * @param {*} value - The value to remove from @param array
    * @returns {Array} Array of removed elements
    *
    * @example
    * const myArray = [1, 2, 3, 4];
-   * let changedArray = arrayMethods.removeElement(myArray, 3);
+   * let removedItems = arrayMethods.removeElement(myArray, 3);
    * // changedArray contains [3] and myArray is [1, 2, 4]
    */
   static removeElement(array = [], value) {
-    const index = array.indexOf(value);
-    return ArrayUtils.remove(array, index);
+    const indexOfValue = array.indexOf(value);
+    return ArrayUtils.remove(array, indexOfValue);
   }
 
   /**
-   * Rotates an array left(negative number) right(positive number)
+   * Rotates the given array left(negative number) or right(positive number)
    * @static
-   * @param {Array} array - Array to rotate
-   * @param {number} times - Number of times to rotate @param array
-   * @throws {TypeError} If @param times is not primitive number
+   * @param {Array} array - The array to rotate
+   * @param {number} times - The number of times to rotate @param array
+   * @throws {TypeError} If @param times is not a primitive number
    * @returns {undefined}
    *
    * @example
@@ -123,22 +114,23 @@ class ArrayUtils {
     isNumber(times);
     if (times < 0) {
       return lRotate(array, times);
+    } else if(times > 0) {
+      return rRotate(array, times);
     }
-    return rRotate(array, times);
   }
 
   /**
-   * Pops an array several times
+   * Pops the given array a given amount of times
    * @static
-   * @param {Array} array - Array to pop
-   * @param {number} times - Number of times to pop @param array
+   * @param {Array} array - The array to pop
+   * @param {number} times - The number of times to pop @param array
    * @returns {Array} A new array equal to
    * [@param array - popped elements]
    *
    * @example
    * const myArray = [1, 2, 3, 4];
    * const altered = arrayMethods.popMany(myArray, 3);
-   * // myArray is [1, 2, 3, 4] ; altered is [3]
+   * // myArray is [1, 2, 3, 4] ; altered is [1]
    */
   static popMany(array = [], times = 0) {
     const diff = array.length - times;
@@ -146,9 +138,9 @@ class ArrayUtils {
   }
 
   /**
-   * Pushes many elements into an array
+   * Pushes many elements into the given array
    * @static
-   * @param {Array} array - Array to push onto
+   * @param {Array} array - The array to push elements into
    * @param {*} args - Consecutive arguments to push into array
    * @returns {Array} A new array equal to [@param array + pushed elements]
    *
@@ -165,9 +157,9 @@ class ArrayUtils {
   }
 
   /**
-   * Returns a random index in a array
+   * Returns a random index in the given array
    * @static
-   * @param {Array} array - Array to get random index from
+   * @param {Array} array - The array to get random index from
    * @returns {*} Random element in @param array
    *
    * @example
@@ -180,10 +172,11 @@ class ArrayUtils {
   }
 
   /**
-   * Removes a random element from an array
+   * Removes a random element from the given array
    * @static
-   * @param {Array} array - Array to remove random element from
-   * @returns {Array} array - Array of elements removed from @param array
+   * @param {Array} array - The array to remove random element from
+   * @returns {Array} An array of length 1 containing the element removed
+   * from @param array
    *
    * @example
    * const myArray = [1, 2];
@@ -198,7 +191,7 @@ class ArrayUtils {
   /**
    * Shuffles the given array
    * @static
-   * @param {Array} array - Array to shuffle
+   * @param {Array} array - The array to shuffle
    * @returns {undefined}
    */
   static shuffle(array) {
@@ -212,13 +205,13 @@ class ArrayUtils {
 
   /**
    * Turns an n dimensional array into a 1 dimensional array
-   * @param {Array} array - Array to flatten
-   * @returns {Array} The flattened array
+   * @param {Array} array - The array to flatten
+   * @returns {Array} @param array to a one dimensional array
    *
    * @example
    * const myArray = [[2], [3], [4, 5]];
    * const altered = arrayMethods.flatten(myArray);
-   * // altered will be [2, 3, 4, 5] ; myArray unchanged
+   * // altered will be [2, 3, 4, 5] ; myArray is unchanged
    */
   static flatten(array) {
     let newArr = [];
@@ -233,8 +226,8 @@ class ArrayUtils {
   }
 
   /**
-   * Splits an array into chunks
-   * @param {Array} array - Array to chunk
+   * Splits the given array into chunks
+   * @param {Array} array - The array to chunk
    * @returns {Array} A new array split into @param bits
    *
    * @exmaple
