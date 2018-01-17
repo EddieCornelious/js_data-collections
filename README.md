@@ -17,7 +17,7 @@ Generate docs - npm run gen-docs
 
 ### Prerequisites
 
-Node js latest stable version and Npm
+Node js >=6.11.2 and accompanying version on npm
 
 ## Important For browsers
 
