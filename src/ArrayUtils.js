@@ -231,7 +231,7 @@ class ArrayUtils {
    * @throws {TypeError} If @param bits is not a primitive number
    * @returns {Array} A new array split into @param bits
    *
-   * @exmaple
+   * @example
    * const myArray = [1, 2, 3, 4];
    * const altered = arrayMethods.chunk(myArray, 2);
    * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
