@@ -34,7 +34,7 @@ In future releases, I plan to alleviate these compatibility issues
 [Dev](https://rawgit.com/EddieCornelious/Structs-JS/master/structs.js)
 
 ### Minified version
-17kb
+17kb [Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/structs.min.js)
 
 
 ## Contributing
