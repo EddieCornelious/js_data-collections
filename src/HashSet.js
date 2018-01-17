@@ -6,7 +6,7 @@ import HashMap from './HashMap.js';
  * @param {number} [initialCapacity=13] - The initial size of the hashset
  *
  * @example
- * const set = new Structs.HashSet();
+ * const set = new Collections.HashSet();
  * // FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE
  */
 class HashSet {

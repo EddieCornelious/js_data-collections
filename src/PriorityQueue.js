@@ -23,7 +23,7 @@ function minHeapComparator(valueA, valueB) {
  * @class
  *
  * @example
- * const pq = new Structs.PriorityQueue();
+ * const pq = new Collections.PriorityQueue();
  * // FOR ALL EXAMPLES BELOW. ASSUME pq IS CLEARED BEFORE EACH EXAMPLE
  */
 class PriorityQueue {

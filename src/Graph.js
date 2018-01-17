@@ -9,7 +9,7 @@ import HashSet from './HashSet.js';
  * @param {number} numVerticies - Number of expected verticies for the graph
  *
  * @example
- * const graph = new Structs.Graph(97);
+ * const graph = new Collections.Graph(97);
  * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
  */
 class Graph {

@@ -5,7 +5,7 @@ const List = require('./List.js');
  * @class
  *
  * @example
- * const queue = new Structs.Queue();
+ * const queue = new Collections.Queue();
  * // FOR ALL EXAMPLES BELOW. ASSUME queue IS CLEARED BEFORE EACH EXAMPLE
  */
 class Queue {

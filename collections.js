@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("Structs", [], factory);
+		define("Collections", [], factory);
 	else if(typeof exports === 'object')
-		exports["Structs"] = factory();
+		exports["Collections"] = factory();
 	else
-		root["Structs"] = factory();
+		root["Collections"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -129,7 +129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 *
 	 * @example
-	 * const list = new Structs.LinkedList();
+	 * const list = new Collections.LinkedList();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME list IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -515,7 +515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * default comparator for all Structs
+	 * default comparator for all Collections
 	 * @function defaultComparator
 	 * @param {(number|string)} a - first element to compare
 	 * @param {(number|string)} b - second element to compare
@@ -541,7 +541,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Custom comparator example for all Structs
+	 * Custom comparator example for all Collections
 	 * @function customComparator
 	 * @param {*} a - first element to compare
 	 * @param {*} b - second element to compare
@@ -618,7 +618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 *
 	 * @example
-	 * const stack = new Structs.Stack();
+	 * const stack = new Collections.Stack();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME stack IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var Stack = function () {
@@ -701,7 +701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 *
 	 * @example
-	 * const queue = new Structs.Queue();
+	 * const queue = new Collections.Queue();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME queue IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -837,7 +837,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
-	 * const heap = new Structs.BHeap();
+	 * const heap = new Collections.BHeap();
 	 * // this creates a max heap by default.
 	 * // for a min heap, see @link above and swap 1 and -1
 	 * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE
@@ -965,7 +965,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 *
 	 * @example
-	 * const pq = new Structs.PriorityQueue();
+	 * const pq = new Collections.PriorityQueue();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME pq IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -1152,7 +1152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * So, try something around 150,000. Or you can just rehash a lot :)
 	 *
 	 * @example
-	 * const map = new Structs.HashMap(37);
+	 * const map = new Collections.HashMap(37);
 	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -1357,7 +1357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {number} [initialCapacity=13] - The initial size of the hashset
 	 *
 	 * @example
-	 * const set = new Structs.HashSet();
+	 * const set = new Collections.HashSet();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var HashSet = function () {
@@ -1512,7 +1512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
-	 * const bst = new Structs.BST();
+	 * const bst = new Collections.BST();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var BST = function () {
@@ -1893,7 +1893,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {number} numVerticies - Number of expected verticies for the graph
 	 *
 	 * @example
-	 * const graph = new Structs.Graph(97);
+	 * const graph = new Collections.Graph(97);
 	 * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var Graph = function () {
@@ -2154,7 +2154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 *
 	 * @example
-	 * const trie = new Structs.Trie();
+	 * const trie = new Collections.Trie();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME trie IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -2305,7 +2305,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {number} [initialCapacity=13] - Initial size of the hashmultimap
 	 * @inheritdoc
 	 * @example
-	 * const map = new Structs.HashMultiMap();
+	 * const map = new Collections.HashMultiMap();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var HashMultiMap = function (_HashMap) {
@@ -2417,7 +2417,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @static
 	 *
 	 * @example
-	 * const arrayMethods = Structs.ArrayUtils;
+	 * const arrayMethods = Collections.ArrayUtils;
 	 */
 
 	var ArrayUtils = function () {

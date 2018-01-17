@@ -1,4 +1,4 @@
-var Structs = require("../structs.js");
+const Collections = require("../collections.js");
 var expect = require("chai").expect;
 
 
@@ -6,8 +6,8 @@ describe("HashSet", function() {
   let Set, Set2, expected;
 
   beforeEach(function() {
-    Set = new Structs.HashSet();
-    Set2 = new Structs.HashSet();
+    Set = new Collections.HashSet();
+    Set2 = new Collections.HashSet();
   });
 
   afterEach(function() {

@@ -7,7 +7,7 @@ import HashMap from './HashMap.js';
  * @param {number} [initialCapacity=13] - Initial size of the hashmultimap
  * @inheritdoc
  * @example
- * const map = new Structs.HashMultiMap();
+ * const map = new Collections.HashMultiMap();
  * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
  */
 class HashMultiMap extends HashMap {

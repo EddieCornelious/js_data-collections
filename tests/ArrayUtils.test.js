@@ -1,8 +1,8 @@
-const Structs = require("../structs.js");
+const Collections = require("../collections.js");
 const expect = require("chai").expect;
 
 describe("ArrayUtils", function() {
-  let ArrayUtils = Structs.ArrayUtils;
+  let ArrayUtils = Collections.ArrayUtils;
   let expected, actual;
 
   beforeEach( function() {

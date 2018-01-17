@@ -48,7 +48,7 @@ class Node {
  * @class
  *
  * @example
- * const list = new Structs.LinkedList();
+ * const list = new Collections.LinkedList();
  * // FOR ALL EXAMPLES BELOW. ASSUME list IS CLEARED BEFORE EACH EXAMPLE
  */
 class List {

@@ -1,12 +1,11 @@
-# Structs-js
+# Js_Data_Collections
 
 A simple data structure library
 
 ## Getting Started
 
-Download a local copy of the project or clone the workspace
 ```
-npm install
+npm install js_data-collections
 ```
 ## Important scripts
 ```
@@ -27,19 +26,20 @@ In future releases, I plan to alleviate these compatibility issues
 
 ### Production
 
-[Production](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/structs.js)
+[Production](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.js)
 
 ### Development
 
-[Dev](https://rawgit.com/EddieCornelious/Structs-JS/master/structs.js)
+[Dev](https://rawgit.com/EddieCornelious/Structs-JS/master/collections.js)
 
 ### Minified version
-17kb [Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/structs.min.js)
+17kb [Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.min.js)
 
 
 ## Contributing
 
 Simply download the project, write some code and send a pull request
+
 
 ## Versioning
 

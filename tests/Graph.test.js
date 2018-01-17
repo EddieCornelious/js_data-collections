@@ -1,4 +1,4 @@
-var Structs = require("../structs.js");
+const Collections = require("../collections.js");
 var expect = require("chai").expect;
 
 
@@ -6,7 +6,7 @@ describe("Graph", function() {
   let graph, expected, actual;
 
   beforeEach( function() {
-    graph = new Structs.Graph();
+    graph = new Collections.Graph();
   });
 
   afterEach( function() {

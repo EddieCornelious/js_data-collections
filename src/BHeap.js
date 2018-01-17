@@ -53,7 +53,7 @@ function siftUp(array, index, comp) {
  * @class
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
- * const heap = new Structs.BHeap();
+ * const heap = new Collections.BHeap();
  * // this creates a max heap by default.
  * // for a min heap, see @link above and swap 1 and -1
  * // FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE

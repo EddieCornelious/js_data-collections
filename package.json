@@ -1,9 +1,9 @@
 {
-  "name": "ed_structsjs",
+  "name": "js_data-collections",
   "version": "0.1.0",
   "description": "js ds library",
   "author":"Eddie Cornelious",
-  "main": "structs.js",
+  "main": "collections.js",
   "scripts": {
     "test": "mocha tests -w",
     "build": "webpack --watch", 
@@ -33,10 +33,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EddieCornelious/Structs-JS.git"
+    "url": "git+https://github.com/EddieCornelious/js_data-collections.git"
   },
   "bugs": {
-    "url": "https://github.com/EddieCornelious/Structs-JS/issues"
+    "url": "https://github.com/EddieCornelious/js_data-collections/issues"
   },
-  "homepage": "https://github.com/EddieCornelious/Structs-JS#readme"
+  "homepage": "./"
 }

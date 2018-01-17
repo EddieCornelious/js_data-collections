@@ -30,7 +30,7 @@ function toString(value) {
 }
 
 /**
- * default comparator for all Structs
+ * default comparator for all Collections
  * @function defaultComparator
  * @param {(number|string)} a - first element to compare
  * @param {(number|string)} b - second element to compare
@@ -56,7 +56,7 @@ function defaultComp(a, b) {
 }
 
 /**
- * Custom comparator example for all Structs
+ * Custom comparator example for all Collections
  * @function customComparator
  * @param {*} a - first element to compare
  * @param {*} b - second element to compare

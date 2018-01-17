@@ -56,7 +56,7 @@ function rRotate(array, times) {
  * @static
  *
  * @example
- * const arrayMethods = Structs.ArrayUtils;
+ * const arrayMethods = Collections.ArrayUtils;
  */
 class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function

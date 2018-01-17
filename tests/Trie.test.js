@@ -1,11 +1,11 @@
-var Structs = require("../structs.js");
+const Collections = require("../collections.js");
 var expect = require("chai").expect;
 
 describe("Trie", function() {
   let trie, actual, expected;
 
   beforeEach(function() {
-    trie = new Structs.Trie();
+    trie = new Collections.Trie();
   });
 
   afterEach(function() {

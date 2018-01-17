@@ -92,7 +92,7 @@ class TrieNode {
  * @class
  *
  * @example
- * const trie = new Structs.Trie();
+ * const trie = new Collections.Trie();
  * // FOR ALL EXAMPLES BELOW. ASSUME trie IS CLEARED BEFORE EACH EXAMPLE
  */
 class Trie {

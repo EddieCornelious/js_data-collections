@@ -14,7 +14,7 @@ import { defaultComp } from './Util.js';
  * @class
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
- * const bst = new Structs.BST();
+ * const bst = new Collections.BST();
  * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
  */
 class BST {

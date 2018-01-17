@@ -1,4 +1,4 @@
-const Structs= require("../structs.js");
+const Collections = require("../collections.js");
 const expect= require("chai").expect;
 
 
@@ -6,7 +6,7 @@ describe("PriorityQueue", function(){
   let pq, expected;
 
   beforeEach( function() {
-    pq = new Structs.PriorityQueue();
+    pq = new Collections.PriorityQueue();
   });
 
   afterEach( function() {

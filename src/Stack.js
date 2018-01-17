@@ -5,7 +5,7 @@ import List from './List.js';
  * @class
  *
  * @example
- * const stack = new Structs.Stack();
+ * const stack = new Collections.Stack();
  * // FOR ALL EXAMPLES BELOW. ASSUME stack IS CLEARED BEFORE EACH EXAMPLE
  */
 class Stack {

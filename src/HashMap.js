@@ -110,7 +110,7 @@ function shouldRehash(inserts, table) {
  * So, try something around 150,000. Or you can just rehash a lot :)
  *
  * @example
- * const map = new Structs.HashMap(37);
+ * const map = new Collections.HashMap(37);
  * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
  */
 class HashMap {

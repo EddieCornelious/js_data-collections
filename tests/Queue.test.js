@@ -1,11 +1,11 @@
-const Structs = require("../structs.js");
+const Collections = require("../collections.js");
 const expect = require("chai").expect;
 
 
 describe("Queue-Behavior", function() {
   let queue, expected, actual;
   it("enqueue should extract items in FIFO ordering", function() {
-    queue = new Structs.Queue();
+    queue = new Collections.Queue();
     queue.enqueue(1).enqueue(2).enqueue(3);
     expected = [1, 2, 3];
 

@@ -1,10 +1,10 @@
-var Structs = require("../structs.js");
+const Collections = require("../collections.js");
 var expect = require("chai").expect;
 describe("Binary Search Tree", function() {
   let bst, expected, actual;
 
   beforeEach(function() {
-    bst = new Structs.BST();
+    bst = new Collections.BST();
   });
 
   afterEach(function() {

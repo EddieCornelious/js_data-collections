@@ -1,11 +1,11 @@
-const Structs = require("../structs.js");
+const Collections = require("../collections.js");
 const expect = require("chai").expect;
 
 describe("Stack-Behavior", function() {
   let stack, expected, actual;
 
   it("push should extract items in LIFO ordering", function() {
-    stack = new Structs.Stack();
+    stack = new Collections.Stack();
     stack.push(1).push(2).push(3);
     expected = [3, 2, 1];
 

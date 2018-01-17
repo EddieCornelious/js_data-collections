@@ -1,11 +1,11 @@
-const Structs = require("../structs.js");
+const Collections = require("../collections.js");
 const expect = require("chai").expect;
 
 describe("Heap", function() {
   let heap, expected, actual;
 
   beforeEach( function() {
-    heap = new Structs.BHeap();
+    heap = new Collections.BHeap();
   });
 
   afterEach( function() {
@@ -112,7 +112,7 @@ describe("Heap", function() {
   });
   
    it("extractRoot with continuous example (ref types) maintains references", function() {
-    let tempHeap = new Structs.BHeap(function(a, b){
+    let tempHeap = new Collections.BHeap(function(a, b){
       if(a.data < b.data) {
         return -1;
       } else if(a.data > b.data) {
@@ -134,7 +134,7 @@ describe("Heap", function() {
   });
   
   it("min heap works", function() {
-    let minHeap = new Structs.BHeap(function(a, b) {
+    let minHeap = new Collections.BHeap(function(a, b) {
       if (a < b) {
         return 1;
       } else if (a === b) {
