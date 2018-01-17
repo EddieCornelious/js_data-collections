@@ -1,0 +1,42 @@
+{
+  "name": "ed_structsjs",
+  "version": "0.1.0",
+  "description": "js ds library",
+  "author":"Eddie Cornelious",
+  "main": "structs.js",
+  "scripts": {
+    "test": "mocha tests -w",
+    "build": "webpack --watch", 
+    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md"
+  },
+  "keywords": ["data-structures", "library", "data", "structures", "binary searchtree"
+  , "linked list", "heap", "graph", "hashmap", "hashset", "priorityqueue", "trie", "stack"
+  , "queue", "array", "help"],
+  "author": "Eddie Cornelious",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
+    "babel-plugin-transform-es3-property-literals": "^6.22.0",
+    "babel-preset-es2015": "^6.18.0",
+    "chai": "^4.1.2",
+    "docdash": "^0.4.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "jsdoc": "^3.5.5",
+    "mocha": "^4.0.1",
+    "webpack": "1.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EddieCornelious/Structs-JS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EddieCornelious/Structs-JS/issues"
+  },
+  "homepage": "https://github.com/EddieCornelious/Structs-JS#readme"
+}

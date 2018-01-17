@@ -1,0 +1,12 @@
+{
+    "templates" : {
+        "default" : {
+            "outputSourceFiles" : false
+        }
+    }, 
+    "opts": {
+      "template": "node_modules/docdash", 
+      "destination": "./docs/"
+    }
+}
+

@@ -1,0 +1,11 @@
+docs
+.env
+tests
+structs.min.js
+jsdoc.json
+webpack.config.js
+.eslintrc
+.eslintignore
+
+
+
