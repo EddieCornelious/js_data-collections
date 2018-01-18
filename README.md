@@ -2,17 +2,28 @@
 
 A simple data structure library
 
+## Included data structures
+
+* Linked List
+* Binary Search Tree
+* Queue
+* Stack
+* Trie
+* HashMap
+* HashSet
+* Array Methods
+* Priority Queue
+* Binary Heap
+* Graph
+* HashMultiMap
+
 ## Getting Started
 
 ```
 npm install js_data-collections
 ```
 ## Offical docs
-(https://eddiecornelious.github.io/js_data-collections/)
-
-### Prerequisites
-
-Node js >=6.11.2 and accompanying version on npm
+[Docs](https://eddiecornelious.github.io/js_data-collections/)
 
 ## Important For browsers
 
@@ -34,7 +45,8 @@ In future releases, I plan to alleviate these compatibility issues
 
 ## Contributing
 
-Simply download the project, write some code and send a pull request
+Simply download the project, write some code, run the build, write some tests, 
+make sure the tests pass and send a pull request
 
 
 ## Versioning
