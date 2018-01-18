@@ -7,12 +7,8 @@ A simple data structure library
 ```
 npm install js_data-collections
 ```
-## Important scripts
-```
-Tests - npm run test
-Build non-minified version - npm run build
-Generate docs - npm run gen-docs
-```
+## Offical docs
+(https://eddiecornelious.github.io/js_data-collections/)
 
 ### Prerequisites
 
@@ -20,7 +16,7 @@ Node js >=6.11.2 and accompanying version on npm
 
 ## Important For browsers
 
-Currently, this project is not ie8 compatible but works fine for ie9 and up.
+Currently, this project is not Ie8 compatible but works fine for Ie9 and up.
 In future releases, I plan to alleviate these compatibility issues
 
 
