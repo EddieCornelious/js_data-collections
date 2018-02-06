@@ -17,14 +17,14 @@ function toLowerCaseString(data) {
  * @returns {(TrieNode|boolean)} Returns a reference to the prefix's last word
  * or false if prefix not found in trie
  */
-function getPrefix(root, prefix) {
-  if (prefix.length === 0) {
+function getNode(root, pattern) {
+  if (pattern.length === 0) {
     return false;
   }
   let currentNode = root.children;
   let currentChar;
-  for (let i = 0; i < prefix.length; i += 1) {
-    currentChar = prefix.charAt(i);
+  for (let i = 0; i < pattern.length - 1; i += 1) {
+    currentChar = pattern.charAt(i);
     if (!currentNode[currentChar]) {
       return false;
     }
@@ -62,6 +62,10 @@ function recurseTree(trieNode, array) {
  * @returns {boolean} True if the node has children and false otherwise
  */
 function hasChild(trieNode) {
+  if (!trieNode) {
+    return false;
+  }
+
   /**
    *Using this instead of Object.keys because I only need existence of one child
    *not all
@@ -132,17 +136,13 @@ class Trie {
    * or false if it does not
    */
   containsWord(data = '') {
-    let currentNode = this.root.children;
     const word = toLowerCaseString(data);
-    // check contains word first
-    for (let i = 0; i < word.length; i += 1) {
-      let currentChar = word.charAt(i);
-      if (!currentNode[currentChar]) {
-        return false;
-      } else if (currentNode[currentChar].word === word) {
+    const foundWord = getNode(this.root, word);
+    if (foundWord) {
+      let lastChar = word.charAt(word.length - 1);
+      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
         return true;
       }
-      currentNode = currentNode[currentChar].children;
     }
     return false;
   }
@@ -155,13 +155,16 @@ class Trie {
   */
   containsPrefix(prefix = '') {
     const root = this.root;
-    const foundPrefix = getPrefix(root, toLowerCaseString(prefix));
+    const str = toLowerCaseString(prefix);
+    const foundPrefix = getNode(root, str);
     if (foundPrefix) {
-      const hasChildren = hasChild(foundPrefix);
-      if (hasChildren) {
-        return true;
+      let lastChar = str.charAt(str.length - 1);
+      if (foundPrefix[lastChar]) {
+        const hasChildren = hasChild(foundPrefix[lastChar].children);
+        if (hasChildren) {
+          return true;
+        }
       }
-      return false;
     }
     return false;
   }
@@ -181,9 +184,11 @@ class Trie {
     if (!this.containsPrefix(prefix)) {
       return [];
     }
-    const prefixTail = getPrefix(this.root, toLowerCaseString(prefix));
+    const word = toLowerCaseString(prefix);
+    const prefixTail = getNode(this.root, word);
+    let lastChar = word.charAt(word.length - 1);
     const prefixes = [];
-    recurseTree(prefixTail, prefixes);
+    recurseTree(prefixTail[lastChar].children, prefixes);
     return prefixes;
   }
 }

@@ -1997,14 +1997,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {(TrieNode|boolean)} Returns a reference to the prefix's last word
 	 * or false if prefix not found in trie
 	 */
-	function getPrefix(root, prefix) {
-	  if (prefix.length === 0) {
+	function getNode(root, pattern) {
+	  if (pattern.length === 0) {
 	    return false;
 	  }
 	  var currentNode = root.children;
 	  var currentChar = void 0;
-	  for (var i = 0; i < prefix.length; i += 1) {
-	    currentChar = prefix.charAt(i);
+	  for (var i = 0; i < pattern.length - 1; i += 1) {
+	    currentChar = pattern.charAt(i);
 	    if (!currentNode[currentChar]) {
 	      return false;
 	    }
@@ -2042,6 +2042,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {boolean} True if the node has children and false otherwise
 	 */
 	function hasChild(trieNode) {
+	  if (!trieNode) {
+	    return false;
+	  }
+
 	  /**
 	   *Using this instead of Object.keys because I only need existence of one child
 	   *not all
@@ -2126,17 +2130,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Trie.prototype.containsWord = function containsWord() {
 	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	    var currentNode = this.root.children;
 	    var word = toLowerCaseString(data);
-	    // check contains word first
-	    for (var i = 0; i < word.length; i += 1) {
-	      var currentChar = word.charAt(i);
-	      if (!currentNode[currentChar]) {
-	        return false;
-	      } else if (currentNode[currentChar].word === word) {
+	    var foundWord = getNode(this.root, word);
+	    if (foundWord) {
+	      var lastChar = word.charAt(word.length - 1);
+	      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
 	        return true;
 	      }
-	      currentNode = currentNode[currentChar].children;
 	    }
 	    return false;
 	  };
@@ -2153,13 +2153,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
 	    var root = this.root;
-	    var foundPrefix = getPrefix(root, toLowerCaseString(prefix));
+	    var str = toLowerCaseString(prefix);
+	    var foundPrefix = getNode(root, str);
 	    if (foundPrefix) {
-	      var hasChildren = hasChild(foundPrefix);
-	      if (hasChildren) {
-	        return true;
+	      var lastChar = str.charAt(str.length - 1);
+	      if (foundPrefix[lastChar]) {
+	        var hasChildren = hasChild(foundPrefix[lastChar].children);
+	        if (hasChildren) {
+	          return true;
+	        }
 	      }
-	      return false;
 	    }
 	    return false;
 	  };
@@ -2183,9 +2186,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!this.containsPrefix(prefix)) {
 	      return [];
 	    }
-	    var prefixTail = getPrefix(this.root, toLowerCaseString(prefix));
+	    var word = toLowerCaseString(prefix);
+	    var prefixTail = getNode(this.root, word);
+	    var lastChar = word.charAt(word.length - 1);
 	    var prefixes = [];
-	    recurseTree(prefixTail, prefixes);
+	    recurseTree(prefixTail[lastChar].children, prefixes);
 	    return prefixes;
 	  };
 
