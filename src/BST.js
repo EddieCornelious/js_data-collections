@@ -49,7 +49,7 @@ class BST {
    * bst.remove("dog"); // this call fails silently as dog never existed in tree
    */
   remove(key) {
-    BSTRemove.call(this, key, BSTNode);
+    BSTRemove.call(this, key);
     return this;
   }
 

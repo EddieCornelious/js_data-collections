@@ -68,10 +68,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Trie = __webpack_require__(13);
 	var HashMultiMap = __webpack_require__(14);
 	var ArrayUtils = __webpack_require__(15);
+	var RBTree = __webpack_require__(16);
 
 	// TODO : add ie8 support and maybe load polyfills right here
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils, RBTree: RBTree };
 
 /***/ },
 /* 1 */
@@ -1553,7 +1554,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.remove = function remove(key) {
-	    _BSTPrototype.BSTRemove.call(this, key, _BSTNode2['default']);
+	    _BSTPrototype.BSTRemove.call(this, key);
 	    return this;
 	  };
 
@@ -1686,17 +1687,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {(null|BSTNode)} Null if not found. Or the actual node if found
 	 */
 	function search(root, key) {
+	  var curRoot = root;
 	  var comp = this.comp;
-	  if (!root || root.key === undefined) {
-	    return null;
+	  while (curRoot.key !== undefined) {
+	    if (comp(curRoot.key, key) === 0) {
+	      return curRoot;
+	    } else if (comp(curRoot.key, key) === -1) {
+	      curRoot = curRoot.right;
+	    } else {
+	      curRoot = curRoot.left;
+	    }
 	  }
-	  if (comp(root.key, key) === 0) {
-	    return root;
-	  }
-	  if (comp(root.key, key) === -1) {
-	    return search.call(this, root.right, key);
-	  }
-	  return search.call(this, root.left, key);
+	  return null;
 	}
 
 	/**
@@ -1717,126 +1719,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Gets the number of children of a given node
-	 * @private
-	 * @param {BSTNode} node - The Node to get number of children of
-	 * @returns {number} The number of non-Nil children 0 || 1 || 2
-	 */
-	function numChildren(node) {
-	  var left = node.left.key;
-	  var right = node.right.key;
-	  if (left === undefined && right === undefined) {
-	    return 0;
-	  } else if (left === undefined && right !== undefined || right === undefined && left !== undefined) {
-	    return 1;
-	  }
-	  return 2;
-	}
-
-	/**
-	 * Removes given node from tree which has 0 children
-	 * @private
-	 * @param {BSTNode} node - The Node to remove from tree
-	 * @param {NodeType} NodeType - The type of node in BST
-	 * @returns {undefined}
-	 */
-	function remove0(node, NodeType) {
-	  var comp = this.comp;
-	  if (comp(this.root.key, node.key) === 0) {
-	    this.root = new NodeType();
-	    return;
-	  }
-	  var parent = node.parent;
-	  if (comp(parent.right.key, node.key) === 0) {
-	    parent.right = node.right;
-	  } else {
-	    parent.left = node.left;
-	  }
-	}
-
-	/**
-	 * Removes given node from tree which has 1 child
-	 * @private
-	 * @param {BSTNode} node - The Node to remove from tree
-	 * @returns {undefined}
-	 */
-	function remove1(node) {
-	  var comp = this.comp;
-	  // node is root
-	  var root = this.root;
-	  if (comp(node.key, root.key) === 0) {
-	    if (root.left.key !== undefined) {
-	      this.root = root.left;
-	      root.left.parent = root.parent;
-	    } else {
-	      this.root = root.right;
-	      root.right.parent = root.parent;
-	    }
-	    return;
-	  }
-	  // node to delete is left child
-	  var parent = node.parent;
-	  if (comp(parent.left.key, node.key) === 0) {
-	    if (node.right.key !== undefined) {
-	      parent.left = node.right;
-	      node.right.parent = parent;
-	    } else {
-	      parent.left = node.left;
-	      node.left.parent = parent;
-	    }
-	    return;
-	  }
-	  // node to delete is right child
-	  if (node.right.key !== undefined) {
-	    parent.right = node.right;
-	    node.right.parent = parent;
-	  } else {
-	    parent.right = node.left;
-	    node.left.parent = parent;
-	  }
-	}
-
-	/**
-	 * Removes given node from tree which has 2 children
-	 * @private
-	 * @param {BSTNode} node - The Node to remove from tree
-	 * @returns {undefined}
-	 */
-	function remove2(node) {
-	  var nodeSucc = successor(node);
-	  var oldKey = node.key;
-	  node.key = nodeSucc.key;
-	  node.value = nodeSucc.value;
-	  nodeSucc.key = oldKey;
-	  // successor can only have one child at most and that node
-	  // must be right child. Or else, node has left child which is a
-	  // contradiction as that node would be the minimum.
-	  var succChildren = numChildren(nodeSucc);
-	  if (succChildren === 0) {
-	    return remove0.call(this, nodeSucc);
-	  }
-	  return remove1.call(this, nodeSucc);
-	}
-
-	/**
 	 * Searches for a node with given key and removes it from tree
 	 * @private
 	 * @param {*} key - Key to search for in tree
 	 * @param {BSTNode} nodeType - Type of Nodes in the tree
 	 * @returns {boolean} Returns True if node was deleted and false otherwise
 	 */
-	function remove(key, nodeType) {
+	function remove(key) {
 	  var node = search.call(this, this.root, key);
 	  if (!node) {
 	    return false;
 	  }
-	  var children = numChildren(node);
-	  if (children === 0) {
-	    return remove0.call(this, node, nodeType);
-	  } else if (children === 1) {
-	    return remove1.call(this, node);
+	  var y = void 0;
+	  var x = void 0;
+	  if (node.left.key === undefined || node.right.key === undefined) {
+	    y = node;
+	  } else {
+	    y = successor(node);
 	  }
-	  return remove2.call(this, node, nodeType);
+	  if (y.left.key !== undefined) {
+	    x = y.left;
+	  } else {
+	    x = y.right;
+	  }
+	  x.parent = y.parent;
+	  if (y.parent.key === undefined) {
+	    this.root = x;
+	  } else if (y === y.parent.left) {
+	    y.parent.left = x;
+	  } else {
+	    y.parent.right = x;
+	  }
+
+	  if (y !== node) {
+	    node.key = y.key;
+	    node.value = y.value;
+	  }
+	  return { x: x, y: y };
 	}
 
 	/**
@@ -1858,7 +1777,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BSTInsert: insert,
 	  BSTRemove: remove,
 	  BSTSearch: search,
-	  BSTInorder: inorder
+	  BSTInorder: inorder,
+	  BSTSuccessor: successor
 	};
 
 /***/ },
@@ -2221,18 +2141,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return false;
 	  };
 
-	  /**
-	   * Reports whether the trie contains the given prefix
-	   * @param {*} prefix - The prefix to search for
-	   * @returns {boolean} True if the trie contains @param prefix.toString()
-	   * or false if it does not
-	   *
-	   * @example
-	   * trie.addWord("apple");
-	   * trie.addWord.("app");
-	   * trie.containsPrefix("apple"); // false
-	   * trie.containsPrefix("app"); // true
-	   */
+	  /*
+	  * trie.addWord("apple");
+	  * trie.addWord.("app");
+	  * trie.containsPrefix("apple"); // false
+	  * trie.containsPrefix("app"); // true
+	  */
 
 
 	  Trie.prototype.containsPrefix = function containsPrefix() {
@@ -2652,6 +2566,210 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	module.exports = ArrayUtils;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _BSTNode2 = __webpack_require__(10);
+
+	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
+
+	var _BSTPrototype = __webpack_require__(11);
+
+	var _Util = __webpack_require__(2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RBNode = function (_BSTNode) {
+	  _inherits(RBNode, _BSTNode);
+
+	  function RBNode(key, value) {
+	    _classCallCheck(this, RBNode);
+
+	    var _this = _possibleConstructorReturn(this, _BSTNode.call(this, key, value));
+
+	    _this.color = 'black';
+	    return _this;
+	  }
+
+	  return RBNode;
+	}(_BSTNode3['default']);
+
+	function leftRotate(x) {
+	  var y = x.right;
+	  x.right = y.left;
+	  y.left.parent = x;
+	  y.parent = x.parent;
+	  if (x.parent.key === undefined) {
+	    this.root = y;
+	  } else if (x === x.parent.left) {
+	    x.parent.left = y;
+	  } else {
+	    x.parent.right = y;
+	  }
+	  y.left = x;
+	  x.parent = y;
+	}
+
+	function rightRotate(x) {
+	  var y = x.left;
+	  x.left = y.right;
+	  y.right.parent = x;
+	  y.parent = x.parent;
+	  if (x.parent.key === undefined) {
+	    this.root = y;
+	  } else if (x === x.parent.left) {
+	    x.parent.left = y;
+	  } else {
+	    x.parent.right = y;
+	  }
+	  y.right = x;
+	  x.parent = y;
+	}
+
+	function insertFix(node) {
+	  var z = node;
+	  var y = void 0;
+	  while (z.parent.color === 'red') {
+	    if (z.parent === z.parent.parent.left) {
+	      y = z.parent.parent.right;
+	      if (y.color === 'red') {
+	        z.parent.color = 'black';
+	        y.color = 'black';
+	        z.parent.parent.color = 'red';
+	        z = z.parent.parent;
+	      } else {
+	        if (z === z.parent.right) {
+	          z = z.parent;
+	          leftRotate.call(this, z);
+	        }
+	        z.parent.color = 'black';
+	        z.parent.parent.color = 'red';
+	        rightRotate.call(this, z.parent.parent);
+	      }
+	    } else {
+	      y = z.parent.parent.left;
+	      if (y.color === 'red') {
+	        z.parent.color = 'black';
+	        y.color = 'black';
+	        z.parent.parent.color = 'red';
+	        z = z.parent.parent;
+	      } else {
+	        if (z === z.parent.left) {
+	          z = z.parent;
+	          rightRotate.call(this, z);
+	        }
+	        z.parent.color = 'black';
+	        z.parent.parent.color = 'red';
+	        leftRotate.call(this, z.parent.parent);
+	      }
+	    }
+	  }
+	  this.root.color = 'black';
+	}
+
+	function deletefixUp(z) {
+	  var node = z;
+	  while (node.parent.key !== undefined && node.color === 'black') {
+	    var w = void 0;
+	    if (node === node.parent.left) {
+	      w = node.parent.right;
+	      if (w.color === 'red') {
+	        w.color = 'black';
+	        node.parent.color = 'red';
+	        leftRotate.call(this, node.parent);
+	        w = node.parent.right;
+	      }
+	      if (w.left.color === 'black' && w.right.color === 'black') {
+	        w.color = 'red';
+	        node = node.parent;
+	      } else {
+	        if (w.right.color === 'black') {
+	          w.left.color = 'black';
+	          w.color = 'red';
+	          rightRotate.call(this, w);
+	          w = node.parent.right;
+	        }
+	        w.color = node.parent.color;
+	        node.parent.color = 'black';
+	        w.right.color = 'black';
+	        leftRotate.call(this, node.parent);
+	        node = this.root;
+	      }
+	    } else {
+	      w = node.parent.left;
+	      if (w.color === 'red') {
+	        w.color = 'black';
+	        node.parent.color = 'red';
+	        rightRotate.call(this, node.parent);
+	        w = node.parent.left;
+	      }
+	      if (w.right.color === 'black' && w.left.color === 'black') {
+	        w.color = 'red';
+	        node = node.parent;
+	      } else {
+	        if (w.left.color === 'black') {
+	          w.right.color = 'black';
+	          w.color = 'red';
+	          leftRotate.call(this, w);
+	          w = node.parent.left;
+	        }
+	        w.color = node.parent.color;
+	        node.parent.color = 'black';
+	        w.left.color = 'black';
+	        rightRotate.call(this, node.parent);
+	        node = this.root;
+	      }
+	    }
+	  }
+	  node.color = 'black';
+	}
+
+	var RBTree = function () {
+	  function RBTree(comparator) {
+	    _classCallCheck(this, RBTree);
+
+	    this.root = new RBNode();
+	    this.comp = comparator || _Util.defaultComp;
+	  }
+
+	  RBTree.prototype.insert = function insert(key, value) {
+	    var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
+	    if (insertedNode) {
+	      insertedNode.color = 'red';
+	      insertFix.call(this, insertedNode);
+	    }
+	  };
+
+	  RBTree.prototype.find = function find(key) {
+	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
+	    return node ? node.value : undefined;
+	  };
+
+	  RBTree.prototype.remove = function remove(key) {
+	    var _BSTRemove$call = _BSTPrototype.BSTRemove.call(this, key),
+	        x = _BSTRemove$call.x,
+	        y = _BSTRemove$call.y;
+
+	    if (y.color === 'black') {
+	      deletefixUp.call(this, x);
+	    }
+	    return true;
+	  };
+
+	  return RBTree;
+	}();
+
+	module.exports = RBTree;
 
 /***/ }
 /******/ ])

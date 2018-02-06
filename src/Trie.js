@@ -147,18 +147,12 @@ class Trie {
     return false;
   }
 
-  /**
-   * Reports whether the trie contains the given prefix
-   * @param {*} prefix - The prefix to search for
-   * @returns {boolean} True if the trie contains @param prefix.toString()
-   * or false if it does not
-   *
-   * @example
-   * trie.addWord("apple");
-   * trie.addWord.("app");
-   * trie.containsPrefix("apple"); // false
-   * trie.containsPrefix("app"); // true
-   */
+  /*
+  * trie.addWord("apple");
+  * trie.addWord.("app");
+  * trie.containsPrefix("apple"); // false
+  * trie.containsPrefix("app"); // true
+  */
   containsPrefix(prefix = '') {
     const root = this.root;
     const foundPrefix = getPrefix(root, toLowerCaseString(prefix));
