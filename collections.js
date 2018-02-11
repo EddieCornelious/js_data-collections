@@ -1730,32 +1730,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!node) {
 	    return false;
 	  }
-	  var y = void 0;
-	  var x = void 0;
+	  var succ = void 0;
+	  var succChild = void 0;
 	  if (node.left.key === undefined || node.right.key === undefined) {
-	    y = node;
+	    succ = node;
 	  } else {
-	    y = successor(node);
+	    succ = successor(node);
 	  }
-	  if (y.left.key !== undefined) {
-	    x = y.left;
+	  if (succ.left.key !== undefined) {
+	    succChild = succ.left;
 	  } else {
-	    x = y.right;
+	    succChild = succ.right;
 	  }
-	  x.parent = y.parent;
-	  if (y.parent.key === undefined) {
-	    this.root = x;
-	  } else if (y === y.parent.left) {
-	    y.parent.left = x;
+	  succChild.parent = succ.parent;
+	  if (succ.parent.key === undefined) {
+	    this.root = succChild;
+	  } else if (succ === succ.parent.left) {
+	    succ.parent.left = succChild;
 	  } else {
-	    y.parent.right = x;
+	    succ.parent.right = succChild;
 	  }
 
-	  if (y !== node) {
-	    node.key = y.key;
-	    node.value = y.value;
+	  if (succ !== node) {
+	    node.key = succ.key;
+	    node.value = succ.value;
 	  }
-	  return { x: x, y: y };
+	  return { succChild: succChild, succ: succ };
 	}
 
 	/**
@@ -2281,7 +2281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
-	 * Pushes a value to an array and returns the new array
+	 * Pushes the given value to an array and returns the new array
 	 * @private
 	 * @param {*} value - The value to push to array
 	 * @returns {Array} Array of length one with @param value in it
@@ -2293,7 +2293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Rotates array elements to the lefta fixed number of times
+	 * Rotates the given array's elements to the left a fixed number of times
 	 * @private
 	 * @param {Array} array - The array to rotate
 	 * @param {number} times - The number of times to rotate left
@@ -2609,135 +2609,175 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return RBNode;
 	}(_BSTNode3['default']);
 
-	function leftRotate(x) {
-	  var y = x.right;
-	  x.right = y.left;
-	  y.left.parent = x;
-	  y.parent = x.parent;
-	  if (x.parent.key === undefined) {
-	    this.root = y;
-	  } else if (x === x.parent.left) {
-	    x.parent.left = y;
+	/**
+	 * Left rotates the given node
+	 * @private
+	 * @param {BSTNode} node - The node to rotate
+	 * @returns {undefined}
+	 */
+
+
+	function leftRotate(node) {
+	  var oldRight = node.right;
+	  var nodeParent = node.parent;
+	  node.right = oldRight.left;
+	  oldRight.left.parent = node;
+	  oldRight.parent = nodeParent;
+	  // root
+	  if (nodeParent.key === undefined) {
+	    this.root = oldRight;
+	  } else if (node === nodeParent.left) {
+	    nodeParent.left = oldRight;
 	  } else {
-	    x.parent.right = y;
+	    nodeParent.right = oldRight;
 	  }
-	  y.left = x;
-	  x.parent = y;
+	  oldRight.left = node;
+	  node.parent = oldRight;
 	}
 
-	function rightRotate(x) {
-	  var y = x.left;
-	  x.left = y.right;
-	  y.right.parent = x;
-	  y.parent = x.parent;
-	  if (x.parent.key === undefined) {
-	    this.root = y;
-	  } else if (x === x.parent.left) {
-	    x.parent.left = y;
+	/**
+	 * Right rotates the given node
+	 * @private
+	 * @param {BSTNode} node - The node to rotate
+	 * @returns {undefined}
+	 */
+	function rightRotate(node) {
+	  var oldLeft = node.left;
+	  var nodeParent = node.parent;
+	  node.left = oldLeft.right;
+	  oldLeft.right.parent = node;
+	  oldLeft.parent = nodeParent;
+	  // root
+	  if (nodeParent.key === undefined) {
+	    this.root = oldLeft;
+	  } else if (node === nodeParent.left) {
+	    nodeParent.left = oldLeft;
 	  } else {
-	    x.parent.right = y;
+	    nodeParent.right = oldLeft;
 	  }
-	  y.right = x;
-	  x.parent = y;
+	  oldLeft.right = node;
+	  node.parent = oldLeft;
 	}
 
-	function insertFix(node) {
-	  var z = node;
-	  var y = void 0;
-	  while (z.parent.color === 'red') {
-	    if (z.parent === z.parent.parent.left) {
-	      y = z.parent.parent.right;
-	      if (y.color === 'red') {
-	        z.parent.color = 'black';
-	        y.color = 'black';
-	        z.parent.parent.color = 'red';
-	        z = z.parent.parent;
+	/**
+	 * Fixes up the rb tree after insertion
+	 * @private
+	 * @param {BSTNode} node - The node to begin fixing
+	 * @returns {undefined}
+	 */
+	function insertFix(nodeToFix) {
+	  var currentNode = nodeToFix;
+	  var uncle = void 0;
+	  while (currentNode.parent.color === 'red') {
+	    if (currentNode.parent === currentNode.parent.parent.left) {
+	      uncle = currentNode.parent.parent.right;
+	      if (uncle.color === 'red') {
+	        currentNode.parent.color = 'black';
+	        uncle.color = 'black';
+	        currentNode.parent.parent.color = 'red';
+	        currentNode = currentNode.parent.parent;
 	      } else {
-	        if (z === z.parent.right) {
-	          z = z.parent;
-	          leftRotate.call(this, z);
+	        if (currentNode === currentNode.parent.right) {
+	          currentNode = currentNode.parent;
+	          leftRotate.call(this, currentNode);
 	        }
-	        z.parent.color = 'black';
-	        z.parent.parent.color = 'red';
-	        rightRotate.call(this, z.parent.parent);
+	        currentNode.parent.color = 'black';
+	        currentNode.parent.parent.color = 'red';
+	        rightRotate.call(this, currentNode.parent.parent);
 	      }
 	    } else {
-	      y = z.parent.parent.left;
-	      if (y.color === 'red') {
-	        z.parent.color = 'black';
-	        y.color = 'black';
-	        z.parent.parent.color = 'red';
-	        z = z.parent.parent;
+	      uncle = currentNode.parent.parent.left;
+	      if (uncle.color === 'red') {
+	        currentNode.parent.color = 'black';
+	        uncle.color = 'black';
+	        currentNode.parent.parent.color = 'red';
+	        currentNode = currentNode.parent.parent;
 	      } else {
-	        if (z === z.parent.left) {
-	          z = z.parent;
-	          rightRotate.call(this, z);
+	        if (currentNode === currentNode.parent.left) {
+	          currentNode = currentNode.parent;
+	          rightRotate.call(this, currentNode);
 	        }
-	        z.parent.color = 'black';
-	        z.parent.parent.color = 'red';
-	        leftRotate.call(this, z.parent.parent);
+	        currentNode.parent.color = 'black';
+	        currentNode.parent.parent.color = 'red';
+	        leftRotate.call(this, currentNode.parent.parent);
 	      }
 	    }
 	  }
 	  this.root.color = 'black';
 	}
 
-	function deletefixUp(z) {
-	  var node = z;
-	  while (node.parent.key !== undefined && node.color === 'black') {
-	    var w = void 0;
-	    if (node === node.parent.left) {
-	      w = node.parent.right;
-	      if (w.color === 'red') {
-	        w.color = 'black';
-	        node.parent.color = 'red';
-	        leftRotate.call(this, node.parent);
-	        w = node.parent.right;
+	/**
+	 * Fixes up the rb tree after deletion
+	 * @private
+	 * @param {BSTNode} node - The node to begin fixing
+	 * @returns {undefined}
+	 */
+	function deletefixUp(nodeToFix) {
+	  var currentNode = nodeToFix;
+	  while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
+	    var uncle = void 0;
+	    if (currentNode === currentNode.parent.left) {
+	      uncle = currentNode.parent.right;
+	      if (uncle.color === 'red') {
+	        uncle.color = 'black';
+	        currentNode.parent.color = 'red';
+	        leftRotate.call(this, currentNode.parent);
+	        uncle = currentNode.parent.right;
 	      }
-	      if (w.left.color === 'black' && w.right.color === 'black') {
-	        w.color = 'red';
-	        node = node.parent;
+	      if (uncle.left.color === 'black' && uncle.right.color === 'black') {
+	        uncle.color = 'red';
+	        currentNode = currentNode.parent;
 	      } else {
-	        if (w.right.color === 'black') {
-	          w.left.color = 'black';
-	          w.color = 'red';
-	          rightRotate.call(this, w);
-	          w = node.parent.right;
+	        if (uncle.right.color === 'black') {
+	          uncle.left.color = 'black';
+	          uncle.color = 'red';
+	          rightRotate.call(this, uncle);
+	          uncle = currentNode.parent.right;
 	        }
-	        w.color = node.parent.color;
-	        node.parent.color = 'black';
-	        w.right.color = 'black';
-	        leftRotate.call(this, node.parent);
-	        node = this.root;
+	        uncle.color = currentNode.parent.color;
+	        currentNode.parent.color = 'black';
+	        uncle.right.color = 'black';
+	        leftRotate.call(this, currentNode.parent);
+	        currentNode = this.root;
 	      }
 	    } else {
-	      w = node.parent.left;
-	      if (w.color === 'red') {
-	        w.color = 'black';
-	        node.parent.color = 'red';
-	        rightRotate.call(this, node.parent);
-	        w = node.parent.left;
+	      uncle = currentNode.parent.left;
+	      if (uncle.color === 'red') {
+	        uncle.color = 'black';
+	        currentNode.parent.color = 'red';
+	        rightRotate.call(this, currentNode.parent);
+	        uncle = currentNode.parent.left;
 	      }
-	      if (w.right.color === 'black' && w.left.color === 'black') {
-	        w.color = 'red';
-	        node = node.parent;
+	      if (uncle.right.color === 'black' && uncle.left.color === 'black') {
+	        uncle.color = 'red';
+	        currentNode = currentNode.parent;
 	      } else {
-	        if (w.left.color === 'black') {
-	          w.right.color = 'black';
-	          w.color = 'red';
-	          leftRotate.call(this, w);
-	          w = node.parent.left;
+	        if (uncle.left.color === 'black') {
+	          uncle.right.color = 'black';
+	          uncle.color = 'red';
+	          leftRotate.call(this, uncle);
+	          uncle = currentNode.parent.left;
 	        }
-	        w.color = node.parent.color;
-	        node.parent.color = 'black';
-	        w.left.color = 'black';
-	        rightRotate.call(this, node.parent);
-	        node = this.root;
+	        uncle.color = currentNode.parent.color;
+	        currentNode.parent.color = 'black';
+	        uncle.left.color = 'black';
+	        rightRotate.call(this, currentNode.parent);
+	        currentNode = this.root;
 	      }
 	    }
 	  }
-	  node.color = 'black';
+	  currentNode.color = 'black';
 	}
+
+	/**
+	 * Red-Black Tree representation
+	 * @class
+	 * @augments BST
+	 * @param {function} comparator - @see Global#defaultComp for examples
+	 * @example
+	 * const bst = new Collections.RBTree();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
+	 */
 
 	var RBTree = function () {
 	  function RBTree(comparator) {
@@ -2747,6 +2787,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.comp = comparator || _Util.defaultComp;
 	  }
 
+	  /**
+	   * @inheritdoc
+	   */
+
+
 	  RBTree.prototype.insert = function insert(key, value) {
 	    var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
 	    if (insertedNode) {
@@ -2755,20 +2800,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 
+	  /**
+	   * @inheritdoc
+	   */
+
+
 	  RBTree.prototype.find = function find(key) {
 	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
 
-	  RBTree.prototype.remove = function remove(key) {
-	    var _BSTRemove$call = _BSTPrototype.BSTRemove.call(this, key),
-	        x = _BSTRemove$call.x,
-	        y = _BSTRemove$call.y;
+	  /**
+	   * @inheritdoc
+	   */
 
-	    if (y.color === 'black') {
-	      deletefixUp.call(this, x);
+
+	  RBTree.prototype.remove = function remove(key) {
+	    // successor and child
+	    var _BSTRemove$call = _BSTPrototype.BSTRemove.call(this, key),
+	        succChild = _BSTRemove$call.succChild,
+	        succ = _BSTRemove$call.succ;
+
+	    if (succ.color === 'black') {
+	      deletefixUp.call(this, succChild);
 	    }
 	    return true;
+	  };
+
+	  /**
+	   * @inheritdoc
+	   */
+
+
+	  RBTree.prototype.inorder = function inorder() {
+	    return (0, _BSTPrototype.BSTInorder)(this.root);
 	  };
 
 	  return RBTree;

@@ -1,7 +1,7 @@
 import { swap, isNumber, genRand } from './Util.js';
 
 /**
- * Pushes a value to an array and returns the new array
+ * Pushes the given value to an array and returns the new array
  * @private
  * @param {*} value - The value to push to array
  * @returns {Array} Array of length one with @param value in it
@@ -13,7 +13,7 @@ function pushValToArray(value) {
 }
 
 /**
- * Rotates array elements to the lefta fixed number of times
+ * Rotates the given array's elements to the left a fixed number of times
  * @private
  * @param {Array} array - The array to rotate
  * @param {number} times - The number of times to rotate left

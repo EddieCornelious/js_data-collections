@@ -89,32 +89,32 @@ function remove(key) {
   if (!node) {
     return false;
   }
-  let y;
-  let x;
+  let succ;
+  let succChild;
   if (node.left.key === undefined || node.right.key === undefined) {
-    y = node;
+    succ = node;
   } else {
-    y = successor(node);
+    succ = successor(node);
   }
-  if (y.left.key !== undefined) {
-    x = y.left;
+  if (succ.left.key !== undefined) {
+    succChild = succ.left;
   } else {
-    x = y.right;
+    succChild = succ.right;
   }
-  x.parent = y.parent;
-  if (y.parent.key === undefined) {
-    this.root = x;
-  } else if (y === y.parent.left) {
-    y.parent.left = x;
+  succChild.parent = succ.parent;
+  if (succ.parent.key === undefined) {
+    this.root = succChild;
+  } else if (succ === succ.parent.left) {
+    succ.parent.left = succChild;
   } else {
-    y.parent.right = x;
+    succ.parent.right = succChild;
   }
 
-  if (y !== node) {
-    node.key = y.key;
-    node.value = y.value;
+  if (succ !== node) {
+    node.key = succ.key;
+    node.value = succ.value;
   }
-  return { x, y };
+  return { succChild, succ };
 }
 
 /**

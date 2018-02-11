@@ -3,7 +3,8 @@ import BSTNode from './BSTNode.js';
 import {
   BSTInsert,
   BSTSearch,
-  BSTRemove
+  BSTRemove,
+  BSTInorder
 } from './BSTPrototype.js';
 import { defaultComp } from './Util.js';
 
@@ -14,142 +15,182 @@ class RBNode extends BSTNode {
   }
 }
 
-function leftRotate(x) {
-  let y = x.right;
-  x.right = y.left;
-  y.left.parent = x;
-  y.parent = x.parent;
-  if (x.parent.key === undefined) {
-    this.root = y;
-  } else if (x === x.parent.left) {
-    x.parent.left = y;
+/**
+ * Left rotates the given node
+ * @private
+ * @param {BSTNode} node - The node to rotate
+ * @returns {undefined}
+ */
+function leftRotate(node) {
+  let oldRight = node.right;
+  let nodeParent = node.parent;
+  node.right = oldRight.left;
+  oldRight.left.parent = node;
+  oldRight.parent = nodeParent;
+  // root
+  if (nodeParent.key === undefined) {
+    this.root = oldRight;
+  } else if (node === nodeParent.left) {
+    nodeParent.left = oldRight;
   } else {
-    x.parent.right = y;
+    nodeParent.right = oldRight;
   }
-  y.left = x;
-  x.parent = y;
+  oldRight.left = node;
+  node.parent = oldRight;
 }
 
-function rightRotate(x) {
-  let y = x.left;
-  x.left = y.right;
-  y.right.parent = x;
-  y.parent = x.parent;
-  if (x.parent.key === undefined) {
-    this.root = y;
-  } else if (x === x.parent.left) {
-    x.parent.left = y;
+/**
+ * Right rotates the given node
+ * @private
+ * @param {BSTNode} node - The node to rotate
+ * @returns {undefined}
+ */
+function rightRotate(node) {
+  let oldLeft = node.left;
+  let nodeParent = node.parent;
+  node.left = oldLeft.right;
+  oldLeft.right.parent = node;
+  oldLeft.parent = nodeParent;
+  // root
+  if (nodeParent.key === undefined) {
+    this.root = oldLeft;
+  } else if (node === nodeParent.left) {
+    nodeParent.left = oldLeft;
   } else {
-    x.parent.right = y;
+    nodeParent.right = oldLeft;
   }
-  y.right = x;
-  x.parent = y;
+  oldLeft.right = node;
+  node.parent = oldLeft;
 }
 
-function insertFix(node) {
-  let z = node;
-  let y;
-  while (z.parent.color === 'red') {
-    if (z.parent === z.parent.parent.left) {
-      y = z.parent.parent.right;
-      if (y.color === 'red') {
-        z.parent.color = 'black';
-        y.color = 'black';
-        z.parent.parent.color = 'red';
-        z = z.parent.parent;
+/**
+ * Fixes up the rb tree after insertion
+ * @private
+ * @param {BSTNode} node - The node to begin fixing
+ * @returns {undefined}
+ */
+function insertFix(nodeToFix) {
+  let currentNode = nodeToFix;
+  let uncle;
+  while (currentNode.parent.color === 'red') {
+    if (currentNode.parent === currentNode.parent.parent.left) {
+      uncle = currentNode.parent.parent.right;
+      if (uncle.color === 'red') {
+        currentNode.parent.color = 'black';
+        uncle.color = 'black';
+        currentNode.parent.parent.color = 'red';
+        currentNode = currentNode.parent.parent;
       } else {
-        if (z === z.parent.right) {
-          z = z.parent;
-          leftRotate.call(this, z);
+        if (currentNode === currentNode.parent.right) {
+          currentNode = currentNode.parent;
+          leftRotate.call(this, currentNode);
         }
-        z.parent.color = 'black';
-        z.parent.parent.color = 'red';
-        rightRotate.call(this, z.parent.parent);
+        currentNode.parent.color = 'black';
+        currentNode.parent.parent.color = 'red';
+        rightRotate.call(this, currentNode.parent.parent);
       }
     } else {
-      y = z.parent.parent.left;
-      if (y.color === 'red') {
-        z.parent.color = 'black';
-        y.color = 'black';
-        z.parent.parent.color = 'red';
-        z = z.parent.parent;
+      uncle = currentNode.parent.parent.left;
+      if (uncle.color === 'red') {
+        currentNode.parent.color = 'black';
+        uncle.color = 'black';
+        currentNode.parent.parent.color = 'red';
+        currentNode = currentNode.parent.parent;
       } else {
-        if (z === z.parent.left) {
-          z = z.parent;
-          rightRotate.call(this, z);
+        if (currentNode === currentNode.parent.left) {
+          currentNode = currentNode.parent;
+          rightRotate.call(this, currentNode);
         }
-        z.parent.color = 'black';
-        z.parent.parent.color = 'red';
-        leftRotate.call(this, z.parent.parent);
+        currentNode.parent.color = 'black';
+        currentNode.parent.parent.color = 'red';
+        leftRotate.call(this, currentNode.parent.parent);
       }
     }
   }
   this.root.color = 'black';
 }
 
-function deletefixUp(z) {
-  let node = z;
-  while (node.parent.key !== undefined && node.color === 'black') {
-    let w;
-    if (node === node.parent.left) {
-      w = node.parent.right;
-      if (w.color === 'red') {
-        w.color = 'black';
-        node.parent.color = 'red';
-        leftRotate.call(this, node.parent);
-        w = node.parent.right;
+/**
+ * Fixes up the rb tree after deletion
+ * @private
+ * @param {BSTNode} node - The node to begin fixing
+ * @returns {undefined}
+ */
+function deletefixUp(nodeToFix) {
+  let currentNode = nodeToFix;
+  while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
+    let uncle;
+    if (currentNode === currentNode.parent.left) {
+      uncle = currentNode.parent.right;
+      if (uncle.color === 'red') {
+        uncle.color = 'black';
+        currentNode.parent.color = 'red';
+        leftRotate.call(this, currentNode.parent);
+        uncle = currentNode.parent.right;
       }
-      if (w.left.color === 'black' && w.right.color === 'black') {
-        w.color = 'red';
-        node = node.parent;
+      if (uncle.left.color === 'black' && uncle.right.color === 'black') {
+        uncle.color = 'red';
+        currentNode = currentNode.parent;
       } else {
-        if (w.right.color === 'black') {
-          w.left.color = 'black';
-          w.color = 'red';
-          rightRotate.call(this, w);
-          w = node.parent.right;
+        if (uncle.right.color === 'black') {
+          uncle.left.color = 'black';
+          uncle.color = 'red';
+          rightRotate.call(this, uncle);
+          uncle = currentNode.parent.right;
         }
-        w.color = node.parent.color;
-        node.parent.color = 'black';
-        w.right.color = 'black';
-        leftRotate.call(this, node.parent);
-        node = this.root;
+        uncle.color = currentNode.parent.color;
+        currentNode.parent.color = 'black';
+        uncle.right.color = 'black';
+        leftRotate.call(this, currentNode.parent);
+        currentNode = this.root;
       }
     } else {
-      w = node.parent.left;
-      if (w.color === 'red') {
-        w.color = 'black';
-        node.parent.color = 'red';
-        rightRotate.call(this, node.parent);
-        w = node.parent.left;
+      uncle = currentNode.parent.left;
+      if (uncle.color === 'red') {
+        uncle.color = 'black';
+        currentNode.parent.color = 'red';
+        rightRotate.call(this, currentNode.parent);
+        uncle = currentNode.parent.left;
       }
-      if (w.right.color === 'black' && w.left.color === 'black') {
-        w.color = 'red';
-        node = node.parent;
+      if (uncle.right.color === 'black' && uncle.left.color === 'black') {
+        uncle.color = 'red';
+        currentNode = currentNode.parent;
       } else {
-        if (w.left.color === 'black') {
-          w.right.color = 'black';
-          w.color = 'red';
-          leftRotate.call(this, w);
-          w = node.parent.left;
+        if (uncle.left.color === 'black') {
+          uncle.right.color = 'black';
+          uncle.color = 'red';
+          leftRotate.call(this, uncle);
+          uncle = currentNode.parent.left;
         }
-        w.color = node.parent.color;
-        node.parent.color = 'black';
-        w.left.color = 'black';
-        rightRotate.call(this, node.parent);
-        node = this.root;
+        uncle.color = currentNode.parent.color;
+        currentNode.parent.color = 'black';
+        uncle.left.color = 'black';
+        rightRotate.call(this, currentNode.parent);
+        currentNode = this.root;
       }
     }
   }
-  node.color = 'black';
+  currentNode.color = 'black';
 }
 
+/**
+ * Red-Black Tree representation
+ * @class
+ * @augments BST
+ * @param {function} comparator - @see Global#defaultComp for examples
+ * @example
+ * const bst = new Collections.RBTree();
+ * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
+ */
 class RBTree {
   constructor(comparator) {
     this.root = new RBNode();
     this.comp = comparator || defaultComp;
   }
-
+  
+  /**
+   * @inheritdoc
+   */
   insert(key, value) {
     const insertedNode = BSTInsert.call(this, key, value, RBNode);
     if (insertedNode) {
@@ -157,18 +198,32 @@ class RBTree {
       insertFix.call(this, insertedNode);
     }
   }
-
+  
+  /**
+   * @inheritdoc
+   */
   find(key) {
     const node = BSTSearch.call(this, this.root, key);
     return node ? node.value : undefined;
   }
-
+  
+  /**
+   * @inheritdoc
+   */
   remove(key) {
-    const { x, y } = BSTRemove.call(this, key);
-    if (y.color === 'black') {
-      deletefixUp.call(this, x);
+    // successor and child
+    const { succChild, succ } = BSTRemove.call(this, key);
+    if (succ.color === 'black') {
+      deletefixUp.call(this, succChild);
     }
     return true;
+  }
+  
+  /**
+   * @inheritdoc
+   */
+  inorder() {
+    return BSTInorder(this.root);
   }
 }
 
