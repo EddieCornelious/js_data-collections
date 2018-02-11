@@ -238,13 +238,13 @@ class RBTree {
     if (succ.color === 'black') {
       deletefixUp.call(this, succChild);
     }
-    return true;
+    return this;
   }
 
   /**
   * Determines if RBTree contains the given key
   * @param {*} key to search for in RBTree
-  * @returns {boolean} true if RBTree contains @param key and false otherwise
+  * @returns {boolean} True if RBTree contains @param key and false otherwise
   *
   * @example
   * rb.insert(1, 5).insert(5, 10);
@@ -257,9 +257,7 @@ class RBTree {
 
   /**
   * Gives the inorder traversal of a RBTree
-  * @param {*} key to search for in RBTree
-  * @returns {*|undefined} value associated with @param key or undefined
-  * if not found.
+  * @returns {*|undefined} The inorder traversal of the RBTree
   *
   * @example
   * rb.insert(1, 5).insert(5, 10);

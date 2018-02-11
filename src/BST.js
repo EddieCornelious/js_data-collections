@@ -72,7 +72,7 @@ class BST {
   /**
   * Determines if BST contains the given key
   * @param {*} key to search for in BST
-  * @returns {boolean} true if BST contains @param key and false otherwise
+  * @returns {boolean} True if BST contains @param key and false otherwise
   *
   * @example
   * bst.insert(1, 5).insert(5, 10);
@@ -85,8 +85,7 @@ class BST {
 
   /**
   * Gives the inorder traversal of a BST
-  * @param {*} key to search for in BST
-  * @returns {*|undefined} value associated with @param key or undefined
+  * @returns {*|undefined} inorder traversal of the BST
   * if not found.
   *
   * @example

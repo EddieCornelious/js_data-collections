@@ -1579,7 +1579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	  * Determines if BST contains the given key
 	  * @param {*} key to search for in BST
-	  * @returns {boolean} true if BST contains @param key and false otherwise
+	  * @returns {boolean} True if BST contains @param key and false otherwise
 	  *
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10);
@@ -1594,8 +1594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Gives the inorder traversal of a BST
-	  * @param {*} key to search for in BST
-	  * @returns {*|undefined} value associated with @param key or undefined
+	  * @returns {*|undefined} inorder traversal of the BST
 	  * if not found.
 	  *
 	  * @example
@@ -2846,13 +2845,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (succ.color === 'black') {
 	      deletefixUp.call(this, succChild);
 	    }
-	    return true;
+	    return this;
 	  };
 
 	  /**
 	  * Determines if RBTree contains the given key
 	  * @param {*} key to search for in RBTree
-	  * @returns {boolean} true if RBTree contains @param key and false otherwise
+	  * @returns {boolean} True if RBTree contains @param key and false otherwise
 	  *
 	  * @example
 	  * rb.insert(1, 5).insert(5, 10);
@@ -2867,9 +2866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Gives the inorder traversal of a RBTree
-	  * @param {*} key to search for in RBTree
-	  * @returns {*|undefined} value associated with @param key or undefined
-	  * if not found.
+	  * @returns {*|undefined} The inorder traversal of the RBTree
 	  *
 	  * @example
 	  * rb.insert(1, 5).insert(5, 10);
