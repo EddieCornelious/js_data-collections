@@ -205,7 +205,7 @@ class RBTree {
     }
     return this;
   }
-  
+
   /**
   * Finds the value associated with given key
   * @param {*} key - The key to search for in RBTree
@@ -240,7 +240,7 @@ class RBTree {
     }
     return true;
   }
-  
+
   /**
   * Determines if RBTree contains the given key
   * @param {*} key to search for in RBTree
