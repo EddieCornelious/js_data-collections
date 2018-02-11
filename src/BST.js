@@ -85,8 +85,7 @@ class BST {
 
   /**
   * Gives the inorder traversal of a BST
-  * @returns {*|undefined} inorder traversal of the BST
-  * if not found.
+  * @returns {Array} Array of objects representing the tree
   *
   * @example
   * bst.insert(1, 5).insert(5, 10).insert(2, 10);

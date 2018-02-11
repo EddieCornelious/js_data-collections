@@ -257,7 +257,7 @@ class RBTree {
 
   /**
   * Gives the inorder traversal of a RBTree
-  * @returns {*|undefined} The inorder traversal of the RBTree
+  * @returns {Array} Array of objects representing the tree
   *
   * @example
   * rb.insert(1, 5).insert(5, 10);

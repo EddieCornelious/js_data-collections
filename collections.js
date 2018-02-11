@@ -1594,8 +1594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Gives the inorder traversal of a BST
-	  * @returns {*|undefined} inorder traversal of the BST
-	  * if not found.
+	  * @returns {Array} Array of objects representing the tree
 	  *
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
@@ -2866,7 +2865,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Gives the inorder traversal of a RBTree
-	  * @returns {*|undefined} The inorder traversal of the RBTree
+	  * @returns {Array} Array of objects representing the tree
 	  *
 	  * @example
 	  * rb.insert(1, 5).insert(5, 10);
