@@ -6,6 +6,7 @@ A simple data structure library
 
 * Linked List
 * Binary Search Tree
+* Red-Black Tree
 * Queue
 * Stack
 * Trie
@@ -40,7 +41,7 @@ In future releases, I plan to alleviate these compatibility issues
 [Dev](https://rawgit.com/EddieCornelious/Structs-JS/master/collections.js)
 
 ### Minified version
-17kb [Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.min.js)
+19kb [Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.min.js)
 
 
 ## Contributing
