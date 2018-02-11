@@ -176,39 +176,61 @@ function deletefixUp(nodeToFix) {
 /**
  * Red-Black Tree representation
  * @class
- * @augments BST
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
- * const bst = new Collections.RBTree();
- * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
+ * const rb = new Collections.RBTree();
+ * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
  */
 class RBTree {
   constructor(comparator) {
     this.root = new RBNode();
     this.comp = comparator || defaultComp;
   }
-  
+
   /**
-   * @inheritdoc
-   */
+  * Inserts the given key and value into RBTree
+  * @param {*} key - The key to insert into RBTree
+  * @param {*} value - The value that is mapped to by @param key
+  * @returns {RBTree} The instance that this method was called with
+  *
+  * @example
+  * rb.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
+  * // ed now maps to kane because ed already existed before.
+  */
   insert(key, value) {
     const insertedNode = BSTInsert.call(this, key, value, RBNode);
     if (insertedNode) {
       insertedNode.color = 'red';
       insertFix.call(this, insertedNode);
     }
+    return this;
   }
   
   /**
-   * @inheritdoc
-   */
+  * Finds the value associated with given key
+  * @param {*} key - The key to search for in RBTree
+  * @returns {(*|undefined)} The value associated with @param key or undefined
+  * if not found.
+  *
+  * @example
+  * rb.insert(1, 5).insert(5, 10);
+  * rb.find(5); // returns 10
+  * rb.find(67); // returns undefined
+  */
   find(key) {
     const node = BSTSearch.call(this, this.root, key);
     return node ? node.value : undefined;
   }
-  
+
   /**
-   * @inheritdoc
+   * Removes the given key and its associated value from RBTree
+   * @param {*} key - The key to search for
+   * @returns {RBTree} The instance that this method was called with
+   *
+   * @example
+   * rb.insert(1, 5).insert(5, 10);
+   * rb.remove(1); // 1 and it's associated value are removed from tree
+   * rb.remove("dog"); // this call fails silently as dog never existed in tree
    */
   remove(key) {
     // successor and child
@@ -220,8 +242,29 @@ class RBTree {
   }
   
   /**
-   * @inheritdoc
-   */
+  * Determines if RBTree contains the given key
+  * @param {*} key to search for in RBTree
+  * @returns {boolean} true if RBTree contains @param key and false otherwise
+  *
+  * @example
+  * rb.insert(1, 5).insert(5, 10);
+  * rb.contains(5); // returns true
+  * rb.contains(67); // returns false
+  */
+  contains(key) {
+    return this.find(key) !== undefined;
+  }
+
+  /**
+  * Gives the inorder traversal of a RBTree
+  * @param {*} key to search for in RBTree
+  * @returns {*|undefined} value associated with @param key or undefined
+  * if not found.
+  *
+  * @example
+  * rb.insert(1, 5).insert(5, 10);
+  * rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]
+  */
   inorder() {
     return BSTInorder(this.root);
   }
