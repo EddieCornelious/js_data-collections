@@ -1595,11 +1595,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	  * Gives the inorder traversal of a BST
 	  * @returns {Array} Array of objects representing the tree
-	  *
-	  * @example
-	  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
-	  * bst.inorder(); // [{key: 1, value:5, parent: undefined},
-	  * {key: 5, value:10, parent: 1}..... ]
 	  */
 
 
@@ -2582,7 +2577,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _BSTPrototype = __webpack_require__(11);
 
-	var _Util = __webpack_require__(2);
+	var _BST2 = __webpack_require__(9);
+
+	var _BST3 = _interopRequireDefault(_BST2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -2776,24 +2773,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
-	var RBTree = function () {
+	var RBTree = function (_BST) {
+	  _inherits(RBTree, _BST);
+
 	  function RBTree(comparator) {
 	    _classCallCheck(this, RBTree);
 
-	    this.root = new RBNode();
-	    this.comp = comparator || _Util.defaultComp;
+	    var _this2 = _possibleConstructorReturn(this, _BST.call(this, comparator));
+
+	    _this2.root = new RBNode();
+	    return _this2;
 	  }
 
 	  /**
-	  * Inserts the given key and value into RBTree
-	  * @param {*} key - The key to insert into RBTree
-	  * @param {*} value - The value that is mapped to by @param key
-	  * @returns {RBTree} The instance that this method was called with
-	  *
-	  * @example
-	  * rb.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
-	  * // ed now maps to kane because ed already existed before.
-	  */
+	   * @inheritdoc
+	   */
 
 
 	  RBTree.prototype.insert = function insert(key, value) {
@@ -2806,32 +2800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Finds the value associated with given key
-	  * @param {*} key - The key to search for in RBTree
-	  * @returns {(*|undefined)} The value associated with @param key or undefined
-	  * if not found.
-	  *
-	  * @example
-	  * rb.insert(1, 5).insert(5, 10);
-	  * rb.find(5); // returns 10
-	  * rb.find(67); // returns undefined
-	  */
-
-
-	  RBTree.prototype.find = function find(key) {
-	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
-	    return node ? node.value : undefined;
-	  };
-
-	  /**
-	   * Removes the given key and its associated value from RBTree
-	   * @param {*} key - The key to search for
-	   * @returns {RBTree} The instance that this method was called with
-	   *
-	   * @example
-	   * rb.insert(1, 5).insert(5, 10);
-	   * rb.remove(1); // 1 and it's associated value are removed from tree
-	   * rb.remove("dog"); // this call fails silently as dog never existed in tree
+	   * @inheritdoc
 	   */
 
 
@@ -2847,38 +2816,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  };
 
-	  /**
-	  * Determines if RBTree contains the given key
-	  * @param {*} key to search for in RBTree
-	  * @returns {boolean} True if RBTree contains @param key and false otherwise
-	  *
-	  * @example
-	  * rb.insert(1, 5).insert(5, 10);
-	  * rb.contains(5); // returns true
-	  * rb.contains(67); // returns false
-	  */
-
-
-	  RBTree.prototype.contains = function contains(key) {
-	    return this.find(key) !== undefined;
-	  };
-
-	  /**
-	  * Gives the inorder traversal of a RBTree
-	  * @returns {Array} Array of objects representing the tree
-	  *
-	  * @example
-	  * rb.insert(1, 5).insert(5, 10);
-	  * rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]
-	  */
-
-
-	  RBTree.prototype.inorder = function inorder() {
-	    return (0, _BSTPrototype.BSTInorder)(this.root);
-	  };
-
 	  return RBTree;
-	}();
+	}(_BST3['default']);
 
 	module.exports = RBTree;
 

@@ -2,11 +2,9 @@
 import BSTNode from './BSTNode.js';
 import {
   BSTInsert,
-  BSTSearch,
-  BSTRemove,
-  BSTInorder
+  BSTRemove
 } from './BSTPrototype.js';
-import { defaultComp } from './Util.js';
+import BST from './BST.js';
 
 class RBNode extends BSTNode {
   constructor(key, value) {
@@ -181,22 +179,15 @@ function deletefixUp(nodeToFix) {
  * const rb = new Collections.RBTree();
  * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
  */
-class RBTree {
+class RBTree extends BST {
   constructor(comparator) {
+    super(comparator);
     this.root = new RBNode();
-    this.comp = comparator || defaultComp;
   }
 
   /**
-  * Inserts the given key and value into RBTree
-  * @param {*} key - The key to insert into RBTree
-  * @param {*} value - The value that is mapped to by @param key
-  * @returns {RBTree} The instance that this method was called with
-  *
-  * @example
-  * rb.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
-  * // ed now maps to kane because ed already existed before.
-  */
+   * @inheritdoc
+   */
   insert(key, value) {
     const insertedNode = BSTInsert.call(this, key, value, RBNode);
     if (insertedNode) {
@@ -207,30 +198,7 @@ class RBTree {
   }
 
   /**
-  * Finds the value associated with given key
-  * @param {*} key - The key to search for in RBTree
-  * @returns {(*|undefined)} The value associated with @param key or undefined
-  * if not found.
-  *
-  * @example
-  * rb.insert(1, 5).insert(5, 10);
-  * rb.find(5); // returns 10
-  * rb.find(67); // returns undefined
-  */
-  find(key) {
-    const node = BSTSearch.call(this, this.root, key);
-    return node ? node.value : undefined;
-  }
-
-  /**
-   * Removes the given key and its associated value from RBTree
-   * @param {*} key - The key to search for
-   * @returns {RBTree} The instance that this method was called with
-   *
-   * @example
-   * rb.insert(1, 5).insert(5, 10);
-   * rb.remove(1); // 1 and it's associated value are removed from tree
-   * rb.remove("dog"); // this call fails silently as dog never existed in tree
+   * @inheritdoc
    */
   remove(key) {
     // successor and child
@@ -239,32 +207,6 @@ class RBTree {
       deletefixUp.call(this, succChild);
     }
     return this;
-  }
-
-  /**
-  * Determines if RBTree contains the given key
-  * @param {*} key to search for in RBTree
-  * @returns {boolean} True if RBTree contains @param key and false otherwise
-  *
-  * @example
-  * rb.insert(1, 5).insert(5, 10);
-  * rb.contains(5); // returns true
-  * rb.contains(67); // returns false
-  */
-  contains(key) {
-    return this.find(key) !== undefined;
-  }
-
-  /**
-  * Gives the inorder traversal of a RBTree
-  * @returns {Array} Array of objects representing the tree
-  *
-  * @example
-  * rb.insert(1, 5).insert(5, 10);
-  * rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]
-  */
-  inorder() {
-    return BSTInorder(this.root);
   }
 }
 

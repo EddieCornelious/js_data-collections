@@ -86,11 +86,6 @@ class BST {
   /**
   * Gives the inorder traversal of a BST
   * @returns {Array} Array of objects representing the tree
-  *
-  * @example
-  * bst.insert(1, 5).insert(5, 10).insert(2, 10);
-  * bst.inorder(); // [{key: 1, value:5, parent: undefined},
-  * {key: 5, value:10, parent: 1}..... ]
   */
   inorder() {
     return BSTInorder(this.root);
