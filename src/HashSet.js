@@ -1,4 +1,4 @@
-import HashMap from './HashMap.js';
+import HashTable from './HashTable.js';
 
 /**
  * HashSet representation
@@ -11,7 +11,7 @@ import HashMap from './HashMap.js';
  */
 class HashSet {
   constructor(initialCapacity) {
-    this.set = new HashMap(initialCapacity);
+    this.set = new HashTable(initialCapacity);
   }
 
   /**

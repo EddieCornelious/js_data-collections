@@ -62,17 +62,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var BHeap = __webpack_require__(5);
 	var PriorityQueue = __webpack_require__(6);
 	var HashMap = __webpack_require__(7);
-	var HashSet = __webpack_require__(8);
-	var BST = __webpack_require__(9);
-	var Graph = __webpack_require__(12);
-	var Trie = __webpack_require__(13);
-	var HashMultiMap = __webpack_require__(14);
-	var ArrayUtils = __webpack_require__(15);
-	var RBTree = __webpack_require__(16);
+	var HashTable = __webpack_require__(8);
+	var HashSet = __webpack_require__(10);
+	var BST = __webpack_require__(11);
+	var Graph = __webpack_require__(14);
+	var Trie = __webpack_require__(15);
+	var HashMultiMap = __webpack_require__(16);
+	var ArrayUtils = __webpack_require__(17);
+	var RBTree = __webpack_require__(18);
 
 	// TODO : add ie8 support and maybe load polyfills right here
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils, RBTree: RBTree };
+	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashTable: HashTable, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils, RBTree: RBTree };
 
 /***/ },
 /* 1 */
@@ -1035,6 +1036,87 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var _HashTable = __webpack_require__(8);
+
+	var _HashTable2 = _interopRequireDefault(_HashTable);
+
+	var _MapInterface2 = __webpack_require__(9);
+
+	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * HashMap representation
+	 * @class
+	 * @implements MapInterface
+	 * @param {number} [initialCapacity=13] - Initial size of the hashtable
+	 * IMPORTANT : It is not recommended that you choose a size that will be a
+	 * close or approximate upper bound on your data, so that number
+	 * of rehashes of the inner hashtable will be small. For example, if
+	 * you know you only need 100,000 inserts, a good initial capacity would not be
+	 * approximately 100,000 as the hastable will resize once 75,000
+	 * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
+	 * which is 112,500 , greater than your space needed.
+	 * So, try something around 150,000. Or you can just rehash a lot :)
+	 *
+	 * @example
+	 * const map = new Collections.HashMap(37);
+	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
+	 */
+	var HashMap = function (_MapInterface) {
+	  _inherits(HashMap, _MapInterface);
+
+	  function HashMap(initialCapacity) {
+	    _classCallCheck(this, HashMap);
+
+	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+
+	    _this.map = new _HashTable2["default"](initialCapacity);
+	    return _this;
+	  }
+
+	  HashMap.prototype.put = function put(key, value) {
+	    return this.map.put(key, value);
+	  };
+
+	  HashMap.prototype.getVal = function getVal(key) {
+	    return this.map.getVal(key);
+	  };
+
+	  HashMap.prototype.remove = function remove(key) {
+	    return this.map.remove(key);
+	  };
+
+	  HashMap.prototype.keys = function keys() {
+	    return this.map.keys();
+	  };
+
+	  HashMap.prototype.contains = function contains(key) {
+	    return this.map.contains(key);
+	  };
+
+	  HashMap.prototype.size = function size() {
+	    return this.map.size();
+	  };
+
+	  return HashMap;
+	}(_MapInterface3["default"]);
+
+	module.exports = HashMap;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1140,9 +1222,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * HashMap representation
+	 * HashTable representation
 	 * @class
-	 * @param {number} [initialCapacity=13] - Initial size of the hashmap
+	 * @param {number} [initialCapacity=13] - Initial size of the hashtable
 	 * IMPORTANT : It is not recommended that you choose a size that will be a
 	 * close or approximate upper bound on your data, so that number
 	 * of rehashes of the inner hashtable will be small. For example, if
@@ -1157,11 +1239,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
-	var HashMap = function () {
-	  function HashMap() {
+	var HashTable = function () {
+	  function HashTable() {
 	    var initialCapacity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 13;
 
-	    _classCallCheck(this, HashMap);
+	    _classCallCheck(this, HashTable);
 
 	    this.inserts = 0;
 	    this.table = createTable(initialCapacity);
@@ -1181,7 +1263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMap.prototype.put = function put() {
+	  HashTable.prototype.put = function put() {
 	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	    var table = this.table,
@@ -1214,7 +1296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMap.prototype.getVal = function getVal(key) {
+	  HashTable.prototype.getVal = function getVal(key) {
 	    var searchRes = search(key, this.table);
 	    var bucket = searchRes.bucket,
 	        index = searchRes.index;
@@ -1234,7 +1316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMap.prototype.remove = function remove(key) {
+	  HashTable.prototype.remove = function remove(key) {
 	    var searchRes = search(key, this.table);
 	    var bucket = searchRes.bucket,
 	        index = searchRes.index;
@@ -1257,17 +1339,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMap.prototype.contains = function contains(key) {
+	  HashTable.prototype.contains = function contains(key) {
 	    return this.getVal(key) !== undefined;
 	  };
 
 	  /**
-	   * Resizes (2x) and rehashes all keys in HashMap
+	   * Resizes (2x) and rehashes all keys in HashTable
 	   * @returns {undefined}
 	   */
 
 
-	  HashMap.prototype.rehash = function rehash() {
+	  HashTable.prototype.rehash = function rehash() {
 	    var oldTable = this.table;
 	    var newTable = createTable(oldTable.length * 2);
 	    for (var i = 0; i < oldTable.length; i += 1) {
@@ -1282,7 +1364,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns all of the keys in the HashMap
+	   * Returns all of the keys in the HashTable
 	   * @returns {Array} An array of keys
 	   *
 	   * @example
@@ -1294,7 +1376,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMap.prototype.keys = function keys() {
+	  HashTable.prototype.keys = function keys() {
 	    var table = this.table;
 	    var keyArr = [];
 	    for (var i = 0; i < table.length; i += 1) {
@@ -1314,39 +1396,161 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMap.prototype.tableSize = function tableSize() {
+	  HashTable.prototype.tableSize = function tableSize() {
 	    return this.table.length;
 	  };
 
 	  /**
-	   * Returns number of elements in the HashMap
+	   * Returns number of elements in the HashTable
 	   * @returns {number} The number of insertions
 	   *
 	   * @example
-	   * const newMap = map.put(99, "problems");
+	   * const newTable = table.put(99, "problems");
 	   * newMap.size() // 1
 	   * newMap.tableSize(); // 13
 	   */
 
 
-	  HashMap.prototype.size = function size() {
+	  HashTable.prototype.size = function size() {
 	    return this.inserts;
 	  };
 
-	  return HashMap;
+	  return HashTable;
 	}();
 
-	module.exports = HashMap;
+	module.exports = HashTable;
 
 /***/ },
-/* 8 */
+/* 9 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * Map Interface
+	 * @interface
+	 */
+	var MapInterface = function () {
+	  function MapInterface() {
+	    _classCallCheck(this, MapInterface);
+
+	    if (this.constructor.name === "MapInterface") {
+	      throw new Error("cannot instansiate an interface");
+	    }
+	    this.map;
+	  }
+
+	  /**
+	   * Inserts given key and value into the Map
+	   * @param {*} key - The key
+	   * @param {*} value - The value mapped to by @param key
+	   * @returns {boolean} True
+	   *
+	   * @example
+	   * map.put("ed", "jones");
+	   * // ed maps to jones
+	   * map.put("ed", "james");
+	   * // now same ed maps to james
+	   */
+
+
+	  MapInterface.prototype.put = function put(key, value) {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	   * Retrieves the value mapped to by the given key
+	   * @param {*} key - The key to lookup
+	   * @returns {*} The value associated with @param key
+	   *
+	   * @example
+	   * map.put(99, "problems");
+	   * map.getVal(99); // returns "promblems"
+	   */
+
+
+	  MapInterface.prototype.getVal = function getVal(key) {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	   * Removes the given key and its associated value from the HashMap
+	   * @param {*} key - The key to lookup
+	   * @returns {boolean} True if the key was removed and false otherwise
+	   *
+	   * @example
+	   * map.put(99, "problems");
+	   * map.remove(88); // returns false
+	   * map.remove(99); // return true
+	   */
+
+
+	  MapInterface.prototype.remove = function remove(key) {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	   * Reports whether the HashMap contains the given key
+	   * @param {*} key - The key to lookup
+	   * @returns {boolean} True if @param key is found and false otherwise
+	   *
+	   * @example
+	   * map.contains("empty"); // return false
+	   */
+
+
+	  MapInterface.prototype.contains = function contains(key) {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	  * Returns all of the keys in the HashMap
+	  * @returns {Array} An array of keys
+	  *
+	  * @example
+	  * map.put(1, "b");
+	  * map.put(2, "c");
+	  * map.put(3, "d");
+	  * map.keys() // returns ["a", "b", "c"] permutation (order not guarenteed)
+	  * // but presence is
+	  */
+
+
+	  MapInterface.prototype.keys = function keys() {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	  * Returns number of elements in the HashTable
+	  * @returns {number} The number of insertions
+	  *
+	  * @example
+	  * const newMap = table.put(99, "problems");
+	  * newMap.size() // 1
+	  * newMap.tableSize(); // 13
+	  */
+
+
+	  MapInterface.prototype.size = function size() {
+	    return this.map.size();
+	  };
+
+	  return MapInterface;
+	}();
+
+	module.exports = MapInterface;
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _HashMap = __webpack_require__(7);
+	var _HashTable = __webpack_require__(8);
 
-	var _HashMap2 = _interopRequireDefault(_HashMap);
+	var _HashTable2 = _interopRequireDefault(_HashTable);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -1365,7 +1569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function HashSet(initialCapacity) {
 	    _classCallCheck(this, HashSet);
 
-	    this.set = new _HashMap2['default'](initialCapacity);
+	    this.set = new _HashTable2['default'](initialCapacity);
 	  }
 
 	  /**
@@ -1491,16 +1695,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = HashSet;
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _BSTNode = __webpack_require__(10);
+	var _BSTNode = __webpack_require__(12);
 
 	var _BSTNode2 = _interopRequireDefault(_BSTNode);
 
-	var _BSTPrototype = __webpack_require__(11);
+	var _BSTPrototype = __webpack_require__(13);
 
 	var _Util = __webpack_require__(2);
 
@@ -1608,7 +1812,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BST;
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1628,7 +1832,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BSTNode;
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1775,7 +1979,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1792,7 +1996,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _HashMap2 = _interopRequireDefault(_HashMap);
 
-	var _HashSet = __webpack_require__(8);
+	var _HashSet = __webpack_require__(10);
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
 
@@ -1964,7 +2168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Graph;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2193,7 +2397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Trie;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2264,7 +2468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = HashMultiMap;
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2566,18 +2770,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ArrayUtils;
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _BSTNode2 = __webpack_require__(10);
+	var _BSTNode2 = __webpack_require__(12);
 
 	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
 
-	var _BSTPrototype = __webpack_require__(11);
+	var _BSTPrototype = __webpack_require__(13);
 
-	var _BST2 = __webpack_require__(9);
+	var _BST2 = __webpack_require__(11);
 
 	var _BST3 = _interopRequireDefault(_BST2);
 
@@ -2767,9 +2971,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Red-Black Tree representation
 	 * @class
+	 * @extends BST
 	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
-	 * const rb = new Collections.RBTree();
+	 * const bst = new Collections.RBTree();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
@@ -2785,11 +2990,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this2;
 	  }
 
-	  /**
-	   * @inheritdoc
-	   */
-
-
 	  RBTree.prototype.insert = function insert(key, value) {
 	    var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
 	    if (insertedNode) {
@@ -2798,11 +2998,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return this;
 	  };
-
-	  /**
-	   * @inheritdoc
-	   */
-
 
 	  RBTree.prototype.remove = function remove(key) {
 	    // successor and child

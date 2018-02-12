@@ -6,7 +6,7 @@ describe("HashMap", function() {
   let map, expected, actual;
 
   beforeEach(function() {
-    map = new Collections.HashMap();
+    map = new Collections.HashTable();
   });
 
   beforeEach(function() {
