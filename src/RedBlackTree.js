@@ -174,9 +174,10 @@ function deletefixUp(nodeToFix) {
 /**
  * Red-Black Tree representation
  * @class
+ * @extends BST
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
- * const rb = new Collections.RBTree();
+ * const bst = new Collections.RBTree();
  * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
  */
 class RBTree extends BST {
@@ -185,9 +186,6 @@ class RBTree extends BST {
     this.root = new RBNode();
   }
 
-  /**
-   * @inheritdoc
-   */
   insert(key, value) {
     const insertedNode = BSTInsert.call(this, key, value, RBNode);
     if (insertedNode) {
@@ -197,9 +195,6 @@ class RBTree extends BST {
     return this;
   }
 
-  /**
-   * @inheritdoc
-   */
   remove(key) {
     // successor and child
     const { succChild, succ } = BSTRemove.call(this, key);

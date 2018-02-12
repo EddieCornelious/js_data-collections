@@ -113,7 +113,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>const rb = new Collections.RBTree();
+    <pre class="prettyprint"><code>const bst = new Collections.RBTree();
 // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE</code></pre>
 
 
@@ -186,6 +186,17 @@
     </div>
 
     
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="BST.html">BST</a></li>
+    </ul>
+
+
+    
 
     
 
@@ -221,6 +232,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="BST.html#contains">BST#contains</a>
+    </li></ul></dd>
+    
 
     
 
@@ -252,7 +268,7 @@
 
 
 <div class="description">
-    Determines if RBTree contains the given key
+    Determines if BST contains the given key
 </div>
 
 
@@ -265,9 +281,9 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>rb.insert(1, 5).insert(5, 10);
-rb.contains(5); // returns true
-rb.contains(67); // returns false</code></pre>
+    <pre class="prettyprint"><code>bst.insert(1, 5).insert(5, 10);
+bst.contains(5); // returns true
+bst.contains(67); // returns false</code></pre>
 
 
 
@@ -313,7 +329,7 @@ rb.contains(67); // returns false</code></pre>
 
             
 
-            <td class="description last">to search for in RBTree</td>
+            <td class="description last">to search for in BST</td>
         </tr>
 
     
@@ -337,7 +353,7 @@ rb.contains(67); // returns false</code></pre>
 
         
 <div class="param-desc">
-    True if RBTree contains @param key and false otherwise
+    True if BST contains @param key and false otherwise
 </div>
 
 
@@ -377,6 +393,11 @@ rb.contains(67); // returns false</code></pre>
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="BST.html#find">BST#find</a>
+    </li></ul></dd>
     
 
     
@@ -422,9 +443,9 @@ rb.contains(67); // returns false</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>rb.insert(1, 5).insert(5, 10);
-rb.find(5); // returns 10
-rb.find(67); // returns undefined</code></pre>
+    <pre class="prettyprint"><code>bst.insert(1, 5).insert(5, 10);
+bst.find(5); // returns 10
+bst.find(67); // returns undefined</code></pre>
 
 
 
@@ -470,7 +491,7 @@ rb.find(67); // returns undefined</code></pre>
 
             
 
-            <td class="description last">The key to search for in RBTree</td>
+            <td class="description last">The key to search for in BST</td>
         </tr>
 
     
@@ -539,6 +560,11 @@ if not found.
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="BST.html#inorder">BST#inorder</a>
+    </li></ul></dd>
+    
 
     
 
@@ -570,7 +596,7 @@ if not found.
 
 
 <div class="description">
-    Gives the inorder traversal of a RBTree
+    Gives the inorder traversal of a BST
 </div>
 
 
@@ -579,12 +605,6 @@ if not found.
 
 
 
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>rb.insert(1, 5).insert(5, 10);
-rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</code></pre>
 
 
 
@@ -630,7 +650,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
     
 
-    <h4 class="name" id="insert"><span class="type-signature"></span>insert<span class="signature">(key, value)</span><span class="type-signature"> &rarr; {<a href="RBTree.html">RBTree</a>}</span></h4>
+    <h4 class="name" id="insert"><span class="type-signature"></span>insert<span class="signature">(key, value)</span><span class="type-signature"> &rarr; {<a href="BST.html">BST</a>}</span></h4>
 
     
 
@@ -647,6 +667,11 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="BST.html#insert">BST#insert</a>
+    </li></ul></dd>
     
 
     
@@ -677,7 +702,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
 
 <div class="description">
-    Inserts the given key and value into RBTree
+    Inserts the given key and value into BST
 </div>
 
 
@@ -690,7 +715,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>rb.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
+    <pre class="prettyprint"><code>bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
 // ed now maps to kane because ed already existed before.</code></pre>
 
 
@@ -737,7 +762,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
             
 
-            <td class="description last">The key to insert into RBTree</td>
+            <td class="description last">The key to insert into BST</td>
         </tr>
 
     
@@ -795,7 +820,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
     </dt>
     <dd>
         
-<span class="param-type"><a href="RBTree.html">RBTree</a></span>
+<span class="param-type"><a href="BST.html">BST</a></span>
 
 
     </dd>
@@ -809,7 +834,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
     
 
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(key)</span><span class="type-signature"> &rarr; {<a href="RBTree.html">RBTree</a>}</span></h4>
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(key)</span><span class="type-signature"> &rarr; {<a href="BST.html">BST</a>}</span></h4>
 
     
 
@@ -826,6 +851,11 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="BST.html#remove">BST#remove</a>
+    </li></ul></dd>
     
 
     
@@ -856,7 +886,7 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
 
 <div class="description">
-    Removes the given key and its associated value from RBTree
+    Removes the given key and its associated value from BST
 </div>
 
 
@@ -869,9 +899,9 @@ rb.inorder(); // [{key: 1, value:5, color: "black", parent: undefined, ...}]</co
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>rb.insert(1, 5).insert(5, 10);
-rb.remove(1); // 1 and it's associated value are removed from tree
-rb.remove("dog"); // this call fails silently as dog never existed in tree</code></pre>
+    <pre class="prettyprint"><code>bst.insert(1, 5).insert(5, 10);
+bst.remove(1); // 1 and it's associated value are removed from tree
+bst.remove("dog"); // this call fails silently as dog never existed in tree</code></pre>
 
 
 
@@ -952,7 +982,7 @@ rb.remove("dog"); // this call fails silently as dog never existed in tree</code
     </dt>
     <dd>
         
-<span class="param-type"><a href="RBTree.html">RBTree</a></span>
+<span class="param-type"><a href="BST.html">BST</a></span>
 
 
     </dd>
@@ -979,7 +1009,7 @@ rb.remove("dog"); // this call fails silently as dog never existed in tree</code
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 11 2018 22:12:26 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Feb 12 2018 19:02:03 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
