@@ -7,7 +7,7 @@ class Map extends MapInterface {
     this.map = new RBTree();  
   }
   
-   put(key, value) {
+  put(key, value) {
     return this.map.insert(key, value);
   }
   
@@ -21,7 +21,7 @@ class Map extends MapInterface {
   
   keys() {
     // preorder traversal or post order
-    return 1;
+    return this.map.keys();
   }
   
   contains(key) {
