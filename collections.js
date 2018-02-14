@@ -64,12 +64,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMap = __webpack_require__(7);
 	var HashTable = __webpack_require__(8);
 	var HashSet = __webpack_require__(10);
-	var BST = __webpack_require__(11);
-	var Graph = __webpack_require__(14);
-	var Trie = __webpack_require__(15);
-	var HashMultiMap = __webpack_require__(16);
-	var ArrayUtils = __webpack_require__(17);
-	var RBTree = __webpack_require__(18);
+	var BST = __webpack_require__(12);
+	var Graph = __webpack_require__(15);
+	var Trie = __webpack_require__(16);
+	var HashMultiMap = __webpack_require__(17);
+	var ArrayUtils = __webpack_require__(18);
+	var RBTree = __webpack_require__(19);
 
 	// TODO : add ie8 support and maybe load polyfills right here
 
@@ -1546,30 +1546,80 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _HashTable = __webpack_require__(8);
 
 	var _HashTable2 = _interopRequireDefault(_HashTable);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	var _SetInterface2 = __webpack_require__(11);
+
+	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	/**
 	 * HashSet representation
 	 * @class
+	 * @implements SetInterface
 	 * @param {number} [initialCapacity=13] - The initial size of the hashset
 	 *
 	 * @example
 	 * const set = new Collections.HashSet();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE
 	 */
-	var HashSet = function () {
+	var HashSet = function (_SetInterface) {
+	  _inherits(HashSet, _SetInterface);
+
 	  function HashSet(initialCapacity) {
 	    _classCallCheck(this, HashSet);
 
-	    this.set = new _HashTable2['default'](initialCapacity);
+	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
+
+	    _this.set = new _HashTable2["default"](initialCapacity);
+	    return _this;
+	  }
+
+	  HashSet.prototype.add = function add(element) {
+	    return this.set.put(element);
+	  };
+
+	  HashSet.prototype.has = function has(element) {
+	    return this.set.contains(element);
+	  };
+
+	  HashSet.prototype.remove = function remove(element) {
+	    return this.set.remove(element);
+	  };
+
+	  HashSet.prototype.cardinality = function cardinality() {
+	    return this.set.size();
+	  };
+
+	  return HashSet;
+	}(_SetInterface3["default"]);
+
+	module.exports = HashSet;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var SetInterface = function () {
+	  function SetInterface() {
+	    _classCallCheck(this, SetInterface);
+
+	    this.set;
 	  }
 
 	  /**
@@ -1585,9 +1635,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashSet.prototype.add = function add(element) {
-	    return this.set.put(element);
-	  };
+	  SetInterface.prototype.add = function add(element) {};
 
 	  /**
 	   * Updates 'this' with the mathematical set difference of 'this' set and
@@ -1605,7 +1653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashSet.prototype.diff = function diff(thatSet) {
+	  SetInterface.prototype.diff = function diff(thatSet) {
 	    var thatKeys = thatSet.keys();
 	    var context = this;
 	    thatKeys.forEach(function (element) {
@@ -1625,17 +1673,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashSet.prototype.has = function has(element) {
-	    return this.set.contains(element);
-	  };
+	  SetInterface.prototype.has = function has(element) {};
 
 	  /**
-	   * Returns all elements in the set
-	   * @returns {Array} Array with all elements in the set
-	   */
+	  * Returns all elements in the set
+	  * @returns {Array} Array with all elements in the set
+	  */
 
 
-	  HashSet.prototype.keys = function keys() {
+	  SetInterface.prototype.keys = function keys() {
 	    return this.set.keys();
 	  };
 
@@ -1645,9 +1691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashSet.prototype.remove = function remove(element) {
-	    return this.set.remove(element);
-	  };
+	  SetInterface.prototype.remove = function remove(element) {};
 
 	  /**
 	   * Updates 'this' with the mathematical set intersection of 'this' set and
@@ -1665,7 +1709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashSet.prototype.intersect = function intersect(thatSet) {
+	  SetInterface.prototype.intersect = function intersect(thatSet) {
 	    var thisKeys = this.keys();
 	    var context = this;
 	    thisKeys.forEach(function (element) {
@@ -1685,26 +1729,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashSet.prototype.cardinality = function cardinality() {
-	    return this.set.size();
-	  };
+	  SetInterface.prototype.cardinality = function cardinality() {};
 
-	  return HashSet;
+	  return SetInterface;
 	}();
 
-	module.exports = HashSet;
+	module.exports = SetInterface;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _BSTNode = __webpack_require__(12);
+	var _BSTNode = __webpack_require__(13);
 
 	var _BSTNode2 = _interopRequireDefault(_BSTNode);
 
-	var _BSTPrototype = __webpack_require__(13);
+	var _BSTPrototype = __webpack_require__(14);
 
 	var _Util = __webpack_require__(2);
 
@@ -1806,13 +1848,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return (0, _BSTPrototype.BSTInorder)(this.root);
 	  };
 
+	  BST.prototype.keys = function keys() {
+	    return this.inorder().map(function (node) {
+	      return node.key;
+	    });
+	  };
+
 	  return BST;
 	}();
 
 	module.exports = BST;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1832,7 +1880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = BSTNode;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1895,7 +1943,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      curRoot = curRoot.left;
 	    }
 	  }
-	  return null;
 	}
 
 	/**
@@ -1979,7 +2026,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2168,7 +2215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Graph;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2397,7 +2444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Trie;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2468,7 +2515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = HashMultiMap;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2770,18 +2817,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ArrayUtils;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _BSTNode2 = __webpack_require__(12);
+	var _BSTNode2 = __webpack_require__(13);
 
 	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
 
-	var _BSTPrototype = __webpack_require__(13);
+	var _BSTPrototype = __webpack_require__(14);
 
-	var _BST2 = __webpack_require__(11);
+	var _BST2 = __webpack_require__(12);
 
 	var _BST3 = _interopRequireDefault(_BST2);
 
