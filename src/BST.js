@@ -90,6 +90,10 @@ class BST {
   inorder() {
     return BSTInorder(this.root);
   }
+  
+  keys() {
+    return this.inorder().map(node => node.key);
+  }
 }
 
 module.exports = BST;

@@ -57,7 +57,6 @@ function search(root, key) {
       curRoot = curRoot.left;
     }
   }
-  return null;
 }
 
 /**
