@@ -7,19 +7,19 @@ class Set extends SetInterface {
     super();
     this.set = new RBTree(comparator);
   }
-  
+
   add(element) {
     return this.set.insert(element);
   }
-  
+
   has(element) {
     return this.set.contains(element);
   }
-  
+
   remove(element) {
     return this.set.remove(element);
   }
-  
+
   cardinality() {
     return 0;
   }

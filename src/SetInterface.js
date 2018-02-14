@@ -63,8 +63,7 @@ class SetInterface {
   keys() {
     return this.set.keys();
   }
-  
-  
+
   /**
    * Removes an element from the set
    * @returns {boolean} true if @param element was removed and false otherwise

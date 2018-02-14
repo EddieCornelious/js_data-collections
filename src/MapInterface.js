@@ -94,7 +94,7 @@ class MapInterface {
    * newMap.tableSize(); // 13
    */
    size() {
-    return this.map.size();
+     throw new Error("must implement this method"); 
    }
 }
 
