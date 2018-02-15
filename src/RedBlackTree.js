@@ -191,15 +191,20 @@ class RBTree extends BST {
     if (insertedNode) {
       insertedNode.color = 'red';
       insertFix.call(this, insertedNode);
+      this.inserts += 1;
     }
     return this;
   }
 
   remove(key) {
     // successor and child
-    const { succChild, succ } = BSTRemove.call(this, key);
-    if (succ.color === 'black') {
-      deletefixUp.call(this, succChild);
+    const didRemove = BSTRemove.call(this, key);
+    if (didRemove) {
+      const { succChild, succ } = didRemove;
+      if (succ.color === 'black') {
+        deletefixUp.call(this, succChild);
+        this.inserts -= 1;
+      }
     }
     return this;
   }
