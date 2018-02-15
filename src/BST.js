@@ -21,6 +21,7 @@ class BST {
   constructor(comparator) {
     this.root = new BSTNode();
     this.comp = comparator || defaultComp;
+    this.inserts = 0;
   }
 
   /**
@@ -34,7 +35,10 @@ class BST {
   * // ed now maps to kane because ed already existed before.
   */
   insert(key, value) {
-    BSTInsert.call(this, key, value, BSTNode);
+    const inserted = BSTInsert.call(this, key, value, BSTNode);
+    if (inserted) {
+      this.inserts += 1;
+    }
     return this;
   }
 
@@ -49,12 +53,15 @@ class BST {
    * bst.remove("dog"); // this call fails silently as dog never existed in tree
    */
   remove(key) {
-    BSTRemove.call(this, key);
+    const removed = BSTRemove.call(this, key);
+    if (removed) {
+      this.inserts -= 1;
+    }
     return this;
   }
 
   /**
-  * Finds the value associated with given key
+  * Finds the value associated with the given key
   * @param {*} key - The key to search for in BST
   * @returns {(*|undefined)} The value associated with @param key or undefined
   * if not found.
@@ -70,8 +77,8 @@ class BST {
   }
 
   /**
-  * Determines if BST contains the given key
-  * @param {*} key to search for in BST
+  * Determines if the BST contains the given key
+  * @param {*} key - The key to search for
   * @returns {boolean} True if BST contains @param key and false otherwise
   *
   * @example
@@ -84,13 +91,25 @@ class BST {
   }
 
   /**
-  * Gives the inorder traversal of a BST
+  * Gives the inorder traversal of the BST
   * @returns {Array} Array of objects representing the tree
   */
   inorder() {
     return BSTInorder(this.root);
   }
 
+  /**
+   * Reports the number of elements in the BST
+   * @returns {number} Number of elements in the BST
+   */
+  size() {
+    return this.inserts;
+  }
+
+  /**
+   * Gives the keys in the BST
+   * @returns {Array} The key set
+   */
   keys() {
     return this.inorder().map(node => node.key);
   }
