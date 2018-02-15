@@ -1,6 +1,6 @@
 
-import MapInterface from "./MapInterface.js";
-import RBTree from "./RedBlackTree.js";
+import MapInterface from './MapInterface.js';
+import RBTree from './RedBlackTree.js';
 
 /**
  * Map representaion
@@ -11,7 +11,7 @@ import RBTree from "./RedBlackTree.js";
 class Map extends MapInterface {
   constructor(comparator) {
     super();
-    this.map = new RBTree(comparator);  
+    this.map = new RBTree(comparator);
   }
 
   put(key, value) {
