@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>HashMap - Documentation</title>
+    <title>Map - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">HashMap</h1>
+    <h1 class="page-title">Map</h1>
     
 
     
@@ -40,10 +40,10 @@
 <header>
     
         <h2>
-        HashMap
+        Map
         </h2>
         
-            <div class="class-description">HashMap representation</div>
+            <div class="class-description">Map representaion</div>
         
     
 </header>
@@ -57,7 +57,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="HashMap"><span class="type-signature"></span>new HashMap<span class="signature">(initialCapacity<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Map"><span class="type-signature"></span>new Map<span class="signature">(comparator)</span><span class="type-signature"></span></h4>
 
     
 
@@ -118,12 +118,6 @@
 
 
 
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const map = new Collections.HashMap(37);
-// FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE</code></pre>
-
-
 
 
     <h5>Parameters:</h5>
@@ -139,11 +133,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -155,47 +145,23 @@
 
         <tr>
             
-                <td class="name"><code>initialCapacity</code></td>
+                <td class="name"><code>comparator</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">function</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
-                
-                    <code>13</code>
-                
-                </td>
-            
 
-            <td class="description last">Initial size of the hashmap
-IMPORTANT : It is not recommended that you choose a size that will be a
-close or approximate upper bound on your data, so that number
-of rehashes of the inner hashtable will be small. For example, if
-you know you only need 100,000 inserts, a good initial capacity would not be
-approximately 100,000 as the inner hastable will resize once 75,000
-(75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
-which is 112,500 , greater than your space needed.
-So, try something around 150,000. Or you can just rehash a lot :)</td>
+            <td class="description last">@see Global#defaultComparator</td>
         </tr>
 
     
