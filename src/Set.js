@@ -2,6 +2,12 @@
 import SetInterface from './SetInterface';
 import RBTree from './RedBlackTree.js';
 
+/**
+ * Set representaion
+ * @class
+ * @implements SetInterface
+ * @param {function} comparator - @see Global#defaultComparator
+ */
 class Set extends SetInterface {
   constructor(comparator) {
     super();
@@ -21,7 +27,7 @@ class Set extends SetInterface {
   }
 
   cardinality() {
-    return 0;
+    return this.set.size();
   }
 }
 
