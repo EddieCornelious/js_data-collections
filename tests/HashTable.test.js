@@ -2,7 +2,7 @@ const Collections = require("../collections.js");
 var expect = require("chai").expect;
 
 
-describe("HashMap", function() {
+describe("HashTable", function() {
   let map, expected, actual;
 
   beforeEach(function() {
