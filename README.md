@@ -1,4 +1,4 @@
-# Js_Data_Collections
+# Js_Data-Collections
 
 A simple data structure library
 
@@ -17,6 +17,8 @@ A simple data structure library
 * Binary Heap
 * Graph
 * HashMultiMap
+* Set
+* Map
 
 ## Getting Started
 
