@@ -3044,18 +3044,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (insertedNode) {
 	      insertedNode.color = 'red';
 	      insertFix.call(this, insertedNode);
+	      this.inserts += 1;
 	    }
 	    return this;
 	  };
 
 	  RBTree.prototype.remove = function remove(key) {
 	    // successor and child
-	    var _BSTRemove$call = _BSTPrototype.BSTRemove.call(this, key),
-	        succChild = _BSTRemove$call.succChild,
-	        succ = _BSTRemove$call.succ;
+	    var didRemove = _BSTPrototype.BSTRemove.call(this, key);
+	    if (didRemove) {
+	      var succChild = didRemove.succChild,
+	          succ = didRemove.succ;
 
-	    if (succ.color === 'black') {
-	      deletefixUp.call(this, succChild);
+	      if (succ.color === 'black') {
+	        deletefixUp.call(this, succChild);
+	        this.inserts -= 1;
+	      }
 	    }
 	    return this;
 	  };
