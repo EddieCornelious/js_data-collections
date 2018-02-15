@@ -43,7 +43,7 @@ In future releases, I plan to alleviate these compatibility issues
 [Dev](https://rawgit.com/EddieCornelious/Structs-JS/master/collections.js)
 
 ### Minified version
-19kb [Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.min.js)
+[Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.min.js)
 
 
 ## Contributing
