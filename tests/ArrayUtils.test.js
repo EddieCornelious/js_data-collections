@@ -95,7 +95,7 @@ describe("ArrayUtils", function() {
     expect(actual).to.have.ordered.members(expected);
   });
 
-   it("rotate should rotate left for negative numbers", function(){
+  it("rotate should rotate left for negative numbers", function(){
     actual.push("A", "B", "C", "D");
     expected = ["B", "C", "D", "A"];
     ArrayUtils.rotate(actual, -1);
@@ -145,7 +145,7 @@ describe("ArrayUtils", function() {
     expect(actual).to.have.ordered.members(expected);
   });
 
-  it("popMany should once from array", function(){
+  it("popMany once should only pop one element from array", function(){
     actual.push("A", "B", "C");
     expected = ["A", "B"];
     expect(ArrayUtils.popMany(actual, 1)).to.have.ordered.members(expected);
@@ -157,19 +157,19 @@ describe("ArrayUtils", function() {
     expect(ArrayUtils.popMany(actual, 3)).to.have.ordered.members([]);
   });
 
-  it("popMany should pop all items when times to pop is greater than array length", function(){
+  it("popMany should return empty array when times to pop is greater than array length", function(){
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
     expect(ArrayUtils.popMany(actual, 4)).to.have.ordered.members([]);
   });
 
-  it("popMany should not pop anything when times to pop is less than 0", function(){
+  it("popMany should return original array when times to pop is less than 0", function(){
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
     expect(ArrayUtils.popMany(actual, -1)).to.have.ordered.members(expected);
   });
 
-  it("popMany should not pop anything when times to pop is 0", function(){
+  it("popMany should return original array when times to pop is 0", function(){
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
     expect(ArrayUtils.popMany(actual, 0)).to.have.ordered.members(expected);
@@ -203,7 +203,7 @@ describe("ArrayUtils", function() {
 
   it("getRand returns random number in array", function(){
     actual.push("a", "b", "c");
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 50; i += 1) {
       let rand = ArrayUtils.getRand(actual);
       expect(actual.indexOf(rand)).to.not.equal(-1);
     }
