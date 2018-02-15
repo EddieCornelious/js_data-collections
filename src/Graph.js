@@ -79,10 +79,10 @@ class Graph {
 
     const bfs = [];
     const visited = new HashSet(graph.size());
-    let q = new Queue();
-    q.enqueue(startingVertex);
-    while (q.size() !== 0) {
-      let currentVertex = q.dequeue();
+    let queue = new Queue();
+    queue.enqueue(startingVertex);
+    while (queue.size() !== 0) {
+      let currentVertex = queue.dequeue();
 
       if (!visited.has(currentVertex)) {
         visited.add(currentVertex);
@@ -91,7 +91,7 @@ class Graph {
         for (let i = 0; i < currentVertexNeighbors; i += 1) {
           let curNeighbor = graph.getVal(currentVertex)[i].vertex;
           if (!visited.has(curNeighbor)) {
-            q.enqueue(curNeighbor);
+            queue.enqueue(curNeighbor);
           }
         }
       }
@@ -113,10 +113,10 @@ class Graph {
 
     const dfs = [];
     const visited = new HashSet(graph.size());
-    let s = new Stack();
-    s.push(startingVertex);
-    while (s.size() !== 0) {
-      let currentVertex = s.pop();
+    let stack = new Stack();
+    stack.push(startingVertex);
+    while (stack.size() !== 0) {
+      let currentVertex = stack.pop();
 
       if (!visited.has(currentVertex)) {
         visited.add(currentVertex);
@@ -125,7 +125,7 @@ class Graph {
         for (let i = 0; i < currentVertexNeighbors; i += 1) {
           let curNeighbor = graph.getVal(currentVertex)[i].vertex;
           if (!visited.has(curNeighbor)) {
-            s.push(curNeighbor);
+            stack.push(curNeighbor);
           }
         }
       }
@@ -134,7 +134,7 @@ class Graph {
   }
 
   /**
-   * Reports whether a graph is connected
+   * Reports whether the graph is connected
    * @returns {boolean} True if connected and false otherwise
    */
   isConnected() {

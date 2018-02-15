@@ -92,7 +92,7 @@ class BHeap {
    * @example
    * heap.insert(1).insert(2).insert(3).insert(3);
    * // this heap will contain both 3s
-   * 
+   *
    * heap.extractRoot() // will be 3
    */
   insert(data) {
