@@ -36,14 +36,14 @@ In future releases, I plan to alleviate these compatibility issues
 
 ### Production
 
-[Production](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.js)
+[Production](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
 ### Development
 
-[Dev](https://rawgit.com/EddieCornelious/Structs-JS/master/collections.js)
+[Dev](https://rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
 ### Minified version
-[Min](https://cdn.rawgit.com/EddieCornelious/Structs-JS/master/collections.min.js)
+[Min](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.min.js)
 
 
 ## Contributing
