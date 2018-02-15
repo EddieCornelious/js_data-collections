@@ -1,6 +1,7 @@
 import { swap, defaultComp } from './Util.js';
 
 /**
+ * Sifts down (swaps elements downward) the given array
  * @private
  * @param {Array} array - The array to sift down on.
  * @param {number} index - The index to start the sift down operation.
@@ -31,11 +32,12 @@ function heapify(array, index, comp) {
 }
 
 /**
+ * Sifts up (swaps elements upward) the given array
  * @private
  * @param {Array} array - The array to sift up on.
  * @param {number} index - The index to start the sift up operation.
  * @param {function} comp - The comparator to use against parent
- * and child elements.
+ * and child elements
  * @returns {undefined}
  */
 function siftUp(array, index, comp) {
@@ -65,7 +67,7 @@ class BHeap {
   }
 
   /**
-   * Removes the root of the heap and returns the data
+   * Removes the root of the BHeap and returns the data
    * @returns {*} The extracted data
    *
    * @example
@@ -83,14 +85,14 @@ class BHeap {
   }
 
   /**
-   * Inserts the given data into BHeap
-   * @param {*} data - The data to insert into heap.
+   * Inserts the given data into the BHeap
+   * @param {*} data - The data to insert into BHeap.
    * @returns {BHeap} A reference to the instance that this method was called
    *
    * @example
    * heap.insert(1).insert(2).insert(3).insert(3);
    * // this heap will contain both 3s
-   *
+   * 
    * heap.extractRoot() // will be 3
    */
   insert(data) {
@@ -102,7 +104,7 @@ class BHeap {
 
   /**
    * Transforms the BHeap into an array
-   * @returns {Array} The BHeap instance as an array
+   * @returns {Array} The heap instance as an array
    *
    * @example
    * heap.insert(1).insert(2);
