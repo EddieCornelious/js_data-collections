@@ -1,11 +1,12 @@
 import { toString } from './Util.js';
+import MapInterface from './MapInterface.js';
 
 /**
  * From immutable.js implementation of java hashcode
  * https://github.com/facebook/immutable-js/blob/master/src/Hash.js
  * better distribution than fnv hash
  *
- * Returns the hashcode for a string
+ * Returns the hashcode for the given string
  * @private
  * @param {string} str - The string to hash
  * @returns {number} @param str's hashcode
@@ -34,7 +35,7 @@ function mod(dividend, divisor) {
 }
 
 /**
- * Creates a 2 dimensional array of a certain size
+ * Creates a 2 dimensional array of the given size
  * @private
  * @param {number} size - The size of the 2d array
  * @returns {Array} A 1d array with @param size inner arrays
@@ -48,7 +49,7 @@ function createTable(size) {
 }
 
 /**
- * Inserts into a hashtable based on a hashcode of the given key
+ * Inserts into a hashtable based on the hashcode of the given key
  * @private
  * @param {*} key - The key
  * @param {*} value - The value mapped to by key
@@ -65,7 +66,7 @@ function insert(key, value, table) {
 /**
  * Searches a hashtable based on the hashcode of the given key
  * @private
- * @param {*} key - Key to look for
+ * @param {*} key - The key to look for
  * @param {Array} table - Associative Array
  * @returns {Object} Objet literal with the bucket where @param key is found
  * and the index of @param key in that bucket or undefined and -1 if not found
@@ -85,11 +86,11 @@ function search(key, table) {
 }
 
 /**
- * Figures out if a given hashtable should grow larger
+ * Figures out if the given hashtable should grow larger
  * @private
  * @param {number} inserts - The number of items in the table
  * @param {Array} table - Associative Array
- * @returns {boolean} True if table should rehash and false otherwise
+ * @returns {boolean} True if @param table should rehash and false otherwise
  */
 function shouldRehash(inserts, table) {
   const loadFactor = (inserts / table.length);
@@ -99,10 +100,11 @@ function shouldRehash(inserts, table) {
 /**
  * HashTable representation
  * @class
+ * @implements MapInterface
  * @param {number} [initialCapacity=13] - Initial size of the hashtable
  * IMPORTANT : It is not recommended that you choose a size that will be a
  * close or approximate upper bound on your data, so that number
- * of rehashes of the inner hashtable will be small. For example, if
+ * of rehashes of the hashtable will be small. For example, if
  * you know you only need 100,000 inserts, a good initial capacity would not be
  * approximately 100,000 as the hastable will resize once 75,000
  * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
@@ -110,27 +112,16 @@ function shouldRehash(inserts, table) {
  * So, try something around 150,000. Or you can just rehash a lot :)
  *
  * @example
- * const map = new Collections.HashMap(37);
+ * const map = new Collections.HashTable(37);
  * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
  */
-class HashTable {
+class HashTable extends MapInterface {
   constructor(initialCapacity = 13) {
+    super();
     this.inserts = 0;
     this.table = createTable(initialCapacity);
   }
 
-  /**
-   * Inserts given key and value into HashMap
-   * @param {*} key - The key
-   * @param {*} value - The value mapped to by @param key
-   * @returns {boolean} True
-   *
-   * @example
-   * map.put("ed", "jones");
-   * // ed maps to jones
-   * map.put("ed", "james");
-   * // now same ed maps to james
-   */
   put(key = null, value = null) {
     const { table, inserts } = this;
     const searchRes = search(key, table);
@@ -147,31 +138,12 @@ class HashTable {
     return true;
   }
 
-  /**
-   * Retrieves the value mapped to by the given key
-   * @param {*} key - The key to lookup
-   * @returns {*} The value associated with @param key
-   *
-   * @example
-   * map.put(99, "problems");
-   * map.getVal(99); // returns "promblems"
-   */
   getVal(key) {
     const searchRes = search(key, this.table);
     const { bucket, index } = searchRes;
     return index !== -1 ? bucket[index + 1] : undefined;
   }
 
-  /**
-   * Removes the given key and its associated value from the HashMap
-   * @param {*} key - The key to lookup
-   * @returns {boolean} True if the key was removed and false otherwise
-   *
-   * @example
-   * map.put(99, "problems");
-   * map.remove(88); // returns false
-   * map.remove(99); // return true
-   */
   remove(key) {
     const searchRes = search(key, this.table);
     const { bucket, index } = searchRes;
@@ -183,14 +155,6 @@ class HashTable {
     return false;
   }
 
-  /**
-   * Reports whether the HashMap contains the given key
-   * @param {*} key - The key to lookup
-   * @returns {boolean} True if @param key is found and false otherwise
-   *
-   * @example
-   * map.contains("empty"); // return false
-   */
   contains(key) {
     return this.getVal(key) !== undefined;
   }
@@ -213,17 +177,6 @@ class HashTable {
     this.table = newTable;
   }
 
-  /**
-   * Returns all of the keys in the HashTable
-   * @returns {Array} An array of keys
-   *
-   * @example
-   * map.put(1, "b");
-   * map.put(2, "c");
-   * map.put(3, "d");
-   * map.keys() // returns ["a", "b", "c"] permutation (order not guarenteed)
-   * // but presence is
-   */
   keys() {
     const table = this.table;
     const keyArr = [];
@@ -236,25 +189,16 @@ class HashTable {
   }
 
   /**
-   * Returns the size of the inner HashTable
-   * @returns {number} Size of HashTable
+   * Returns the number of buckets in the Associative Array
+   * @returns {number} Size of inner Associative Array
    *
    * @example
-   * new Structs.HashMap().tableSize() // 13 initial value empty args
+   * new Collections.HashTable().tableSize() // 13 initial value empty args
    */
   tableSize() {
     return this.table.length;
   }
 
-  /**
-   * Returns number of elements in the HashTable
-   * @returns {number} The number of insertions
-   *
-   * @example
-   * const newTable = table.put(99, "problems");
-   * newMap.size() // 1
-   * newMap.tableSize(); // 13
-   */
   size() {
     return this.inserts;
   }
