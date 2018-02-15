@@ -9,7 +9,6 @@ class MapInterface {
       throw new Error("cannot instansiate an interface");
         
     }
-    this.map;
   }
 
   /**
@@ -43,7 +42,7 @@ class MapInterface {
   
   
   /**
-   * Removes the given key and its associated value from the HashMap
+   * Removes the given key and its associated value from the Map
    * @param {*} key - The key to lookup
    * @returns {boolean} True if the key was removed and false otherwise
    *
@@ -55,10 +54,9 @@ class MapInterface {
    remove(key) {
      throw new Error("must implement this method"); 
    }
-   
-   
+
   /**
-   * Reports whether the HashMap contains the given key
+   * Reports whether the Map contains the given key
    * @param {*} key - The key to lookup
    * @returns {boolean} True if @param key is found and false otherwise
    *
@@ -68,9 +66,9 @@ class MapInterface {
    contains(key) {
     throw new Error("must implement this method"); 
    }
-   
+
    /**
-   * Returns all of the keys in the HashMap
+   * Returns all of the keys in the Map
    * @returns {Array} An array of keys
    *
    * @example
@@ -85,13 +83,12 @@ class MapInterface {
    }
    
    /**
-   * Returns number of elements in the HashTable
+   * Returns number of elements in the Map
    * @returns {number} The number of insertions
    *
    * @example
-   * const newMap = table.put(99, "problems");
-   * newMap.size() // 1
-   * newMap.tableSize(); // 13
+   * map.put(99, "problems");
+   * map.size() // 1
    */
    size() {
      throw new Error("must implement this method"); 
