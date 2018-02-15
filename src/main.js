@@ -12,8 +12,27 @@ var Trie = require('./Trie.js');
 var HashMultiMap = require('./HashMultiMap.js');
 var ArrayUtils = require('./ArrayUtils.js');
 var RBTree = require('./RedBlackTree.js');
+var Map = require('./Map.js');
+var Set = require('./Set.js');
 
 // TODO : add ie8 support and maybe load polyfills right here
 
-module.exports = { List, Stack, Queue, BHeap, PriorityQueue, HashMap, HashTable, HashMultiMap, HashSet, BST, Graph, Trie, ArrayUtils, RBTree };
+module.exports = {
+   List,
+   Stack,
+   Queue,
+   BHeap,
+   PriorityQueue,
+   HashMap,
+   HashTable,
+   HashMultiMap,
+   HashSet,
+   BST,
+   Graph,
+   Trie,
+   ArrayUtils,
+   RBTree,
+   Map,
+   Set
+};
 
