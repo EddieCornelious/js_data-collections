@@ -5,12 +5,12 @@ import MapInterface from './MapInterface.js';
  * HashMap representation
  * @class
  * @implements MapInterface
- * @param {number} [initialCapacity=13] - Initial size of the hashtable
+ * @param {number} [initialCapacity=13] - Initial size of the hashmap
  * IMPORTANT : It is not recommended that you choose a size that will be a
  * close or approximate upper bound on your data, so that number
  * of rehashes of the inner hashtable will be small. For example, if
  * you know you only need 100,000 inserts, a good initial capacity would not be
- * approximately 100,000 as the hastable will resize once 75,000
+ * approximately 100,000 as the inner hastable will resize once 75,000
  * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
  * which is 112,500 , greater than your space needed.
  * So, try something around 150,000. Or you can just rehash a lot :)
