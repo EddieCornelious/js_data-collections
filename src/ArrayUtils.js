@@ -32,7 +32,7 @@ function lRotate(array, times) {
 }
 
 /**
- * Rotates array elements to the right
+ * Rotates the given array's elements to the right a fixed number of times
  * @private
  * @param {Array} array - The array to rotate
  * @param {number} times -The number of times to rotate right
@@ -66,7 +66,7 @@ class ArrayUtils {
    * @static
    * @param {Array} array - The array to remove elements from
    * @param {number} index - The index to remove from @param array
-   * @returns {Array} Array of elements removed
+   * @returns {Array} Array of removed elements
    *
    * @example
    * const myArray = [1, 2, 3, 4];
@@ -174,7 +174,7 @@ class ArrayUtils {
   /**
    * Removes a random element from the given array
    * @static
-   * @param {Array} array - The array to remove random element from
+   * @param {Array} array - The array to remove a random element from
    * @returns {Array} An array of length 1 containing the element removed
    * from @param array
    *
@@ -228,6 +228,7 @@ class ArrayUtils {
   /**
    * Splits the given array into chunks
    * @param {Array} array - The array to chunk
+   * @param {number} bits - The size of each nested array
    * @throws {TypeError} If @param bits is not a primitive number
    * @returns {Array} A new array split into @param bits
    *
