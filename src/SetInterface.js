@@ -1,5 +1,8 @@
 
-
+/**
+ * Set Interface
+ * @interface
+ */
 class SetInterface {
   constructor() {
     if(this.constructor.name === "SetInterface") {
