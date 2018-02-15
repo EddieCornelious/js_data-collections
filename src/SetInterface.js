@@ -2,9 +2,9 @@
 
 class SetInterface {
   constructor() {
-    this.set;
+    this.set = null;
   }
-  
+
   /**
    * Adds an element to the set. Does nothing if already in set
    * @param {*} element - Element to add to the set
@@ -16,10 +16,8 @@ class SetInterface {
    * set.add(1);
    * // set contains [1, 2] with no guarenteed order
    */
-  add(element) {
-  
-  }
-  
+  add(element) {}
+
   /**
    * Updates 'this' with the mathematical set difference of 'this' set and
    * another set
@@ -41,7 +39,7 @@ class SetInterface {
       context.remove(element);
     });
   }
-  
+
   /**
    * Reports whether the set contains a given value
    * @param {*} element - Element to find
@@ -52,10 +50,8 @@ class SetInterface {
    * set.add(2);
    * set.has(3); // false
    */
-   has(element) {
-  
-   }
-   
+   has(element) {}
+
   /**
   * Returns all elements in the set
   * @returns {Array} Array with all elements in the set
@@ -68,9 +64,8 @@ class SetInterface {
    * Removes an element from the set
    * @returns {boolean} true if @param element was removed and false otherwise
    */
-  remove(element) {
-  }
-  
+  remove(element) {}
+
   /**
    * Updates 'this' with the mathematical set intersection of 'this' set and
    * another set
@@ -94,7 +89,7 @@ class SetInterface {
       }
     });
   }
-  
+
   /**
    * Returns ths size of the set
    *
@@ -103,10 +98,7 @@ class SetInterface {
    * set.add(2);
    * set.cardinality() ; // 2
    */
-  cardinality() {
-  }
-
-  
+  cardinality() {}
 }
 
 module.exports = SetInterface;

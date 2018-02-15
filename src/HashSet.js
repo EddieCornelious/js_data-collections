@@ -1,5 +1,5 @@
 import HashTable from './HashTable.js';
-import SetInterface from "./SetInterface.js";
+import SetInterface from './SetInterface.js';
 
 /**
  * HashSet representation
@@ -16,7 +16,7 @@ class HashSet extends SetInterface {
     super();
     this.set = new HashTable(initialCapacity);
   }
-  
+
   add(element) {
     return this.set.put(element);
   }

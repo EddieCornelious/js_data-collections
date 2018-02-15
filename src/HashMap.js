@@ -1,5 +1,5 @@
-import HashTable from "./HashTable.js";
-import MapInterface from "./MapInterface.js";
+import HashTable from './HashTable.js';
+import MapInterface from './MapInterface.js';
 
 /**
  * HashMap representation
@@ -24,27 +24,27 @@ class HashMap extends MapInterface {
     super();
     this.map = new HashTable(initialCapacity);
   }
-  
+
   put(key, value) {
     return this.map.put(key, value);
   }
-  
+
   getVal(key) {
     return this.map.getVal(key);
   }
-  
+
   remove(key) {
     return this.map.remove(key);
   }
-  
+
   keys() {
     return this.map.keys();
   }
-  
+
   contains(key) {
     return this.map.contains(key);
   }
-  
+
   size() {
     return this.map.size();
   }
