@@ -20,7 +20,6 @@ class Map extends MapInterface {
   }
   
   keys() {
-    // preorder traversal or post order
     return this.map.keys();
   }
   
@@ -29,7 +28,7 @@ class Map extends MapInterface {
   }
   
   size() {
-    return 0;
+    return this.map.size();
   }
  
 }
