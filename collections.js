@@ -70,10 +70,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	var HashMultiMap = __webpack_require__(17);
 	var ArrayUtils = __webpack_require__(18);
 	var RBTree = __webpack_require__(19);
+	var Map = __webpack_require__(20);
+	var Set = __webpack_require__(21);
 
 	// TODO : add ie8 support and maybe load polyfills right here
 
-	module.exports = { List: List, Stack: Stack, Queue: Queue, BHeap: BHeap, PriorityQueue: PriorityQueue, HashMap: HashMap, HashTable: HashTable, HashMultiMap: HashMultiMap, HashSet: HashSet, BST: BST, Graph: Graph, Trie: Trie, ArrayUtils: ArrayUtils, RBTree: RBTree };
+	module.exports = {
+	   List: List,
+	   Stack: Stack,
+	   Queue: Queue,
+	   BHeap: BHeap,
+	   PriorityQueue: PriorityQueue,
+	   HashMap: HashMap,
+	   HashTable: HashTable,
+	   HashMultiMap: HashMultiMap,
+	   HashSet: HashSet,
+	   BST: BST,
+	   Graph: Graph,
+	   Trie: Trie,
+	   ArrayUtils: ArrayUtils,
+	   RBTree: RBTree,
+	   Map: Map,
+	   Set: Set
+	};
 
 /***/ },
 /* 1 */
@@ -787,6 +806,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
+	 * Sifts down (swaps elements downward) the given array
 	 * @private
 	 * @param {Array} array - The array to sift down on.
 	 * @param {number} index - The index to start the sift down operation.
@@ -817,11 +837,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
+	 * Sifts up (swaps elements upward) the given array
 	 * @private
 	 * @param {Array} array - The array to sift up on.
 	 * @param {number} index - The index to start the sift up operation.
 	 * @param {function} comp - The comparator to use against parent
-	 * and child elements.
+	 * and child elements
 	 * @returns {undefined}
 	 */
 	function siftUp(array, index, comp) {
@@ -854,7 +875,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Removes the root of the heap and returns the data
+	   * Removes the root of the BHeap and returns the data
 	   * @returns {*} The extracted data
 	   *
 	   * @example
@@ -876,8 +897,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Inserts the given data into BHeap
-	   * @param {*} data - The data to insert into heap.
+	   * Inserts the given data into the BHeap
+	   * @param {*} data - The data to insert into BHeap.
 	   * @returns {BHeap} A reference to the instance that this method was called
 	   *
 	   * @example
@@ -899,7 +920,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Transforms the BHeap into an array
-	   * @returns {Array} The BHeap instance as an array
+	   * @returns {Array} The heap instance as an array
 	   *
 	   * @example
 	   * heap.insert(1).insert(2);
@@ -1036,7 +1057,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _HashTable = __webpack_require__(8);
 
@@ -1046,7 +1067,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1058,12 +1079,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * HashMap representation
 	 * @class
 	 * @implements MapInterface
-	 * @param {number} [initialCapacity=13] - Initial size of the hashtable
+	 * @param {number} [initialCapacity=13] - Initial size of the hashmap
 	 * IMPORTANT : It is not recommended that you choose a size that will be a
 	 * close or approximate upper bound on your data, so that number
 	 * of rehashes of the inner hashtable will be small. For example, if
 	 * you know you only need 100,000 inserts, a good initial capacity would not be
-	 * approximately 100,000 as the hastable will resize once 75,000
+	 * approximately 100,000 as the inner hastable will resize once 75,000
 	 * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
 	 * which is 112,500 , greater than your space needed.
 	 * So, try something around 150,000. Or you can just rehash a lot :)
@@ -1080,7 +1101,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
 
-	    _this.map = new _HashTable2["default"](initialCapacity);
+	    _this.map = new _HashTable2['default'](initialCapacity);
 	    return _this;
 	  }
 
@@ -1109,7 +1130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return HashMap;
-	}(_MapInterface3["default"]);
+	}(_MapInterface3['default']);
 
 	module.exports = HashMap;
 
@@ -1123,14 +1144,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Util = __webpack_require__(2);
 
+	var _MapInterface2 = __webpack_require__(9);
+
+	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	/**
 	 * From immutable.js implementation of java hashcode
 	 * https://github.com/facebook/immutable-js/blob/master/src/Hash.js
 	 * better distribution than fnv hash
 	 *
-	 * Returns the hashcode for a string
+	 * Returns the hashcode for the given string
 	 * @private
 	 * @param {string} str - The string to hash
 	 * @returns {number} @param str's hashcode
@@ -1159,7 +1190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Creates a 2 dimensional array of a certain size
+	 * Creates a 2 dimensional array of the given size
 	 * @private
 	 * @param {number} size - The size of the 2d array
 	 * @returns {Array} A 1d array with @param size inner arrays
@@ -1173,7 +1204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Inserts into a hashtable based on a hashcode of the given key
+	 * Inserts into a hashtable based on the hashcode of the given key
 	 * @private
 	 * @param {*} key - The key
 	 * @param {*} value - The value mapped to by key
@@ -1190,7 +1221,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Searches a hashtable based on the hashcode of the given key
 	 * @private
-	 * @param {*} key - Key to look for
+	 * @param {*} key - The key to look for
 	 * @param {Array} table - Associative Array
 	 * @returns {Object} Objet literal with the bucket where @param key is found
 	 * and the index of @param key in that bucket or undefined and -1 if not found
@@ -1210,11 +1241,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Figures out if a given hashtable should grow larger
+	 * Figures out if the given hashtable should grow larger
 	 * @private
 	 * @param {number} inserts - The number of items in the table
 	 * @param {Array} table - Associative Array
-	 * @returns {boolean} True if table should rehash and false otherwise
+	 * @returns {boolean} True if @param table should rehash and false otherwise
 	 */
 	function shouldRehash(inserts, table) {
 	  var loadFactor = inserts / table.length;
@@ -1224,10 +1255,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * HashTable representation
 	 * @class
+	 * @implements MapInterface
 	 * @param {number} [initialCapacity=13] - Initial size of the hashtable
 	 * IMPORTANT : It is not recommended that you choose a size that will be a
 	 * close or approximate upper bound on your data, so that number
-	 * of rehashes of the inner hashtable will be small. For example, if
+	 * of rehashes of the hashtable will be small. For example, if
 	 * you know you only need 100,000 inserts, a good initial capacity would not be
 	 * approximately 100,000 as the hastable will resize once 75,000
 	 * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
@@ -1235,33 +1267,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * So, try something around 150,000. Or you can just rehash a lot :)
 	 *
 	 * @example
-	 * const map = new Collections.HashMap(37);
+	 * const map = new Collections.HashTable(37);
 	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
-	var HashTable = function () {
+	var HashTable = function (_MapInterface) {
+	  _inherits(HashTable, _MapInterface);
+
 	  function HashTable() {
 	    var initialCapacity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 13;
 
 	    _classCallCheck(this, HashTable);
 
-	    this.inserts = 0;
-	    this.table = createTable(initialCapacity);
+	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+
+	    _this.inserts = 0;
+	    _this.table = createTable(initialCapacity);
+	    return _this;
 	  }
-
-	  /**
-	   * Inserts given key and value into HashMap
-	   * @param {*} key - The key
-	   * @param {*} value - The value mapped to by @param key
-	   * @returns {boolean} True
-	   *
-	   * @example
-	   * map.put("ed", "jones");
-	   * // ed maps to jones
-	   * map.put("ed", "james");
-	   * // now same ed maps to james
-	   */
-
 
 	  HashTable.prototype.put = function put() {
 	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1285,17 +1308,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return true;
 	  };
 
-	  /**
-	   * Retrieves the value mapped to by the given key
-	   * @param {*} key - The key to lookup
-	   * @returns {*} The value associated with @param key
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.getVal(99); // returns "promblems"
-	   */
-
-
 	  HashTable.prototype.getVal = function getVal(key) {
 	    var searchRes = search(key, this.table);
 	    var bucket = searchRes.bucket,
@@ -1303,18 +1315,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return index !== -1 ? bucket[index + 1] : undefined;
 	  };
-
-	  /**
-	   * Removes the given key and its associated value from the HashMap
-	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if the key was removed and false otherwise
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.remove(88); // returns false
-	   * map.remove(99); // return true
-	   */
-
 
 	  HashTable.prototype.remove = function remove(key) {
 	    var searchRes = search(key, this.table);
@@ -1328,16 +1328,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return false;
 	  };
-
-	  /**
-	   * Reports whether the HashMap contains the given key
-	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if @param key is found and false otherwise
-	   *
-	   * @example
-	   * map.contains("empty"); // return false
-	   */
-
 
 	  HashTable.prototype.contains = function contains(key) {
 	    return this.getVal(key) !== undefined;
@@ -1363,19 +1353,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.table = newTable;
 	  };
 
-	  /**
-	   * Returns all of the keys in the HashTable
-	   * @returns {Array} An array of keys
-	   *
-	   * @example
-	   * map.put(1, "b");
-	   * map.put(2, "c");
-	   * map.put(3, "d");
-	   * map.keys() // returns ["a", "b", "c"] permutation (order not guarenteed)
-	   * // but presence is
-	   */
-
-
 	  HashTable.prototype.keys = function keys() {
 	    var table = this.table;
 	    var keyArr = [];
@@ -1388,11 +1365,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns the size of the inner HashTable
-	   * @returns {number} Size of HashTable
+	   * Returns the number of buckets in the Associative Array
+	   * @returns {number} Size of inner Associative Array
 	   *
 	   * @example
-	   * new Structs.HashMap().tableSize() // 13 initial value empty args
+	   * new Collections.HashTable().tableSize() // 13 initial value empty args
 	   */
 
 
@@ -1400,23 +1377,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.table.length;
 	  };
 
-	  /**
-	   * Returns number of elements in the HashTable
-	   * @returns {number} The number of insertions
-	   *
-	   * @example
-	   * const newTable = table.put(99, "problems");
-	   * newMap.size() // 1
-	   * newMap.tableSize(); // 13
-	   */
-
-
 	  HashTable.prototype.size = function size() {
 	    return this.inserts;
 	  };
 
 	  return HashTable;
-	}();
+	}(_MapInterface3['default']);
 
 	module.exports = HashTable;
 
@@ -1439,7 +1405,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.constructor.name === "MapInterface") {
 	      throw new Error("cannot instansiate an interface");
 	    }
-	    this.map;
 	  }
 
 	  /**
@@ -1476,7 +1441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Removes the given key and its associated value from the HashMap
+	   * Removes the given key and its associated value from the Map
 	   * @param {*} key - The key to lookup
 	   * @returns {boolean} True if the key was removed and false otherwise
 	   *
@@ -1492,7 +1457,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Reports whether the HashMap contains the given key
+	   * Reports whether the Map contains the given key
 	   * @param {*} key - The key to lookup
 	   * @returns {boolean} True if @param key is found and false otherwise
 	   *
@@ -1506,7 +1471,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Returns all of the keys in the HashMap
+	  * Returns all of the keys in the Map
 	  * @returns {Array} An array of keys
 	  *
 	  * @example
@@ -1523,18 +1488,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Returns number of elements in the HashTable
+	  * Returns number of elements in the Map
 	  * @returns {number} The number of insertions
 	  *
 	  * @example
-	  * const newMap = table.put(99, "problems");
-	  * newMap.size() // 1
-	  * newMap.tableSize(); // 13
+	  * map.put(99, "problems");
+	  * map.size() // 1
 	  */
 
 
 	  MapInterface.prototype.size = function size() {
-	    return this.map.size();
+	    throw new Error("must implement this method");
 	  };
 
 	  return MapInterface;
@@ -1546,7 +1510,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _HashTable = __webpack_require__(8);
 
@@ -1556,7 +1520,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1582,7 +1546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
 
-	    _this.set = new _HashTable2["default"](initialCapacity);
+	    _this.set = new _HashTable2['default'](initialCapacity);
 	    return _this;
 	  }
 
@@ -1603,7 +1567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return HashSet;
-	}(_SetInterface3["default"]);
+	}(_SetInterface3['default']);
 
 	module.exports = HashSet;
 
@@ -1615,11 +1579,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/**
+	 * Set Interface
+	 * @interface
+	 */
 	var SetInterface = function () {
 	  function SetInterface() {
 	    _classCallCheck(this, SetInterface);
 
-	    this.set;
+	    if (this.constructor.name === "SetInterface") {
+	      throw new Error("cannot instansiate an interface");
+	    }
 	  }
 
 	  /**
@@ -1631,16 +1601,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * set.add(1);
 	   * set.add(2);
 	   * set.add(1);
-	   * // set contains [1, 2] with no guarenteed order
+	   * // set contains [1, 2] order might not be guareenteed
 	   */
 
 
-	  SetInterface.prototype.add = function add(element) {};
+	  SetInterface.prototype.add = function add(element) {
+	    throw new Error("must implement this method");
+	  };
 
 	  /**
 	   * Updates 'this' with the mathematical set difference of 'this' set and
 	   * another set
-	   * @param {HashSet} thatSet - another HashSet instance
+	   * @param {Set} Set - another set instance
 	   * @returns {undefined}
 	   *
 	   * @example
@@ -1663,7 +1635,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Reports whether the set contains a given value
-	   * @param {*} element - Element to find
+	   * @param {*} element - The element to find
 	   * @returns {boolean} True if set contains @param element and false otherwise
 	   *
 	   * @example
@@ -1673,7 +1645,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.has = function has(element) {};
+	  SetInterface.prototype.has = function has(element) {
+	    throw new Error("must implement this method");
+	  };
 
 	  /**
 	  * Returns all elements in the set
@@ -1691,18 +1665,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.remove = function remove(element) {};
+	  SetInterface.prototype.remove = function remove(element) {
+	    throw new Error("must implement this method");
+	  };
 
 	  /**
 	   * Updates 'this' with the mathematical set intersection of 'this' set and
 	   * another set
-	   * @param {HashSet} thatSet - another HashSet instance
+	   * @param {Set} thatSet - another Set instance
 	   * @returns {undefined}
 	   *
 	   * @example
 	   * set.add(1);
 	   * set.add(2);
-	   * set2 = new Structs.HashSet();
+	   * set2 = new Collections.HashSet();
 	   * set2.add(2);
 	   * set.intersect(set2);
 	   * // set1 is now [2] and set2 is unchanged
@@ -1729,7 +1705,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.cardinality = function cardinality() {};
+	  SetInterface.prototype.cardinality = function cardinality() {
+	    throw new Error("must implement this method");
+	  };
 
 	  return SetInterface;
 	}();
@@ -1768,6 +1746,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.root = new _BSTNode2['default']();
 	    this.comp = comparator || _Util.defaultComp;
+	    this.inserts = 0;
 	  }
 
 	  /**
@@ -1783,7 +1762,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.insert = function insert(key, value) {
-	    _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
+	    var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
+	    if (inserted) {
+	      this.inserts += 1;
+	    }
 	    return this;
 	  };
 
@@ -1800,12 +1782,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.remove = function remove(key) {
-	    _BSTPrototype.BSTRemove.call(this, key);
+	    var removed = _BSTPrototype.BSTRemove.call(this, key);
+	    if (removed) {
+	      this.inserts -= 1;
+	    }
 	    return this;
 	  };
 
 	  /**
-	  * Finds the value associated with given key
+	  * Finds the value associated with the given key
 	  * @param {*} key - The key to search for in BST
 	  * @returns {(*|undefined)} The value associated with @param key or undefined
 	  * if not found.
@@ -1823,8 +1808,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Determines if BST contains the given key
-	  * @param {*} key to search for in BST
+	  * Determines if the BST contains the given key
+	  * @param {*} key - The key to search for
 	  * @returns {boolean} True if BST contains @param key and false otherwise
 	  *
 	  * @example
@@ -1839,7 +1824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Gives the inorder traversal of a BST
+	  * Gives the inorder traversal of the BST
 	  * @returns {Array} Array of objects representing the tree
 	  */
 
@@ -1847,6 +1832,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BST.prototype.inorder = function inorder() {
 	    return (0, _BSTPrototype.BSTInorder)(this.root);
 	  };
+
+	  /**
+	   * Reports the number of elements in the BST
+	   * @returns {number} Number of elements in the BST
+	   */
+
+
+	  BST.prototype.size = function size() {
+	    return this.inserts;
+	  };
+
+	  /**
+	   * Gives the keys in the BST
+	   * @returns {Array} The key set
+	   */
+
 
 	  BST.prototype.keys = function keys() {
 	    return this.inorder().map(function (node) {
@@ -2139,10 +2140,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var bfs = [];
 	    var visited = new _HashSet2['default'](graph.size());
-	    var q = new _Queue2['default']();
-	    q.enqueue(startingVertex);
-	    while (q.size() !== 0) {
-	      var currentVertex = q.dequeue();
+	    var queue = new _Queue2['default']();
+	    queue.enqueue(startingVertex);
+	    while (queue.size() !== 0) {
+	      var currentVertex = queue.dequeue();
 
 	      if (!visited.has(currentVertex)) {
 	        visited.add(currentVertex);
@@ -2151,7 +2152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
 	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
 	          if (!visited.has(curNeighbor)) {
-	            q.enqueue(curNeighbor);
+	            queue.enqueue(curNeighbor);
 	          }
 	        }
 	      }
@@ -2175,10 +2176,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var dfs = [];
 	    var visited = new _HashSet2['default'](graph.size());
-	    var s = new _Stack2['default']();
-	    s.push(startingVertex);
-	    while (s.size() !== 0) {
-	      var currentVertex = s.pop();
+	    var stack = new _Stack2['default']();
+	    stack.push(startingVertex);
+	    while (stack.size() !== 0) {
+	      var currentVertex = stack.pop();
 
 	      if (!visited.has(currentVertex)) {
 	        visited.add(currentVertex);
@@ -2187,7 +2188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
 	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
 	          if (!visited.has(curNeighbor)) {
-	            s.push(curNeighbor);
+	            stack.push(curNeighbor);
 	          }
 	        }
 	      }
@@ -2196,7 +2197,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Reports whether a graph is connected
+	   * Reports whether the graph is connected
 	   * @returns {boolean} True if connected and false otherwise
 	   */
 
@@ -2483,7 +2484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Inserts given key and value into HashMultiMap
 	   * @param {*} key - The key
-	   * @param {*} value - Value mapped to by @param key
+	   * @param {*} value - The value mapped to by @param key
 	   * @returns {boolean} True
 	   *
 	   * @example
@@ -2556,7 +2557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Rotates array elements to the right
+	 * Rotates the given array's elements to the right a fixed number of times
 	 * @private
 	 * @param {Array} array - The array to rotate
 	 * @param {number} times -The number of times to rotate right
@@ -2593,7 +2594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @static
 	   * @param {Array} array - The array to remove elements from
 	   * @param {number} index - The index to remove from @param array
-	   * @returns {Array} Array of elements removed
+	   * @returns {Array} Array of removed elements
 	   *
 	   * @example
 	   * const myArray = [1, 2, 3, 4];
@@ -2729,7 +2730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Removes a random element from the given array
 	   * @static
-	   * @param {Array} array - The array to remove random element from
+	   * @param {Array} array - The array to remove a random element from
 	   * @returns {Array} An array of length 1 containing the element removed
 	   * from @param array
 	   *
@@ -2789,6 +2790,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Splits the given array into chunks
 	   * @param {Array} array - The array to chunk
+	   * @param {number} bits - The size of each nested array
 	   * @throws {TypeError} If @param bits is not a primitive number
 	   * @returns {Array} A new array split into @param bits
 	   *
@@ -3062,6 +3064,136 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_BST3['default']);
 
 	module.exports = RBTree;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _MapInterface2 = __webpack_require__(9);
+
+	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
+
+	var _RedBlackTree = __webpack_require__(19);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Map representaion
+	 * @class
+	 * @implements MapInterface
+	 * @param {function} comparator - @see Global#defaultComparator
+	 */
+	var Map = function (_MapInterface) {
+	  _inherits(Map, _MapInterface);
+
+	  function Map(comparator) {
+	    _classCallCheck(this, Map);
+
+	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+
+	    _this.map = new _RedBlackTree2['default'](comparator);
+	    return _this;
+	  }
+
+	  Map.prototype.put = function put(key, value) {
+	    return this.map.insert(key, value);
+	  };
+
+	  Map.prototype.getVal = function getVal(key) {
+	    return this.map.find(key);
+	  };
+
+	  Map.prototype.remove = function remove(key) {
+	    return this.map.remove(key);
+	  };
+
+	  Map.prototype.keys = function keys() {
+	    return this.map.keys();
+	  };
+
+	  Map.prototype.contains = function contains(key) {
+	    return this.map.contains(key);
+	  };
+
+	  Map.prototype.size = function size() {
+	    return this.map.size();
+	  };
+
+	  return Map;
+	}(_MapInterface3['default']);
+
+	module.exports = Map;
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _SetInterface2 = __webpack_require__(11);
+
+	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
+
+	var _RedBlackTree = __webpack_require__(19);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Set representaion
+	 * @class
+	 * @implements SetInterface
+	 * @param {function} comparator - @see Global#defaultComparator
+	 */
+	var Set = function (_SetInterface) {
+	  _inherits(Set, _SetInterface);
+
+	  function Set(comparator) {
+	    _classCallCheck(this, Set);
+
+	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
+
+	    _this.set = new _RedBlackTree2['default'](comparator);
+	    return _this;
+	  }
+
+	  Set.prototype.add = function add(element) {
+	    return this.set.insert(element);
+	  };
+
+	  Set.prototype.has = function has(element) {
+	    return this.set.contains(element);
+	  };
+
+	  Set.prototype.remove = function remove(element) {
+	    return this.set.remove(element);
+	  };
+
+	  Set.prototype.cardinality = function cardinality() {
+	    return this.set.size();
+	  };
+
+	  return Set;
+	}(_SetInterface3['default']);
+
+	module.exports = Set;
 
 /***/ }
 /******/ ])
