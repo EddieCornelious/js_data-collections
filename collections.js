@@ -3110,7 +3110,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  Map.prototype.put = function put(key, value) {
-	    return this.map.insert(key, value);
+	    this.map.insert(key, value);
+	    return this;
 	  };
 
 	  Map.prototype.getVal = function getVal(key) {
@@ -3118,7 +3119,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Map.prototype.remove = function remove(key) {
-	    return this.map.remove(key);
+	    this.map.remove(key);
+	    return this;
 	  };
 
 	  Map.prototype.keys = function keys() {
@@ -3179,7 +3181,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  Set.prototype.add = function add(element) {
-	    return this.set.insert(element);
+	    this.set.insert(element);
+	    return this;
 	  };
 
 	  Set.prototype.has = function has(element) {
@@ -3187,7 +3190,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Set.prototype.remove = function remove(element) {
-	    return this.set.remove(element);
+	    this.set.remove(element);
+	    return this;
 	  };
 
 	  Set.prototype.cardinality = function cardinality() {
