@@ -15,7 +15,8 @@ class Map extends MapInterface {
   }
 
   put(key, value) {
-    return this.map.insert(key, value);
+    this.map.insert(key, value);
+    return this;
   }
 
   getVal(key) {
@@ -23,7 +24,8 @@ class Map extends MapInterface {
   }
 
   remove(key) {
-    return this.map.remove(key);
+    this.map.remove(key);
+    return this;
   }
 
   keys() {
