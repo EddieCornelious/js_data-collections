@@ -15,7 +15,8 @@ class Set extends SetInterface {
   }
 
   add(element) {
-    return this.set.insert(element);
+    this.set.insert(element);
+    return this;
   }
 
   has(element) {
@@ -23,7 +24,8 @@ class Set extends SetInterface {
   }
 
   remove(element) {
-    return this.set.remove(element);
+    this.set.remove(element);
+    return this;
   }
 
   cardinality() {
