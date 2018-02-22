@@ -3223,13 +3223,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  Set.prototype.add = function add(element) {
-	    this.set.insert(element);
-	    return this;
+	    this.set.insert(element, 1);
+	    return true;
 	  };
 
 	  Set.prototype.has = function has(element) {
 	    return this.set.contains(element);
 	  };
+
+	  /**
+	   * Removes an element from the set
+	   * @returns {Set} The instance this method was called
+	   */
+
 
 	  Set.prototype.remove = function remove(element) {
 	    this.set.remove(element);
