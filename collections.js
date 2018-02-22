@@ -437,7 +437,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Empties the called instance
+	   * Empties the List
 	   * @returns {undefined}
 	   */
 
@@ -449,8 +449,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns the size of the linked list
-	   * @returns {number} The size of the linked list
+	   * Returns the size of the List
+	   * @returns {number} The size of the List
 	   */
 
 
@@ -655,7 +655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {Stack} The instance this method was called
 	   *
 	   * @example
-	   * stack.push(1).push(2);
+	   * stack.push(1).push(2); // <2, 1>
 	   */
 
 
@@ -669,8 +669,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {*} The reomved data
 	   *
 	   * @example
-	   * // FROM example above
-	   * stack.pop(); // result is 2
+	   * stack.push(1).push(2).push(3);
+	   * stack.pop(); // 3
 	   */
 
 
@@ -680,16 +680,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Reports but does not remove the staged element to be removed next
-	   * @returns {*} Element staged to be removed next
+	   * @returns {*} The element staged to be removed next
 	   *
 	   * @example
-	   * stack.enqueue(1);
-	   * queue.peek() // returns 1 but does not remove it
+	   * stack.push(1);
+	   * stack.peek() // returns 1 but does not remove it
 	   */
 
 
 	  Stack.prototype.peek = function peek() {
 	    return this.stack.elementAtIndex(0);
+	  };
+
+	  /**
+	   * Empties the Stack
+	   * @returns {undefined}
+	   */
+
+
+	  Stack.prototype.clear = function clear() {
+	    return this.stack.clear();
 	  };
 
 	  /**
@@ -735,7 +745,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Inserts given data into queue
-	   * @param {*} data - Data to insert into queue
+	   * @param {*} data - The data to insert into queue
 	   * @returns {Queue} The instance that this method was called
 	   *
 	   * @example
@@ -745,18 +755,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  Queue.prototype.enqueue = function enqueue(data) {
-	    var queue = this.queue;
-
-	    queue.addToBack(data);
+	    this.queue.addToBack(data);
 	    return this;
 	  };
 
 	  /**
-	   * Removes from queue in a First in first out manner
+	   * Removes from the queue in a first in first out manner
 	   * @returns {*} The removed data
 	   * @example
-	   * // FROM example above
-	   * queue.dequeue() // 1 as it was inserted first
+	   * queue.enqueue(1).enqueue(2);
+	   * queue.dequeue() // 1
 	   */
 
 
@@ -775,9 +783,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  Queue.prototype.peek = function peek() {
-	    var queue = this.queue;
+	    return this.queue.elementAtIndex(0);
+	  };
 
-	    return queue.elementAtIndex(0);
+	  /**
+	   * Empties the Queue
+	   * @returns {undefined}
+	   */
+
+
+	  Queue.prototype.clear = function clear() {
+	    return this.queue.clear();
 	  };
 
 	  /**
@@ -944,6 +960,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BHeap.prototype.size = function size() {
 	    return this.heap.length - 1;
 	  };
+	  /**
+	   * Empties the Heap
+	   * @returns {undefined}
+	   */
+
+
+	  BHeap.prototype.clear = function clear() {
+	    this.heap.length = 1;
+	  };
 
 	  return BHeap;
 	}();
@@ -1015,10 +1040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  PriorityQueue.prototype.enqueue = function enqueue(data, priority) {
 	    (0, _Util.isNumber)(priority);
-
-	    var queue = this.queue;
-
-	    return queue.insert({ data: data, priority: priority });
+	    return this.queue.insert({ data: data, priority: priority });
 	  };
 
 	  /**
@@ -1043,9 +1065,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  PriorityQueue.prototype.size = function size() {
-	    var queue = this.queue;
+	    return this.queue.size();
+	  };
 
-	    return queue.size();
+	  /**
+	  * Removes all elements from the PriorityQueue
+	  * @returns {undefined}
+	  */
+
+
+	  PriorityQueue.prototype.clear = function clear() {
+	    return this.queue.clear();
 	  };
 
 	  return PriorityQueue;
@@ -1091,7 +1121,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @example
 	 * const map = new Collections.HashMap(37);
-	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var HashMap = function (_MapInterface) {
 	  _inherits(HashMap, _MapInterface);
@@ -1342,10 +1371,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  HashTable.prototype.rehash = function rehash() {
 	    var oldTable = this.table;
 	    var newTable = createTable(oldTable.length * 2);
-	    for (var i = 0; i < oldTable.length; i += 1) {
-	      for (var j = 0; j < oldTable[i].length; j += 2) {
-	        var oldKey = oldTable[i][j];
-	        var oldValue = oldTable[i][j + 1];
+	    var oldLen = oldTable.length;
+
+	    for (var i = 0; i < oldLen; i += 1) {
+	      var currentBucket = oldTable[i];
+	      for (var j = 0; j < currentBucket.length; j += 2) {
+	        var oldKey = currentBucket[j];
+	        var oldValue = currentBucket[j + 1];
 	        insert(oldKey, oldValue, newTable);
 	      }
 	    }
@@ -1356,9 +1388,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  HashTable.prototype.keys = function keys() {
 	    var table = this.table;
 	    var keyArr = [];
-	    for (var i = 0; i < table.length; i += 1) {
-	      for (var j = 0; j < table[i].length; j += 2) {
-	        keyArr.push(table[i][j]);
+	    var tableLen = table.length;
+	    for (var i = 0; i < tableLen; i += 1) {
+	      var currentBucket = table[i];
+	      for (var j = 0; j < currentBucket.length; j += 2) {
+	        keyArr.push(currentBucket[j]);
 	      }
 	    }
 	    return keyArr;
@@ -1408,7 +1442,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Inserts given key and value into the Map
+	   * Inserts the given key and value into the Map
 	   * @param {*} key - The key
 	   * @param {*} value - The value mapped to by @param key
 	   * @returns {boolean} True
@@ -1417,7 +1451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * map.put("ed", "jones");
 	   * // ed maps to jones
 	   * map.put("ed", "james");
-	   * // now same ed maps to james
+	   * // now same ed maps to james and not jones
 	   */
 
 
@@ -1478,8 +1512,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * map.put(1, "b");
 	  * map.put(2, "c");
 	  * map.put(3, "d");
-	  * map.keys() // returns ["a", "b", "c"] permutation (order not guarenteed)
-	  * // but presence is
+	  * map.keys() // returns ["a", "b", "c"] permutation (order may 
+	  * or may not be guarenteed)
 	  */
 
 
@@ -1536,7 +1570,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @example
 	 * const set = new Collections.HashSet();
-	 * // FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE
 	 */
 	var HashSet = function (_SetInterface) {
 	  _inherits(HashSet, _SetInterface);
@@ -1560,6 +1593,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  HashSet.prototype.remove = function remove(element) {
 	    return this.set.remove(element);
+	  };
+
+	  HashSet.prototype.keys = function keys() {
+	    return this.set.keys();
 	  };
 
 	  HashSet.prototype.cardinality = function cardinality() {
@@ -1618,7 +1655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @example
 	   * set.add(1);
 	   * set.add(2);
-	   * set2 = new Structs.HashSet();
+	   * set2 = new <Another Set>
 	   * set2.add(2);
 	   * set.diff(set2);
 	   * // set is now [1] and set2 is unchanged
@@ -1656,7 +1693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  SetInterface.prototype.keys = function keys() {
-	    return this.set.keys();
+	    throw new Error("must implement this method");
 	  };
 
 	  /**
@@ -2578,9 +2615,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Various utility methods that can be called with arrays
 	 * @class
-	 * @namespace Collections
 	 * @static
-	 * 
 	 *
 	 * @example
 	 * const arrayMethods = Collections.ArrayUtils;
@@ -2592,7 +2627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } // eslint-disable-line no-empty-function
 
 	  /**
-	   * Removes an element at the given position in the given array
+	   * Removes the element at the given position in the given array
 	   * @static
 	   * @param {Array} array - The array to remove elements from
 	   * @param {number} index - The index to remove from @param array
@@ -3026,7 +3061,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
 	 * const bst = new Collections.RBTree();
-	 * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
 	var RBTree = function (_BST) {
@@ -3098,6 +3132,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 * @implements MapInterface
 	 * @param {function} comparator - @see Global#defaultComparator
+	 *
+	 * @example
+	 * const map = new Collections.Map();
 	 */
 	var Map = function (_MapInterface) {
 	  _inherits(Map, _MapInterface);
@@ -3169,6 +3206,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @class
 	 * @implements SetInterface
 	 * @param {function} comparator - @see Global#defaultComparator
+	 *
+	 * @example
+	 * const set = new Collections.Set();
 	 */
 	var Set = function (_SetInterface) {
 	  _inherits(Set, _SetInterface);
@@ -3194,6 +3234,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Set.prototype.remove = function remove(element) {
 	    this.set.remove(element);
 	    return this;
+	  };
+
+	  Set.prototype.keys = function keys() {
+	    return this.set.keys();
 	  };
 
 	  Set.prototype.cardinality = function cardinality() {
