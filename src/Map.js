@@ -7,6 +7,9 @@ import RBTree from './RedBlackTree.js';
  * @class
  * @implements MapInterface
  * @param {function} comparator - @see Global#defaultComparator
+ *
+ * @example
+ * const map = new Collections.Map();
  */
 class Map extends MapInterface {
   constructor(comparator) {
