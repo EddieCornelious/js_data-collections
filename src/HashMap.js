@@ -17,7 +17,6 @@ import MapInterface from './MapInterface.js';
  *
  * @example
  * const map = new Collections.HashMap(37);
- * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
  */
 class HashMap extends MapInterface {
   constructor(initialCapacity) {
