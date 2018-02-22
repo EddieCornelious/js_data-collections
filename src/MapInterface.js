@@ -12,7 +12,7 @@ class MapInterface {
   }
 
   /**
-   * Inserts given key and value into the Map
+   * Inserts the given key and value into the Map
    * @param {*} key - The key
    * @param {*} value - The value mapped to by @param key
    * @returns {boolean} True
@@ -21,7 +21,7 @@ class MapInterface {
    * map.put("ed", "jones");
    * // ed maps to jones
    * map.put("ed", "james");
-   * // now same ed maps to james
+   * // now same ed maps to james and not jones
    */
   put(key, value) {
     throw new Error("must implement this method");
@@ -75,8 +75,8 @@ class MapInterface {
    * map.put(1, "b");
    * map.put(2, "c");
    * map.put(3, "d");
-   * map.keys() // returns ["a", "b", "c"] permutation (order not guarenteed)
-   * // but presence is
+   * map.keys() // returns ["a", "b", "c"] permutation (order may 
+   * or may not be guarenteed)
    */
    keys() {
      throw new Error("must implement this method");   
