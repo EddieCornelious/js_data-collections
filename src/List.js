@@ -298,7 +298,7 @@ class List {
   }
 
   /**
-   * Empties the called instance
+   * Empties the List
    * @returns {undefined}
    */
   clear() {
@@ -308,8 +308,8 @@ class List {
   }
 
   /**
-   * Returns the size of the linked list
-   * @returns {number} The size of the linked list
+   * Returns the size of the List
+   * @returns {number} The size of the List
    */
   size() {
     return this.length;
