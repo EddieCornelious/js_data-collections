@@ -28,6 +28,10 @@ class HashSet extends SetInterface {
     return this.set.remove(element);
   }
 
+  keys() {
+    return this.set.keys();
+  }
+
   cardinality() {
     return this.set.size();
   }
