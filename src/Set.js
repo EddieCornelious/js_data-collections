@@ -7,6 +7,9 @@ import RBTree from './RedBlackTree.js';
  * @class
  * @implements SetInterface
  * @param {function} comparator - @see Global#defaultComparator
+ *
+ * @example
+ * const set = new Collections.Set();
  */
 class Set extends SetInterface {
   constructor(comparator) {
@@ -26,6 +29,10 @@ class Set extends SetInterface {
   remove(element) {
     this.set.remove(element);
     return this;
+  }
+
+  keys() {
+    return this.set.keys();
   }
 
   cardinality() {
