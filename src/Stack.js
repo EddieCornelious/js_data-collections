@@ -19,7 +19,7 @@ class Stack {
    * @returns {Stack} The instance this method was called
    *
    * @example
-   * stack.push(1).push(2);
+   * stack.push(1).push(2); // <2, 1>
    */
   push(data) {
     this.stack.addToFront(data);
@@ -31,8 +31,8 @@ class Stack {
    * @returns {*} The reomved data
    *
    * @example
-   * // FROM example above
-   * stack.pop(); // result is 2
+   * stack.push(1).push(2).push(3);
+   * stack.pop(); // 3
    */
   pop() {
     return this.stack.removeFront();
@@ -40,14 +40,22 @@ class Stack {
 
   /**
    * Reports but does not remove the staged element to be removed next
-   * @returns {*} Element staged to be removed next
+   * @returns {*} The element staged to be removed next
    *
    * @example
-   * stack.enqueue(1);
-   * queue.peek() // returns 1 but does not remove it
+   * stack.push(1);
+   * stack.peek() // returns 1 but does not remove it
    */
   peek() {
     return this.stack.elementAtIndex(0);
+  }
+
+  /**
+   * Empties the Stack
+   * @returns {undefined}
+   */
+  clear() {
+    return this.stack.clear();
   }
 
   /**
