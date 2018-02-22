@@ -35,7 +35,7 @@ class SetInterface {
    * @example
    * set.add(1);
    * set.add(2);
-   * set2 = new Structs.HashSet();
+   * set2 = new <Another Set>
    * set2.add(2);
    * set.diff(set2);
    * // set is now [1] and set2 is unchanged
@@ -67,7 +67,7 @@ class SetInterface {
   * @returns {Array} Array with all elements in the set
   */
   keys() {
-    return this.set.keys();
+    throw new Error("must implement this method");
   }
 
   /**
