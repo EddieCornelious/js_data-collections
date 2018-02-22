@@ -54,6 +54,7 @@ function rRotate(array, times) {
  * Various utility methods that can be called with arrays
  * @class
  * @static
+ * 
  *
  * @example
  * const arrayMethods = Collections.ArrayUtils;
@@ -62,7 +63,7 @@ class ArrayUtils {
   constructor() {} // eslint-disable-line no-empty-function
 
   /**
-   * Removes an element at the given position in the given array
+   * Removes the element at the given position in the given array
    * @static
    * @param {Array} array - The array to remove elements from
    * @param {number} index - The index to remove from @param array
