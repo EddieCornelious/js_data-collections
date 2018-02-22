@@ -18,14 +18,18 @@ class Set extends SetInterface {
   }
 
   add(element) {
-    this.set.insert(element);
-    return this;
+    this.set.insert(element, 1);
+    return true;
   }
 
   has(element) {
     return this.set.contains(element);
   }
 
+  /**
+   * Removes an element from the set
+   * @returns {Set} The instance this method was called
+   */
   remove(element) {
     this.set.remove(element);
     return this;
