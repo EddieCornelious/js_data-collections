@@ -178,7 +178,6 @@ function deletefixUp(nodeToFix) {
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
  * const bst = new Collections.RBTree();
- * // FOR ALL EXAMPLES BELOW. ASSUME rb IS CLEARED BEFORE EACH EXAMPLE
  */
 class RBTree extends BST {
   constructor(comparator) {
