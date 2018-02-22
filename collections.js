@@ -2578,7 +2578,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Various utility methods that can be called with arrays
 	 * @class
+	 * @namespace Collections
 	 * @static
+	 * 
 	 *
 	 * @example
 	 * const arrayMethods = Collections.ArrayUtils;
