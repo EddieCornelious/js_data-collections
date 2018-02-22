@@ -39,8 +39,7 @@ class MapInterface {
   getVal(key) {
     throw new Error("must implement this method");  
   }
-  
-  
+
   /**
    * Removes the given key and its associated value from the Map
    * @param {*} key - The key to lookup
