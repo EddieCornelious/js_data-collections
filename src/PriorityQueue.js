@@ -45,9 +45,7 @@ class PriorityQueue {
    */
   enqueue(data, priority) {
     isNumber(priority);
-
-    const { queue } = this;
-    return queue.insert({ data, priority });
+    return this.queue.insert({ data, priority });
   }
 
   /**
@@ -67,8 +65,15 @@ class PriorityQueue {
    * @returns {number} The size of the queue
    */
   size() {
-    const { queue } = this;
-    return queue.size();
+    return this.queue.size();
+  }
+
+  /**
+  * Removes all elements from the PriorityQueue
+  * @returns {undefined}
+  */
+  clear() {
+    return this.queue.clear();
   }
 }
 
