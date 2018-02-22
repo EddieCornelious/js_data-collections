@@ -124,6 +124,13 @@ class BHeap {
   size() {
     return this.heap.length - 1;
   }
+  /**
+   * Empties the Heap
+   * @returns {undefined}
+   */
+  clear() {
+    this.heap.length = 1;
+  }
 }
 
 module.exports = BHeap;
