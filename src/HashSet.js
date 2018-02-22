@@ -9,7 +9,6 @@ import SetInterface from './SetInterface.js';
  *
  * @example
  * const set = new Collections.HashSet();
- * // FOR ALL EXAMPLES BELOW. ASSUME set IS CLEARED BEFORE EACH EXAMPLE
  */
 class HashSet extends SetInterface {
   constructor(initialCapacity) {
