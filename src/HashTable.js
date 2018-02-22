@@ -166,10 +166,13 @@ class HashTable extends MapInterface {
   rehash() {
     const oldTable = this.table;
     const newTable = createTable(oldTable.length * 2);
-    for (let i = 0; i < oldTable.length; i += 1) {
-      for (let j = 0; j < oldTable[i].length; j += 2) {
-        const oldKey = oldTable[i][j];
-        const oldValue = oldTable[i][j + 1];
+    const oldLen = oldTable.length;
+
+    for (let i = 0; i < oldLen; i += 1) {
+      const currentBucket = oldTable[i];
+      for (let j = 0; j < currentBucket.length; j += 2) {
+        const oldKey = currentBucket[j];
+        const oldValue = currentBucket[j + 1];
         insert(oldKey, oldValue, newTable);
       }
     }
@@ -180,9 +183,11 @@ class HashTable extends MapInterface {
   keys() {
     const table = this.table;
     const keyArr = [];
-    for (let i = 0; i < table.length; i += 1) {
-      for (let j = 0; j < table[i].length; j += 2) {
-        keyArr.push(table[i][j]);
+    const tableLen = table.length;
+    for (let i = 0; i < tableLen; i += 1) {
+      const currentBucket = table[i];
+      for (let j = 0; j < currentBucket.length; j += 2) {
+        keyArr.push(currentBucket[j]);
       }
     }
     return keyArr;
