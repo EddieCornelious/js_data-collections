@@ -54,7 +54,6 @@ function rRotate(array, times) {
  * Various utility methods that can be called with arrays
  * @class
  * @static
- * 
  *
  * @example
  * const arrayMethods = Collections.ArrayUtils;
