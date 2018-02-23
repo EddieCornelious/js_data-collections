@@ -19,7 +19,7 @@ class Set extends SetInterface {
 
   add(element) {
     this.set.insert(element, 1);
-    return true;
+    return this;
   }
 
   has(element) {

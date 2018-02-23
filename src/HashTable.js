@@ -135,7 +135,7 @@ class HashTable extends MapInterface {
     } else {
       bucket[index + 1] = value;
     }
-    return true;
+    return this;
   }
 
   getVal(key) {
@@ -150,9 +150,8 @@ class HashTable extends MapInterface {
     if (index !== -1) {
       bucket.splice(index, 2);
       this.inserts -= 1;
-      return true;
     }
-    return false;
+    return this;
   }
 
   contains(key) {

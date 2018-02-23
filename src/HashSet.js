@@ -17,7 +17,8 @@ class HashSet extends SetInterface {
   }
 
   add(element) {
-    return this.set.put(element);
+    this.set.put(element);
+    return this;
   }
 
   has(element) {
@@ -25,7 +26,8 @@ class HashSet extends SetInterface {
   }
 
   remove(element) {
-    return this.set.remove(element);
+    this.set.remove(element);
+    return this;
   }
 
   keys() {

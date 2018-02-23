@@ -25,7 +25,8 @@ class HashMap extends MapInterface {
   }
 
   put(key, value) {
-    return this.map.put(key, value);
+    this.map.put(key, value);
+    return this;
   }
 
   getVal(key) {
@@ -33,7 +34,8 @@ class HashMap extends MapInterface {
   }
 
   remove(key) {
-    return this.map.remove(key);
+    this.map.remove(key);
+    return this;
   }
 
   keys() {
