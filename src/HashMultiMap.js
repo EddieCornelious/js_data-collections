@@ -33,11 +33,12 @@ class HashMultiMap extends HashMap {
       if (retVal.indexOf(value) === -1) {
         return retVal.push(value);
       }
-      return false;
+    } else {
+      const newValArr = [];
+      newValArr.push(value);
+      super.put(key, newValArr);
     }
-    const newValArr = [];
-    newValArr.push(value);
-    return super.put(key, newValArr);
+    return this;
   }
 }
 
