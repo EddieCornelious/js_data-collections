@@ -70,15 +70,7 @@ describe("HashTable", function() {
 
   it("remove should remove key", function() {
     map.put("a", "Pizza");
-    const before = map.contains("a");
-    expect(map.remove("a")).to.be.equal(true);
-    const after = map.contains("a");
-    expect(before).to.be.equal(true);
-    expect(after).to.be.equal(false);
-  });
-
-  it("remove should return false if key was not removed from map", function() {
-    expect(map.remove("a")).to.be.equal(false);
+    expect(map.contains("a")).to.be.equal(true);
   });
 
   it("keys should return all keys in map", function() {
