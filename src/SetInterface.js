@@ -13,8 +13,8 @@ class SetInterface {
 
   /**
    * Adds an element to the set. Does nothing if already in set
-   * @param {*} element - Element to add to the set
-   * @returns {boolean} True
+   * @param {*} element - The element to add to the set
+   * @returns {Set} The instance that this method was called
    *
    * @example
    * set.add(1);
@@ -46,6 +46,7 @@ class SetInterface {
     thatKeys.forEach(element => {
       context.remove(element);
     });
+    return context;
   }
 
   /**
@@ -72,7 +73,7 @@ class SetInterface {
 
   /**
    * Removes an element from the set
-   * @returns {boolean} true if @param element was removed and false otherwise
+   * @returns {Set} the instance that this method was called
    */
   remove(element) {
     throw new Error("must implement this method");
@@ -100,6 +101,7 @@ class SetInterface {
         context.remove(element);
       }
     });
+    return context;
   }
 
   /**
