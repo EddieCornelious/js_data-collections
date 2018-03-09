@@ -15,7 +15,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: [ ['es2015', {"loose": true}] ],  
+          presets: [ ['es2015', {"loose": true}]],  
           plugins: [ "transform-es3-member-expression-literals", "transform-es3-property-literals"]
         }, 
   
