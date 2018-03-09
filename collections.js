@@ -56,49 +56,106 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var List = __webpack_require__(1);
-	var Stack = __webpack_require__(3);
-	var Queue = __webpack_require__(4);
-	var BHeap = __webpack_require__(5);
-	var PriorityQueue = __webpack_require__(6);
-	var HashMap = __webpack_require__(7);
-	var HashTable = __webpack_require__(8);
-	var HashSet = __webpack_require__(10);
-	var BST = __webpack_require__(12);
-	var Graph = __webpack_require__(15);
-	var Trie = __webpack_require__(16);
-	var HashMultiMap = __webpack_require__(17);
-	var ArrayUtils = __webpack_require__(18);
-	var RBTree = __webpack_require__(19);
-	var Map = __webpack_require__(20);
-	var Set = __webpack_require__(21);
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+	exports.Set = exports.Map = exports.RBTree = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMultiMap = exports.HashTable = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
+
+	var _List = __webpack_require__(1);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _Stack = __webpack_require__(3);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _Queue = __webpack_require__(4);
+
+	var _Queue2 = _interopRequireDefault(_Queue);
+
+	var _BHeap = __webpack_require__(5);
+
+	var _BHeap2 = _interopRequireDefault(_BHeap);
+
+	var _PriorityQueue = __webpack_require__(6);
+
+	var _PriorityQueue2 = _interopRequireDefault(_PriorityQueue);
+
+	var _HashMap = __webpack_require__(7);
+
+	var _HashMap2 = _interopRequireDefault(_HashMap);
+
+	var _HashTable = __webpack_require__(8);
+
+	var _HashTable2 = _interopRequireDefault(_HashTable);
+
+	var _HashSet = __webpack_require__(10);
+
+	var _HashSet2 = _interopRequireDefault(_HashSet);
+
+	var _BST = __webpack_require__(12);
+
+	var _BST2 = _interopRequireDefault(_BST);
+
+	var _Graph = __webpack_require__(15);
+
+	var _Graph2 = _interopRequireDefault(_Graph);
+
+	var _Trie = __webpack_require__(16);
+
+	var _Trie2 = _interopRequireDefault(_Trie);
+
+	var _HashMultiMap = __webpack_require__(17);
+
+	var _HashMultiMap2 = _interopRequireDefault(_HashMultiMap);
+
+	var _ArrayUtils = __webpack_require__(18);
+
+	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
+
+	var _RedBlackTree = __webpack_require__(19);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	var _Map = __webpack_require__(20);
+
+	var _Map2 = _interopRequireDefault(_Map);
+
+	var _Set = __webpack_require__(21);
+
+	var _Set2 = _interopRequireDefault(_Set);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	// TODO : add ie8 support and maybe load polyfills right here
-
-	module.exports = {
-	   List: List,
-	   Stack: Stack,
-	   Queue: Queue,
-	   BHeap: BHeap,
-	   PriorityQueue: PriorityQueue,
-	   HashMap: HashMap,
-	   HashTable: HashTable,
-	   HashMultiMap: HashMultiMap,
-	   HashSet: HashSet,
-	   BST: BST,
-	   Graph: Graph,
-	   Trie: Trie,
-	   ArrayUtils: ArrayUtils,
-	   RBTree: RBTree,
-	   Map: Map,
-	   Set: Set
-	};
+	exports.List = _List2['default'];
+	exports.Stack = _Stack2['default'];
+	exports.Queue = _Queue2['default'];
+	exports.BHeap = _BHeap2['default'];
+	exports.PriorityQueue = _PriorityQueue2['default'];
+	exports.HashMap = _HashMap2['default'];
+	exports.HashTable = _HashTable2['default'];
+	exports.HashMultiMap = _HashMultiMap2['default'];
+	exports.HashSet = _HashSet2['default'];
+	exports.BST = _BST2['default'];
+	exports.Graph = _Graph2['default'];
+	exports.Trie = _Trie2['default'];
+	exports.ArrayUtils = _ArrayUtils2['default'];
+	exports.RBTree = _RedBlackTree2['default'];
+	exports.Map = _Map2['default'];
+	exports.Set = _Set2['default'];
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _Util = __webpack_require__(2);
 
@@ -175,327 +232,342 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.addToFront = function addToFront(data) {
-	    var head = this.head,
-	        length = this.length;
+	  _createClass(List, [{
+	    key: 'addToFront',
+	    value: function addToFront(data) {
+	      var head = this.head,
+	          length = this.length;
 
-	    var newNode = new Node(data);
-	    if (!head) {
-	      this.head = newNode;
-	      this.tail = this.head;
-	    } else {
-	      // non-empty list
-	      this.head = newNode;
-	      newNode.next = head;
-	      head.prev = newNode;
-	    }
-	    this.length = length + 1;
-	    return this;
-	  };
-
-	  /**
-	   * Returns the data at given index
-	   * @param {number} index - The index to look at
-	   * @throws {TypeError} Will throw error if @param index is not number
-	   * @returns {(*|undefined)} Index of element if @param index is in range
-	   * or undefined
-	   *
-	   * @example
-	   * list.addToFront("a")
-	   *  .addToFront("b")
-	   *  .addToFront("c");
-	   * const getSomething = list.elementAtIndex(2); // "a"
-	   * list.elementAtIndex(13); // undefined
-	   */
-
-
-	  List.prototype.elementAtIndex = function elementAtIndex() {
-	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-
-	    (0, _Util.isNumber)(index);
-	    var wanted = getNode.call(this, index);
-	    return wanted ? wanted.data : undefined;
-	  };
-
-	  /**
-	   * Adds the given data to right-most end of linked list
-	   * @param {*} data - the data to insert
-	   * @returns {List} The instance this method was called
-	   *
-	   * @example
-	   * list.addToBack("a")
-	   *  .addToBack("b"); // list is <"a", "b">
-	   */
-
-
-	  List.prototype.addToBack = function addToBack(data) {
-	    var tail = this.tail,
-	        length = this.length;
-
-	    var newNode = new Node(data);
-	    if (!tail) {
-	      this.head = newNode;
-	      this.tail = this.head;
-	    } else {
-	      this.tail = newNode;
-	      newNode.prev = tail;
-	      tail.next = newNode;
-	    }
-	    this.length = length + 1;
-	    return this;
-	  };
-
-	  /**
-	   * Removes the left-most element in the linked list
-	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
-	   *
-	   * @example
-	   * list.addToBack("a")
-	   *  .addToBack("b");
-	   * const removedData = list.removeFront(); // "a"
-	   * // list is now <"b">
-	   */
-
-
-	  List.prototype.removeFront = function removeFront() {
-	    var head = this.head,
-	        length = this.length;
-
-	    var removed = void 0;
-	    if (head) {
-	      removed = head.data;
-	      this.length = length - 1;
-	      this.head = head.next;
-
-	      // current state after removal
-	      var newHead = this.head;
-	      // list is now empty...adjust tail
-	      if (!newHead) {
-	        this.tail = null;
-	        this.head = this.tail;
-	      } else {
-	        // front of list rule
-	        newHead.prev = null;
-	      }
-	    }
-	    return removed;
-	  };
-
-	  /**
-	   * Removes the right-most element in the linked list
-	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
-	   *
-	   * @example
-	   * list.addToBack("a")
-	   *  .addToBack("b");
-	   * const removedData = list.removeBack(); // "b"
-	   * // list is now <"a">
-	   */
-
-
-	  List.prototype.removeBack = function removeBack() {
-	    var tail = this.tail,
-	        length = this.length;
-
-	    var removed = void 0;
-	    if (tail) {
-	      removed = tail.data;
-	      var prev = tail.prev;
-	      this.length = length - 1;
-	      // list now empty
-	      if (!prev) {
-	        this.tail = null;
-	        this.head = this.tail;
-	      } else {
-	        prev.next = null;
-	        this.tail = prev;
-	      }
-	    }
-	    return removed;
-	  };
-
-	  /**
-	   * Inserts given data into specific position in the linked list
-	   * @param {index} index - The index to insert data into
-	   * @param {*} data - The data to insert into @param index
-	   * @throws {TypeError} Will throw error if @param index is not number
-	   * @returns {List} - The instance this method was called
-	   *
-	   * @example
-	   * list.addToBack("a")
-	   *  .addToBack("b");
-	   * list.insert(1, "$");
-	   * // list is now <"a, "$, "b">
-	   */
-
-
-	  List.prototype.insert = function insert() {
-	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-	    var data = arguments[1];
-
-	    (0, _Util.isNumber)(index);
-	    var length = this.length;
-
-	    if (index === 0) {
-	      return this.addToFront(data);
-	    } else if (index >= length) {
-	      return this.addToBack(data);
-	    }
-	    // parent of wanted node
-	    var prevNode = getNode.call(this, index - 1);
-	    if (prevNode) {
 	      var newNode = new Node(data);
-	      var aft = prevNode.next;
-	      newNode.next = aft;
-	      aft.prev = newNode;
-	      prevNode.next = newNode;
-	      newNode.prev = prevNode;
-	      this.length = length + 1;
-	    }
-	    return this;
-	  };
-
-	  /**
-	   * Removes data at specific position in the linked list
-	   * @param {index} index - The index to insert data into
-	   * @throws {TypeError} Will throw error if @param index is not number
-	   * @returns {(*|undefined)} The removed data or undefined if nothing removed
-	   *
-	   * @example
-	   * list.addToBack("a")
-	   *  .addToBack("b");
-	   * list.remove(1);
-	   * // list is now <"a">
-	   */
-
-
-	  List.prototype.remove = function remove(index) {
-	    (0, _Util.isNumber)(index);
-	    var length = this.length;
-
-	    var removed = void 0;
-	    if (index === 0) {
-	      return this.removeFront();
-	    } else if (index >= length - 1) {
-	      return this.removeBack();
-	    }
-	    // parent of wanted node
-	    var prevNode = getNode.call(this, index - 1);
-	    if (prevNode) {
-	      var toRemove = prevNode.next;
-	      removed = toRemove.data;
-	      var after = toRemove.next;
-	      prevNode.next = after;
-	      after.prev = prevNode;
-	      this.length = length - 1;
-	    }
-	    return removed;
-	  };
-
-	  /**
-	   * Returns the index of the given data in the linked list
-	   * @param {*} data - The data to find index of
-	   * @param {function} comparator - function to compare for equality
-	   * @returns {number} The index of @param data or -1 if not found
-	   *
-	   * @example
-	   * const customComparator = function(a, b) {
-	   *   if(a.age < b.age) { return -1;}
-	   *   else if(a.age > b.age) { return 1:}
-	   *   else { return 0; }
-	   * }
-	   * list.addToBack({ age : 2})
-	   *  .addToBack({ age : 3});
-	   * list.indexOf({ age : 2}, customComparator) // 0
-	   */
-
-
-	  List.prototype.indexOf = function indexOf(data, comparator) {
-	    var cmp = comparator || _Util.defaultComp;
-	    var index = 0;
-	    var head = this.head;
-	    while (head) {
-	      if (cmp(data, head.data) === 0) {
-	        return index;
+	      if (!head) {
+	        this.head = newNode;
+	        this.tail = this.head;
+	      } else {
+	        // non-empty list
+	        this.head = newNode;
+	        newNode.next = head;
+	        head.prev = newNode;
 	      }
-	      head = head.next;
-	      index += 1;
+	      this.length = length + 1;
+	      return this;
 	    }
-	    return -1;
-	  };
 
-	  /**
-	   * Returns whether the linked list contains the given data
-	   * @param {*} data - The data to insert into linked list
-	   * @param {function} comparator - function to compare for equality
-	   * @returns {number} The index of @param data or -1 if not found
-	   */
+	    /**
+	     * Returns the data at given index
+	     * @param {number} index - The index to look at
+	     * @throws {TypeError} Will throw error if @param index is not number
+	     * @returns {(*|undefined)} Index of element if @param index is in range
+	     * or undefined
+	     *
+	     * @example
+	     * list.addToFront("a")
+	     *  .addToFront("b")
+	     *  .addToFront("c");
+	     * const getSomething = list.elementAtIndex(2); // "a"
+	     * list.elementAtIndex(13); // undefined
+	     */
 
+	  }, {
+	    key: 'elementAtIndex',
+	    value: function elementAtIndex() {
+	      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-	  List.prototype.contains = function contains(data, comparator) {
-	    return this.indexOf(data, comparator) !== -1;
-	  };
-
-	  /**
-	   * Empties the List
-	   * @returns {undefined}
-	   */
-
-
-	  List.prototype.clear = function clear() {
-	    this.head = null;
-	    this.tail = null;
-	    this.length = 0;
-	  };
-
-	  /**
-	   * Returns the size of the List
-	   * @returns {number} The size of the List
-	   */
-
-
-	  List.prototype.size = function size() {
-	    return this.length;
-	  };
-
-	  /**
-	   * Calls a callback function for each element in the list
-	   * @param {function} callback - Function executed for each element
-	   * (data, index)
-	   * @returns {List} The instance that this method was called
-	   */
-
-
-	  List.prototype.forEach = function forEach(callback) {
-	    var func = callback;
-	    var head = this.head;
-	    var index = 0;
-	    while (head) {
-	      func(head.data, index);
-	      head = head.next;
-	      index += 1;
+	      (0, _Util.isNumber)(index);
+	      var wanted = getNode.call(this, index);
+	      return wanted ? wanted.data : undefined;
 	    }
-	    return this;
-	  };
 
-	  /**
-	   * Transforms a linked list to an array
-	   * @returns {Array} An array representation of 'this' List
-	   */
+	    /**
+	     * Adds the given data to right-most end of linked list
+	     * @param {*} data - the data to insert
+	     * @returns {List} The instance this method was called
+	     *
+	     * @example
+	     * list.addToBack("a")
+	     *  .addToBack("b"); // list is <"a", "b">
+	     */
 
+	  }, {
+	    key: 'addToBack',
+	    value: function addToBack(data) {
+	      var tail = this.tail,
+	          length = this.length;
 
-	  List.prototype.toArray = function toArray() {
-	    var temp = [];
-	    this.forEach(function (element) {
-	      return temp.push(element);
-	    });
-	    return temp;
-	  };
+	      var newNode = new Node(data);
+	      if (!tail) {
+	        this.head = newNode;
+	        this.tail = this.head;
+	      } else {
+	        this.tail = newNode;
+	        newNode.prev = tail;
+	        tail.next = newNode;
+	      }
+	      this.length = length + 1;
+	      return this;
+	    }
+
+	    /**
+	     * Removes the left-most element in the linked list
+	     * @returns {(*|undefined)} The removed data or undefined if nothing removed
+	     *
+	     * @example
+	     * list.addToBack("a")
+	     *  .addToBack("b");
+	     * const removedData = list.removeFront(); // "a"
+	     * // list is now <"b">
+	     */
+
+	  }, {
+	    key: 'removeFront',
+	    value: function removeFront() {
+	      var head = this.head,
+	          length = this.length;
+
+	      var removed = void 0;
+	      if (head) {
+	        removed = head.data;
+	        this.length = length - 1;
+	        this.head = head.next;
+
+	        // current state after removal
+	        var newHead = this.head;
+	        // list is now empty...adjust tail
+	        if (!newHead) {
+	          this.tail = null;
+	          this.head = this.tail;
+	        } else {
+	          // front of list rule
+	          newHead.prev = null;
+	        }
+	      }
+	      return removed;
+	    }
+
+	    /**
+	     * Removes the right-most element in the linked list
+	     * @returns {(*|undefined)} The removed data or undefined if nothing removed
+	     *
+	     * @example
+	     * list.addToBack("a")
+	     *  .addToBack("b");
+	     * const removedData = list.removeBack(); // "b"
+	     * // list is now <"a">
+	     */
+
+	  }, {
+	    key: 'removeBack',
+	    value: function removeBack() {
+	      var tail = this.tail,
+	          length = this.length;
+
+	      var removed = void 0;
+	      if (tail) {
+	        removed = tail.data;
+	        var prev = tail.prev;
+	        this.length = length - 1;
+	        // list now empty
+	        if (!prev) {
+	          this.tail = null;
+	          this.head = this.tail;
+	        } else {
+	          prev.next = null;
+	          this.tail = prev;
+	        }
+	      }
+	      return removed;
+	    }
+
+	    /**
+	     * Inserts given data into specific position in the linked list
+	     * @param {index} index - The index to insert data into
+	     * @param {*} data - The data to insert into @param index
+	     * @throws {TypeError} Will throw error if @param index is not number
+	     * @returns {List} - The instance this method was called
+	     *
+	     * @example
+	     * list.addToBack("a")
+	     *  .addToBack("b");
+	     * list.insert(1, "$");
+	     * // list is now <"a, "$, "b">
+	     */
+
+	  }, {
+	    key: 'insert',
+	    value: function insert() {
+	      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	      var data = arguments[1];
+
+	      (0, _Util.isNumber)(index);
+	      var length = this.length;
+
+	      if (index === 0) {
+	        return this.addToFront(data);
+	      } else if (index >= length) {
+	        return this.addToBack(data);
+	      }
+	      // parent of wanted node
+	      var prevNode = getNode.call(this, index - 1);
+	      if (prevNode) {
+	        var newNode = new Node(data);
+	        var aft = prevNode.next;
+	        newNode.next = aft;
+	        aft.prev = newNode;
+	        prevNode.next = newNode;
+	        newNode.prev = prevNode;
+	        this.length = length + 1;
+	      }
+	      return this;
+	    }
+
+	    /**
+	     * Removes data at specific position in the linked list
+	     * @param {index} index - The index to insert data into
+	     * @throws {TypeError} Will throw error if @param index is not number
+	     * @returns {(*|undefined)} The removed data or undefined if nothing removed
+	     *
+	     * @example
+	     * list.addToBack("a")
+	     *  .addToBack("b");
+	     * list.remove(1);
+	     * // list is now <"a">
+	     */
+
+	  }, {
+	    key: 'remove',
+	    value: function remove(index) {
+	      (0, _Util.isNumber)(index);
+	      var length = this.length;
+
+	      var removed = void 0;
+	      if (index === 0) {
+	        return this.removeFront();
+	      } else if (index >= length - 1) {
+	        return this.removeBack();
+	      }
+	      // parent of wanted node
+	      var prevNode = getNode.call(this, index - 1);
+	      if (prevNode) {
+	        var toRemove = prevNode.next;
+	        removed = toRemove.data;
+	        var after = toRemove.next;
+	        prevNode.next = after;
+	        after.prev = prevNode;
+	        this.length = length - 1;
+	      }
+	      return removed;
+	    }
+
+	    /**
+	     * Returns the index of the given data in the linked list
+	     * @param {*} data - The data to find index of
+	     * @param {function} comparator - function to compare for equality
+	     * @returns {number} The index of @param data or -1 if not found
+	     *
+	     * @example
+	     * const customComparator = function(a, b) {
+	     *   if(a.age < b.age) { return -1;}
+	     *   else if(a.age > b.age) { return 1:}
+	     *   else { return 0; }
+	     * }
+	     * list.addToBack({ age : 2})
+	     *  .addToBack({ age : 3});
+	     * list.indexOf({ age : 2}, customComparator) // 0
+	     */
+
+	  }, {
+	    key: 'indexOf',
+	    value: function indexOf(data, comparator) {
+	      var cmp = comparator || _Util.defaultComp;
+	      var index = 0;
+	      var head = this.head;
+	      while (head) {
+	        if (cmp(data, head.data) === 0) {
+	          return index;
+	        }
+	        head = head.next;
+	        index += 1;
+	      }
+	      return -1;
+	    }
+
+	    /**
+	     * Returns whether the linked list contains the given data
+	     * @param {*} data - The data to insert into linked list
+	     * @param {function} comparator - function to compare for equality
+	     * @returns {number} The index of @param data or -1 if not found
+	     */
+
+	  }, {
+	    key: 'contains',
+	    value: function contains(data, comparator) {
+	      return this.indexOf(data, comparator) !== -1;
+	    }
+
+	    /**
+	     * Empties the List
+	     * @returns {undefined}
+	     */
+
+	  }, {
+	    key: 'clear',
+	    value: function clear() {
+	      this.head = null;
+	      this.tail = null;
+	      this.length = 0;
+	    }
+
+	    /**
+	     * Returns the size of the List
+	     * @returns {number} The size of the List
+	     */
+
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.length;
+	    }
+
+	    /**
+	     * Calls a callback function for each element in the list
+	     * @param {function} callback - Function executed for each element
+	     * (data, index)
+	     * @returns {List} The instance that this method was called
+	     */
+
+	  }, {
+	    key: 'forEach',
+	    value: function forEach(callback) {
+	      var func = callback;
+	      var head = this.head;
+	      var index = 0;
+	      while (head) {
+	        func(head.data, index);
+	        head = head.next;
+	        index += 1;
+	      }
+	      return this;
+	    }
+
+	    /**
+	     * Transforms a linked list to an array
+	     * @returns {Array} An array representation of 'this' List
+	     */
+
+	  }, {
+	    key: 'toArray',
+	    value: function toArray() {
+	      var temp = [];
+	      this.forEach(function (element) {
+	        return temp.push(element);
+	      });
+	      return temp;
+	    }
+	  }]);
 
 	  return List;
 	}();
 
-	module.exports = List;
+	exports['default'] = List;
 
 /***/ },
 /* 2 */
@@ -503,7 +575,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	exports.swap = swap;
+	exports.toString = toString;
+	exports.defaultComp = defaultComp;
+	exports.isNumber = isNumber;
+	exports.genRand = genRand;
 
 	/**
 	 * swap method for Structs BHeap and Array
@@ -626,6 +708,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _List = __webpack_require__(1);
 
 	var _List2 = _interopRequireDefault(_List);
@@ -659,63 +747,70 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Stack.prototype.push = function push(data) {
-	    this.stack.addToFront(data);
-	    return this;
-	  };
+	  _createClass(Stack, [{
+	    key: 'push',
+	    value: function push(data) {
+	      this.stack.addToFront(data);
+	      return this;
+	    }
 
-	  /**
-	   * Removes data from stack in a last in first out manner
-	   * @returns {*} The reomved data
-	   *
-	   * @example
-	   * stack.push(1).push(2).push(3);
-	   * stack.pop(); // 3
-	   */
+	    /**
+	     * Removes data from stack in a last in first out manner
+	     * @returns {*} The reomved data
+	     *
+	     * @example
+	     * stack.push(1).push(2).push(3);
+	     * stack.pop(); // 3
+	     */
 
+	  }, {
+	    key: 'pop',
+	    value: function pop() {
+	      return this.stack.removeFront();
+	    }
 
-	  Stack.prototype.pop = function pop() {
-	    return this.stack.removeFront();
-	  };
+	    /**
+	     * Reports but does not remove the staged element to be removed next
+	     * @returns {*} The element staged to be removed next
+	     *
+	     * @example
+	     * stack.push(1);
+	     * stack.peek() // returns 1 but does not remove it
+	     */
 
-	  /**
-	   * Reports but does not remove the staged element to be removed next
-	   * @returns {*} The element staged to be removed next
-	   *
-	   * @example
-	   * stack.push(1);
-	   * stack.peek() // returns 1 but does not remove it
-	   */
+	  }, {
+	    key: 'peek',
+	    value: function peek() {
+	      return this.stack.elementAtIndex(0);
+	    }
 
+	    /**
+	     * Empties the Stack
+	     * @returns {undefined}
+	     */
 
-	  Stack.prototype.peek = function peek() {
-	    return this.stack.elementAtIndex(0);
-	  };
+	  }, {
+	    key: 'clear',
+	    value: function clear() {
+	      return this.stack.clear();
+	    }
 
-	  /**
-	   * Empties the Stack
-	   * @returns {undefined}
-	   */
+	    /**
+	     * Reports the size of the queue
+	     * @returns {number} The size of the queue
+	     */
 
-
-	  Stack.prototype.clear = function clear() {
-	    return this.stack.clear();
-	  };
-
-	  /**
-	   * Reports the size of the queue
-	   * @returns {number} The size of the queue
-	   */
-
-
-	  Stack.prototype.size = function size() {
-	    return this.stack.size();
-	  };
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.stack.size();
+	    }
+	  }]);
 
 	  return Stack;
 	}();
 
-	module.exports = Stack;
+	exports['default'] = Stack;
 
 /***/ },
 /* 4 */
@@ -723,9 +818,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var List = __webpack_require__(1);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _List = __webpack_require__(1);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
 	 * Queue Representation
@@ -735,12 +840,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * const queue = new Collections.Queue();
 	 * // FOR ALL EXAMPLES BELOW. ASSUME queue IS CLEARED BEFORE EACH EXAMPLE
 	 */
-
 	var Queue = function () {
 	  function Queue() {
 	    _classCallCheck(this, Queue);
 
-	    this.queue = new List();
+	    this.queue = new _List2['default']();
 	  }
 
 	  /**
@@ -754,68 +858,81 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Queue.prototype.enqueue = function enqueue(data) {
-	    this.queue.addToBack(data);
-	    return this;
-	  };
+	  _createClass(Queue, [{
+	    key: 'enqueue',
+	    value: function enqueue(data) {
+	      this.queue.addToBack(data);
+	      return this;
+	    }
 
-	  /**
-	   * Removes from the queue in a first in first out manner
-	   * @returns {*} The removed data
-	   * @example
-	   * queue.enqueue(1).enqueue(2);
-	   * queue.dequeue() // 1
-	   */
+	    /**
+	     * Removes from the queue in a first in first out manner
+	     * @returns {*} The removed data
+	     * @example
+	     * queue.enqueue(1).enqueue(2);
+	     * queue.dequeue() // 1
+	     */
 
+	  }, {
+	    key: 'dequeue',
+	    value: function dequeue() {
+	      return this.queue.removeFront();
+	    }
 
-	  Queue.prototype.dequeue = function dequeue() {
-	    return this.queue.removeFront();
-	  };
+	    /**
+	     * Reports but does not remove the staged element to be removed next
+	     * @returns {*} Element staged to be removed next
+	     *
+	     * @example
+	     * queue.enqueue(1);
+	     * queue.peek() // returns 1 but does not remove it
+	     */
 
-	  /**
-	   * Reports but does not remove the staged element to be removed next
-	   * @returns {*} Element staged to be removed next
-	   *
-	   * @example
-	   * queue.enqueue(1);
-	   * queue.peek() // returns 1 but does not remove it
-	   */
+	  }, {
+	    key: 'peek',
+	    value: function peek() {
+	      return this.queue.elementAtIndex(0);
+	    }
 
+	    /**
+	     * Empties the Queue
+	     * @returns {undefined}
+	     */
 
-	  Queue.prototype.peek = function peek() {
-	    return this.queue.elementAtIndex(0);
-	  };
+	  }, {
+	    key: 'clear',
+	    value: function clear() {
+	      return this.queue.clear();
+	    }
 
-	  /**
-	   * Empties the Queue
-	   * @returns {undefined}
-	   */
+	    /**
+	     * Reports the size of the queue
+	     * @returns {number} The size of the queue
+	     */
 
-
-	  Queue.prototype.clear = function clear() {
-	    return this.queue.clear();
-	  };
-
-	  /**
-	   * Reports the size of the queue
-	   * @returns {number} The size of the queue
-	   */
-
-
-	  Queue.prototype.size = function size() {
-	    return this.queue.size();
-	  };
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.queue.size();
+	    }
+	  }]);
 
 	  return Queue;
 	}();
 
-	module.exports = Queue;
+	exports['default'] = Queue;
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _Util = __webpack_require__(2);
 
@@ -901,85 +1018,98 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.extractRoot = function extractRoot() {
-	    var heap = this.heap,
-	        comp = this.comp;
+	  _createClass(BHeap, [{
+	    key: 'extractRoot',
+	    value: function extractRoot() {
+	      var heap = this.heap,
+	          comp = this.comp;
 
-	    var max = heap[1];
-	    heap[1] = heap[heap.length - 1];
-	    heap.length -= 1;
-	    heapify(heap, 1, comp);
-	    return max;
-	  };
+	      var max = heap[1];
+	      heap[1] = heap[heap.length - 1];
+	      heap.length -= 1;
+	      heapify(heap, 1, comp);
+	      return max;
+	    }
 
-	  /**
-	   * Inserts the given data into the BHeap
-	   * @param {*} data - The data to insert into BHeap.
-	   * @returns {BHeap} A reference to the instance that this method was called
-	   *
-	   * @example
-	   * heap.insert(1).insert(2).insert(3).insert(3);
-	   * // this heap will contain both 3s
-	   *
-	   * heap.extractRoot() // will be 3
-	   */
+	    /**
+	     * Inserts the given data into the BHeap
+	     * @param {*} data - The data to insert into BHeap.
+	     * @returns {BHeap} A reference to the instance that this method was called
+	     *
+	     * @example
+	     * heap.insert(1).insert(2).insert(3).insert(3);
+	     * // this heap will contain both 3s
+	     *
+	     * heap.extractRoot() // will be 3
+	     */
 
+	  }, {
+	    key: 'insert',
+	    value: function insert(data) {
+	      var heap = this.heap,
+	          comp = this.comp;
 
-	  BHeap.prototype.insert = function insert(data) {
-	    var heap = this.heap,
-	        comp = this.comp;
+	      heap[heap.length] = data;
+	      siftUp(heap, heap.length - 1, comp);
+	      return this;
+	    }
 
-	    heap[heap.length] = data;
-	    siftUp(heap, heap.length - 1, comp);
-	    return this;
-	  };
+	    /**
+	     * Transforms the BHeap into an array
+	     * @returns {Array} The heap instance as an array
+	     *
+	     * @example
+	     * heap.insert(1).insert(2);
+	     * heap.toArray() // will be [2, 1]
+	     */
 
-	  /**
-	   * Transforms the BHeap into an array
-	   * @returns {Array} The heap instance as an array
-	   *
-	   * @example
-	   * heap.insert(1).insert(2);
-	   * heap.toArray() // will be [2, 1]
-	   */
+	  }, {
+	    key: 'toArray',
+	    value: function toArray() {
+	      return this.heap.slice(1);
+	    }
 
+	    /**
+	     * Reports the number of elements in the BHeap.
+	     * @returns The BHeap instance's number of elements
+	     *
+	     * @example
+	     * heap.size() // would be 0
+	     */
 
-	  BHeap.prototype.toArray = function toArray() {
-	    return this.heap.slice(1);
-	  };
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.heap.length - 1;
+	    }
+	    /**
+	     * Empties the Heap
+	     * @returns {undefined}
+	     */
 
-	  /**
-	   * Reports the number of elements in the BHeap.
-	   * @returns The BHeap instance's number of elements
-	   *
-	   * @example
-	   * heap.size() // would be 0
-	   */
-
-
-	  BHeap.prototype.size = function size() {
-	    return this.heap.length - 1;
-	  };
-	  /**
-	   * Empties the Heap
-	   * @returns {undefined}
-	   */
-
-
-	  BHeap.prototype.clear = function clear() {
-	    this.heap.length = 1;
-	  };
+	  }, {
+	    key: 'clear',
+	    value: function clear() {
+	      this.heap.length = 1;
+	    }
+	  }]);
 
 	  return BHeap;
 	}();
 
-	module.exports = BHeap;
+	exports['default'] = BHeap;
 
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _BHeap = __webpack_require__(5);
 
@@ -1038,56 +1168,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  PriorityQueue.prototype.enqueue = function enqueue(data, priority) {
-	    (0, _Util.isNumber)(priority);
-	    return this.queue.insert({ data: data, priority: priority });
-	  };
+	  _createClass(PriorityQueue, [{
+	    key: 'enqueue',
+	    value: function enqueue(data, priority) {
+	      (0, _Util.isNumber)(priority);
+	      return this.queue.insert({ data: data, priority: priority });
+	    }
 
-	  /**
-	   * Removes The element with the lowest priority from the queue
-	   * @returns {*} The element with the lowest priority in the queue
-	   * pq.dequeue()
-	   * // from the example above, this operation returns "wakeup", then
-	   * "wash dishes" on second dequeue
-	   */
+	    /**
+	     * Removes The element with the lowest priority from the queue
+	     * @returns {*} The element with the lowest priority in the queue
+	     * pq.dequeue()
+	     * // from the example above, this operation returns "wakeup", then
+	     * "wash dishes" on second dequeue
+	     */
 
+	  }, {
+	    key: 'dequeue',
+	    value: function dequeue() {
+	      var queue = this.queue;
 
-	  PriorityQueue.prototype.dequeue = function dequeue() {
-	    var queue = this.queue;
+	      return queue.extractRoot().data;
+	    }
 
-	    return queue.extractRoot().data;
-	  };
+	    /**
+	     * Reports the size of the priorityqueue
+	     * @returns {number} The size of the queue
+	     */
 
-	  /**
-	   * Reports the size of the priorityqueue
-	   * @returns {number} The size of the queue
-	   */
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.queue.size();
+	    }
 
+	    /**
+	    * Removes all elements from the PriorityQueue
+	    * @returns {undefined}
+	    */
 
-	  PriorityQueue.prototype.size = function size() {
-	    return this.queue.size();
-	  };
-
-	  /**
-	  * Removes all elements from the PriorityQueue
-	  * @returns {undefined}
-	  */
-
-
-	  PriorityQueue.prototype.clear = function clear() {
-	    return this.queue.clear();
-	  };
+	  }, {
+	    key: 'clear',
+	    value: function clear() {
+	      return this.queue.clear();
+	    }
+	  }]);
 
 	  return PriorityQueue;
 	}();
 
-	module.exports = PriorityQueue;
+	exports['default'] = PriorityQueue;
 
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _HashTable = __webpack_require__(8);
 
@@ -1128,46 +1270,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function HashMap(initialCapacity) {
 	    _classCallCheck(this, HashMap);
 
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+	    var _this = _possibleConstructorReturn(this, (HashMap.__proto__ || Object.getPrototypeOf(HashMap)).call(this));
 
 	    _this.map = new _HashTable2['default'](initialCapacity);
 	    return _this;
 	  }
 
-	  HashMap.prototype.put = function put(key, value) {
-	    return this.map.put(key, value);
-	  };
-
-	  HashMap.prototype.getVal = function getVal(key) {
-	    return this.map.getVal(key);
-	  };
-
-	  HashMap.prototype.remove = function remove(key) {
-	    return this.map.remove(key);
-	  };
-
-	  HashMap.prototype.keys = function keys() {
-	    return this.map.keys();
-	  };
-
-	  HashMap.prototype.contains = function contains(key) {
-	    return this.map.contains(key);
-	  };
-
-	  HashMap.prototype.size = function size() {
-	    return this.map.size();
-	  };
+	  _createClass(HashMap, [{
+	    key: 'put',
+	    value: function put(key, value) {
+	      this.map.put(key, value);
+	      return this;
+	    }
+	  }, {
+	    key: 'getVal',
+	    value: function getVal(key) {
+	      return this.map.getVal(key);
+	    }
+	  }, {
+	    key: 'remove',
+	    value: function remove(key) {
+	      this.map.remove(key);
+	      return this;
+	    }
+	  }, {
+	    key: 'keys',
+	    value: function keys() {
+	      return this.map.keys();
+	    }
+	  }, {
+	    key: 'contains',
+	    value: function contains(key) {
+	      return this.map.contains(key);
+	    }
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.map.size();
+	    }
+	  }]);
 
 	  return HashMap;
 	}(_MapInterface3['default']);
 
-	module.exports = HashMap;
+	exports['default'] = HashMap;
 
 /***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -1308,123 +1466,138 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _classCallCheck(this, HashTable);
 
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+	    var _this = _possibleConstructorReturn(this, (HashTable.__proto__ || Object.getPrototypeOf(HashTable)).call(this));
 
 	    _this.inserts = 0;
 	    _this.table = createTable(initialCapacity);
 	    return _this;
 	  }
 
-	  HashTable.prototype.put = function put() {
-	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	    var table = this.table,
-	        inserts = this.inserts;
+	  _createClass(HashTable, [{
+	    key: 'put',
+	    value: function put() {
+	      var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	      var table = this.table,
+	          inserts = this.inserts;
 
-	    var searchRes = search(key, table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
+	      var searchRes = search(key, table);
+	      var bucket = searchRes.bucket,
+	          index = searchRes.index;
 
-	    if (index === -1) {
-	      insert(key, value, table);
-	      this.inserts += 1;
-	      if (shouldRehash(inserts + 1, table)) {
-	        this.rehash();
+	      if (index === -1) {
+	        insert(key, value, table);
+	        this.inserts += 1;
+	        if (shouldRehash(inserts + 1, table)) {
+	          this.rehash();
+	        }
+	      } else {
+	        bucket[index + 1] = value;
 	      }
-	    } else {
-	      bucket[index + 1] = value;
+	      return this;
 	    }
-	    return true;
-	  };
+	  }, {
+	    key: 'getVal',
+	    value: function getVal(key) {
+	      var searchRes = search(key, this.table);
+	      var bucket = searchRes.bucket,
+	          index = searchRes.index;
 
-	  HashTable.prototype.getVal = function getVal(key) {
-	    var searchRes = search(key, this.table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
-
-	    return index !== -1 ? bucket[index + 1] : undefined;
-	  };
-
-	  HashTable.prototype.remove = function remove(key) {
-	    var searchRes = search(key, this.table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
-
-	    if (index !== -1) {
-	      bucket.splice(index, 2);
-	      this.inserts -= 1;
-	      return true;
+	      return index !== -1 ? bucket[index + 1] : undefined;
 	    }
-	    return false;
-	  };
+	  }, {
+	    key: 'remove',
+	    value: function remove(key) {
+	      var searchRes = search(key, this.table);
+	      var bucket = searchRes.bucket,
+	          index = searchRes.index;
 
-	  HashTable.prototype.contains = function contains(key) {
-	    return this.getVal(key) !== undefined;
-	  };
-
-	  /**
-	   * Resizes (2x) and rehashes all keys in HashTable
-	   * @returns {undefined}
-	   */
-
-
-	  HashTable.prototype.rehash = function rehash() {
-	    var oldTable = this.table;
-	    var newTable = createTable(oldTable.length * 2);
-	    var oldLen = oldTable.length;
-
-	    for (var i = 0; i < oldLen; i += 1) {
-	      var currentBucket = oldTable[i];
-	      for (var j = 0; j < currentBucket.length; j += 2) {
-	        var oldKey = currentBucket[j];
-	        var oldValue = currentBucket[j + 1];
-	        insert(oldKey, oldValue, newTable);
+	      if (index !== -1) {
+	        bucket.splice(index, 2);
+	        this.inserts -= 1;
 	      }
+	      return this;
 	    }
-	    oldTable.length = 0;
-	    this.table = newTable;
-	  };
+	  }, {
+	    key: 'contains',
+	    value: function contains(key) {
+	      return this.getVal(key) !== undefined;
+	    }
 
-	  HashTable.prototype.keys = function keys() {
-	    var table = this.table;
-	    var keyArr = [];
-	    var tableLen = table.length;
-	    for (var i = 0; i < tableLen; i += 1) {
-	      var currentBucket = table[i];
-	      for (var j = 0; j < currentBucket.length; j += 2) {
-	        keyArr.push(currentBucket[j]);
+	    /**
+	     * Resizes (2x) and rehashes all keys in HashTable
+	     * @returns {undefined}
+	     */
+
+	  }, {
+	    key: 'rehash',
+	    value: function rehash() {
+	      var oldTable = this.table;
+	      var newTable = createTable(oldTable.length * 2);
+	      var oldLen = oldTable.length;
+
+	      for (var i = 0; i < oldLen; i += 1) {
+	        var currentBucket = oldTable[i];
+	        for (var j = 0; j < currentBucket.length; j += 2) {
+	          var oldKey = currentBucket[j];
+	          var oldValue = currentBucket[j + 1];
+	          insert(oldKey, oldValue, newTable);
+	        }
 	      }
+	      oldTable.length = 0;
+	      this.table = newTable;
 	    }
-	    return keyArr;
-	  };
+	  }, {
+	    key: 'keys',
+	    value: function keys() {
+	      var table = this.table;
+	      var keyArr = [];
+	      var tableLen = table.length;
+	      for (var i = 0; i < tableLen; i += 1) {
+	        var currentBucket = table[i];
+	        for (var j = 0; j < currentBucket.length; j += 2) {
+	          keyArr.push(currentBucket[j]);
+	        }
+	      }
+	      return keyArr;
+	    }
 
-	  /**
-	   * Returns the number of buckets in the Associative Array
-	   * @returns {number} Size of inner Associative Array
-	   *
-	   * @example
-	   * new Collections.HashTable().tableSize() // 13 initial value empty args
-	   */
+	    /**
+	     * Returns the number of buckets in the Associative Array
+	     * @returns {number} Size of inner Associative Array
+	     *
+	     * @example
+	     * new Collections.HashTable().tableSize() // 13 initial value empty args
+	     */
 
-
-	  HashTable.prototype.tableSize = function tableSize() {
-	    return this.table.length;
-	  };
-
-	  HashTable.prototype.size = function size() {
-	    return this.inserts;
-	  };
+	  }, {
+	    key: 'tableSize',
+	    value: function tableSize() {
+	      return this.table.length;
+	    }
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.inserts;
+	    }
+	  }]);
 
 	  return HashTable;
 	}(_MapInterface3['default']);
 
-	module.exports = HashTable;
+	exports['default'] = HashTable;
 
 /***/ },
 /* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1455,96 +1628,110 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.put = function put(key, value) {
-	    throw new Error("must implement this method");
-	  };
+	  _createClass(MapInterface, [{
+	    key: "put",
+	    value: function put(key, value) {
+	      throw new Error("must implement this method");
+	    }
 
-	  /**
-	   * Retrieves the value mapped to by the given key
-	   * @param {*} key - The key to lookup
-	   * @returns {*} The value associated with @param key
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.getVal(99); // returns "promblems"
-	   */
+	    /**
+	     * Retrieves the value mapped to by the given key
+	     * @param {*} key - The key to lookup
+	     * @returns {*} The value associated with @param key
+	     *
+	     * @example
+	     * map.put(99, "problems");
+	     * map.getVal(99); // returns "promblems"
+	     */
 
+	  }, {
+	    key: "getVal",
+	    value: function getVal(key) {
+	      throw new Error("must implement this method");
+	    }
 
-	  MapInterface.prototype.getVal = function getVal(key) {
-	    throw new Error("must implement this method");
-	  };
+	    /**
+	     * Removes the given key and its associated value from the Map
+	     * @param {*} key - The key to lookup
+	     * @returns {boolean} True if the key was removed and false otherwise
+	     *
+	     * @example
+	     * map.put(99, "problems");
+	     * map.remove(88); // returns false
+	     * map.remove(99); // return true
+	     */
 
-	  /**
-	   * Removes the given key and its associated value from the Map
-	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if the key was removed and false otherwise
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.remove(88); // returns false
-	   * map.remove(99); // return true
-	   */
+	  }, {
+	    key: "remove",
+	    value: function remove(key) {
+	      throw new Error("must implement this method");
+	    }
 
+	    /**
+	     * Reports whether the Map contains the given key
+	     * @param {*} key - The key to lookup
+	     * @returns {boolean} True if @param key is found and false otherwise
+	     *
+	     * @example
+	     * map.contains("empty"); // return false
+	     */
 
-	  MapInterface.prototype.remove = function remove(key) {
-	    throw new Error("must implement this method");
-	  };
+	  }, {
+	    key: "contains",
+	    value: function contains(key) {
+	      throw new Error("must implement this method");
+	    }
 
-	  /**
-	   * Reports whether the Map contains the given key
-	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if @param key is found and false otherwise
-	   *
-	   * @example
-	   * map.contains("empty"); // return false
-	   */
+	    /**
+	    * Returns all of the keys in the Map
+	    * @returns {Array} An array of keys
+	    *
+	    * @example
+	    * map.put(1, "b");
+	    * map.put(2, "c");
+	    * map.put(3, "d");
+	    * map.keys() // returns ["a", "b", "c"] permutation (order may 
+	    * or may not be guarenteed)
+	    */
 
+	  }, {
+	    key: "keys",
+	    value: function keys() {
+	      throw new Error("must implement this method");
+	    }
 
-	  MapInterface.prototype.contains = function contains(key) {
-	    throw new Error("must implement this method");
-	  };
+	    /**
+	    * Returns number of elements in the Map
+	    * @returns {number} The number of insertions
+	    *
+	    * @example
+	    * map.put(99, "problems");
+	    * map.size() // 1
+	    */
 
-	  /**
-	  * Returns all of the keys in the Map
-	  * @returns {Array} An array of keys
-	  *
-	  * @example
-	  * map.put(1, "b");
-	  * map.put(2, "c");
-	  * map.put(3, "d");
-	  * map.keys() // returns ["a", "b", "c"] permutation (order may 
-	  * or may not be guarenteed)
-	  */
-
-
-	  MapInterface.prototype.keys = function keys() {
-	    throw new Error("must implement this method");
-	  };
-
-	  /**
-	  * Returns number of elements in the Map
-	  * @returns {number} The number of insertions
-	  *
-	  * @example
-	  * map.put(99, "problems");
-	  * map.size() // 1
-	  */
-
-
-	  MapInterface.prototype.size = function size() {
-	    throw new Error("must implement this method");
-	  };
+	  }, {
+	    key: "size",
+	    value: function size() {
+	      throw new Error("must implement this method");
+	    }
+	  }]);
 
 	  return MapInterface;
 	}();
 
-	module.exports = MapInterface;
+	exports["default"] = MapInterface;
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _HashTable = __webpack_require__(8);
 
@@ -1577,42 +1764,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function HashSet(initialCapacity) {
 	    _classCallCheck(this, HashSet);
 
-	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
+	    var _this = _possibleConstructorReturn(this, (HashSet.__proto__ || Object.getPrototypeOf(HashSet)).call(this));
 
 	    _this.set = new _HashTable2['default'](initialCapacity);
 	    return _this;
 	  }
 
-	  HashSet.prototype.add = function add(element) {
-	    return this.set.put(element);
-	  };
-
-	  HashSet.prototype.has = function has(element) {
-	    return this.set.contains(element);
-	  };
-
-	  HashSet.prototype.remove = function remove(element) {
-	    return this.set.remove(element);
-	  };
-
-	  HashSet.prototype.keys = function keys() {
-	    return this.set.keys();
-	  };
-
-	  HashSet.prototype.cardinality = function cardinality() {
-	    return this.set.size();
-	  };
+	  _createClass(HashSet, [{
+	    key: 'add',
+	    value: function add(element) {
+	      this.set.put(element);
+	      return this;
+	    }
+	  }, {
+	    key: 'has',
+	    value: function has(element) {
+	      return this.set.contains(element);
+	    }
+	  }, {
+	    key: 'remove',
+	    value: function remove(element) {
+	      this.set.remove(element);
+	      return this;
+	    }
+	  }, {
+	    key: 'keys',
+	    value: function keys() {
+	      return this.set.keys();
+	    }
+	  }, {
+	    key: 'cardinality',
+	    value: function cardinality() {
+	      return this.set.size();
+	    }
+	  }]);
 
 	  return HashSet;
 	}(_SetInterface3['default']);
 
-	module.exports = HashSet;
+	exports['default'] = HashSet;
 
 /***/ },
 /* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1631,8 +1833,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Adds an element to the set. Does nothing if already in set
-	   * @param {*} element - Element to add to the set
-	   * @returns {boolean} True
+	   * @param {*} element - The element to add to the set
+	   * @returns {Set} The instance that this method was called
 	   *
 	   * @example
 	   * set.add(1);
@@ -1642,120 +1844,137 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.add = function add(element) {
-	    throw new Error("must implement this method");
-	  };
+	  _createClass(SetInterface, [{
+	    key: "add",
+	    value: function add(element) {
+	      throw new Error("must implement this method");
+	    }
 
-	  /**
-	   * Updates 'this' with the mathematical set difference of 'this' set and
-	   * another set
-	   * @param {Set} Set - another set instance
-	   * @returns {undefined}
-	   *
-	   * @example
-	   * set.add(1);
-	   * set.add(2);
-	   * set2 = new <Another Set>
-	   * set2.add(2);
-	   * set.diff(set2);
-	   * // set is now [1] and set2 is unchanged
-	   */
+	    /**
+	     * Updates 'this' with the mathematical set difference of 'this' set and
+	     * another set
+	     * @param {Set} Set - another set instance
+	     * @returns {undefined}
+	     *
+	     * @example
+	     * set.add(1);
+	     * set.add(2);
+	     * set2 = new <Another Set>
+	     * set2.add(2);
+	     * set.diff(set2);
+	     * // set is now [1] and set2 is unchanged
+	     */
 
-
-	  SetInterface.prototype.diff = function diff(thatSet) {
-	    var thatKeys = thatSet.keys();
-	    var context = this;
-	    thatKeys.forEach(function (element) {
-	      context.remove(element);
-	    });
-	  };
-
-	  /**
-	   * Reports whether the set contains a given value
-	   * @param {*} element - The element to find
-	   * @returns {boolean} True if set contains @param element and false otherwise
-	   *
-	   * @example
-	   * set.add(1);
-	   * set.add(2);
-	   * set.has(3); // false
-	   */
-
-
-	  SetInterface.prototype.has = function has(element) {
-	    throw new Error("must implement this method");
-	  };
-
-	  /**
-	  * Returns all elements in the set
-	  * @returns {Array} Array with all elements in the set
-	  */
-
-
-	  SetInterface.prototype.keys = function keys() {
-	    throw new Error("must implement this method");
-	  };
-
-	  /**
-	   * Removes an element from the set
-	   * @returns {boolean} true if @param element was removed and false otherwise
-	   */
-
-
-	  SetInterface.prototype.remove = function remove(element) {
-	    throw new Error("must implement this method");
-	  };
-
-	  /**
-	   * Updates 'this' with the mathematical set intersection of 'this' set and
-	   * another set
-	   * @param {Set} thatSet - another Set instance
-	   * @returns {undefined}
-	   *
-	   * @example
-	   * set.add(1);
-	   * set.add(2);
-	   * set2 = new Collections.HashSet();
-	   * set2.add(2);
-	   * set.intersect(set2);
-	   * // set1 is now [2] and set2 is unchanged
-	   */
-
-
-	  SetInterface.prototype.intersect = function intersect(thatSet) {
-	    var thisKeys = this.keys();
-	    var context = this;
-	    thisKeys.forEach(function (element) {
-	      if (!thatSet.has(element)) {
+	  }, {
+	    key: "diff",
+	    value: function diff(thatSet) {
+	      var thatKeys = thatSet.keys();
+	      var context = this;
+	      thatKeys.forEach(function (element) {
 	        context.remove(element);
-	      }
-	    });
-	  };
+	      });
+	      return context;
+	    }
 
-	  /**
-	   * Returns ths size of the set
-	   *
-	   * @example
-	   * set.add(1);
-	   * set.add(2);
-	   * set.cardinality() ; // 2
-	   */
+	    /**
+	     * Reports whether the set contains a given value
+	     * @param {*} element - The element to find
+	     * @returns {boolean} True if set contains @param element and false otherwise
+	     *
+	     * @example
+	     * set.add(1);
+	     * set.add(2);
+	     * set.has(3); // false
+	     */
 
+	  }, {
+	    key: "has",
+	    value: function has(element) {
+	      throw new Error("must implement this method");
+	    }
 
-	  SetInterface.prototype.cardinality = function cardinality() {
-	    throw new Error("must implement this method");
-	  };
+	    /**
+	    * Returns all elements in the set
+	    * @returns {Array} Array with all elements in the set
+	    */
+
+	  }, {
+	    key: "keys",
+	    value: function keys() {
+	      throw new Error("must implement this method");
+	    }
+
+	    /**
+	     * Removes an element from the set
+	     * @returns {Set} the instance that this method was called
+	     */
+
+	  }, {
+	    key: "remove",
+	    value: function remove(element) {
+	      throw new Error("must implement this method");
+	    }
+
+	    /**
+	     * Updates 'this' with the mathematical set intersection of 'this' set and
+	     * another set
+	     * @param {Set} thatSet - another Set instance
+	     * @returns {undefined}
+	     *
+	     * @example
+	     * set.add(1);
+	     * set.add(2);
+	     * set2 = new Collections.HashSet();
+	     * set2.add(2);
+	     * set.intersect(set2);
+	     * // set1 is now [2] and set2 is unchanged
+	     */
+
+	  }, {
+	    key: "intersect",
+	    value: function intersect(thatSet) {
+	      var thisKeys = this.keys();
+	      var context = this;
+	      thisKeys.forEach(function (element) {
+	        if (!thatSet.has(element)) {
+	          context.remove(element);
+	        }
+	      });
+	      return context;
+	    }
+
+	    /**
+	     * Returns ths size of the set
+	     *
+	     * @example
+	     * set.add(1);
+	     * set.add(2);
+	     * set.cardinality() ; // 2
+	     */
+
+	  }, {
+	    key: "cardinality",
+	    value: function cardinality() {
+	      throw new Error("must implement this method");
+	    }
+	  }]);
 
 	  return SetInterface;
 	}();
 
-	module.exports = SetInterface;
+	exports["default"] = SetInterface;
 
 /***/ },
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _BSTNode = __webpack_require__(13);
 
@@ -1798,110 +2017,123 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.insert = function insert(key, value) {
-	    var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
-	    if (inserted) {
-	      this.inserts += 1;
+	  _createClass(BST, [{
+	    key: 'insert',
+	    value: function insert(key, value) {
+	      var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
+	      if (inserted) {
+	        this.inserts += 1;
+	      }
+	      return this;
 	    }
-	    return this;
-	  };
 
-	  /**
-	   * Removes the given key and its associated value from BST
-	   * @param {*} key - The key to search for
-	   * @returns {BST} The instance that this method was called with
-	   *
-	   * @example
-	   * bst.insert(1, 5).insert(5, 10);
-	   * bst.remove(1); // 1 and it's associated value are removed from tree
-	   * bst.remove("dog"); // this call fails silently as dog never existed in tree
-	   */
+	    /**
+	     * Removes the given key and its associated value from BST
+	     * @param {*} key - The key to search for
+	     * @returns {BST} The instance that this method was called with
+	     *
+	     * @example
+	     * bst.insert(1, 5).insert(5, 10);
+	     * bst.remove(1); // 1 and it's associated value are removed from tree
+	     * bst.remove("dog"); // this call fails silently as dog never existed in tree
+	     */
 
-
-	  BST.prototype.remove = function remove(key) {
-	    var removed = _BSTPrototype.BSTRemove.call(this, key);
-	    if (removed) {
-	      this.inserts -= 1;
+	  }, {
+	    key: 'remove',
+	    value: function remove(key) {
+	      var removed = _BSTPrototype.BSTRemove.call(this, key);
+	      if (removed) {
+	        this.inserts -= 1;
+	      }
+	      return this;
 	    }
-	    return this;
-	  };
 
-	  /**
-	  * Finds the value associated with the given key
-	  * @param {*} key - The key to search for in BST
-	  * @returns {(*|undefined)} The value associated with @param key or undefined
-	  * if not found.
-	  *
-	  * @example
-	  * bst.insert(1, 5).insert(5, 10);
-	  * bst.find(5); // returns 10
-	  * bst.find(67); // returns undefined
-	  */
+	    /**
+	    * Finds the value associated with the given key
+	    * @param {*} key - The key to search for in BST
+	    * @returns {(*|undefined)} The value associated with @param key or undefined
+	    * if not found.
+	    *
+	    * @example
+	    * bst.insert(1, 5).insert(5, 10);
+	    * bst.find(5); // returns 10
+	    * bst.find(67); // returns undefined
+	    */
 
+	  }, {
+	    key: 'find',
+	    value: function find(key) {
+	      var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
+	      return node ? node.value : undefined;
+	    }
 
-	  BST.prototype.find = function find(key) {
-	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
-	    return node ? node.value : undefined;
-	  };
+	    /**
+	    * Determines if the BST contains the given key
+	    * @param {*} key - The key to search for
+	    * @returns {boolean} True if BST contains @param key and false otherwise
+	    *
+	    * @example
+	    * bst.insert(1, 5).insert(5, 10);
+	    * bst.contains(5); // returns true
+	    * bst.contains(67); // returns false
+	    */
 
-	  /**
-	  * Determines if the BST contains the given key
-	  * @param {*} key - The key to search for
-	  * @returns {boolean} True if BST contains @param key and false otherwise
-	  *
-	  * @example
-	  * bst.insert(1, 5).insert(5, 10);
-	  * bst.contains(5); // returns true
-	  * bst.contains(67); // returns false
-	  */
+	  }, {
+	    key: 'contains',
+	    value: function contains(key) {
+	      return this.find(key) !== undefined;
+	    }
 
+	    /**
+	    * Gives the inorder traversal of the BST
+	    * @returns {Array} Array of objects representing the tree
+	    */
 
-	  BST.prototype.contains = function contains(key) {
-	    return this.find(key) !== undefined;
-	  };
+	  }, {
+	    key: 'inorder',
+	    value: function inorder() {
+	      return (0, _BSTPrototype.BSTInorder)(this.root);
+	    }
 
-	  /**
-	  * Gives the inorder traversal of the BST
-	  * @returns {Array} Array of objects representing the tree
-	  */
+	    /**
+	     * Reports the number of elements in the BST
+	     * @returns {number} Number of elements in the BST
+	     */
 
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.inserts;
+	    }
 
-	  BST.prototype.inorder = function inorder() {
-	    return (0, _BSTPrototype.BSTInorder)(this.root);
-	  };
+	    /**
+	     * Gives the keys in the BST
+	     * @returns {Array} The key set
+	     */
 
-	  /**
-	   * Reports the number of elements in the BST
-	   * @returns {number} Number of elements in the BST
-	   */
-
-
-	  BST.prototype.size = function size() {
-	    return this.inserts;
-	  };
-
-	  /**
-	   * Gives the keys in the BST
-	   * @returns {Array} The key set
-	   */
-
-
-	  BST.prototype.keys = function keys() {
-	    return this.inorder().map(function (node) {
-	      return node.key;
-	    });
-	  };
+	  }, {
+	    key: 'keys',
+	    value: function keys() {
+	      return this.inorder().map(function (node) {
+	        return node.key;
+	      });
+	    }
+	  }]);
 
 	  return BST;
 	}();
 
-	module.exports = BST;
+	exports['default'] = BST;
 
 /***/ },
 /* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1915,13 +2147,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.value = value;
 	};
 
-	module.exports = BSTNode;
+	exports["default"] = BSTNode;
 
 /***/ },
 /* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.BSTInsert = BSTInsert;
+	exports.BSTSearch = BSTSearch;
+	exports.BSTRemove = BSTRemove;
+	exports.BSTInorder = BSTInorder;
 
 	/**
 	* Inserts given key and value into bst (maps key to value)
@@ -1932,7 +2172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @returns {(BSTNode|null)} Null if the node was already in tree, thus not inserted
 	* or the new node that was just inserted successfully.
 	*/
-	function insert(key, value, Node) {
+	function BSTInsert(key, value, Node) {
 	  var comp = this.comp;
 	  var root = this.root;
 	  var newNode = new Node(key, value);
@@ -1969,7 +2209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} key - The key to search for in bst
 	 * @returns {(null|BSTNode)} Null if not found. Or the actual node if found
 	 */
-	function search(root, key) {
+	function BSTSearch(root, key) {
 	  var curRoot = root;
 	  var comp = this.comp;
 	  while (curRoot.key !== undefined) {
@@ -2007,8 +2247,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {BSTNode} nodeType - Type of Nodes in the tree
 	 * @returns {boolean} Returns True if node was deleted and false otherwise
 	 */
-	function remove(key) {
-	  var node = search.call(this, this.root, key);
+	function BSTRemove(key) {
+	  var node = BSTSearch.call(this, this.root, key);
 	  if (!node) {
 	    return false;
 	  }
@@ -2047,27 +2287,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {Array(Object)} Array containing key and value info as well as
 	 * parent info for each node
 	 */
-	function inorder(root) {
+	function BSTInorder(root) {
 	  if (root && root.key !== undefined) {
 	    var tmp = [];
-	    return tmp.concat(inorder(root.left), root, inorder(root.right));
+	    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
 	  }
 	  return [];
 	}
-
-	module.exports = {
-	  BSTInsert: insert,
-	  BSTRemove: remove,
-	  BSTSearch: search,
-	  BSTInorder: inorder,
-	  BSTSuccessor: successor
-	};
 
 /***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _Queue = __webpack_require__(4);
 
@@ -2117,146 +2355,159 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.addVertex = function addVertex(vertex) {
-	    var graph = this.graph;
-	    // so user does not accidentally overwrite values array
+	  _createClass(Graph, [{
+	    key: 'addVertex',
+	    value: function addVertex(vertex) {
+	      var graph = this.graph;
+	      // so user does not accidentally overwrite values array
 
-	    if (!graph.contains(vertex) && vertex !== undefined) {
-	      graph.put(vertex, []);
-	    }
-	  };
-
-	  /**
-	   * Connects two verticies to create an undirected edge
-	   * @param {*} vertex1 - The first vertex
-	   * @param {*} vertex2 - The second vertex
-	   * @param {number} [weight=0] - Optional cost of
-	   * edge between @param vertex1, vertex2
-	   * @returns {undefined}
-	   *
-	   * @example
-	   * graph.addVertex("A");
-	   * graph.addVertex("B");
-	   * graph.addEdge("A", "B", 4); // adds edge between "A" & "B" of weight 4
-	   */
-
-
-	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
-	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-	    // TODO: replace with PQ for Prim's
-	    var graph = this.graph;
-
-	    var v1neighbors = graph.getVal(vertex1);
-	    var v2neighbors = graph.getVal(vertex2);
-	    // they both exist as verticies
-	    if (v1neighbors && v2neighbors) {
-	      // make sure edge does not already exist
-	      if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
-	        // body
-	        v1neighbors.push({ vertex: vertex2, weight: weight });
-	        v2neighbors.push({ vertex: vertex1, weight: weight });
+	      if (!graph.contains(vertex) && vertex !== undefined) {
+	        graph.put(vertex, []);
 	      }
 	    }
-	  };
 
-	  /**
-	   * Performs Breadth First Search
-	   * @param {*} startingVertex - The vertex to start Search from
-	   * @returns {Array} An Array containing verticies in order visited
-	   * through BFS
-	   */
+	    /**
+	     * Connects two verticies to create an undirected edge
+	     * @param {*} vertex1 - The first vertex
+	     * @param {*} vertex2 - The second vertex
+	     * @param {number} [weight=0] - Optional cost of
+	     * edge between @param vertex1, vertex2
+	     * @returns {undefined}
+	     *
+	     * @example
+	     * graph.addVertex("A");
+	     * graph.addVertex("B");
+	     * graph.addEdge("A", "B", 4); // adds edge between "A" & "B" of weight 4
+	     */
 
+	  }, {
+	    key: 'addEdge',
+	    value: function addEdge(vertex1, vertex2) {
+	      var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
-	  Graph.prototype.BFS = function BFS(startingVertex) {
-	    var graph = this.graph;
+	      // TODO: replace with PQ for Prim's
+	      var graph = this.graph;
 
-	    if (!graph.contains(startingVertex)) {
-	      return [];
-	    }
-
-	    var bfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var queue = new _Queue2['default']();
-	    queue.enqueue(startingVertex);
-	    while (queue.size() !== 0) {
-	      var currentVertex = queue.dequeue();
-
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        bfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            queue.enqueue(curNeighbor);
-	          }
+	      var v1neighbors = graph.getVal(vertex1);
+	      var v2neighbors = graph.getVal(vertex2);
+	      // they both exist as verticies
+	      if (v1neighbors && v2neighbors) {
+	        // make sure edge does not already exist
+	        if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
+	          // body
+	          v1neighbors.push({ vertex: vertex2, weight: weight });
+	          v2neighbors.push({ vertex: vertex1, weight: weight });
 	        }
 	      }
 	    }
-	    return bfs;
-	  };
 
-	  /**
-	   * Performs Depth First Search
-	   * @param {*} startingVertex - The vertex to start Search from
-	   * @returns {Array} An Array containing verticies in order visited
-	   * through DFS
-	   */
+	    /**
+	     * Performs Breadth First Search
+	     * @param {*} startingVertex - The vertex to start Search from
+	     * @returns {Array} An Array containing verticies in order visited
+	     * through BFS
+	     */
 
+	  }, {
+	    key: 'BFS',
+	    value: function BFS(startingVertex) {
+	      var graph = this.graph;
 
-	  Graph.prototype.DFS = function DFS(startingVertex) {
-	    var graph = this.graph;
-	    if (!graph.contains(startingVertex)) {
-	      return [];
-	    }
+	      if (!graph.contains(startingVertex)) {
+	        return [];
+	      }
 
-	    var dfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var stack = new _Stack2['default']();
-	    stack.push(startingVertex);
-	    while (stack.size() !== 0) {
-	      var currentVertex = stack.pop();
+	      var bfs = [];
+	      var visited = new _HashSet2['default'](graph.size());
+	      var queue = new _Queue2['default']();
+	      queue.enqueue(startingVertex);
+	      while (queue.size() !== 0) {
+	        var currentVertex = queue.dequeue();
 
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        dfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            stack.push(curNeighbor);
+	        if (!visited.has(currentVertex)) {
+	          visited.add(currentVertex);
+	          bfs.push(currentVertex);
+	          var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	          for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	            var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	            if (!visited.has(curNeighbor)) {
+	              queue.enqueue(curNeighbor);
+	            }
 	          }
 	        }
 	      }
+	      return bfs;
 	    }
-	    return dfs;
-	  };
 
-	  /**
-	   * Reports whether the graph is connected
-	   * @returns {boolean} True if connected and false otherwise
-	   */
+	    /**
+	     * Performs Depth First Search
+	     * @param {*} startingVertex - The vertex to start Search from
+	     * @returns {Array} An Array containing verticies in order visited
+	     * through DFS
+	     */
 
+	  }, {
+	    key: 'DFS',
+	    value: function DFS(startingVertex) {
+	      var graph = this.graph;
+	      if (!graph.contains(startingVertex)) {
+	        return [];
+	      }
 
-	  Graph.prototype.isConnected = function isConnected() {
-	    var graph = this.graph;
-	    var firstKey = '';
-	    var verticies = graph.keys();
-	    firstKey = verticies[0];
-	    return this.BFS(firstKey).length === verticies.length;
-	  };
+	      var dfs = [];
+	      var visited = new _HashSet2['default'](graph.size());
+	      var stack = new _Stack2['default']();
+	      stack.push(startingVertex);
+	      while (stack.size() !== 0) {
+	        var currentVertex = stack.pop();
+
+	        if (!visited.has(currentVertex)) {
+	          visited.add(currentVertex);
+	          dfs.push(currentVertex);
+	          var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	          for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	            var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	            if (!visited.has(curNeighbor)) {
+	              stack.push(curNeighbor);
+	            }
+	          }
+	        }
+	      }
+	      return dfs;
+	    }
+
+	    /**
+	     * Reports whether the graph is connected
+	     * @returns {boolean} True if connected and false otherwise
+	     */
+
+	  }, {
+	    key: 'isConnected',
+	    value: function isConnected() {
+	      var graph = this.graph;
+	      var firstKey = '';
+	      var verticies = graph.keys();
+	      firstKey = verticies[0];
+	      return this.BFS(firstKey).length === verticies.length;
+	    }
+	  }]);
 
 	  return Graph;
 	}();
 
-	module.exports = Graph;
+	exports['default'] = Graph;
 
 /***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _Util = __webpack_require__(2);
 
@@ -2379,113 +2630,127 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Trie.prototype.addWord = function addWord() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  _createClass(Trie, [{
+	    key: 'addWord',
+	    value: function addWord() {
+	      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	    var currentNode = this.root.children;
-	    var word = toLowerCaseString(data);
-	    var currentChar = void 0;
-	    for (var i = 0; i < word.length; i += 1) {
-	      currentChar = word.charAt(i);
-	      // path does not exist currently in trie
-	      if (!currentNode[currentChar]) {
-	        currentNode[currentChar] = new TrieNode();
-	      }
-	      // add end of word and word flags
-	      if (i === word.length - 1) {
-	        currentNode[currentChar].endOfWord = true;
-	        currentNode[currentChar].word = word;
-	      }
-	      // trickle down the tree
-	      currentNode = currentNode[currentChar].children;
-	    }
-	  };
-
-	  /**
-	   * Reports whether the trie contains the given word
-	   * @param {*} data - The data to search for
-	   * @returns {boolean} True if the trie contains @param data.toString()
-	   * or false if it does not
-	   */
-
-
-	  Trie.prototype.containsWord = function containsWord() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    var word = toLowerCaseString(data);
-	    var foundWord = getNode(this.root, word);
-	    if (foundWord) {
-	      var lastChar = word.charAt(word.length - 1);
-	      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
-	        return true;
+	      var currentNode = this.root.children;
+	      var word = toLowerCaseString(data);
+	      var currentChar = void 0;
+	      for (var i = 0; i < word.length; i += 1) {
+	        currentChar = word.charAt(i);
+	        // path does not exist currently in trie
+	        if (!currentNode[currentChar]) {
+	          currentNode[currentChar] = new TrieNode();
+	        }
+	        // add end of word and word flags
+	        if (i === word.length - 1) {
+	          currentNode[currentChar].endOfWord = true;
+	          currentNode[currentChar].word = word;
+	        }
+	        // trickle down the tree
+	        currentNode = currentNode[currentChar].children;
 	      }
 	    }
-	    return false;
-	  };
 
-	  /*
-	  * trie.addWord("apple");
-	  * trie.addWord.("app");
-	  * trie.containsPrefix("apple"); // false
-	  * trie.containsPrefix("app"); // true
-	  */
+	    /**
+	     * Reports whether the trie contains the given word
+	     * @param {*} data - The data to search for
+	     * @returns {boolean} True if the trie contains @param data.toString()
+	     * or false if it does not
+	     */
 
+	  }, {
+	    key: 'containsWord',
+	    value: function containsWord() {
+	      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	  Trie.prototype.containsPrefix = function containsPrefix() {
-	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    var root = this.root;
-	    var str = toLowerCaseString(prefix);
-	    var foundPrefix = getNode(root, str);
-	    if (foundPrefix) {
-	      var lastChar = str.charAt(str.length - 1);
-	      if (foundPrefix[lastChar]) {
-	        var hasChildren = hasChild(foundPrefix[lastChar].children);
-	        if (hasChildren) {
+	      var word = toLowerCaseString(data);
+	      var foundWord = getNode(this.root, word);
+	      if (foundWord) {
+	        var lastChar = word.charAt(word.length - 1);
+	        if (foundWord[lastChar] && foundWord[lastChar].word === word) {
 	          return true;
 	        }
 	      }
+	      return false;
 	    }
-	    return false;
-	  };
 
-	  /**
-	   * Gives all of the words in the trie with the given prefix
-	   * @param {*} prefix - The prefix to search for
-	   * @returns {Array} An array with all the words that are prefixed by
-	   * @param prefix
-	   *
-	   * @example
-	   * trie.addWord("apple");
-	   * trie.addWord.("app");
-	   * trie.prefixAll("app"); // returns only apple because app is equal to prefix
-	   */
+	    /*
+	    * trie.addWord("apple");
+	    * trie.addWord.("app");
+	    * trie.containsPrefix("apple"); // false
+	    * trie.containsPrefix("app"); // true
+	    */
 
+	  }, {
+	    key: 'containsPrefix',
+	    value: function containsPrefix() {
+	      var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	  Trie.prototype.prefixAll = function prefixAll() {
-	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    if (!this.containsPrefix(prefix)) {
-	      return [];
+	      var root = this.root;
+	      var str = toLowerCaseString(prefix);
+	      var foundPrefix = getNode(root, str);
+	      if (foundPrefix) {
+	        var lastChar = str.charAt(str.length - 1);
+	        if (foundPrefix[lastChar]) {
+	          var hasChildren = hasChild(foundPrefix[lastChar].children);
+	          if (hasChildren) {
+	            return true;
+	          }
+	        }
+	      }
+	      return false;
 	    }
-	    var word = toLowerCaseString(prefix);
-	    var prefixTail = getNode(this.root, word);
-	    var lastChar = word.charAt(word.length - 1);
-	    var prefixes = [];
-	    recurseTree(prefixTail[lastChar].children, prefixes);
-	    return prefixes;
-	  };
+
+	    /**
+	     * Gives all of the words in the trie with the given prefix
+	     * @param {*} prefix - The prefix to search for
+	     * @returns {Array} An array with all the words that are prefixed by
+	     * @param prefix
+	     *
+	     * @example
+	     * trie.addWord("apple");
+	     * trie.addWord.("app");
+	     * trie.prefixAll("app"); // returns only apple because app is equal to prefix
+	     */
+
+	  }, {
+	    key: 'prefixAll',
+	    value: function prefixAll() {
+	      var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	      if (!this.containsPrefix(prefix)) {
+	        return [];
+	      }
+	      var word = toLowerCaseString(prefix);
+	      var prefixTail = getNode(this.root, word);
+	      var lastChar = word.charAt(word.length - 1);
+	      var prefixes = [];
+	      recurseTree(prefixTail[lastChar].children, prefixes);
+	      return prefixes;
+	    }
+	  }]);
 
 	  return Trie;
 	}();
 
-	module.exports = Trie;
+	exports['default'] = Trie;
 
 /***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
 	var _HashMap2 = __webpack_require__(7);
 
@@ -2515,7 +2780,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function HashMultiMap(initialCapacity) {
 	    _classCallCheck(this, HashMultiMap);
 
-	    return _possibleConstructorReturn(this, _HashMap.call(this, initialCapacity));
+	    return _possibleConstructorReturn(this, (HashMultiMap.__proto__ || Object.getPrototypeOf(HashMultiMap)).call(this, initialCapacity));
 	  }
 
 	  /**
@@ -2531,32 +2796,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMultiMap.prototype.put = function put(key) {
-	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  _createClass(HashMultiMap, [{
+	    key: 'put',
+	    value: function put(key) {
+	      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-	    var retVal = _HashMap.prototype.getVal.call(this, key);
-	    if (retVal) {
-	      // no duplicate values for one key
-	      if (retVal.indexOf(value) === -1) {
-	        return retVal.push(value);
+	      var retVal = _get(HashMultiMap.prototype.__proto__ || Object.getPrototypeOf(HashMultiMap.prototype), 'getVal', this).call(this, key);
+	      if (retVal) {
+	        // no duplicate values for one key
+	        if (retVal.indexOf(value) === -1) {
+	          return retVal.push(value);
+	        }
+	      } else {
+	        var newValArr = [];
+	        newValArr.push(value);
+	        _get(HashMultiMap.prototype.__proto__ || Object.getPrototypeOf(HashMultiMap.prototype), 'put', this).call(this, key, newValArr);
 	      }
-	      return false;
+	      return this;
 	    }
-	    var newValArr = [];
-	    newValArr.push(value);
-	    return _HashMap.prototype.put.call(this, key, newValArr);
-	  };
+	  }]);
 
 	  return HashMultiMap;
 	}(_HashMap3['default']);
 
-	module.exports = HashMultiMap;
+	exports['default'] = HashMultiMap;
 
 /***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _Util = __webpack_require__(2);
 
@@ -2640,226 +2915,244 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.remove = function remove() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+	  _createClass(ArrayUtils, null, [{
+	    key: 'remove',
+	    value: function remove() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
-	    return index >= 0 ? array.splice(index, 1) : [];
-	  };
-
-	  /**
-	   * Removes the first occurence of the given value from array
-	   * @static
-	   * @param {Array} array - The array to remove elements from
-	   * @param {*} value - The value to remove from @param array
-	   * @returns {Array} Array of removed elements
-	   *
-	   * @example
-	   * const myArray = [1, 2, 3, 4];
-	   * let removedItems = arrayMethods.removeElement(myArray, 3);
-	   * // changedArray contains [3] and myArray is [1, 2, 4]
-	   */
-
-
-	  ArrayUtils.removeElement = function removeElement() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var value = arguments[1];
-
-	    var indexOfValue = array.indexOf(value);
-	    return ArrayUtils.remove(array, indexOfValue);
-	  };
-
-	  /**
-	   * Rotates the given array left(negative number) or right(positive number)
-	   * @static
-	   * @param {Array} array - The array to rotate
-	   * @param {number} times - The number of times to rotate @param array
-	   * @throws {TypeError} If @param times is not a primitive number
-	   * @returns {undefined}
-	   *
-	   * @example
-	   * const myArray = [1, 2, 3, 4];
-	   * arrayMethods.rotate(myArray, 2);
-	   * // myArray is [3, 4, 1, 2]
-	   * arrayMethods.rotate(myArray, -2);
-	   * // myArray is back to original positioning [1, 2, 3, 4]
-	   */
-
-
-	  ArrayUtils.rotate = function rotate() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-	    // avoid infinite loop in rotate methods for unconventional args
-	    (0, _Util.isNumber)(times);
-	    if (times < 0) {
-	      return lRotate(array, times);
-	    } else if (times > 0) {
-	      return rRotate(array, times);
+	      return index >= 0 ? array.splice(index, 1) : [];
 	    }
-	  };
 
-	  /**
-	   * Pops the given array a given amount of times
-	   * @static
-	   * @param {Array} array - The array to pop
-	   * @param {number} times - The number of times to pop @param array
-	   * @returns {Array} A new array equal to
-	   * [@param array - popped elements]
-	   *
-	   * @example
-	   * const myArray = [1, 2, 3, 4];
-	   * const altered = arrayMethods.popMany(myArray, 3);
-	   * // myArray is [1, 2, 3, 4] ; altered is [1]
-	   */
+	    /**
+	     * Removes the first occurence of the given value from array
+	     * @static
+	     * @param {Array} array - The array to remove elements from
+	     * @param {*} value - The value to remove from @param array
+	     * @returns {Array} Array of removed elements
+	     *
+	     * @example
+	     * const myArray = [1, 2, 3, 4];
+	     * let removedItems = arrayMethods.removeElement(myArray, 3);
+	     * // changedArray contains [3] and myArray is [1, 2, 4]
+	     */
 
+	  }, {
+	    key: 'removeElement',
+	    value: function removeElement() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var value = arguments[1];
 
-	  ArrayUtils.popMany = function popMany() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-	    var diff = array.length - times;
-	    return diff > 0 ? array.slice(0, diff) : [];
-	  };
-
-	  /**
-	   * Pushes many elements into the given array
-	   * @static
-	   * @param {Array} array - The array to push elements into
-	   * @param {*} args - Consecutive arguments to push into array
-	   * @returns {Array} A new array equal to [@param array + pushed elements]
-	   *
-	   * @example
-	   * const myArray = [1, 2];
-	   * const altered = arrayMethods.pushMany(myArray, "push", "me");
-	   * // myArray is unchanged ; altered = [1, 2, "push", "me"]
-	   */
-
-
-	  ArrayUtils.pushMany = function pushMany() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    // eslint-disable-line no-unused-vars
-	    var args = [].concat(Array.prototype.slice.call(arguments));
-	    // throw out array arg
-	    args.shift();
-	    return array.concat(args);
-	  };
-
-	  /**
-	   * Returns a random index in the given array
-	   * @static
-	   * @param {Array} array - The array to get random index from
-	   * @returns {*} Random element in @param array
-	   *
-	   * @example
-	   * const myArray = [1, 2];
-	   * const altered = arrayMethods.getRand(myArray);
-	   * // altered could be 1 or 2
-	   */
-
-
-	  ArrayUtils.getRand = function getRand() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-	    return array[(0, _Util.genRand)(array.length)];
-	  };
-
-	  /**
-	   * Removes a random element from the given array
-	   * @static
-	   * @param {Array} array - The array to remove a random element from
-	   * @returns {Array} An array of length 1 containing the element removed
-	   * from @param array
-	   *
-	   * @example
-	   * const myArray = [1, 2];
-	   * const altered = arrayMethods.removeRand(myArray);
-	   * // altered could be 1 or 2 ; myArray's length decreases by 1
-	   */
-
-
-	  ArrayUtils.removeRand = function removeRand() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-	    var randIndex = (0, _Util.genRand)(array.length);
-	    return ArrayUtils.remove(array, randIndex);
-	  };
-
-	  /**
-	   * Shuffles the given array
-	   * @static
-	   * @param {Array} array - The array to shuffle
-	   * @returns {undefined}
-	   */
-
-
-	  ArrayUtils.shuffle = function shuffle(array) {
-	    var arrayLength = array.length;
-	    for (var i = 0; i < Math.floor(arrayLength / 2); i += 1) {
-	      var index1 = (0, _Util.genRand)(arrayLength);
-	      var index2 = (0, _Util.genRand)(arrayLength);
-	      (0, _Util.swap)(array, index1, index2);
+	      var indexOfValue = array.indexOf(value);
+	      return ArrayUtils.remove(array, indexOfValue);
 	    }
-	  };
 
-	  /**
-	   * Turns an n dimensional array into a 1 dimensional array
-	   * @param {Array} array - The array to flatten
-	   * @returns {Array} @param array to a one dimensional array
-	   *
-	   * @example
-	   * const myArray = [[2], [3], [4, 5]];
-	   * const altered = arrayMethods.flatten(myArray);
-	   * // altered will be [2, 3, 4, 5] ; myArray is unchanged
-	   */
+	    /**
+	     * Rotates the given array left(negative number) or right(positive number)
+	     * @static
+	     * @param {Array} array - The array to rotate
+	     * @param {number} times - The number of times to rotate @param array
+	     * @throws {TypeError} If @param times is not a primitive number
+	     * @returns {undefined}
+	     *
+	     * @example
+	     * const myArray = [1, 2, 3, 4];
+	     * arrayMethods.rotate(myArray, 2);
+	     * // myArray is [3, 4, 1, 2]
+	     * arrayMethods.rotate(myArray, -2);
+	     * // myArray is back to original positioning [1, 2, 3, 4]
+	     */
 
+	  }, {
+	    key: 'rotate',
+	    value: function rotate() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	  ArrayUtils.flatten = function flatten(array) {
-	    var newArr = [];
-	    var curValue = void 0;
-	    for (var i = 0; i < array.length; i += 1) {
-	      curValue = array[i];
-	      newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat(pushValToArray(curValue));
+	      // avoid infinite loop in rotate methods for unconventional args
+	      (0, _Util.isNumber)(times);
+	      if (times < 0) {
+	        return lRotate(array, times);
+	      } else if (times > 0) {
+	        return rRotate(array, times);
+	      }
 	    }
-	    return newArr;
-	  };
 
-	  /**
-	   * Splits the given array into chunks
-	   * @param {Array} array - The array to chunk
-	   * @param {number} bits - The size of each nested array
-	   * @throws {TypeError} If @param bits is not a primitive number
-	   * @returns {Array} A new array split into @param bits
-	   *
-	   * @example
-	   * const myArray = [1, 2, 3, 4];
-	   * const altered = arrayMethods.chunk(myArray, 2);
-	   * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
-	   */
+	    /**
+	     * Pops the given array a given amount of times
+	     * @static
+	     * @param {Array} array - The array to pop
+	     * @param {number} times - The number of times to pop @param array
+	     * @returns {Array} A new array equal to
+	     * [@param array - popped elements]
+	     *
+	     * @example
+	     * const myArray = [1, 2, 3, 4];
+	     * const altered = arrayMethods.popMany(myArray, 3);
+	     * // myArray is [1, 2, 3, 4] ; altered is [1]
+	     */
 
+	  }, {
+	    key: 'popMany',
+	    value: function popMany() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	  ArrayUtils.chunk = function chunk(arr, bits) {
-	    (0, _Util.isNumber)(bits);
-	    var newArr = [];
-	    if (bits <= 0) {
-	      return [];
+	      var diff = array.length - times;
+	      return diff > 0 ? array.slice(0, diff) : [];
 	    }
-	    for (var i = 0; i < arr.length; i += bits) {
-	      newArr.push(arr.slice(i, i + bits));
+
+	    /**
+	     * Pushes many elements into the given array
+	     * @static
+	     * @param {Array} array - The array to push elements into
+	     * @param {*} args - Consecutive arguments to push into array
+	     * @returns {Array} A new array equal to [@param array + pushed elements]
+	     *
+	     * @example
+	     * const myArray = [1, 2];
+	     * const altered = arrayMethods.pushMany(myArray, "push", "me");
+	     * // myArray is unchanged ; altered = [1, 2, "push", "me"]
+	     */
+
+	  }, {
+	    key: 'pushMany',
+	    value: function pushMany() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      // eslint-disable-line no-unused-vars
+	      var args = [].concat(Array.prototype.slice.call(arguments));
+	      // throw out array arg
+	      args.shift();
+	      return array.concat(args);
 	    }
-	    return newArr;
-	  };
+
+	    /**
+	     * Returns a random index in the given array
+	     * @static
+	     * @param {Array} array - The array to get random index from
+	     * @returns {*} Random element in @param array
+	     *
+	     * @example
+	     * const myArray = [1, 2];
+	     * const altered = arrayMethods.getRand(myArray);
+	     * // altered could be 1 or 2
+	     */
+
+	  }, {
+	    key: 'getRand',
+	    value: function getRand() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+	      return array[(0, _Util.genRand)(array.length)];
+	    }
+
+	    /**
+	     * Removes a random element from the given array
+	     * @static
+	     * @param {Array} array - The array to remove a random element from
+	     * @returns {Array} An array of length 1 containing the element removed
+	     * from @param array
+	     *
+	     * @example
+	     * const myArray = [1, 2];
+	     * const altered = arrayMethods.removeRand(myArray);
+	     * // altered could be 1 or 2 ; myArray's length decreases by 1
+	     */
+
+	  }, {
+	    key: 'removeRand',
+	    value: function removeRand() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+	      var randIndex = (0, _Util.genRand)(array.length);
+	      return ArrayUtils.remove(array, randIndex);
+	    }
+
+	    /**
+	     * Shuffles the given array
+	     * @static
+	     * @param {Array} array - The array to shuffle
+	     * @returns {undefined}
+	     */
+
+	  }, {
+	    key: 'shuffle',
+	    value: function shuffle(array) {
+	      var arrayLength = array.length;
+	      for (var i = 0; i < Math.floor(arrayLength / 2); i += 1) {
+	        var index1 = (0, _Util.genRand)(arrayLength);
+	        var index2 = (0, _Util.genRand)(arrayLength);
+	        (0, _Util.swap)(array, index1, index2);
+	      }
+	    }
+
+	    /**
+	     * Turns an n dimensional array into a 1 dimensional array
+	     * @param {Array} array - The array to flatten
+	     * @returns {Array} @param array to a one dimensional array
+	     *
+	     * @example
+	     * const myArray = [[2], [3], [4, 5]];
+	     * const altered = arrayMethods.flatten(myArray);
+	     * // altered will be [2, 3, 4, 5] ; myArray is unchanged
+	     */
+
+	  }, {
+	    key: 'flatten',
+	    value: function flatten(array) {
+	      var newArr = [];
+	      var curValue = void 0;
+	      for (var i = 0; i < array.length; i += 1) {
+	        curValue = array[i];
+	        newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat(pushValToArray(curValue));
+	      }
+	      return newArr;
+	    }
+
+	    /**
+	     * Splits the given array into chunks
+	     * @param {Array} array - The array to chunk
+	     * @param {number} bits - The size of each nested array
+	     * @throws {TypeError} If @param bits is not a primitive number
+	     * @returns {Array} A new array split into @param bits
+	     *
+	     * @example
+	     * const myArray = [1, 2, 3, 4];
+	     * const altered = arrayMethods.chunk(myArray, 2);
+	     * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
+	     */
+
+	  }, {
+	    key: 'chunk',
+	    value: function chunk(arr, bits) {
+	      (0, _Util.isNumber)(bits);
+	      var newArr = [];
+	      if (bits <= 0) {
+	        return [];
+	      }
+	      for (var i = 0; i < arr.length; i += bits) {
+	        newArr.push(arr.slice(i, i + bits));
+	      }
+	      return newArr;
+	    }
+	  }]);
 
 	  return ArrayUtils;
 	}();
 
-	module.exports = ArrayUtils;
+	exports['default'] = ArrayUtils;
 
 /***/ },
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _BSTNode2 = __webpack_require__(13);
 
@@ -2871,7 +3164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _BST3 = _interopRequireDefault(_BST2);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2885,7 +3178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function RBNode(key, value) {
 	    _classCallCheck(this, RBNode);
 
-	    var _this = _possibleConstructorReturn(this, _BSTNode.call(this, key, value));
+	    var _this = _possibleConstructorReturn(this, (RBNode.__proto__ || Object.getPrototypeOf(RBNode)).call(this, key, value));
 
 	    _this.color = 'black';
 	    return _this;
@@ -3069,47 +3362,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function RBTree(comparator) {
 	    _classCallCheck(this, RBTree);
 
-	    var _this2 = _possibleConstructorReturn(this, _BST.call(this, comparator));
+	    var _this2 = _possibleConstructorReturn(this, (RBTree.__proto__ || Object.getPrototypeOf(RBTree)).call(this, comparator));
 
 	    _this2.root = new RBNode();
 	    return _this2;
 	  }
 
-	  RBTree.prototype.insert = function insert(key, value) {
-	    var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
-	    if (insertedNode) {
-	      insertedNode.color = 'red';
-	      insertFix.call(this, insertedNode);
-	      this.inserts += 1;
-	    }
-	    return this;
-	  };
-
-	  RBTree.prototype.remove = function remove(key) {
-	    // successor and child
-	    var didRemove = _BSTPrototype.BSTRemove.call(this, key);
-	    if (didRemove) {
-	      var succChild = didRemove.succChild,
-	          succ = didRemove.succ;
-
-	      if (succ.color === 'black') {
-	        deletefixUp.call(this, succChild);
-	        this.inserts -= 1;
+	  _createClass(RBTree, [{
+	    key: 'insert',
+	    value: function insert(key, value) {
+	      var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
+	      if (insertedNode) {
+	        insertedNode.color = 'red';
+	        insertFix.call(this, insertedNode);
+	        this.inserts += 1;
 	      }
+	      return this;
 	    }
-	    return this;
-	  };
+	  }, {
+	    key: 'remove',
+	    value: function remove(key) {
+	      // successor and child
+	      var didRemove = _BSTPrototype.BSTRemove.call(this, key);
+	      if (didRemove) {
+	        var succChild = didRemove.succChild,
+	            succ = didRemove.succ;
+
+	        if (succ.color === 'black') {
+	          deletefixUp.call(this, succChild);
+	          this.inserts -= 1;
+	        }
+	      }
+	      return this;
+	    }
+	  }]);
 
 	  return RBTree;
 	}(_BST3['default']);
 
-	module.exports = RBTree;
+	exports['default'] = RBTree;
 
 /***/ },
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _MapInterface2 = __webpack_require__(9);
 
@@ -3142,48 +3445,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Map(comparator) {
 	    _classCallCheck(this, Map);
 
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+	    var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this));
 
 	    _this.map = new _RedBlackTree2['default'](comparator);
 	    return _this;
 	  }
 
-	  Map.prototype.put = function put(key, value) {
-	    this.map.insert(key, value);
-	    return this;
-	  };
-
-	  Map.prototype.getVal = function getVal(key) {
-	    return this.map.find(key);
-	  };
-
-	  Map.prototype.remove = function remove(key) {
-	    this.map.remove(key);
-	    return this;
-	  };
-
-	  Map.prototype.keys = function keys() {
-	    return this.map.keys();
-	  };
-
-	  Map.prototype.contains = function contains(key) {
-	    return this.map.contains(key);
-	  };
-
-	  Map.prototype.size = function size() {
-	    return this.map.size();
-	  };
+	  _createClass(Map, [{
+	    key: 'put',
+	    value: function put(key, value) {
+	      this.map.insert(key, value);
+	      return this;
+	    }
+	  }, {
+	    key: 'getVal',
+	    value: function getVal(key) {
+	      return this.map.find(key);
+	    }
+	  }, {
+	    key: 'remove',
+	    value: function remove(key) {
+	      this.map.remove(key);
+	      return this;
+	    }
+	  }, {
+	    key: 'keys',
+	    value: function keys() {
+	      return this.map.keys();
+	    }
+	  }, {
+	    key: 'contains',
+	    value: function contains(key) {
+	      return this.map.contains(key);
+	    }
+	  }, {
+	    key: 'size',
+	    value: function size() {
+	      return this.map.size();
+	    }
+	  }]);
 
 	  return Map;
 	}(_MapInterface3['default']);
 
-	module.exports = Map;
+	exports['default'] = Map;
 
 /***/ },
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _SetInterface2 = __webpack_require__(11);
 
@@ -3216,44 +3533,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Set(comparator) {
 	    _classCallCheck(this, Set);
 
-	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
+	    var _this = _possibleConstructorReturn(this, (Set.__proto__ || Object.getPrototypeOf(Set)).call(this));
 
 	    _this.set = new _RedBlackTree2['default'](comparator);
 	    return _this;
 	  }
 
-	  Set.prototype.add = function add(element) {
-	    this.set.insert(element, 1);
-	    return true;
-	  };
+	  _createClass(Set, [{
+	    key: 'add',
+	    value: function add(element) {
+	      this.set.insert(element, 1);
+	      return this;
+	    }
+	  }, {
+	    key: 'has',
+	    value: function has(element) {
+	      return this.set.contains(element);
+	    }
 
-	  Set.prototype.has = function has(element) {
-	    return this.set.contains(element);
-	  };
+	    /**
+	     * Removes an element from the set
+	     * @returns {Set} The instance this method was called
+	     */
 
-	  /**
-	   * Removes an element from the set
-	   * @returns {Set} The instance this method was called
-	   */
-
-
-	  Set.prototype.remove = function remove(element) {
-	    this.set.remove(element);
-	    return this;
-	  };
-
-	  Set.prototype.keys = function keys() {
-	    return this.set.keys();
-	  };
-
-	  Set.prototype.cardinality = function cardinality() {
-	    return this.set.size();
-	  };
+	  }, {
+	    key: 'remove',
+	    value: function remove(element) {
+	      this.set.remove(element);
+	      return this;
+	    }
+	  }, {
+	    key: 'keys',
+	    value: function keys() {
+	      return this.set.keys();
+	    }
+	  }, {
+	    key: 'cardinality',
+	    value: function cardinality() {
+	      return this.set.size();
+	    }
+	  }]);
 
 	  return Set;
 	}(_SetInterface3['default']);
 
-	module.exports = Set;
+	exports['default'] = Set;
 
 /***/ }
 /******/ ])
