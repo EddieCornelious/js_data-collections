@@ -1,8 +1,7 @@
-const Collections = require("../collections.js");
+const ArrayUtils = require("../collections.js").ArrayUtils;
 const expect = require("chai").expect;
 
 describe("ArrayUtils", function() {
-  let ArrayUtils = Collections.ArrayUtils;
   let expected, actual;
 
   beforeEach( function() {
