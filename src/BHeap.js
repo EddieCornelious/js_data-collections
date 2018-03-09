@@ -133,4 +133,4 @@ class BHeap {
   }
 }
 
-module.exports = BHeap;
+export default BHeap;

@@ -44,4 +44,4 @@ class Map extends MapInterface {
   }
 }
 
-module.exports = Map;
+export default Map;

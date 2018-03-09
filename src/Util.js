@@ -7,7 +7,7 @@
  * @param {number} index2 - index to swap with @param index1
  * @returns {undefined}
  */
-function swap(array, index1, index2) {
+export function swap(array, index1, index2) {
   const oldIndex1 = array[index1];
   array[index1] = array[index2];
   array[index2] = oldIndex1;
@@ -19,7 +19,7 @@ function swap(array, index1, index2) {
  * @param {*} value - The value to convert to a string
  * @returns {string} @param value to string or stringified by JSON
  */
-function toString(value) {
+export function toString(value) {
   const type = typeof value;
   if (type === 'string') {
     return value;
@@ -46,7 +46,7 @@ function toString(value) {
    return 0;
  }
  */
-function defaultComp(a, b) {
+export function defaultComp(a, b) {
   if (a < b) {
     return -1;
   } else if (a > b) {
@@ -88,7 +88,7 @@ function customComp(a, b) { // eslint-disable-line no-unused-vars
  * /Global_Objects/Number/isFinite
  * @private
  */
-function isNumber(value) {
+export function isNumber(value) {
   if (typeof value !== 'number'
   || !isFinite(value)) { // eslint-disable-line no-restricted-globals
     throw new TypeError('Argument must be of type number or Number');
@@ -101,7 +101,7 @@ function isNumber(value) {
  * @param {number} limit - Upper bound on random number
  * @returns {number} Random number in the range [0, @param limit)
  */
-function genRand(limit) {
+export function genRand(limit) {
   return Math.floor(Math.random() * limit);
 }
 

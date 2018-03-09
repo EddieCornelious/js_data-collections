@@ -192,4 +192,4 @@ class Trie {
     return prefixes;
   }
 }
-module.exports = Trie;
+export default Trie;

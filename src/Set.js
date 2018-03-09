@@ -44,4 +44,4 @@ class Set extends SetInterface {
   }
 }
 
-module.exports = Set;
+export default Set;

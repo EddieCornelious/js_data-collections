@@ -207,4 +207,4 @@ class HashTable extends MapInterface {
     return this.inserts;
   }
 }
-module.exports = HashTable;
+export default HashTable;

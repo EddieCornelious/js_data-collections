@@ -117,4 +117,4 @@ class SetInterface {
   }
 }
 
-module.exports = SetInterface;
+export default SetInterface;

@@ -94,4 +94,4 @@ class MapInterface {
    }
 }
 
-module.exports = MapInterface;
+export default MapInterface;

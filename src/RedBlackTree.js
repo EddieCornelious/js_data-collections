@@ -209,4 +209,4 @@ class RBTree extends BST {
   }
 }
 
-module.exports = RBTree;
+export default RBTree;

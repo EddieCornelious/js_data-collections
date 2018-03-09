@@ -8,7 +8,7 @@
 * @returns {(BSTNode|null)} Null if the node was already in tree, thus not inserted
 * or the new node that was just inserted successfully.
 */
-function insert(key, value, Node) {
+export function BSTInsert(key, value, Node) {
   const comp = this.comp;
   let root = this.root;
   let newNode = new Node(key, value);
@@ -45,7 +45,7 @@ function insert(key, value, Node) {
  * @param {*} key - The key to search for in bst
  * @returns {(null|BSTNode)} Null if not found. Or the actual node if found
  */
-function search(root, key) {
+export function BSTSearch(root, key) {
   let curRoot = root;
   const comp = this.comp;
   while (curRoot.key !== undefined) {
@@ -83,8 +83,8 @@ function successor(node) {
  * @param {BSTNode} nodeType - Type of Nodes in the tree
  * @returns {boolean} Returns True if node was deleted and false otherwise
  */
-function remove(key) {
-  let node = search.call(this, this.root, key);
+export function BSTRemove(key) {
+  let node = BSTSearch.call(this, this.root, key);
   if (!node) {
     return false;
   }
@@ -123,18 +123,10 @@ function remove(key) {
  * @returns {Array(Object)} Array containing key and value info as well as
  * parent info for each node
  */
-function inorder(root) {
+export function BSTInorder(root) {
   if (root && root.key !== undefined) {
     let tmp = [];
-    return tmp.concat(inorder(root.left), root, inorder(root.right));
+    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
   }
   return [];
 }
-
-module.exports = {
-  BSTInsert: insert,
-  BSTRemove: remove,
-  BSTSearch: search,
-  BSTInorder: inorder,
-  BSTSuccessor: successor
-};

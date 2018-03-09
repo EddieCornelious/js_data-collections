@@ -145,4 +145,4 @@ class Graph {
     return this.BFS(firstKey).length === verticies.length;
   }
 }
-module.exports = Graph;
+export default Graph;

@@ -39,4 +39,4 @@ class HashSet extends SetInterface {
   }
 }
 
-module.exports = HashSet;
+export default HashSet;

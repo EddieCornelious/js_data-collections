@@ -1,4 +1,4 @@
-const List = require('./List.js');
+import List from './List.js';
 
 /**
  * Queue Representation
@@ -67,4 +67,4 @@ class Queue {
   }
 }
 
-module.exports = Queue;
+export default Queue;

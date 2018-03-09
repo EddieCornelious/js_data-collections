@@ -42,4 +42,4 @@ class HashMultiMap extends HashMap {
   }
 }
 
-module.exports = HashMultiMap;
+export default HashMultiMap;

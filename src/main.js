@@ -1,23 +1,22 @@
-var List = require('./List.js');
-var Stack = require('./Stack.js');
-var Queue = require('./Queue.js');
-var BHeap = require('./BHeap.js');
-var PriorityQueue = require('./PriorityQueue.js');
-var HashMap = require('./HashMap.js');
-var HashTable = require('./HashTable.js');
-var HashSet = require('./HashSet.js');
-var BST = require('./BST.js');
-var Graph = require('./Graph.js');
-var Trie = require('./Trie.js');
-var HashMultiMap = require('./HashMultiMap.js');
-var ArrayUtils = require('./ArrayUtils.js');
-var RBTree = require('./RedBlackTree.js');
-var Map = require('./Map.js');
-var Set = require('./Set.js');
+import List from './List.js';
+import Stack from './Stack.js';
+import Queue from './Queue.js';
+import BHeap from './BHeap.js';
+import PriorityQueue from './PriorityQueue.js';
+import HashMap from './HashMap.js';
+import HashTable from './HashTable.js';
+import HashSet from './HashSet.js';
+import  BST from './BST.js';
+import Graph from './Graph.js';
+import Trie from './Trie.js';
+import HashMultiMap from './HashMultiMap.js';
+import ArrayUtils from './ArrayUtils.js';
+import RBTree from  './RedBlackTree.js';
+import Map from './Map.js';
+import Set from './Set.js';
 
 // TODO : add ie8 support and maybe load polyfills right here
-
-module.exports = {
+export {
    List,
    Stack,
    Queue,

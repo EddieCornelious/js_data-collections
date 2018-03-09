@@ -8,4 +8,4 @@ class BSTNode {
   }
 }
 
-module.exports = BSTNode;
+export default BSTNode;

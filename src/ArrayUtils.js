@@ -249,5 +249,5 @@ class ArrayUtils {
     return newArr;
   }
 }
-module.exports = ArrayUtils;
+export default ArrayUtils;
 

@@ -51,4 +51,4 @@ class HashMap extends MapInterface {
   }
 }
 
-module.exports = HashMap;
+export default HashMap;
