@@ -59,6 +59,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.Set = exports.Map = exports.RBTree = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMultiMap = exports.HashTable = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _List = __webpack_require__(1);
 
 	var _List2 = _interopRequireDefault(_List);
@@ -125,7 +127,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	// TODO : add ie8 support and maybe load polyfills right here
+	if (!Object.create) {
+	  Object.create = function (proto, propertiesObject) {
+	    if ((typeof proto === 'undefined' ? 'undefined' : _typeof(proto)) !== "object" && typeof proto !== "function") {
+	      throw new TypeError("Object prototype may only be an Object: " + proto);
+	    } else if (proto === null) {
+	      throw new Error("This browser's implementation of Object.create is a shim and doesn't support 'null' as the first argument.");
+	    }
+
+	    if (typeof propertiesObject != "undefined") {
+	      throw new Error("This browser's implementation of Object.create is a shim and doesn't support a second argument.");
+	    }
+
+	    function F() {}
+	    F.prototype = proto;
+
+	    return new F();
+	  };
+	}
 	exports.List = _List2['default'];
 	exports.Stack = _Stack2['default'];
 	exports.Queue = _Queue2['default'];
