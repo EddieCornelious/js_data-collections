@@ -54,97 +54,114 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(1);
+	module.exports = __webpack_require__(2);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	(function () {
+	    if (typeof Object.create !== "function") {
+	        Object.create = function (proto, propertiesObject) {
+	            if ((typeof proto === 'undefined' ? 'undefined' : _typeof(proto)) !== 'object' && typeof proto !== 'function') {
+	                throw new TypeError('Object prototype may only be an Object: ' + proto);
+	            } else if (proto === null) {
+	                throw new Error("This browser's implementation of Object.create is a shim and doesn't support 'null' as the first argument.");
+	            }
+
+	            if (typeof propertiesObject != 'undefined') {
+	                throw new Error("This browser's implementation of Object.create is a shim and doesn't support a second argument.");
+	            }
+
+	            function F() {}
+	            F.prototype = proto;
+
+	            return new F();
+	        };
+	    }
+	})();
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	exports.__esModule = true;
 	exports.Set = exports.Map = exports.RBTree = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMultiMap = exports.HashTable = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var _List = __webpack_require__(1);
+	var _List = __webpack_require__(3);
 
 	var _List2 = _interopRequireDefault(_List);
 
-	var _Stack = __webpack_require__(3);
+	var _Stack = __webpack_require__(5);
 
 	var _Stack2 = _interopRequireDefault(_Stack);
 
-	var _Queue = __webpack_require__(4);
+	var _Queue = __webpack_require__(6);
 
 	var _Queue2 = _interopRequireDefault(_Queue);
 
-	var _BHeap = __webpack_require__(5);
+	var _BHeap = __webpack_require__(7);
 
 	var _BHeap2 = _interopRequireDefault(_BHeap);
 
-	var _PriorityQueue = __webpack_require__(6);
+	var _PriorityQueue = __webpack_require__(8);
 
 	var _PriorityQueue2 = _interopRequireDefault(_PriorityQueue);
 
-	var _HashMap = __webpack_require__(7);
+	var _HashMap = __webpack_require__(9);
 
 	var _HashMap2 = _interopRequireDefault(_HashMap);
 
-	var _HashTable = __webpack_require__(8);
+	var _HashTable = __webpack_require__(10);
 
 	var _HashTable2 = _interopRequireDefault(_HashTable);
 
-	var _HashSet = __webpack_require__(10);
+	var _HashSet = __webpack_require__(12);
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
 
-	var _BST = __webpack_require__(12);
+	var _BST = __webpack_require__(14);
 
 	var _BST2 = _interopRequireDefault(_BST);
 
-	var _Graph = __webpack_require__(15);
+	var _Graph = __webpack_require__(17);
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
-	var _Trie = __webpack_require__(16);
+	var _Trie = __webpack_require__(18);
 
 	var _Trie2 = _interopRequireDefault(_Trie);
 
-	var _HashMultiMap = __webpack_require__(17);
+	var _HashMultiMap = __webpack_require__(19);
 
 	var _HashMultiMap2 = _interopRequireDefault(_HashMultiMap);
 
-	var _ArrayUtils = __webpack_require__(18);
+	var _ArrayUtils = __webpack_require__(20);
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
-	var _RedBlackTree = __webpack_require__(19);
+	var _RedBlackTree = __webpack_require__(21);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _Map = __webpack_require__(20);
+	var _Map = __webpack_require__(22);
 
 	var _Map2 = _interopRequireDefault(_Map);
 
-	var _Set = __webpack_require__(21);
+	var _Set = __webpack_require__(23);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	if (!Object.create) {
-	  Object.create = function (proto, propertiesObject) {
-	    if ((typeof proto === 'undefined' ? 'undefined' : _typeof(proto)) !== "object" && typeof proto !== "function") {
-	      throw new TypeError("Object prototype may only be an Object: " + proto);
-	    } else if (proto === null) {
-	      throw new Error("This browser's implementation of Object.create is a shim and doesn't support 'null' as the first argument.");
-	    }
-
-	    if (typeof propertiesObject != "undefined") {
-	      throw new Error("This browser's implementation of Object.create is a shim and doesn't support a second argument.");
-	    }
-
-	    function F() {}
-	    F.prototype = proto;
-
-	    return new F();
-	  };
-	}
 	exports.List = _List2['default'];
 	exports.Stack = _Stack2['default'];
 	exports.Queue = _Queue2['default'];
@@ -163,14 +180,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Set = _Set2['default'];
 
 /***/ },
-/* 1 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -568,7 +585,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = List;
 
 /***/ },
-/* 2 */
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -699,14 +716,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _List = __webpack_require__(1);
+	var _List = __webpack_require__(3);
 
 	var _List2 = _interopRequireDefault(_List);
 
@@ -798,14 +815,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Stack;
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _List = __webpack_require__(1);
+	var _List = __webpack_require__(3);
 
 	var _List2 = _interopRequireDefault(_List);
 
@@ -897,14 +914,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Queue;
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1063,18 +1080,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = BHeap;
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _BHeap = __webpack_require__(5);
+	var _BHeap = __webpack_require__(7);
 
 	var _BHeap2 = _interopRequireDefault(_BHeap);
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -1173,18 +1190,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = PriorityQueue;
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _HashTable = __webpack_require__(8);
+	var _HashTable = __webpack_require__(10);
 
 	var _HashTable2 = _interopRequireDefault(_HashTable);
 
-	var _MapInterface2 = __webpack_require__(9);
+	var _MapInterface2 = __webpack_require__(11);
 
 	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
 
@@ -1257,7 +1274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = HashMap;
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1266,9 +1283,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
-	var _MapInterface2 = __webpack_require__(9);
+	var _MapInterface2 = __webpack_require__(11);
 
 	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
 
@@ -1515,7 +1532,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = HashTable;
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1637,18 +1654,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = MapInterface;
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _HashTable = __webpack_require__(8);
+	var _HashTable = __webpack_require__(10);
 
 	var _HashTable2 = _interopRequireDefault(_HashTable);
 
-	var _SetInterface2 = __webpack_require__(11);
+	var _SetInterface2 = __webpack_require__(13);
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
@@ -1709,7 +1726,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = HashSet;
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1856,20 +1873,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = SetInterface;
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _BSTNode = __webpack_require__(13);
+	var _BSTNode = __webpack_require__(15);
 
 	var _BSTNode2 = _interopRequireDefault(_BSTNode);
 
-	var _BSTPrototype = __webpack_require__(14);
+	var _BSTPrototype = __webpack_require__(16);
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -2004,7 +2021,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = BST;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2026,7 +2043,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = BSTNode;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2170,26 +2187,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _Queue = __webpack_require__(4);
+	var _Queue = __webpack_require__(6);
 
 	var _Queue2 = _interopRequireDefault(_Queue);
 
-	var _Stack = __webpack_require__(3);
+	var _Stack = __webpack_require__(5);
 
 	var _Stack2 = _interopRequireDefault(_Stack);
 
-	var _HashMap = __webpack_require__(7);
+	var _HashMap = __webpack_require__(9);
 
 	var _HashMap2 = _interopRequireDefault(_HashMap);
 
-	var _HashSet = __webpack_require__(10);
+	var _HashSet = __webpack_require__(12);
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
 
@@ -2361,14 +2378,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Graph;
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2592,14 +2609,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Trie;
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _HashMap2 = __webpack_require__(7);
+	var _HashMap2 = __webpack_require__(9);
 
 	var _HashMap3 = _interopRequireDefault(_HashMap2);
 
@@ -2666,14 +2683,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = HashMultiMap;
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _Util = __webpack_require__(2);
+	var _Util = __webpack_require__(4);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2971,20 +2988,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = ArrayUtils;
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _BSTNode2 = __webpack_require__(13);
+	var _BSTNode2 = __webpack_require__(15);
 
 	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
 
-	var _BSTPrototype = __webpack_require__(14);
+	var _BSTPrototype = __webpack_require__(16);
 
-	var _BST2 = __webpack_require__(12);
+	var _BST2 = __webpack_require__(14);
 
 	var _BST3 = _interopRequireDefault(_BST2);
 
@@ -3223,18 +3240,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = RBTree;
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _MapInterface2 = __webpack_require__(9);
+	var _MapInterface2 = __webpack_require__(11);
 
 	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
 
-	var _RedBlackTree = __webpack_require__(19);
+	var _RedBlackTree = __webpack_require__(21);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
@@ -3299,18 +3316,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Map;
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _SetInterface2 = __webpack_require__(11);
+	var _SetInterface2 = __webpack_require__(13);
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	var _RedBlackTree = __webpack_require__(19);
+	var _RedBlackTree = __webpack_require__(21);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
