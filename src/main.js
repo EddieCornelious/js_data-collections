@@ -1,3 +1,4 @@
+
 import List from './List.js';
 import Stack from './Stack.js';
 import Queue from './Queue.js';
@@ -15,7 +16,6 @@ import RBTree from  './RedBlackTree.js';
 import Map from './Map.js';
 import Set from './Set.js';
 
-// TODO : add ie8 support and maybe load polyfills right here
 export {
    List,
    Stack,
