@@ -1,6 +1,6 @@
 
 module.exports = {
-  entry: ['./poly.js','./src/main.js'],
+  entry: './src/main.js',
   output: {
     path: __dirname,
     filename: 'collections.js',
