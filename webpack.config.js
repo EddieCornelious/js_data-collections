@@ -16,7 +16,8 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           presets: [ ['es2015', {"loose": true}]],  
-          plugins: [ "transform-es3-member-expression-literals", "transform-es3-property-literals"]
+          plugins: [ ["transform-es3-member-expression-literals"], ["transform-es3-property-literals"], ["transform-proto-to-assign"], 
+          ["transform-es2015-classes", {"loose": true}]]
         }, 
   
       }, 
