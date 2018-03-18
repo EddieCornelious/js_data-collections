@@ -1,6 +1,6 @@
 
 module.exports = {
-  entry: './src/main.js',
+  entry: [ "core-js/fn/object/create",'./src/main.js'],
   output: {
     path: __dirname,
     filename: 'collections.js',
