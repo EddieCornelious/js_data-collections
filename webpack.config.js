@@ -1,6 +1,6 @@
 
 module.exports = {
-  entry: [ "core-js/fn/object/create",'./src/main.js'],
+  entry: ["core-js/fn/object/get-own-property-names", "core-js/fn/object/create",'./src/main.js'],
   output: {
     path: __dirname,
     filename: 'collections.js',
@@ -17,7 +17,7 @@ module.exports = {
         query: {
           presets: [ ['es2015', {"loose": true}]],  
           plugins: [ ["transform-es3-member-expression-literals"], ["transform-es3-property-literals"], ["transform-proto-to-assign"], 
-          ["transform-es2015-classes", {"loose": true}]]
+          ["transform-es2015-classes", {"loose": true}], ["transform-object-set-prototype-of-to-assign"]]
         }, 
   
       }, 
