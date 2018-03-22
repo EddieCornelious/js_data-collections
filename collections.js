@@ -1186,14 +1186,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {*} The data to assign to the node
 	 */
 
-	var Node = function Node(data) {
-	  _classCallCheck(this, Node);
+	var Node = function () {
+	  function Node(data) {
+	    _classCallCheck(this, Node);
 
-	  this.data = data;
-	  this.next = null;
-	  // previous node
-	  this.prev = null;
-	};
+	    this.data = data;
+	    this.next = null;
+	    // previous node
+	    this.prev = null;
+	  }
+
+	  return Node;
+	}();
 
 	/**
 	 * Linked List representation
@@ -1225,23 +1229,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.addToFront = function addToFront(data) {
-	    var head = this.head,
-	        length = this.length;
+	  List.prototype.addToFront = function () {
+	    function addToFront(data) {
+	      var head = this.head,
+	          length = this.length;
 
-	    var newNode = new Node(data);
-	    if (!head) {
-	      this.head = newNode;
-	      this.tail = this.head;
-	    } else {
-	      // non-empty list
-	      this.head = newNode;
-	      newNode.next = head;
-	      head.prev = newNode;
+	      var newNode = new Node(data);
+	      if (!head) {
+	        this.head = newNode;
+	        this.tail = this.head;
+	      } else {
+	        // non-empty list
+	        this.head = newNode;
+	        newNode.next = head;
+	        head.prev = newNode;
+	      }
+	      this.length = length + 1;
+	      return this;
 	    }
-	    this.length = length + 1;
-	    return this;
-	  };
+
+	    return addToFront;
+	  }();
 
 	  /**
 	   * Returns the data at given index
@@ -1259,13 +1267,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.elementAtIndex = function elementAtIndex() {
-	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	  List.prototype.elementAtIndex = function () {
+	    function elementAtIndex() {
+	      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-	    (0, _Util.isNumber)(index);
-	    var wanted = getNode.call(this, index);
-	    return wanted ? wanted.data : undefined;
-	  };
+	      (0, _Util.isNumber)(index);
+	      var wanted = getNode.call(this, index);
+	      return wanted ? wanted.data : undefined;
+	    }
+
+	    return elementAtIndex;
+	  }();
 
 	  /**
 	   * Adds the given data to right-most end of linked list
@@ -1278,22 +1290,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.addToBack = function addToBack(data) {
-	    var tail = this.tail,
-	        length = this.length;
+	  List.prototype.addToBack = function () {
+	    function addToBack(data) {
+	      var tail = this.tail,
+	          length = this.length;
 
-	    var newNode = new Node(data);
-	    if (!tail) {
-	      this.head = newNode;
-	      this.tail = this.head;
-	    } else {
-	      this.tail = newNode;
-	      newNode.prev = tail;
-	      tail.next = newNode;
+	      var newNode = new Node(data);
+	      if (!tail) {
+	        this.head = newNode;
+	        this.tail = this.head;
+	      } else {
+	        this.tail = newNode;
+	        newNode.prev = tail;
+	        tail.next = newNode;
+	      }
+	      this.length = length + 1;
+	      return this;
 	    }
-	    this.length = length + 1;
-	    return this;
-	  };
+
+	    return addToBack;
+	  }();
 
 	  /**
 	   * Removes the left-most element in the linked list
@@ -1307,29 +1323,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.removeFront = function removeFront() {
-	    var head = this.head,
-	        length = this.length;
+	  List.prototype.removeFront = function () {
+	    function removeFront() {
+	      var head = this.head,
+	          length = this.length;
 
-	    var removed = void 0;
-	    if (head) {
-	      removed = head.data;
-	      this.length = length - 1;
-	      this.head = head.next;
+	      var removed = void 0;
+	      if (head) {
+	        removed = head.data;
+	        this.length = length - 1;
+	        this.head = head.next;
 
-	      // current state after removal
-	      var newHead = this.head;
-	      // list is now empty...adjust tail
-	      if (!newHead) {
-	        this.tail = null;
-	        this.head = this.tail;
-	      } else {
-	        // front of list rule
-	        newHead.prev = null;
+	        // current state after removal
+	        var newHead = this.head;
+	        // list is now empty...adjust tail
+	        if (!newHead) {
+	          this.tail = null;
+	          this.head = this.tail;
+	        } else {
+	          // front of list rule
+	          newHead.prev = null;
+	        }
 	      }
+	      return removed;
 	    }
-	    return removed;
-	  };
+
+	    return removeFront;
+	  }();
 
 	  /**
 	   * Removes the right-most element in the linked list
@@ -1343,26 +1363,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.removeBack = function removeBack() {
-	    var tail = this.tail,
-	        length = this.length;
+	  List.prototype.removeBack = function () {
+	    function removeBack() {
+	      var tail = this.tail,
+	          length = this.length;
 
-	    var removed = void 0;
-	    if (tail) {
-	      removed = tail.data;
-	      var prev = tail.prev;
-	      this.length = length - 1;
-	      // list now empty
-	      if (!prev) {
-	        this.tail = null;
-	        this.head = this.tail;
-	      } else {
-	        prev.next = null;
-	        this.tail = prev;
+	      var removed = void 0;
+	      if (tail) {
+	        removed = tail.data;
+	        var prev = tail.prev;
+	        this.length = length - 1;
+	        // list now empty
+	        if (!prev) {
+	          this.tail = null;
+	          this.head = this.tail;
+	        } else {
+	          prev.next = null;
+	          this.tail = prev;
+	        }
 	      }
+	      return removed;
 	    }
-	    return removed;
-	  };
+
+	    return removeBack;
+	  }();
 
 	  /**
 	   * Inserts given data into specific position in the linked list
@@ -1379,31 +1403,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.insert = function insert() {
-	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-	    var data = arguments[1];
+	  List.prototype.insert = function () {
+	    function insert() {
+	      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+	      var data = arguments[1];
 
-	    (0, _Util.isNumber)(index);
-	    var length = this.length;
+	      (0, _Util.isNumber)(index);
+	      var length = this.length;
 
-	    if (index === 0) {
-	      return this.addToFront(data);
-	    } else if (index >= length) {
-	      return this.addToBack(data);
+	      if (index === 0) {
+	        return this.addToFront(data);
+	      } else if (index >= length) {
+	        return this.addToBack(data);
+	      }
+	      // parent of wanted node
+	      var prevNode = getNode.call(this, index - 1);
+	      if (prevNode) {
+	        var newNode = new Node(data);
+	        var aft = prevNode.next;
+	        newNode.next = aft;
+	        aft.prev = newNode;
+	        prevNode.next = newNode;
+	        newNode.prev = prevNode;
+	        this.length = length + 1;
+	      }
+	      return this;
 	    }
-	    // parent of wanted node
-	    var prevNode = getNode.call(this, index - 1);
-	    if (prevNode) {
-	      var newNode = new Node(data);
-	      var aft = prevNode.next;
-	      newNode.next = aft;
-	      aft.prev = newNode;
-	      prevNode.next = newNode;
-	      newNode.prev = prevNode;
-	      this.length = length + 1;
-	    }
-	    return this;
-	  };
+
+	    return insert;
+	  }();
 
 	  /**
 	   * Removes data at specific position in the linked list
@@ -1419,28 +1447,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.remove = function remove(index) {
-	    (0, _Util.isNumber)(index);
-	    var length = this.length;
+	  List.prototype.remove = function () {
+	    function remove(index) {
+	      (0, _Util.isNumber)(index);
+	      var length = this.length;
 
-	    var removed = void 0;
-	    if (index === 0) {
-	      return this.removeFront();
-	    } else if (index >= length - 1) {
-	      return this.removeBack();
+	      var removed = void 0;
+	      if (index === 0) {
+	        return this.removeFront();
+	      } else if (index >= length - 1) {
+	        return this.removeBack();
+	      }
+	      // parent of wanted node
+	      var prevNode = getNode.call(this, index - 1);
+	      if (prevNode) {
+	        var toRemove = prevNode.next;
+	        removed = toRemove.data;
+	        var after = toRemove.next;
+	        prevNode.next = after;
+	        after.prev = prevNode;
+	        this.length = length - 1;
+	      }
+	      return removed;
 	    }
-	    // parent of wanted node
-	    var prevNode = getNode.call(this, index - 1);
-	    if (prevNode) {
-	      var toRemove = prevNode.next;
-	      removed = toRemove.data;
-	      var after = toRemove.next;
-	      prevNode.next = after;
-	      after.prev = prevNode;
-	      this.length = length - 1;
-	    }
-	    return removed;
-	  };
+
+	    return remove;
+	  }();
 
 	  /**
 	   * Returns the index of the given data in the linked list
@@ -1460,19 +1492,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.indexOf = function indexOf(data, comparator) {
-	    var cmp = comparator || _Util.defaultComp;
-	    var index = 0;
-	    var head = this.head;
-	    while (head) {
-	      if (cmp(data, head.data) === 0) {
-	        return index;
+	  List.prototype.indexOf = function () {
+	    function indexOf(data, comparator) {
+	      var cmp = comparator || _Util.defaultComp;
+	      var index = 0;
+	      var head = this.head;
+	      while (head) {
+	        if (cmp(data, head.data) === 0) {
+	          return index;
+	        }
+	        head = head.next;
+	        index += 1;
 	      }
-	      head = head.next;
-	      index += 1;
+	      return -1;
 	    }
-	    return -1;
-	  };
+
+	    return indexOf;
+	  }();
 
 	  /**
 	   * Returns whether the linked list contains the given data
@@ -1482,9 +1518,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.contains = function contains(data, comparator) {
-	    return this.indexOf(data, comparator) !== -1;
-	  };
+	  List.prototype.contains = function () {
+	    function contains(data, comparator) {
+	      return this.indexOf(data, comparator) !== -1;
+	    }
+
+	    return contains;
+	  }();
 
 	  /**
 	   * Empties the List
@@ -1492,11 +1532,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.clear = function clear() {
-	    this.head = null;
-	    this.tail = null;
-	    this.length = 0;
-	  };
+	  List.prototype.clear = function () {
+	    function clear() {
+	      this.head = null;
+	      this.tail = null;
+	      this.length = 0;
+	    }
+
+	    return clear;
+	  }();
 
 	  /**
 	   * Returns the size of the List
@@ -1504,9 +1548,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.size = function size() {
-	    return this.length;
-	  };
+	  List.prototype.size = function () {
+	    function size() {
+	      return this.length;
+	    }
+
+	    return size;
+	  }();
 
 	  /**
 	   * Calls a callback function for each element in the list
@@ -1516,17 +1564,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.forEach = function forEach(callback) {
-	    var func = callback;
-	    var head = this.head;
-	    var index = 0;
-	    while (head) {
-	      func(head.data, index);
-	      head = head.next;
-	      index += 1;
+	  List.prototype.forEach = function () {
+	    function forEach(callback) {
+	      var func = callback;
+	      var head = this.head;
+	      var index = 0;
+	      while (head) {
+	        func(head.data, index);
+	        head = head.next;
+	        index += 1;
+	      }
+	      return this;
 	    }
-	    return this;
-	  };
+
+	    return forEach;
+	  }();
 
 	  /**
 	   * Transforms a linked list to an array
@@ -1534,13 +1586,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  List.prototype.toArray = function toArray() {
-	    var temp = [];
-	    this.forEach(function (element) {
-	      return temp.push(element);
-	    });
-	    return temp;
-	  };
+	  List.prototype.toArray = function () {
+	    function toArray() {
+	      var temp = [];
+	      this.forEach(function (element) {
+	        return temp.push(element);
+	      });
+	      return temp;
+	    }
+
+	    return toArray;
+	  }();
 
 	  return List;
 	}();
@@ -1719,10 +1775,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Stack.prototype.push = function push(data) {
-	    this.stack.addToFront(data);
-	    return this;
-	  };
+	  Stack.prototype.push = function () {
+	    function push(data) {
+	      this.stack.addToFront(data);
+	      return this;
+	    }
+
+	    return push;
+	  }();
 
 	  /**
 	   * Removes data from stack in a last in first out manner
@@ -1734,9 +1794,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Stack.prototype.pop = function pop() {
-	    return this.stack.removeFront();
-	  };
+	  Stack.prototype.pop = function () {
+	    function pop() {
+	      return this.stack.removeFront();
+	    }
+
+	    return pop;
+	  }();
 
 	  /**
 	   * Reports but does not remove the staged element to be removed next
@@ -1748,9 +1812,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Stack.prototype.peek = function peek() {
-	    return this.stack.elementAtIndex(0);
-	  };
+	  Stack.prototype.peek = function () {
+	    function peek() {
+	      return this.stack.elementAtIndex(0);
+	    }
+
+	    return peek;
+	  }();
 
 	  /**
 	   * Empties the Stack
@@ -1758,9 +1826,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Stack.prototype.clear = function clear() {
-	    return this.stack.clear();
-	  };
+	  Stack.prototype.clear = function () {
+	    function clear() {
+	      return this.stack.clear();
+	    }
+
+	    return clear;
+	  }();
 
 	  /**
 	   * Reports the size of the queue
@@ -1768,9 +1840,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Stack.prototype.size = function size() {
-	    return this.stack.size();
-	  };
+	  Stack.prototype.size = function () {
+	    function size() {
+	      return this.stack.size();
+	    }
+
+	    return size;
+	  }();
 
 	  return Stack;
 	}();
@@ -1819,10 +1895,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Queue.prototype.enqueue = function enqueue(data) {
-	    this.queue.addToBack(data);
-	    return this;
-	  };
+	  Queue.prototype.enqueue = function () {
+	    function enqueue(data) {
+	      this.queue.addToBack(data);
+	      return this;
+	    }
+
+	    return enqueue;
+	  }();
 
 	  /**
 	   * Removes from the queue in a first in first out manner
@@ -1833,9 +1913,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Queue.prototype.dequeue = function dequeue() {
-	    return this.queue.removeFront();
-	  };
+	  Queue.prototype.dequeue = function () {
+	    function dequeue() {
+	      return this.queue.removeFront();
+	    }
+
+	    return dequeue;
+	  }();
 
 	  /**
 	   * Reports but does not remove the staged element to be removed next
@@ -1847,9 +1931,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Queue.prototype.peek = function peek() {
-	    return this.queue.elementAtIndex(0);
-	  };
+	  Queue.prototype.peek = function () {
+	    function peek() {
+	      return this.queue.elementAtIndex(0);
+	    }
+
+	    return peek;
+	  }();
 
 	  /**
 	   * Empties the Queue
@@ -1857,9 +1945,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Queue.prototype.clear = function clear() {
-	    return this.queue.clear();
-	  };
+	  Queue.prototype.clear = function () {
+	    function clear() {
+	      return this.queue.clear();
+	    }
+
+	    return clear;
+	  }();
 
 	  /**
 	   * Reports the size of the queue
@@ -1867,9 +1959,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Queue.prototype.size = function size() {
-	    return this.queue.size();
-	  };
+	  Queue.prototype.size = function () {
+	    function size() {
+	      return this.queue.size();
+	    }
+
+	    return size;
+	  }();
 
 	  return Queue;
 	}();
@@ -1968,16 +2064,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.extractRoot = function extractRoot() {
-	    var heap = this.heap,
-	        comp = this.comp;
+	  BHeap.prototype.extractRoot = function () {
+	    function extractRoot() {
+	      var heap = this.heap,
+	          comp = this.comp;
 
-	    var max = heap[1];
-	    heap[1] = heap[heap.length - 1];
-	    heap.length -= 1;
-	    heapify(heap, 1, comp);
-	    return max;
-	  };
+	      var max = heap[1];
+	      heap[1] = heap[heap.length - 1];
+	      heap.length -= 1;
+	      heapify(heap, 1, comp);
+	      return max;
+	    }
+
+	    return extractRoot;
+	  }();
 
 	  /**
 	   * Inserts the given data into the BHeap
@@ -1992,14 +2092,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.insert = function insert(data) {
-	    var heap = this.heap,
-	        comp = this.comp;
+	  BHeap.prototype.insert = function () {
+	    function insert(data) {
+	      var heap = this.heap,
+	          comp = this.comp;
 
-	    heap[heap.length] = data;
-	    siftUp(heap, heap.length - 1, comp);
-	    return this;
-	  };
+	      heap[heap.length] = data;
+	      siftUp(heap, heap.length - 1, comp);
+	      return this;
+	    }
+
+	    return insert;
+	  }();
 
 	  /**
 	   * Transforms the BHeap into an array
@@ -2011,9 +2115,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.toArray = function toArray() {
-	    return this.heap.slice(1);
-	  };
+	  BHeap.prototype.toArray = function () {
+	    function toArray() {
+	      return this.heap.slice(1);
+	    }
+
+	    return toArray;
+	  }();
 
 	  /**
 	   * Reports the number of elements in the BHeap.
@@ -2024,18 +2132,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.size = function size() {
-	    return this.heap.length - 1;
-	  };
+	  BHeap.prototype.size = function () {
+	    function size() {
+	      return this.heap.length - 1;
+	    }
+
+	    return size;
+	  }();
 	  /**
 	   * Empties the Heap
 	   * @returns {undefined}
 	   */
 
 
-	  BHeap.prototype.clear = function clear() {
-	    this.heap.length = 1;
-	  };
+	  BHeap.prototype.clear = function () {
+	    function clear() {
+	      this.heap.length = 1;
+	    }
+
+	    return clear;
+	  }();
 
 	  return BHeap;
 	}();
@@ -2107,10 +2223,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  PriorityQueue.prototype.enqueue = function enqueue(data, priority) {
-	    (0, _Util.isNumber)(priority);
-	    return this.queue.insert({ data: data, priority: priority });
-	  };
+	  PriorityQueue.prototype.enqueue = function () {
+	    function enqueue(data, priority) {
+	      (0, _Util.isNumber)(priority);
+	      return this.queue.insert({ data: data, priority: priority });
+	    }
+
+	    return enqueue;
+	  }();
 
 	  /**
 	   * Removes The element with the lowest priority from the queue
@@ -2121,11 +2241,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  PriorityQueue.prototype.dequeue = function dequeue() {
-	    var queue = this.queue;
+	  PriorityQueue.prototype.dequeue = function () {
+	    function dequeue() {
+	      var queue = this.queue;
 
-	    return queue.extractRoot().data;
-	  };
+	      return queue.extractRoot().data;
+	    }
+
+	    return dequeue;
+	  }();
 
 	  /**
 	   * Reports the size of the priorityqueue
@@ -2133,9 +2257,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  PriorityQueue.prototype.size = function size() {
-	    return this.queue.size();
-	  };
+	  PriorityQueue.prototype.size = function () {
+	    function size() {
+	      return this.queue.size();
+	    }
+
+	    return size;
+	  }();
 
 	  /**
 	  * Removes all elements from the PriorityQueue
@@ -2143,9 +2271,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  PriorityQueue.prototype.clear = function clear() {
-	    return this.queue.clear();
-	  };
+	  PriorityQueue.prototype.clear = function () {
+	    function clear() {
+	      return this.queue.clear();
+	    }
+
+	    return clear;
+	  }();
 
 	  return PriorityQueue;
 	}();
@@ -2207,31 +2339,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this;
 	  }
 
-	  HashMap.prototype.put = function put(key, value) {
-	    this.map.put(key, value);
-	    return this;
-	  };
+	  HashMap.prototype.put = function () {
+	    function put(key, value) {
+	      this.map.put(key, value);
+	      return this;
+	    }
 
-	  HashMap.prototype.getVal = function getVal(key) {
-	    return this.map.getVal(key);
-	  };
+	    return put;
+	  }();
 
-	  HashMap.prototype.remove = function remove(key) {
-	    this.map.remove(key);
-	    return this;
-	  };
+	  HashMap.prototype.getVal = function () {
+	    function getVal(key) {
+	      return this.map.getVal(key);
+	    }
 
-	  HashMap.prototype.keys = function keys() {
-	    return this.map.keys();
-	  };
+	    return getVal;
+	  }();
 
-	  HashMap.prototype.contains = function contains(key) {
-	    return this.map.contains(key);
-	  };
+	  HashMap.prototype.remove = function () {
+	    function remove(key) {
+	      this.map.remove(key);
+	      return this;
+	    }
 
-	  HashMap.prototype.size = function size() {
-	    return this.map.size();
-	  };
+	    return remove;
+	  }();
+
+	  HashMap.prototype.keys = function () {
+	    function keys() {
+	      return this.map.keys();
+	    }
+
+	    return keys;
+	  }();
+
+	  HashMap.prototype.contains = function () {
+	    function contains(key) {
+	      return this.map.contains(key);
+	    }
+
+	    return contains;
+	  }();
+
+	  HashMap.prototype.size = function () {
+	    function size() {
+	      return this.map.size();
+	    }
+
+	    return size;
+	  }();
 
 	  return HashMap;
 	}(_MapInterface3['default']);
@@ -2394,51 +2550,67 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this;
 	  }
 
-	  HashTable.prototype.put = function put() {
-	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	    var table = this.table,
-	        inserts = this.inserts;
+	  HashTable.prototype.put = function () {
+	    function put() {
+	      var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	      var table = this.table,
+	          inserts = this.inserts;
 
-	    var searchRes = search(key, table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
+	      var searchRes = search(key, table);
+	      var bucket = searchRes.bucket,
+	          index = searchRes.index;
 
-	    if (index === -1) {
-	      insert(key, value, table);
-	      this.inserts += 1;
-	      if (shouldRehash(inserts + 1, table)) {
-	        this.rehash();
+	      if (index === -1) {
+	        insert(key, value, table);
+	        this.inserts += 1;
+	        if (shouldRehash(inserts + 1, table)) {
+	          this.rehash();
+	        }
+	      } else {
+	        bucket[index + 1] = value;
 	      }
-	    } else {
-	      bucket[index + 1] = value;
+	      return this;
 	    }
-	    return this;
-	  };
 
-	  HashTable.prototype.getVal = function getVal(key) {
-	    var searchRes = search(key, this.table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
+	    return put;
+	  }();
 
-	    return index !== -1 ? bucket[index + 1] : undefined;
-	  };
+	  HashTable.prototype.getVal = function () {
+	    function getVal(key) {
+	      var searchRes = search(key, this.table);
+	      var bucket = searchRes.bucket,
+	          index = searchRes.index;
 
-	  HashTable.prototype.remove = function remove(key) {
-	    var searchRes = search(key, this.table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
-
-	    if (index !== -1) {
-	      bucket.splice(index, 2);
-	      this.inserts -= 1;
+	      return index !== -1 ? bucket[index + 1] : undefined;
 	    }
-	    return this;
-	  };
 
-	  HashTable.prototype.contains = function contains(key) {
-	    return this.getVal(key) !== undefined;
-	  };
+	    return getVal;
+	  }();
+
+	  HashTable.prototype.remove = function () {
+	    function remove(key) {
+	      var searchRes = search(key, this.table);
+	      var bucket = searchRes.bucket,
+	          index = searchRes.index;
+
+	      if (index !== -1) {
+	        bucket.splice(index, 2);
+	        this.inserts -= 1;
+	      }
+	      return this;
+	    }
+
+	    return remove;
+	  }();
+
+	  HashTable.prototype.contains = function () {
+	    function contains(key) {
+	      return this.getVal(key) !== undefined;
+	    }
+
+	    return contains;
+	  }();
 
 	  /**
 	   * Resizes (2x) and rehashes all keys in HashTable
@@ -2446,35 +2618,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashTable.prototype.rehash = function rehash() {
-	    var oldTable = this.table;
-	    var newTable = createTable(oldTable.length * 2);
-	    var oldLen = oldTable.length;
+	  HashTable.prototype.rehash = function () {
+	    function rehash() {
+	      var oldTable = this.table;
+	      var newTable = createTable(oldTable.length * 2);
+	      var oldLen = oldTable.length;
 
-	    for (var i = 0; i < oldLen; i += 1) {
-	      var currentBucket = oldTable[i];
-	      for (var j = 0; j < currentBucket.length; j += 2) {
-	        var oldKey = currentBucket[j];
-	        var oldValue = currentBucket[j + 1];
-	        insert(oldKey, oldValue, newTable);
+	      for (var i = 0; i < oldLen; i += 1) {
+	        var currentBucket = oldTable[i];
+	        for (var j = 0; j < currentBucket.length; j += 2) {
+	          var oldKey = currentBucket[j];
+	          var oldValue = currentBucket[j + 1];
+	          insert(oldKey, oldValue, newTable);
+	        }
 	      }
+	      oldTable.length = 0;
+	      this.table = newTable;
 	    }
-	    oldTable.length = 0;
-	    this.table = newTable;
-	  };
 
-	  HashTable.prototype.keys = function keys() {
-	    var table = this.table;
-	    var keyArr = [];
-	    var tableLen = table.length;
-	    for (var i = 0; i < tableLen; i += 1) {
-	      var currentBucket = table[i];
-	      for (var j = 0; j < currentBucket.length; j += 2) {
-	        keyArr.push(currentBucket[j]);
+	    return rehash;
+	  }();
+
+	  HashTable.prototype.keys = function () {
+	    function keys() {
+	      var table = this.table;
+	      var keyArr = [];
+	      var tableLen = table.length;
+	      for (var i = 0; i < tableLen; i += 1) {
+	        var currentBucket = table[i];
+	        for (var j = 0; j < currentBucket.length; j += 2) {
+	          keyArr.push(currentBucket[j]);
+	        }
 	      }
+	      return keyArr;
 	    }
-	    return keyArr;
-	  };
+
+	    return keys;
+	  }();
 
 	  /**
 	   * Returns the number of buckets in the Associative Array
@@ -2485,13 +2665,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashTable.prototype.tableSize = function tableSize() {
-	    return this.table.length;
-	  };
+	  HashTable.prototype.tableSize = function () {
+	    function tableSize() {
+	      return this.table.length;
+	    }
 
-	  HashTable.prototype.size = function size() {
-	    return this.inserts;
-	  };
+	    return tableSize;
+	  }();
+
+	  HashTable.prototype.size = function () {
+	    function size() {
+	      return this.inserts;
+	    }
+
+	    return size;
+	  }();
 
 	  return HashTable;
 	}(_MapInterface3['default']);
@@ -2535,9 +2723,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.put = function put(key, value) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.put = function () {
+	    function put(key, value) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return put;
+	  }();
 
 	  /**
 	   * Retrieves the value mapped to by the given key
@@ -2550,9 +2742,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.getVal = function getVal(key) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.getVal = function () {
+	    function getVal(key) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return getVal;
+	  }();
 
 	  /**
 	   * Removes the given key and its associated value from the Map
@@ -2566,9 +2762,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.remove = function remove(key) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.remove = function () {
+	    function remove(key) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return remove;
+	  }();
 
 	  /**
 	   * Reports whether the Map contains the given key
@@ -2580,9 +2780,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.contains = function contains(key) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.contains = function () {
+	    function contains(key) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return contains;
+	  }();
 
 	  /**
 	  * Returns all of the keys in the Map
@@ -2597,9 +2801,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  MapInterface.prototype.keys = function keys() {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.keys = function () {
+	    function keys() {
+	      throw new Error("must implement this method");
+	    }
+
+	    return keys;
+	  }();
 
 	  /**
 	  * Returns number of elements in the Map
@@ -2611,9 +2819,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  MapInterface.prototype.size = function size() {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.size = function () {
+	    function size() {
+	      throw new Error("must implement this method");
+	    }
+
+	    return size;
+	  }();
 
 	  return MapInterface;
 	}();
@@ -2667,27 +2879,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this;
 	  }
 
-	  HashSet.prototype.add = function add(element) {
-	    this.set.put(element);
-	    return this;
-	  };
+	  HashSet.prototype.add = function () {
+	    function add(element) {
+	      this.set.put(element);
+	      return this;
+	    }
 
-	  HashSet.prototype.has = function has(element) {
-	    return this.set.contains(element);
-	  };
+	    return add;
+	  }();
 
-	  HashSet.prototype.remove = function remove(element) {
-	    this.set.remove(element);
-	    return this;
-	  };
+	  HashSet.prototype.has = function () {
+	    function has(element) {
+	      return this.set.contains(element);
+	    }
 
-	  HashSet.prototype.keys = function keys() {
-	    return this.set.keys();
-	  };
+	    return has;
+	  }();
 
-	  HashSet.prototype.cardinality = function cardinality() {
-	    return this.set.size();
-	  };
+	  HashSet.prototype.remove = function () {
+	    function remove(element) {
+	      this.set.remove(element);
+	      return this;
+	    }
+
+	    return remove;
+	  }();
+
+	  HashSet.prototype.keys = function () {
+	    function keys() {
+	      return this.set.keys();
+	    }
+
+	    return keys;
+	  }();
+
+	  HashSet.prototype.cardinality = function () {
+	    function cardinality() {
+	      return this.set.size();
+	    }
+
+	    return cardinality;
+	  }();
 
 	  return HashSet;
 	}(_SetInterface3['default']);
@@ -2730,9 +2962,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.add = function add(element) {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.add = function () {
+	    function add(element) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return add;
+	  }();
 
 	  /**
 	   * Updates 'this' with the mathematical set difference of 'this' set and
@@ -2750,14 +2986,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.diff = function diff(thatSet) {
-	    var thatKeys = thatSet.keys();
-	    var context = this;
-	    thatKeys.forEach(function (element) {
-	      context.remove(element);
-	    });
-	    return context;
-	  };
+	  SetInterface.prototype.diff = function () {
+	    function diff(thatSet) {
+	      var thatKeys = thatSet.keys();
+	      var context = this;
+	      thatKeys.forEach(function (element) {
+	        context.remove(element);
+	      });
+	      return context;
+	    }
+
+	    return diff;
+	  }();
 
 	  /**
 	   * Reports whether the set contains a given value
@@ -2771,9 +3011,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.has = function has(element) {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.has = function () {
+	    function has(element) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return has;
+	  }();
 
 	  /**
 	  * Returns all elements in the set
@@ -2781,9 +3025,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  SetInterface.prototype.keys = function keys() {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.keys = function () {
+	    function keys() {
+	      throw new Error("must implement this method");
+	    }
+
+	    return keys;
+	  }();
 
 	  /**
 	   * Removes an element from the set
@@ -2791,9 +3039,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.remove = function remove(element) {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.remove = function () {
+	    function remove(element) {
+	      throw new Error("must implement this method");
+	    }
+
+	    return remove;
+	  }();
 
 	  /**
 	   * Updates 'this' with the mathematical set intersection of 'this' set and
@@ -2811,16 +3063,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.intersect = function intersect(thatSet) {
-	    var thisKeys = this.keys();
-	    var context = this;
-	    thisKeys.forEach(function (element) {
-	      if (!thatSet.has(element)) {
-	        context.remove(element);
-	      }
-	    });
-	    return context;
-	  };
+	  SetInterface.prototype.intersect = function () {
+	    function intersect(thatSet) {
+	      var thisKeys = this.keys();
+	      var context = this;
+	      thisKeys.forEach(function (element) {
+	        if (!thatSet.has(element)) {
+	          context.remove(element);
+	        }
+	      });
+	      return context;
+	    }
+
+	    return intersect;
+	  }();
 
 	  /**
 	   * Returns ths size of the set
@@ -2832,9 +3088,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.cardinality = function cardinality() {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.cardinality = function () {
+	    function cardinality() {
+	      throw new Error("must implement this method");
+	    }
+
+	    return cardinality;
+	  }();
 
 	  return SetInterface;
 	}();
@@ -2890,13 +3150,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.insert = function insert(key, value) {
-	    var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
-	    if (inserted) {
-	      this.inserts += 1;
+	  BST.prototype.insert = function () {
+	    function insert(key, value) {
+	      var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
+	      if (inserted) {
+	        this.inserts += 1;
+	      }
+	      return this;
 	    }
-	    return this;
-	  };
+
+	    return insert;
+	  }();
 
 	  /**
 	   * Removes the given key and its associated value from BST
@@ -2910,13 +3174,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BST.prototype.remove = function remove(key) {
-	    var removed = _BSTPrototype.BSTRemove.call(this, key);
-	    if (removed) {
-	      this.inserts -= 1;
+	  BST.prototype.remove = function () {
+	    function remove(key) {
+	      var removed = _BSTPrototype.BSTRemove.call(this, key);
+	      if (removed) {
+	        this.inserts -= 1;
+	      }
+	      return this;
 	    }
-	    return this;
-	  };
+
+	    return remove;
+	  }();
 
 	  /**
 	  * Finds the value associated with the given key
@@ -2931,10 +3199,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.find = function find(key) {
-	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
-	    return node ? node.value : undefined;
-	  };
+	  BST.prototype.find = function () {
+	    function find(key) {
+	      var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
+	      return node ? node.value : undefined;
+	    }
+
+	    return find;
+	  }();
 
 	  /**
 	  * Determines if the BST contains the given key
@@ -2948,9 +3220,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.contains = function contains(key) {
-	    return this.find(key) !== undefined;
-	  };
+	  BST.prototype.contains = function () {
+	    function contains(key) {
+	      return this.find(key) !== undefined;
+	    }
+
+	    return contains;
+	  }();
 
 	  /**
 	  * Gives the inorder traversal of the BST
@@ -2958,9 +3234,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.inorder = function inorder() {
-	    return (0, _BSTPrototype.BSTInorder)(this.root);
-	  };
+	  BST.prototype.inorder = function () {
+	    function inorder() {
+	      return (0, _BSTPrototype.BSTInorder)(this.root);
+	    }
+
+	    return inorder;
+	  }();
 
 	  /**
 	   * Reports the number of elements in the BST
@@ -2968,9 +3248,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BST.prototype.size = function size() {
-	    return this.inserts;
-	  };
+	  BST.prototype.size = function () {
+	    function size() {
+	      return this.inserts;
+	    }
+
+	    return size;
+	  }();
 
 	  /**
 	   * Gives the keys in the BST
@@ -2978,11 +3262,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BST.prototype.keys = function keys() {
-	    return this.inorder().map(function (node) {
-	      return node.key;
-	    });
-	  };
+	  BST.prototype.keys = function () {
+	    function keys() {
+	      return this.inorder().map(function (node) {
+	        return node.key;
+	      });
+	    }
+
+	    return keys;
+	  }();
 
 	  return BST;
 	}();
@@ -2999,15 +3287,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var BSTNode = function BSTNode(key, value) {
-	  _classCallCheck(this, BSTNode);
+	var BSTNode = function () {
+	  function BSTNode(key, value) {
+	    _classCallCheck(this, BSTNode);
 
-	  this.parent = null;
-	  this.left = null;
-	  this.right = null;
-	  this.key = key;
-	  this.value = value;
-	};
+	    this.parent = null;
+	    this.left = null;
+	    this.right = null;
+	    this.key = key;
+	    this.value = value;
+	  }
+
+	  return BSTNode;
+	}();
 
 	exports["default"] = BSTNode;
 
@@ -3211,14 +3503,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.addVertex = function addVertex(vertex) {
-	    var graph = this.graph;
-	    // so user does not accidentally overwrite values array
+	  Graph.prototype.addVertex = function () {
+	    function addVertex(vertex) {
+	      var graph = this.graph;
+	      // so user does not accidentally overwrite values array
 
-	    if (!graph.contains(vertex) && vertex !== undefined) {
-	      graph.put(vertex, []);
+	      if (!graph.contains(vertex) && vertex !== undefined) {
+	        graph.put(vertex, []);
+	      }
 	    }
-	  };
+
+	    return addVertex;
+	  }();
 
 	  /**
 	   * Connects two verticies to create an undirected edge
@@ -3235,24 +3531,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
-	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+	  Graph.prototype.addEdge = function () {
+	    function addEdge(vertex1, vertex2) {
+	      var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
-	    // TODO: replace with PQ for Prim's
-	    var graph = this.graph;
+	      // TODO: replace with PQ for Prim's
+	      var graph = this.graph;
 
-	    var v1neighbors = graph.getVal(vertex1);
-	    var v2neighbors = graph.getVal(vertex2);
-	    // they both exist as verticies
-	    if (v1neighbors && v2neighbors) {
-	      // make sure edge does not already exist
-	      if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
-	        // body
-	        v1neighbors.push({ vertex: vertex2, weight: weight });
-	        v2neighbors.push({ vertex: vertex1, weight: weight });
+	      var v1neighbors = graph.getVal(vertex1);
+	      var v2neighbors = graph.getVal(vertex2);
+	      // they both exist as verticies
+	      if (v1neighbors && v2neighbors) {
+	        // make sure edge does not already exist
+	        if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
+	          // body
+	          v1neighbors.push({ vertex: vertex2, weight: weight });
+	          v2neighbors.push({ vertex: vertex1, weight: weight });
+	        }
 	      }
 	    }
-	  };
+
+	    return addEdge;
+	  }();
 
 	  /**
 	   * Performs Breadth First Search
@@ -3262,34 +3562,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.BFS = function BFS(startingVertex) {
-	    var graph = this.graph;
+	  Graph.prototype.BFS = function () {
+	    function BFS(startingVertex) {
+	      var graph = this.graph;
 
-	    if (!graph.contains(startingVertex)) {
-	      return [];
-	    }
+	      if (!graph.contains(startingVertex)) {
+	        return [];
+	      }
 
-	    var bfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var queue = new _Queue2['default']();
-	    queue.enqueue(startingVertex);
-	    while (queue.size() !== 0) {
-	      var currentVertex = queue.dequeue();
+	      var bfs = [];
+	      var visited = new _HashSet2['default'](graph.size());
+	      var queue = new _Queue2['default']();
+	      queue.enqueue(startingVertex);
+	      while (queue.size() !== 0) {
+	        var currentVertex = queue.dequeue();
 
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        bfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            queue.enqueue(curNeighbor);
+	        if (!visited.has(currentVertex)) {
+	          visited.add(currentVertex);
+	          bfs.push(currentVertex);
+	          var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	          for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	            var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	            if (!visited.has(curNeighbor)) {
+	              queue.enqueue(curNeighbor);
+	            }
 	          }
 	        }
 	      }
+	      return bfs;
 	    }
-	    return bfs;
-	  };
+
+	    return BFS;
+	  }();
 
 	  /**
 	   * Performs Depth First Search
@@ -3299,33 +3603,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.DFS = function DFS(startingVertex) {
-	    var graph = this.graph;
-	    if (!graph.contains(startingVertex)) {
-	      return [];
-	    }
+	  Graph.prototype.DFS = function () {
+	    function DFS(startingVertex) {
+	      var graph = this.graph;
+	      if (!graph.contains(startingVertex)) {
+	        return [];
+	      }
 
-	    var dfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var stack = new _Stack2['default']();
-	    stack.push(startingVertex);
-	    while (stack.size() !== 0) {
-	      var currentVertex = stack.pop();
+	      var dfs = [];
+	      var visited = new _HashSet2['default'](graph.size());
+	      var stack = new _Stack2['default']();
+	      stack.push(startingVertex);
+	      while (stack.size() !== 0) {
+	        var currentVertex = stack.pop();
 
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        dfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            stack.push(curNeighbor);
+	        if (!visited.has(currentVertex)) {
+	          visited.add(currentVertex);
+	          dfs.push(currentVertex);
+	          var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	          for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	            var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	            if (!visited.has(curNeighbor)) {
+	              stack.push(curNeighbor);
+	            }
 	          }
 	        }
 	      }
+	      return dfs;
 	    }
-	    return dfs;
-	  };
+
+	    return DFS;
+	  }();
 
 	  /**
 	   * Reports whether the graph is connected
@@ -3333,13 +3641,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.isConnected = function isConnected() {
-	    var graph = this.graph;
-	    var firstKey = '';
-	    var verticies = graph.keys();
-	    firstKey = verticies[0];
-	    return this.BFS(firstKey).length === verticies.length;
-	  };
+	  Graph.prototype.isConnected = function () {
+	    function isConnected() {
+	      var graph = this.graph;
+	      var firstKey = '';
+	      var verticies = graph.keys();
+	      firstKey = verticies[0];
+	      return this.BFS(firstKey).length === verticies.length;
+	    }
+
+	    return isConnected;
+	  }();
 
 	  return Graph;
 	}();
@@ -3443,13 +3755,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 
-	var TrieNode = function TrieNode() {
-	  _classCallCheck(this, TrieNode);
+	var TrieNode = function () {
+	  function TrieNode() {
+	    _classCallCheck(this, TrieNode);
 
-	  this.children = {};
-	  this.endOfWord = false;
-	  this.word = null;
-	};
+	    this.children = {};
+	    this.endOfWord = false;
+	    this.word = null;
+	  }
+
+	  return TrieNode;
+	}();
 
 	/**
 	 * Trie (prefix tree) representation
@@ -3475,27 +3791,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Trie.prototype.addWord = function addWord() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  Trie.prototype.addWord = function () {
+	    function addWord() {
+	      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	    var currentNode = this.root.children;
-	    var word = toLowerCaseString(data);
-	    var currentChar = void 0;
-	    for (var i = 0; i < word.length; i += 1) {
-	      currentChar = word.charAt(i);
-	      // path does not exist currently in trie
-	      if (!currentNode[currentChar]) {
-	        currentNode[currentChar] = new TrieNode();
+	      var currentNode = this.root.children;
+	      var word = toLowerCaseString(data);
+	      var currentChar = void 0;
+	      for (var i = 0; i < word.length; i += 1) {
+	        currentChar = word.charAt(i);
+	        // path does not exist currently in trie
+	        if (!currentNode[currentChar]) {
+	          currentNode[currentChar] = new TrieNode();
+	        }
+	        // add end of word and word flags
+	        if (i === word.length - 1) {
+	          currentNode[currentChar].endOfWord = true;
+	          currentNode[currentChar].word = word;
+	        }
+	        // trickle down the tree
+	        currentNode = currentNode[currentChar].children;
 	      }
-	      // add end of word and word flags
-	      if (i === word.length - 1) {
-	        currentNode[currentChar].endOfWord = true;
-	        currentNode[currentChar].word = word;
-	      }
-	      // trickle down the tree
-	      currentNode = currentNode[currentChar].children;
 	    }
-	  };
+
+	    return addWord;
+	  }();
 
 	  /**
 	   * Reports whether the trie contains the given word
@@ -3505,19 +3825,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Trie.prototype.containsWord = function containsWord() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  Trie.prototype.containsWord = function () {
+	    function containsWord() {
+	      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	    var word = toLowerCaseString(data);
-	    var foundWord = getNode(this.root, word);
-	    if (foundWord) {
-	      var lastChar = word.charAt(word.length - 1);
-	      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
-	        return true;
+	      var word = toLowerCaseString(data);
+	      var foundWord = getNode(this.root, word);
+	      if (foundWord) {
+	        var lastChar = word.charAt(word.length - 1);
+	        if (foundWord[lastChar] && foundWord[lastChar].word === word) {
+	          return true;
+	        }
 	      }
+	      return false;
 	    }
-	    return false;
-	  };
+
+	    return containsWord;
+	  }();
 
 	  /*
 	  * trie.addWord("apple");
@@ -3527,23 +3851,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  Trie.prototype.containsPrefix = function containsPrefix() {
-	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  Trie.prototype.containsPrefix = function () {
+	    function containsPrefix() {
+	      var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	    var root = this.root;
-	    var str = toLowerCaseString(prefix);
-	    var foundPrefix = getNode(root, str);
-	    if (foundPrefix) {
-	      var lastChar = str.charAt(str.length - 1);
-	      if (foundPrefix[lastChar]) {
-	        var hasChildren = hasChild(foundPrefix[lastChar].children);
-	        if (hasChildren) {
-	          return true;
+	      var root = this.root;
+	      var str = toLowerCaseString(prefix);
+	      var foundPrefix = getNode(root, str);
+	      if (foundPrefix) {
+	        var lastChar = str.charAt(str.length - 1);
+	        if (foundPrefix[lastChar]) {
+	          var hasChildren = hasChild(foundPrefix[lastChar].children);
+	          if (hasChildren) {
+	            return true;
+	          }
 	        }
 	      }
+	      return false;
 	    }
-	    return false;
-	  };
+
+	    return containsPrefix;
+	  }();
 
 	  /**
 	   * Gives all of the words in the trie with the given prefix
@@ -3558,19 +3886,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Trie.prototype.prefixAll = function prefixAll() {
-	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  Trie.prototype.prefixAll = function () {
+	    function prefixAll() {
+	      var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-	    if (!this.containsPrefix(prefix)) {
-	      return [];
+	      if (!this.containsPrefix(prefix)) {
+	        return [];
+	      }
+	      var word = toLowerCaseString(prefix);
+	      var prefixTail = getNode(this.root, word);
+	      var lastChar = word.charAt(word.length - 1);
+	      var prefixes = [];
+	      recurseTree(prefixTail[lastChar].children, prefixes);
+	      return prefixes;
 	    }
-	    var word = toLowerCaseString(prefix);
-	    var prefixTail = getNode(this.root, word);
-	    var lastChar = word.charAt(word.length - 1);
-	    var prefixes = [];
-	    recurseTree(prefixTail[lastChar].children, prefixes);
-	    return prefixes;
-	  };
+
+	    return prefixAll;
+	  }();
 
 	  return Trie;
 	}();
@@ -3631,22 +3963,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  HashMultiMap.prototype.put = function put(key) {
-	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  HashMultiMap.prototype.put = function () {
+	    function put(key) {
+	      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-	    var retVal = _HashMap.prototype.getVal.call(this, key);
-	    if (retVal) {
-	      // no duplicate values for one key
-	      if (retVal.indexOf(value) === -1) {
-	        return retVal.push(value);
+	      var retVal = _HashMap.prototype.getVal.call(this, key);
+	      if (retVal) {
+	        // no duplicate values for one key
+	        if (retVal.indexOf(value) === -1) {
+	          return retVal.push(value);
+	        }
+	      } else {
+	        var newValArr = [];
+	        newValArr.push(value);
+	        _HashMap.prototype.put.call(this, key, newValArr);
 	      }
-	    } else {
-	      var newValArr = [];
-	      newValArr.push(value);
-	      _HashMap.prototype.put.call(this, key, newValArr);
+	      return this;
 	    }
-	    return this;
-	  };
+
+	    return put;
+	  }();
 
 	  return HashMultiMap;
 	}(_HashMap3['default']);
@@ -3743,12 +4079,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.remove = function remove() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+	  ArrayUtils.remove = function () {
+	    function remove() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
-	    return index >= 0 ? array.splice(index, 1) : [];
-	  };
+	      return index >= 0 ? array.splice(index, 1) : [];
+	    }
+
+	    return remove;
+	  }();
 
 	  /**
 	   * Removes the first occurence of the given value from array
@@ -3764,13 +4104,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.removeElement = function removeElement() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var value = arguments[1];
+	  ArrayUtils.removeElement = function () {
+	    function removeElement() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var value = arguments[1];
 
-	    var indexOfValue = array.indexOf(value);
-	    return ArrayUtils.remove(array, indexOfValue);
-	  };
+	      var indexOfValue = array.indexOf(value);
+	      return ArrayUtils.remove(array, indexOfValue);
+	    }
+
+	    return removeElement;
+	  }();
 
 	  /**
 	   * Rotates the given array left(negative number) or right(positive number)
@@ -3789,18 +4133,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.rotate = function rotate() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	  ArrayUtils.rotate = function () {
+	    function rotate() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	    // avoid infinite loop in rotate methods for unconventional args
-	    (0, _Util.isNumber)(times);
-	    if (times < 0) {
-	      return lRotate(array, times);
-	    } else if (times > 0) {
-	      return rRotate(array, times);
+	      // avoid infinite loop in rotate methods for unconventional args
+	      (0, _Util.isNumber)(times);
+	      if (times < 0) {
+	        return lRotate(array, times);
+	      } else if (times > 0) {
+	        return rRotate(array, times);
+	      }
 	    }
-	  };
+
+	    return rotate;
+	  }();
 
 	  /**
 	   * Pops the given array a given amount of times
@@ -3817,13 +4165,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.popMany = function popMany() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+	  ArrayUtils.popMany = function () {
+	    function popMany() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	    var diff = array.length - times;
-	    return diff > 0 ? array.slice(0, diff) : [];
-	  };
+	      var diff = array.length - times;
+	      return diff > 0 ? array.slice(0, diff) : [];
+	    }
+
+	    return popMany;
+	  }();
 
 	  /**
 	   * Pushes many elements into the given array
@@ -3839,14 +4191,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.pushMany = function pushMany() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    // eslint-disable-line no-unused-vars
-	    var args = [].concat(Array.prototype.slice.call(arguments));
-	    // throw out array arg
-	    args.shift();
-	    return array.concat(args);
-	  };
+	  ArrayUtils.pushMany = function () {
+	    function pushMany() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	      // eslint-disable-line no-unused-vars
+	      var args = [].concat(Array.prototype.slice.call(arguments));
+	      // throw out array arg
+	      args.shift();
+	      return array.concat(args);
+	    }
+
+	    return pushMany;
+	  }();
 
 	  /**
 	   * Returns a random index in the given array
@@ -3861,11 +4217,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.getRand = function getRand() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  ArrayUtils.getRand = function () {
+	    function getRand() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    return array[(0, _Util.genRand)(array.length)];
-	  };
+	      return array[(0, _Util.genRand)(array.length)];
+	    }
+
+	    return getRand;
+	  }();
 
 	  /**
 	   * Removes a random element from the given array
@@ -3881,12 +4241,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.removeRand = function removeRand() {
-	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  ArrayUtils.removeRand = function () {
+	    function removeRand() {
+	      var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    var randIndex = (0, _Util.genRand)(array.length);
-	    return ArrayUtils.remove(array, randIndex);
-	  };
+	      var randIndex = (0, _Util.genRand)(array.length);
+	      return ArrayUtils.remove(array, randIndex);
+	    }
+
+	    return removeRand;
+	  }();
 
 	  /**
 	   * Shuffles the given array
@@ -3896,14 +4260,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.shuffle = function shuffle(array) {
-	    var arrayLength = array.length;
-	    for (var i = 0; i < Math.floor(arrayLength / 2); i += 1) {
-	      var index1 = (0, _Util.genRand)(arrayLength);
-	      var index2 = (0, _Util.genRand)(arrayLength);
-	      (0, _Util.swap)(array, index1, index2);
+	  ArrayUtils.shuffle = function () {
+	    function shuffle(array) {
+	      var arrayLength = array.length;
+	      for (var i = 0; i < Math.floor(arrayLength / 2); i += 1) {
+	        var index1 = (0, _Util.genRand)(arrayLength);
+	        var index2 = (0, _Util.genRand)(arrayLength);
+	        (0, _Util.swap)(array, index1, index2);
+	      }
 	    }
-	  };
+
+	    return shuffle;
+	  }();
 
 	  /**
 	   * Turns an n dimensional array into a 1 dimensional array
@@ -3917,15 +4285,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.flatten = function flatten(array) {
-	    var newArr = [];
-	    var curValue = void 0;
-	    for (var i = 0; i < array.length; i += 1) {
-	      curValue = array[i];
-	      newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat(pushValToArray(curValue));
+	  ArrayUtils.flatten = function () {
+	    function flatten(array) {
+	      var newArr = [];
+	      var curValue = void 0;
+	      for (var i = 0; i < array.length; i += 1) {
+	        curValue = array[i];
+	        newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat(pushValToArray(curValue));
+	      }
+	      return newArr;
 	    }
-	    return newArr;
-	  };
+
+	    return flatten;
+	  }();
 
 	  /**
 	   * Splits the given array into chunks
@@ -3941,17 +4313,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.chunk = function chunk(arr, bits) {
-	    (0, _Util.isNumber)(bits);
-	    var newArr = [];
-	    if (bits <= 0) {
-	      return [];
+	  ArrayUtils.chunk = function () {
+	    function chunk(arr, bits) {
+	      (0, _Util.isNumber)(bits);
+	      var newArr = [];
+	      if (bits <= 0) {
+	        return [];
+	      }
+	      for (var i = 0; i < arr.length; i += bits) {
+	        newArr.push(arr.slice(i, i + bits));
+	      }
+	      return newArr;
 	    }
-	    for (var i = 0; i < arr.length; i += bits) {
-	      newArr.push(arr.slice(i, i + bits));
-	    }
-	    return newArr;
-	  };
+
+	    return chunk;
+	  }();
 
 	  return ArrayUtils;
 	}();
@@ -4182,30 +4558,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this2;
 	  }
 
-	  RBTree.prototype.insert = function insert(key, value) {
-	    var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
-	    if (insertedNode) {
-	      insertedNode.color = 'red';
-	      insertFix.call(this, insertedNode);
-	      this.inserts += 1;
-	    }
-	    return this;
-	  };
-
-	  RBTree.prototype.remove = function remove(key) {
-	    // successor and child
-	    var didRemove = _BSTPrototype.BSTRemove.call(this, key);
-	    if (didRemove) {
-	      var succChild = didRemove.succChild,
-	          succ = didRemove.succ;
-
-	      if (succ.color === 'black') {
-	        deletefixUp.call(this, succChild);
-	        this.inserts -= 1;
+	  RBTree.prototype.insert = function () {
+	    function insert(key, value) {
+	      var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
+	      if (insertedNode) {
+	        insertedNode.color = 'red';
+	        insertFix.call(this, insertedNode);
+	        this.inserts += 1;
 	      }
+	      return this;
 	    }
-	    return this;
-	  };
+
+	    return insert;
+	  }();
+
+	  RBTree.prototype.remove = function () {
+	    function remove(key) {
+	      // successor and child
+	      var didRemove = _BSTPrototype.BSTRemove.call(this, key);
+	      if (didRemove) {
+	        var succChild = didRemove.succChild,
+	            succ = didRemove.succ;
+
+	        if (succ.color === 'black') {
+	          deletefixUp.call(this, succChild);
+	          this.inserts -= 1;
+	        }
+	      }
+	      return this;
+	    }
+
+	    return remove;
+	  }();
 
 	  return RBTree;
 	}(_BST3['default']);
@@ -4259,31 +4643,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this;
 	  }
 
-	  Map.prototype.put = function put(key, value) {
-	    this.map.insert(key, value);
-	    return this;
-	  };
+	  Map.prototype.put = function () {
+	    function put(key, value) {
+	      this.map.insert(key, value);
+	      return this;
+	    }
 
-	  Map.prototype.getVal = function getVal(key) {
-	    return this.map.find(key);
-	  };
+	    return put;
+	  }();
 
-	  Map.prototype.remove = function remove(key) {
-	    this.map.remove(key);
-	    return this;
-	  };
+	  Map.prototype.getVal = function () {
+	    function getVal(key) {
+	      return this.map.find(key);
+	    }
 
-	  Map.prototype.keys = function keys() {
-	    return this.map.keys();
-	  };
+	    return getVal;
+	  }();
 
-	  Map.prototype.contains = function contains(key) {
-	    return this.map.contains(key);
-	  };
+	  Map.prototype.remove = function () {
+	    function remove(key) {
+	      this.map.remove(key);
+	      return this;
+	    }
 
-	  Map.prototype.size = function size() {
-	    return this.map.size();
-	  };
+	    return remove;
+	  }();
+
+	  Map.prototype.keys = function () {
+	    function keys() {
+	      return this.map.keys();
+	    }
+
+	    return keys;
+	  }();
+
+	  Map.prototype.contains = function () {
+	    function contains(key) {
+	      return this.map.contains(key);
+	    }
+
+	    return contains;
+	  }();
+
+	  Map.prototype.size = function () {
+	    function size() {
+	      return this.map.size();
+	    }
+
+	    return size;
+	  }();
 
 	  return Map;
 	}(_MapInterface3['default']);
@@ -4337,14 +4745,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this;
 	  }
 
-	  Set.prototype.add = function add(element) {
-	    this.set.insert(element, 1);
-	    return this;
-	  };
+	  Set.prototype.add = function () {
+	    function add(element) {
+	      this.set.insert(element, 1);
+	      return this;
+	    }
 
-	  Set.prototype.has = function has(element) {
-	    return this.set.contains(element);
-	  };
+	    return add;
+	  }();
+
+	  Set.prototype.has = function () {
+	    function has(element) {
+	      return this.set.contains(element);
+	    }
+
+	    return has;
+	  }();
 
 	  /**
 	   * Removes an element from the set
@@ -4352,18 +4768,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Set.prototype.remove = function remove(element) {
-	    this.set.remove(element);
-	    return this;
-	  };
+	  Set.prototype.remove = function () {
+	    function remove(element) {
+	      this.set.remove(element);
+	      return this;
+	    }
 
-	  Set.prototype.keys = function keys() {
-	    return this.set.keys();
-	  };
+	    return remove;
+	  }();
 
-	  Set.prototype.cardinality = function cardinality() {
-	    return this.set.size();
-	  };
+	  Set.prototype.keys = function () {
+	    function keys() {
+	      return this.set.keys();
+	    }
+
+	    return keys;
+	  }();
+
+	  Set.prototype.cardinality = function () {
+	    function cardinality() {
+	      return this.set.size();
+	    }
+
+	    return cardinality;
+	  }();
 
 	  return Set;
 	}(_SetInterface3['default']);
