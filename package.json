@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha --require babel-core/register --colors ./tests/* -w",
     "build": "webpack --watch",
-    "prod" : "uglifyjs collections.js -o collections.min.js",
+    "prod": "uglifyjs collections.js -o collections.min.js",
     "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md"
   },
   "keywords": [
@@ -29,9 +29,7 @@
     "help"
   ],
   "license": "MIT",
-  "dependencies": {
-    "core-js": "^2.5.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",

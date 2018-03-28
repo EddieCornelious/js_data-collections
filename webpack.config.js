@@ -1,8 +1,6 @@
 
 module.exports = {
-  entry: [
-  "core-js/fn/object/define-property",
-  './src/main.js'],
+  entry: './src/main.js',
   output: {
     path: __dirname,
     filename: 'collections.js',
