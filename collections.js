@@ -2091,9 +2091,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function successor(node) {
 	  var suc = node.right;
-	  if (suc.left.key === undefined) {
-	    return suc;
-	  }
 	  while (suc.left.key !== undefined) {
 	    suc = suc.left;
 	  }
