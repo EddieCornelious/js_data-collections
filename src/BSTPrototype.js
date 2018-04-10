@@ -67,9 +67,6 @@ export function BSTSearch(root, key) {
  */
 function successor(node) {
   let suc = node.right;
-  if (suc.left.key === undefined) {
-    return suc;
-  }
   while (suc.left.key !== undefined) {
     suc = suc.left;
   }
