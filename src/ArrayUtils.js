@@ -171,14 +171,13 @@ class ArrayUtils {
    * Adds elements to the front of the given array
    * @static
    * @param {Array} [array=empty array] - The array to unshift
-   * @param {number} [times=0] - The number of times to unshift @param array
    * @returns {Array} A new array equal to
    * [unshifted elements + @param array ]
    *
    * @example
    * const myArray = [1, 2, 3, 4];
-   * const altered = arrayMethods.unshiftMany(myArray, 3);
-   * // myArray is [1, 2, 3, 4] ; altered is [1]
+   * const altered = arrayMethods.unshiftMany(myArray, "hi");
+   * // myArray is [1, 2, 3, 4] ; altered is ["hi", 1, 2, 3, 4]
    */
   static unshiftMany(arr = []) {
     const args = [...arguments];
