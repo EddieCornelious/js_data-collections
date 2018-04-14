@@ -3,7 +3,7 @@ import { swap, isNumber, genRand } from './Util.js';
 /**
  * Pushes the given value to an array and returns the new array
  * @private
- * @param {*} value - The value to push to array
+ * @param {*} value - The value to push to a new array
  * @returns {Array} Array of length one with @param value in it
  */
 function pushValToArray(value) {
@@ -21,11 +21,9 @@ function pushValToArray(value) {
  */
 function lRotate(array, times) {
   let rotations = times;
-  let front;
   if (array.length > 1) {
     while (rotations < 0) {
-      front = array.shift();
-      array.push(front);
+      array.push(array.shift());
       rotations += 1;
     }
   }
@@ -40,18 +38,16 @@ function lRotate(array, times) {
  */
 function rRotate(array, times) {
   let rotations = times;
-  let back;
   if (array.length > 1) {
     while (rotations > 0) {
-      back = array.pop();
-      array.unshift(back);
+      array.unshift(array.pop());
       rotations -= 1;
     }
   }
 }
 
 /**
- * Various utility methods that can be called with arrays
+ * Various utility methods that can be used on arrays
  * @class
  * @static
  *
@@ -65,7 +61,7 @@ class ArrayUtils {
    * Removes the element at the given position in the given array
    * @static
    * @param {Array} array - The array to remove elements from
-   * @param {number} index - The index to remove from @param array
+   * @param {number} [index=0] - The index to remove from @param array
    * @returns {Array} Array of removed elements
    *
    * @example
@@ -73,12 +69,12 @@ class ArrayUtils {
    * let removedItems = arrayMethods.remove(myArray, 1);
    * // removedItems contains [2] and myArray is [1, 3, 4]
    */
-  static remove(array = [], index = 1) {
+  static remove(array = [], index = 0) {
     return index >= 0 ? array.splice(index, 1) : [];
   }
 
   /**
-   * Removes the first occurence of the given value from array
+   * Removes the first occurence of the given value from the array
    * @static
    * @param {Array} array - The array to remove elements from
    * @param {*} value - The value to remove from @param array
@@ -90,15 +86,14 @@ class ArrayUtils {
    * // changedArray contains [3] and myArray is [1, 2, 4]
    */
   static removeElement(array = [], value) {
-    const indexOfValue = array.indexOf(value);
-    return ArrayUtils.remove(array, indexOfValue);
+    return ArrayUtils.remove(array, array.indexOf(value));
   }
 
   /**
    * Rotates the given array left(negative number) or right(positive number)
    * @static
    * @param {Array} array - The array to rotate
-   * @param {number} times - The number of times to rotate @param array
+   * @param {number} [times=0] - The number of times to rotate @param array
    * @throws {TypeError} If @param times is not a primitive number
    * @returns {undefined}
    *
@@ -114,16 +109,15 @@ class ArrayUtils {
     isNumber(times);
     if (times < 0) {
       return lRotate(array, times);
-    } else if (times > 0) {
-      return rRotate(array, times);
     }
+    return rRotate(array, times);
   }
 
   /**
-   * Pops the given array a given amount of times
+   * Removes the last element from the given array
    * @static
    * @param {Array} array - The array to pop
-   * @param {number} times - The number of times to pop @param array
+   * @param {number} [times=0] - The number of times to pop @param array
    * @returns {Array} A new array equal to
    * [@param array - popped elements]
    *
@@ -138,9 +132,9 @@ class ArrayUtils {
   }
 
   /**
-   * Pushes many elements into the given array
+   * Adds elements to the end of the given array
    * @static
-   * @param {Array} array - The array to push elements into
+   * @param {Array} [array=empty array] - The array to push elements into
    * @param {*} args - Consecutive arguments to push into array
    * @returns {Array} A new array equal to [@param array + pushed elements]
    *
@@ -154,6 +148,43 @@ class ArrayUtils {
     // throw out array arg
     args.shift();
     return array.concat(args);
+  }
+
+  /**
+   * Removes the first element from the given array
+   * @static
+   * @param {Array} array - The array to shift
+   * @param {number} [times=0] - The number of times to shift @param array
+   * @returns {Array} A new array equal to
+   * [@param array - shifted elements]
+   *
+   * @example
+   * const myArray = [1, 2, 3, 4];
+   * const altered = arrayMethods.shiftMany(myArray, 3);
+   * // myArray is [1, 2, 3, 4] ; altered is [4]
+   */
+  static shiftMany(arr = [], times = 0) {
+    return times > 0 ? arr.slice(times) : arr;
+  }
+
+  /**
+   * Adds elements to the front of the given array
+   * @static
+   * @param {Array} [array=empty array] - The array to unshift
+   * @param {number} [times=0] - The number of times to unshift @param array
+   * @returns {Array} A new array equal to
+   * [unshifted elements + @param array ]
+   *
+   * @example
+   * const myArray = [1, 2, 3, 4];
+   * const altered = arrayMethods.unshiftMany(myArray, 3);
+   * // myArray is [1, 2, 3, 4] ; altered is [1]
+   */
+  static unshiftMany(arr = []) {
+    const args = [...arguments];
+    // throw out array arg
+    args.shift();
+    return args.concat(arr);
   }
 
   /**
@@ -194,7 +225,7 @@ class ArrayUtils {
    * @param {Array} array - The array to shuffle
    * @returns {undefined}
    */
-  static shuffle(array) {
+  static shuffle(array = []) {
     const arrayLength = array.length;
     for (let i = 0; i < Math.floor(arrayLength / 2); i += 1) {
       let index1 = genRand(arrayLength);
@@ -228,7 +259,7 @@ class ArrayUtils {
   /**
    * Splits the given array into chunks
    * @param {Array} array - The array to chunk
-   * @param {number} bits - The size of each nested array
+   * @param {number} [bits=0] - The size of each nested array
    * @throws {TypeError} If @param bits is not a primitive number
    * @returns {Array} A new array split into @param bits
    *
@@ -237,11 +268,11 @@ class ArrayUtils {
    * const altered = arrayMethods.chunk(myArray, 2);
    * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
    */
-  static chunk(arr, bits) {
+  static chunk(arr = [], bits = 0) {
     isNumber(bits);
     const newArr = [];
     if (bits <= 0) {
-      return [];
+      return newArr;
     }
     for (let i = 0; i < arr.length; i += bits) {
       newArr.push(arr.slice(i, i + bits));
