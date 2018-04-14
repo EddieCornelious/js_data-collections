@@ -284,7 +284,7 @@ describe("ArrayUtils", function() {
 
   it("getRand returns random number in array", function(){
     actual.push("a", "b", "c");
-    for (let i = 0; i < 50; i += 1) {
+    for (let i = 0; i < 25; i += 1) {
       let rand = ArrayUtils.getRand(actual);
       expect(actual.indexOf(rand)).to.not.equal(-1);
     }
@@ -341,7 +341,7 @@ describe("ArrayUtils", function() {
     expected = [1, 2, 3, "e", "f", 7, 8];
     expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
   });
-  it("flatten some elmeents array, some not multiple levels (arrays of arrays)(1)", function(){
+  it("flatten some elmements array, some not multiple levels (arrays of arrays)(1)", function(){
     actual.push([1, [2, 2.5, 2.6, [2.7, [2.8, 2.9, [2.91]]]], 3]
     , ["e"], "f", [[7, 8]]);
     ArrayUtils.flatten(actual);
@@ -382,7 +382,7 @@ describe("ArrayUtils", function() {
     expected = [];
     expect(ArrayUtils.flatten(actual)).to.have.ordered.members(expected);
   });
-
+  
   it("flatten empty arrays and objects case", function(){
     let y = {};
     let z = {};
