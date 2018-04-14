@@ -1,4 +1,4 @@
-const ArrayUtils = require("../collections.js").ArrayUtils;
+import {ArrayUtils} from "../collections.js";
 const expect = require("chai").expect;
 
 describe("ArrayUtils", function() {
@@ -14,38 +14,42 @@ describe("ArrayUtils", function() {
     actual = null;
   });
 
-  it("remove should remove from first index of array", function(){
+  it("remove returns and removes first index of array", function(){
     actual.push(1, 2, 3, 4, 5, 6);
-    ArrayUtils.remove(actual, 0);
+    let removed = ArrayUtils.remove(actual, 0);
     expected = [2, 3, 4, 5, 6];
     expect(actual).to.have.ordered.members(expected);
+    expect(removed).to.have.ordered.members([1]);
   });
 
-  it("remove should remove from last index of array", function(){
+  it("remove returns and removes last index of array", function(){
     actual.push(1, 2, 3, 4, 5, 6);
-    ArrayUtils.remove(actual, 5);
+    let removed = ArrayUtils.remove(actual, 5);
     expected = [1, 2, 3, 4, 5];
     expect(actual).to.have.ordered.members(expected);
+    expect(removed).to.have.ordered.members([6]);
   });
 
-  it("remove should remove from middle index of array", function(){
+  it("remove returns and removes middle index of array", function(){
     actual.push(1, 2, 3, 4, 5, 6);
-    ArrayUtils.remove(actual, 3);
+    let removed = ArrayUtils.remove(actual, 3);
     expected = [1, 2, 3, 5, 6];
     expect(actual).to.have.ordered.members(expected);
+    expect(removed).to.have.ordered.members([4]);
   });
 
-  it("remove should do nothing with empty array", function(){
+  it("remove returns empty array when given empty array", function(){
     ArrayUtils.remove(actual, 3);
     expected = [];
     expect(actual).to.have.ordered.members(expected);
   });
 
-  it("remove should work properly with array of length 1", function(){
+  it("remove returns sole element with array of length 1", function(){
     actual.push("A");
-    ArrayUtils.remove(actual, 0);
+    let removed = ArrayUtils.remove(actual, 0);
     expected = [];
     expect(actual).to.have.ordered.members(expected);
+    expect(removed).to.have.ordered.members(["A"]);
   });
 
   it("remove should not alter array when index equals array length", function(){
@@ -71,12 +75,13 @@ describe("ArrayUtils", function() {
 
   it("removeElement should remove item from array", function(){
     actual.push("A");
-    ArrayUtils.removeElement(actual, "A");
+    let removed = ArrayUtils.removeElement(actual, "A");
     expected = [];
     expect(actual).to.have.ordered.members(expected);
+    expect(removed).to.have.ordered.members(["A"]);
   });
 
-  it("removeElement should not alter array if object is not in array", function(){
+  it("removeElement should not alter array if element is not in array", function(){
     actual.push("A", "B");
     ArrayUtils.removeElement(actual, "C");
     expected = ["A", "B"];
@@ -177,6 +182,49 @@ describe("ArrayUtils", function() {
   it("popMany should return empty array when given empty array", function(){
     expected = [];
     expect(ArrayUtils.popMany(actual, 5)).to.have.ordered.members(expected);
+  });
+  // shift methods
+  
+  it("shiftMany does not alter original array", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    ArrayUtils.shiftMany(actual, 2);
+    expect(actual).to.have.ordered.members(expected);
+  });
+
+  it("shiftMany once should only shift one element from array", function(){
+    actual.push("A", "B", "C");
+    expected = ["B", "C"];
+    expect(ArrayUtils.shiftMany(actual, 1)).to.have.ordered.members(expected);
+  });
+
+  it("shiftMany should return empty array when times to shift is length", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.shiftMany(actual, 3)).to.have.ordered.members([]);
+  });
+
+  it("shiftMany should return empty array when times to shift is greater than array length", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.shiftMany(actual, 4)).to.have.ordered.members([]);
+  });
+
+  it("shiftMany should return original array when times to shift is less than 0", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.shiftMany(actual, -1)).to.have.ordered.members(expected);
+  });
+
+  it("shiftMany should return original array when times to shift is 0", function(){
+    actual.push("A", "B", "C");
+    expected = ["A", "B", "C"];
+    expect(ArrayUtils.shiftMany(actual, 0)).to.have.ordered.members(expected);
+  });
+
+  it("shiftMany should return empty array when given empty array", function(){
+    expected = [];
+    expect(ArrayUtils.shiftMany(actual, 5)).to.have.ordered.members(expected);
   });
 
   it("pushMany should push many things onto empty array", function(){
