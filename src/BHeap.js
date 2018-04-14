@@ -86,7 +86,7 @@ class BHeap {
 
   /**
    * Inserts the given data into the BHeap
-   * @param {*} data - The data to insert into BHeap.
+   * @param {*} [data=null] - The data to insert into BHeap.
    * @returns {BHeap} A reference to the instance that this method was called
    *
    * @example
@@ -95,11 +95,36 @@ class BHeap {
    *
    * heap.extractRoot() // will be 3
    */
-  insert(data) {
+  insert(data = null) {
     const { heap, comp } = this;
     heap[heap.length] = data;
     siftUp(heap, heap.length - 1, comp);
     return this;
+  }
+
+  /**
+   * Reports whether the BHeap contains the given data
+   * @param {*} [data=null] - The data to search for
+   * @returns {boolean} True if the heap contains @param data and false otherwise
+   *
+   * @example
+   * heap.insert(1).insert(2);
+   * heap.contains(2) // true
+   */
+  contains(data = null) {
+    return this.toArray().indexOf(data) !== -1;
+  }
+
+  /**
+   * Retrieves the element staged to be removed next but does not remove it
+   * @returns {* | undefined} The set to be removed data or undefined if empty heap
+   *
+   * @example
+   * heap.insert(9);
+   * heap.peek() // returns 9 and heap is still of size 1
+   */
+  peek() {
+    return this.heap[1];
   }
 
   /**
@@ -124,6 +149,7 @@ class BHeap {
   size() {
     return this.heap.length - 1;
   }
+
   /**
    * Empties the Heap
    * @returns {undefined}
