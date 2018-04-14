@@ -95,7 +95,7 @@ describe("Heap", function() {
     expect(actual).to.be.deep.equal([]);
   });
 
-  it("extractRoot with continuous example", function() {
+  it("extractRoot with continuous example correctly returns max values", function() {
     heap.insert(1);
     heap.insert(2);
     heap.insert(3);
@@ -153,6 +153,35 @@ describe("Heap", function() {
       expect(expected[i]).to.be.equal(actual[i]);
     }
     expect(minHeap.size()).to.be.equal(5);
+  });
+  
+  it("contains returns true when heap contains given element ", function(){
+     heap.insert(10).insert(10);
+     expect(heap.contains(10)).to.be.equal(true);
+  });
+  
+   it("contains returns false when heap does not contain given element ", function(){
+     heap.insert(10).insert(10);
+     expect(heap.contains(11)).to.be.equal(false);
+  });
+  
+   it("contains returns false when null refers to underlying null ", function(){
+     heap.insert(10).insert(10);
+     expect(heap.contains(null)).to.be.equal(false);
+  });
+  
+  it("contains returns true when null does not refer to underlying null ", function(){
+     heap.insert(null);
+     expect(heap.contains(null)).to.be.equal(true);
+  });
+  
+  it("peek returns the element ready to be removed ", function(){
+     heap.insert(null);
+     expect(heap.peek()).to.be.equal(null);
+  });
+  
+  it("peek returns undefined when heap is empty ", function(){
+     expect(heap.peek()).to.be.equal();
   });
 
 });
