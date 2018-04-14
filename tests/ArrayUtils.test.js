@@ -247,6 +247,40 @@ describe("ArrayUtils", function() {
     expect(ArrayUtils.pushMany(actual, 1, 2)).to.have.ordered.members(expected);
     expect(actual).to.have.ordered.members(["a", "b", "c"]);
   });
+  
+  it("pushMany returns original array when args are empty", function(){
+    actual.push("a", "b", "c");
+    expected = ["a", "b", "c"] ;
+    expect(ArrayUtils.pushMany(actual)).to.have.ordered.members(expected);
+  });
+  // unshift
+  
+  it("unshiftMany should unshift many things onto empty array", function(){
+    expected = [1, 2, 3, 4, 5];
+    expect(ArrayUtils.unshiftMany(actual, 1, 2, 3, 4, 5)
+    ).to.have.ordered.members(expected);
+  });
+
+  it("unshiftMany should unshift many things onto non-empty array", function(){
+    actual.push(-1, 0);
+    expected = [1, 2, 3, 4, 5, -1, 0];
+    expect(ArrayUtils.unshiftMany(actual, 1, 2, 3, 4, 5)
+    ).to.have.ordered.members(expected);
+    
+  });
+
+  it("unshiftMany does not alter original array", function(){
+    actual.push("a", "b", "c");
+    expected = [1, 2, "a", "b", "c"] ;
+    expect(ArrayUtils.unshiftMany(actual, 1, 2)).to.have.ordered.members(expected);
+    expect(actual).to.have.ordered.members(["a", "b", "c"]);
+  });
+  
+  it("unshiftMany returns original array when args are empty", function(){
+    actual.push("a", "b", "c");
+    expected = ["a", "b", "c"] ;
+    expect(ArrayUtils.unshiftMany(actual)).to.have.ordered.members(expected);
+  });
 
   it("getRand returns random number in array", function(){
     actual.push("a", "b", "c");
