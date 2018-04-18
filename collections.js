@@ -528,6 +528,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  };
 
+	  List.prototype.filter = function filter(cb) {
+	    var head = this.head;
+	    var newList = new List();
+	    while (head) {
+	      var data = head.data;
+	      if (cb(data)) {
+	        newList.addToBack(data);
+	      }
+	      head = head.next;
+	    }
+	  };
+
 	  /**
 	   * Transforms a linked list to an array
 	   * @returns {Array} An array representation of 'this' List
@@ -981,7 +993,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Inserts the given data into the BHeap
-	   * @param {*} data - The data to insert into BHeap.
+	   * @param {*} [data=null] - The data to insert into BHeap.
 	   * @returns {BHeap} A reference to the instance that this method was called
 	   *
 	   * @example
@@ -992,13 +1004,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.insert = function insert(data) {
+	  BHeap.prototype.insert = function insert() {
+	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	    var heap = this.heap,
 	        comp = this.comp;
 
 	    heap[heap.length] = data;
 	    siftUp(heap, heap.length - 1, comp);
 	    return this;
+	  };
+
+	  /**
+	   * Reports whether the BHeap contains the given data
+	   * @param {*} [data=null] - The data to search for
+	   * @returns {boolean} True if the heap contains @param data and false otherwise
+	   *
+	   * @example
+	   * heap.insert(1).insert(2);
+	   * heap.contains(2) // true
+	   */
+
+
+	  BHeap.prototype.contains = function contains() {
+	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+	    return this.toArray().indexOf(data) !== -1;
+	  };
+
+	  /**
+	   * Retrieves the element staged to be removed next but does not remove it
+	   * @returns {* | undefined} The set to be removed data or undefined if empty heap
+	   *
+	   * @example
+	   * heap.insert(9);
+	   * heap.peek() // returns 9 and heap is still of size 1
+	   */
+
+
+	  BHeap.prototype.peek = function peek() {
+	    return this.heap[1];
 	  };
 
 	  /**
@@ -1027,6 +1071,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BHeap.prototype.size = function size() {
 	    return this.heap.length - 1;
 	  };
+
 	  /**
 	   * Empties the Heap
 	   * @returns {undefined}
@@ -1931,7 +1976,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.find = function find(key) {
+	  BST.prototype.find = function find() {
+	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
 	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
 	    return node ? node.value : undefined;
 	  };
@@ -1960,6 +2007,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.inorder = function inorder() {
 	    return (0, _BSTPrototype.BSTInorder)(this.root);
+	  };
+
+	  BST.prototype.forEach = function forEach(callback) {
+	    (0, _BSTPrototype.each)(callback);
+	    return this;
+	  };
+
+	  BST.prototype.min = function min() {
+	    var root = this.root;
+	    while (root.left.key !== undefined) {
+	      root = root.left;
+	    }
+	    return root;
+	  };
+
+	  BST.prototype.max = function max() {
+	    var root = this.root;
+	    while (root.right.key !== undefined) {
+	      root = root.right;
+	    }
+	    return root;
+	  };
+
+	  BST.prototype.clear = function clear() {
+	    this.root = null;
+	    this.inserts = 0;
 	  };
 
 	  /**
@@ -2021,6 +2094,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BSTInsert = BSTInsert;
 	exports.BSTSearch = BSTSearch;
 	exports.BSTRemove = BSTRemove;
+	exports.each = each;
 	exports.BSTInorder = BSTInorder;
 
 	/**
@@ -2045,7 +2119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      root = root.right;
 	    } else {
 	      root.value = value;
-	      return null;
+	      return;
 	    }
 	  }
 
@@ -2084,7 +2158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Finds the inorder successor of the given node
+	 * Finds the inorder successor of the given node that has a right child
 	 * @private
 	 * @param {BSTNode} node - The Node to find the successor for
 	 * @returns {BSTNode} The inorder successor of @param node
@@ -2135,6 +2209,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    node.value = succ.value;
 	  }
 	  return { succChild: succChild, succ: succ };
+	}
+
+	/**
+	 * @private
+	 * @param {BSTNode} root - the root of the tree
+	 * @param {function} cb - the callback to invoke and pass key and value
+	 * Calls a function for each element in the tree
+	 * @returns {undefined}
+	 */
+	function each(root, cb) {
+	  if (root && root.key !== undefined) {
+	    each(root.left, cb);
+	    cb(root.key, root.value);
+	    each(root.right, cb);
+	  }
 	}
 
 	/**
@@ -2665,7 +2754,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Pushes the given value to an array and returns the new array
 	 * @private
-	 * @param {*} value - The value to push to array
+	 * @param {*} value - The value to push to a new array
 	 * @returns {Array} Array of length one with @param value in it
 	 */
 	function pushValToArray(value) {
@@ -2683,11 +2772,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function lRotate(array, times) {
 	  var rotations = times;
-	  var front = void 0;
 	  if (array.length > 1) {
 	    while (rotations < 0) {
-	      front = array.shift();
-	      array.push(front);
+	      array.push(array.shift());
 	      rotations += 1;
 	    }
 	  }
@@ -2702,18 +2789,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function rRotate(array, times) {
 	  var rotations = times;
-	  var back = void 0;
 	  if (array.length > 1) {
 	    while (rotations > 0) {
-	      back = array.pop();
-	      array.unshift(back);
+	      array.unshift(array.pop());
 	      rotations -= 1;
 	    }
 	  }
 	}
 
 	/**
-	 * Various utility methods that can be called with arrays
+	 * Various utility methods that can be used on arrays
 	 * @class
 	 * @static
 	 *
@@ -2730,7 +2815,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Removes the element at the given position in the given array
 	   * @static
 	   * @param {Array} array - The array to remove elements from
-	   * @param {number} index - The index to remove from @param array
+	   * @param {number} [index=0] - The index to remove from @param array
 	   * @returns {Array} Array of removed elements
 	   *
 	   * @example
@@ -2742,13 +2827,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  ArrayUtils.remove = function remove() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+	    var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 	    return index >= 0 ? array.splice(index, 1) : [];
 	  };
 
 	  /**
-	   * Removes the first occurence of the given value from array
+	   * Removes the first occurence of the given value from the array
 	   * @static
 	   * @param {Array} array - The array to remove elements from
 	   * @param {*} value - The value to remove from @param array
@@ -2765,15 +2850,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var value = arguments[1];
 
-	    var indexOfValue = array.indexOf(value);
-	    return ArrayUtils.remove(array, indexOfValue);
+	    return ArrayUtils.remove(array, array.indexOf(value));
 	  };
 
 	  /**
 	   * Rotates the given array left(negative number) or right(positive number)
 	   * @static
 	   * @param {Array} array - The array to rotate
-	   * @param {number} times - The number of times to rotate @param array
+	   * @param {number} [times=0] - The number of times to rotate @param array
 	   * @throws {TypeError} If @param times is not a primitive number
 	   * @returns {undefined}
 	   *
@@ -2794,16 +2878,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    (0, _Util.isNumber)(times);
 	    if (times < 0) {
 	      return lRotate(array, times);
-	    } else if (times > 0) {
-	      return rRotate(array, times);
 	    }
+	    return rRotate(array, times);
 	  };
 
 	  /**
-	   * Pops the given array a given amount of times
+	   * Removes the last element from the given array
 	   * @static
 	   * @param {Array} array - The array to pop
-	   * @param {number} times - The number of times to pop @param array
+	   * @param {number} [times=0] - The number of times to pop @param array
 	   * @returns {Array} A new array equal to
 	   * [@param array - popped elements]
 	   *
@@ -2823,9 +2906,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Pushes many elements into the given array
+	   * Adds elements to the end of the given array
 	   * @static
-	   * @param {Array} array - The array to push elements into
+	   * @param {Array} [array=empty array] - The array to push elements into
 	   * @param {*} args - Consecutive arguments to push into array
 	   * @returns {Array} A new array equal to [@param array + pushed elements]
 	   *
@@ -2843,6 +2926,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // throw out array arg
 	    args.shift();
 	    return array.concat(args);
+	  };
+
+	  /**
+	   * Removes the first element from the given array
+	   * @static
+	   * @param {Array} array - The array to shift
+	   * @param {number} [times=0] - The number of times to shift @param array
+	   * @returns {Array} A new array equal to
+	   * [@param array - shifted elements]
+	   *
+	   * @example
+	   * const myArray = [1, 2, 3, 4];
+	   * const altered = arrayMethods.shiftMany(myArray, 3);
+	   * // myArray is [1, 2, 3, 4] ; altered is [4]
+	   */
+
+
+	  ArrayUtils.shiftMany = function shiftMany() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+	    return times > 0 ? arr.slice(times) : arr;
+	  };
+
+	  /**
+	   * Adds elements to the front of the given array
+	   * @static
+	   * @param {Array} [array=empty array] - The array to unshift
+	   * @returns {Array} A new array equal to
+	   * [unshifted elements + @param array ]
+	   *
+	   * @example
+	   * const myArray = [1, 2, 3, 4];
+	   * const altered = arrayMethods.unshiftMany(myArray, "hi");
+	   * // myArray is [1, 2, 3, 4] ; altered is ["hi", 1, 2, 3, 4]
+	   */
+
+
+	  ArrayUtils.unshiftMany = function unshiftMany() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+	    var args = [].concat(Array.prototype.slice.call(arguments));
+	    // throw out array arg
+	    args.shift();
+	    return args.concat(arr);
 	  };
 
 	  /**
@@ -2893,7 +3021,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.shuffle = function shuffle(array) {
+	  ArrayUtils.shuffle = function shuffle() {
+	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
 	    var arrayLength = array.length;
 	    for (var i = 0; i < Math.floor(arrayLength / 2); i += 1) {
 	      var index1 = (0, _Util.genRand)(arrayLength);
@@ -2927,7 +3057,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Splits the given array into chunks
 	   * @param {Array} array - The array to chunk
-	   * @param {number} bits - The size of each nested array
+	   * @param {number} [bits=0] - The size of each nested array
 	   * @throws {TypeError} If @param bits is not a primitive number
 	   * @returns {Array} A new array split into @param bits
 	   *
@@ -2938,11 +3068,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  ArrayUtils.chunk = function chunk(arr, bits) {
+	  ArrayUtils.chunk = function chunk() {
+	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var bits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
 	    (0, _Util.isNumber)(bits);
 	    var newArr = [];
 	    if (bits <= 0) {
-	      return [];
+	      return newArr;
 	    }
 	    for (var i = 0; i < arr.length; i += bits) {
 	      newArr.push(arr.slice(i, i + bits));
