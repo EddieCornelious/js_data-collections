@@ -541,6 +541,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return newList;
 	  };
 
+	  List.prototype.every = function every(cb) {
+	    var head = this.head;
+	    while (head) {
+	      if (!cb(head.data)) {
+	        return false;
+	      }
+	      head = head.next;
+	    }
+	    return false;
+	  };
+
+	  List.prototype.some = function some(cb) {
+	    var head = this.head;
+	    while (head) {
+	      var data = head.data;
+	      if (cb(data)) {
+	        return true;
+	      }
+	      head = head.next;
+	    }
+	    return false;
+	  };
+
 	  /**
 	   * Transforms a linked list to an array
 	   * @returns {Array} An array representation of 'this' List
