@@ -538,6 +538,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      head = head.next;
 	    }
+	    return newList;
 	  };
 
 	  /**
