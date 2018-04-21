@@ -446,4 +446,32 @@ describe("Binary Search Tree", function() {
     bst.insert(2, 1).insert(3, 3).insert(1, 0);
     expect(bst.max()).to.be.equal(3);
   });
+  
+  it("keysLess returns empty array when tree is empty", function(){
+    expect(bst.keysLess(3)).to.have.members([]);
+  });
+  
+  it("keysLess returns array of smaller keys", function(){
+    bst.insert(1, 1).insert(3, 4).insert(9, 3).insert(-67);
+    expect(bst.keysLess(-67)).to.have.members([]);
+    expect(bst.keysLess(1)).to.have.members([-67]);
+    expect(bst.keysLess(3)).to.have.members([1, -67]);
+    expect(bst.keysLess(9)).to.have.members([1, 3, -67]);
+    expect(bst.keysLess(10)).to.have.members([1, 3, -67, 9]);
+  });
+  
+  it("keysGreater returns array of larger keys", function(){
+    bst.insert(1, 1).insert(3, 4).insert(9, 3).insert(-67);
+    expect(bst.keysGreater(-67)).to.have.members([3, 1, 9]);
+    expect(bst.keysGreater(1)).to.have.members([3, 9]);
+    expect(bst.keysGreater(3)).to.have.members([9]);
+    expect(bst.keysGreater(9)).to.have.members([]);
+    expect(bst.keysGreater(-68)).to.have.members([1, 3, -67, 9]);
+  });
+  
+   it("keysGreater|keysLess returns empty array when tree is empty", function(){
+    expect(bst.keysGreater(45)).to.have.members([]);
+    expect(bst.keysLess(45)).to.have.members([]);
+  });
+  
 });
