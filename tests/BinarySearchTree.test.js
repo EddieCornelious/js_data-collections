@@ -57,6 +57,12 @@ describe("Binary Search Tree", function() {
     }
     expect(bst.size()).to.be.equal(expected.length);
   });
+  
+  it("remove of non-existent key does not alter size", function(){
+    bst.insert("a").insert("b");
+    bst.remove("c");
+    expect(bst.size()).to.be.equal(2);
+  });
 
   it("remove node with 0 children root case", function() {
     bst.insert("b", 1);
@@ -413,10 +419,31 @@ describe("Binary Search Tree", function() {
     expect(actual).to.have.ordered.members(expected);
   });
   
-  it("size does not change value when nothing removed from tree", function() {
-    bst.insert(56);
-    bst.remove(0);
-    expect(bst.size()).to.be.equal(1);
+  it("min returns undefined for empty tree", function(){
+    expect(bst.min()).to.be.equal();
   });
-
+  
+  it("min returns correct min when min is root", function(){
+    bst.insert(1, 1).insert(2, 3);
+    expect(bst.min()).to.be.equal(1);
+  });
+  
+  it("min returns min when min is not root", function(){
+    bst.insert(1, 1).insert(2, 3).insert(0, 0);
+    expect(bst.min()).to.be.equal(0);
+  });
+  
+  it("max returns undefined for empty tree", function(){
+    expect(bst.max()).to.be.equal();
+  });
+  
+  it("max returns correct max when max is root", function(){
+    bst.insert(2, 1).insert(1, 3);
+    expect(bst.max()).to.be.equal(2);
+  });
+  
+  it("max returns correct max when max is not root", function(){
+    bst.insert(2, 1).insert(3, 3).insert(1, 0);
+    expect(bst.max()).to.be.equal(3);
+  });
 });
