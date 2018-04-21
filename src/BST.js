@@ -4,7 +4,9 @@ import {
   BSTInsert,
   BSTRemove,
   BSTSearch,
-  BSTInorder
+  BSTInorder,
+  less,
+  greater
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -71,7 +73,7 @@ class BST {
   * bst.find(5); // returns 10
   * bst.find(67); // returns undefined
   */
-  find(key) {
+  find(key = null) {
     const node = BSTSearch.call(this, this.root, key);
     return node ? node.value : undefined;
   }
@@ -96,6 +98,63 @@ class BST {
   */
   inorder() {
     return BSTInorder(this.root);
+  }
+
+  /**
+   * Returns the smallest value in the tree
+   * @returns {*} The smallest value in the tree
+   */
+  min() {
+    let root = this.root;
+    if (!root.left) {
+      return;
+    }
+    while (root.left.key !== undefined) {
+      root = root.left;
+    }
+    return root ? root.key : undefined;
+  }
+
+  /**
+   * Returns the greatest value in the tree
+   * @returns {*} The greatest value in the tree
+   */
+  max() {
+    let root = this.root;
+    if (!root.right) {
+      return;
+    }
+    while (root.right.key !== undefined) {
+      root = root.right;
+    }
+    return root.key;
+  }
+
+  /**
+   * Returns all keys less than the given key in the tree
+   * @param {*} key - The key to search for
+   * @returns {Array} Array of keys less than @param key
+   */
+  keysLess(key) {
+    return less(this.root, key, this.comp);
+  }
+
+  /**
+   * Returns all keys greater than the given key in the tree
+   * @param {*} key - The key to search for
+   * @returns {Array} Array of keys greater than @param key
+   */
+  keysGreater(key) {
+    return greater(this.root, key, this.comp);
+  }
+
+  /**
+   * Clears the tree of all
+   * @returns {undefined}
+   */
+  clear() {
+    this.root = null;
+    this.inserts = 0;
   }
 
   /**
