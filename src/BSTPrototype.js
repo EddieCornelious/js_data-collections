@@ -21,7 +21,7 @@ export function BSTInsert(key, value, Node) {
       root = root.right;
     } else {
       root.value = value;
-      return null;
+      return;
     }
   }
 
@@ -60,7 +60,7 @@ export function BSTSearch(root, key) {
 }
 
 /**
- * Finds the inorder successor of the given node
+ * Finds the inorder successor of the given node that has a right child
  * @private
  * @param {BSTNode} node - The Node to find the successor for
  * @returns {BSTNode} The inorder successor of @param node
@@ -126,4 +126,48 @@ export function BSTInorder(root) {
     return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
   }
   return [];
+}
+
+/**
+ * Returns all keys less than the given key
+ * @private
+ * @param {BSTNode} root - The root of the tree
+ * @param {*} key - The upper bound key
+ * @param {function} comparator - The function used to compare tree keys
+ * @returns {Array} Array of keys less than @param key
+ */
+export function less(root, key, comparator) {
+  let temp = [];
+  if (!root || root.key === undefined) {
+    return temp;
+  }
+  const comp = comparator(root.key, key);
+  const leftRes = less(root.left, key, comparator);
+  if (comp === -1) {
+    temp.push(root.key);
+    return temp.concat(leftRes, less(root.right, key, comparator));
+  }
+  return leftRes;
+}
+
+/**
+ * Returns all keys greater than the given key
+ * @private
+ * @param {BSTNode} root - The root of the tree
+ * @param {*} key - The lower bound key
+ * @param {function} comparator - The function used to compare tree keys
+ * @returns {Array} Array of keys greater than @param key
+ */
+export function greater(root, key, comparator) {
+  let temp = [];
+  if (!root || root.key === undefined) {
+    return temp;
+  }
+  const comp = comparator(root.key, key);
+  const rightRes = greater(root.right, key, comparator);
+  if (comp === 1) {
+    temp.push(root.key);
+    return temp.concat(greater(root.left, key, comparator), rightRes);
+  }
+  return rightRes;
 }
