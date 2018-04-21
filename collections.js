@@ -2033,26 +2033,67 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return (0, _BSTPrototype.BSTInorder)(this.root);
 	  };
 
-	  BST.prototype.forEach = function forEach(callback) {
-	    (0, _BSTPrototype.each)(callback);
-	    return this;
-	  };
+	  /**
+	   * Returns the smallest value in the tree
+	   * @returns {*} The smallest value in the tree
+	   */
+
 
 	  BST.prototype.min = function min() {
 	    var root = this.root;
+	    if (!root.left) {
+	      return;
+	    }
 	    while (root.left.key !== undefined) {
 	      root = root.left;
 	    }
-	    return root;
+	    return root ? root.key : undefined;
 	  };
+
+	  /**
+	   * Returns the greatest value in the tree
+	   * @returns {*} The greatest value in the tree
+	   */
+
 
 	  BST.prototype.max = function max() {
 	    var root = this.root;
+	    if (!root.right) {
+	      return;
+	    }
 	    while (root.right.key !== undefined) {
 	      root = root.right;
 	    }
-	    return root;
+	    return root.key;
 	  };
+
+	  /**
+	   * Returns all keys less than the given key in the tree
+	   * @param {*} key - The key to search for
+	   * @returns {Array} Array of keys less than @param key
+	   */
+
+
+	  BST.prototype.keysLess = function keysLess(key) {
+	    return (0, _BSTPrototype.less)(this.root, key, this.comp);
+	  };
+
+	  /**
+	   * Returns all keys greater than the given key in the tree
+	   * @param {*} key - The key to search for
+	   * @returns {Array} Array of keys greater than @param key
+	   */
+
+
+	  BST.prototype.keysGreater = function keysGreater(key) {
+	    return (0, _BSTPrototype.greater)(this.root, key, this.comp);
+	  };
+
+	  /**
+	   * Clears the tree of all
+	   * @returns {undefined}
+	   */
+
 
 	  BST.prototype.clear = function clear() {
 	    this.root = null;
@@ -2118,8 +2159,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BSTInsert = BSTInsert;
 	exports.BSTSearch = BSTSearch;
 	exports.BSTRemove = BSTRemove;
-	exports.each = each;
 	exports.BSTInorder = BSTInorder;
+	exports.less = less;
+	exports.greater = greater;
 
 	/**
 	* Inserts given key and value into bst (maps key to value)
@@ -2236,21 +2278,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * @private
-	 * @param {BSTNode} root - the root of the tree
-	 * @param {function} cb - the callback to invoke and pass key and value
-	 * Calls a function for each element in the tree
-	 * @returns {undefined}
-	 */
-	function each(root, cb) {
-	  if (root && root.key !== undefined) {
-	    each(root.left, cb);
-	    cb(root.key, root.value);
-	    each(root.right, cb);
-	  }
-	}
-
-	/**
 	 * Gets the inorder traversal starting at given root
 	 * @private
 	 * @param {BSTNode} root - The root of tree
@@ -2263,6 +2290,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
 	  }
 	  return [];
+	}
+
+	/**
+	 * Returns all keys less than the given key
+	 * @private
+	 * @param {BSTNode} root - The root of the tree
+	 * @param {*} key - The upper bound key
+	 * @param {function} comparator - The function used to compare tree keys
+	 * @returns {Array} Array of keys less than @param key
+	 */
+	function less(root, key, comparator) {
+	  var temp = [];
+	  if (!root || root.key === undefined) {
+	    return temp;
+	  }
+	  var comp = comparator(root.key, key);
+	  var leftRes = less(root.left, key, comparator);
+	  if (comp === -1) {
+	    temp.push(root.key);
+	    return temp.concat(leftRes, less(root.right, key, comparator));
+	  }
+	  return leftRes;
+	}
+
+	/**
+	 * Returns all keys greater than the given key
+	 * @private
+	 * @param {BSTNode} root - The root of the tree
+	 * @param {*} key - The lower bound key
+	 * @param {function} comparator - The function used to compare tree keys
+	 * @returns {Array} Array of keys greater than @param key
+	 */
+	function greater(root, key, comparator) {
+	  var temp = [];
+	  if (!root || root.key === undefined) {
+	    return temp;
+	  }
+	  var comp = comparator(root.key, key);
+	  var rightRes = greater(root.right, key, comparator);
+	  if (comp === 1) {
+	    temp.push(root.key);
+	    return temp.concat(greater(root.left, key, comparator), rightRes);
+	  }
+	  return rightRes;
 	}
 
 /***/ },
