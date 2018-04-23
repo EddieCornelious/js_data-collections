@@ -27,16 +27,16 @@ class BST {
   }
 
   /**
-  * Inserts the given key and value into BST
-  * @param {*} key - The key to insert into BST
-  * @param {*} value - The value that is mapped to by @param key
+  * Inserts the given key and value into the BST
+  * @param {*} [key=null] - The key to insert into the BST
+  * @param {*} [value=null] - The value that is mapped to by @param key
   * @returns {BST} The instance that this method was called with
   *
   * @example
   * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
   * // ed now maps to kane because ed already existed before.
   */
-  insert(key, value) {
+  insert(key = null, value = null) {
     const inserted = BSTInsert.call(this, key, value, BSTNode);
     if (inserted) {
       this.inserts += 1;
@@ -45,8 +45,8 @@ class BST {
   }
 
   /**
-   * Removes the given key and its associated value from BST
-   * @param {*} key - The key to search for
+   * Removes the given key and its associated value from the BST
+   * @param {*} [key=null] - The key to search for
    * @returns {BST} The instance that this method was called with
    *
    * @example
@@ -54,7 +54,7 @@ class BST {
    * bst.remove(1); // 1 and it's associated value are removed from tree
    * bst.remove("dog"); // this call fails silently as dog never existed in tree
    */
-  remove(key) {
+  remove(key = null) {
     const removed = BSTRemove.call(this, key);
     if (removed) {
       this.inserts -= 1;
@@ -64,7 +64,7 @@ class BST {
 
   /**
   * Finds the value associated with the given key
-  * @param {*} key - The key to search for in BST
+  * @param {*} key - The key to search for in the BST
   * @returns {(*|undefined)} The value associated with @param key or undefined
   * if not found.
   *
@@ -81,7 +81,7 @@ class BST {
   /**
   * Determines if the BST contains the given key
   * @param {*} key - The key to search for
-  * @returns {boolean} True if BST contains @param key and false otherwise
+  * @returns {boolean} True if the BST contains @param key and false otherwise
   *
   * @example
   * bst.insert(1, 5).insert(5, 10);
@@ -101,27 +101,27 @@ class BST {
   }
 
   /**
-   * Returns the smallest value in the tree
+   * Returns the smallest value in the tree according to it's ordering function
    * @returns {*} The smallest value in the tree
    */
   min() {
     let root = this.root;
-    if (!root.left) {
+    if (root.key === undefined) {
       return;
     }
     while (root.left.key !== undefined) {
       root = root.left;
     }
-    return root ? root.key : undefined;
+    return root.key;
   }
 
   /**
-   * Returns the greatest value in the tree
+   * Returns the greatest value in the tree according to it's ordering function
    * @returns {*} The greatest value in the tree
    */
   max() {
     let root = this.root;
-    if (!root.right) {
+    if (root.key === undefined) {
       return;
     }
     while (root.right.key !== undefined) {
@@ -132,24 +132,24 @@ class BST {
 
   /**
    * Returns all keys less than the given key in the tree
-   * @param {*} key - The key to search for
+   * @param {*} key - The value used as the upper bound
    * @returns {Array} Array of keys less than @param key
    */
-  keysLess(key) {
-    return less(this.root, key, this.comp);
+  keysLess(value) {
+    return less(this.root, value, this.comp);
   }
 
   /**
    * Returns all keys greater than the given key in the tree
-   * @param {*} key - The key to search for
+   * @param {*} key - The value used as the lower bound
    * @returns {Array} Array of keys greater than @param key
    */
-  keysGreater(key) {
-    return greater(this.root, key, this.comp);
+  keysGreater(value) {
+    return greater(this.root, value, this.comp);
   }
 
   /**
-   * Clears the tree of all
+   * Empties the tree
    * @returns {undefined}
    */
   clear() {
