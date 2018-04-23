@@ -63,6 +63,11 @@ describe("Binary Search Tree", function() {
     bst.remove("c");
     expect(bst.size()).to.be.equal(2);
   });
+  
+  it("remove from empty tree fails silently", function(){
+    bst.remove("c");
+    expect(bst.size()).to.be.equal(0);
+  });
 
   it("remove node with 0 children root case", function() {
     bst.insert("b", 1);
@@ -469,7 +474,7 @@ describe("Binary Search Tree", function() {
     expect(bst.keysGreater(-68)).to.have.members([1, 3, -67, 9]);
   });
   
-   it("keysGreater|keysLess returns empty array when tree is empty", function(){
+  it("keysGreater|keysLess returns empty array when tree is empty", function(){
     expect(bst.keysGreater(45)).to.have.members([]);
     expect(bst.keysLess(45)).to.have.members([]);
   });
