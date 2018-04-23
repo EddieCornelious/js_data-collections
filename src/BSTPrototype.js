@@ -1,23 +1,24 @@
 
 /**
-* Inserts given key and value into bst (maps key to value)
+* Inserts the given key and value into bst (maps key to value)
 * @private
-* @param {*} key - The key to insert in bst
-* @param {*} value - the value that is mapped to by @param key
-* @param {BSTNode} Node - The Node type to insert into tree
-* @returns {(BSTNode|null)} Null if the node was already in tree, thus not inserted
-* or the new node that was just inserted successfully.
+* @param {*} key - The key to insert into the bst
+* @param {*} value - The value that is mapped to by @param key
+* @param {BSTNode} Node - The Node type to insert into the tree
+* @returns {(BSTNode|undefined)} undefined if the node was already in tree,
+* thus not inserted or the new node that was just inserted successfully.
 */
-export function BSTInsert(key, value, Node) {
+export function BSTInsert(key, value, NodeType) {
   const comp = this.comp;
   let root = this.root;
-  let newNode = new Node(key, value);
-  let prevRoot = new Node();
+  const newNode = new NodeType(key, value);
+  let prevRoot = new NodeType();
   while (root.key !== undefined) {
+    let compResult = comp(newNode.key, root.key);
     prevRoot = root;
-    if (comp(newNode.key, root.key) === -1) {
+    if (compResult === -1) {
       root = root.left;
-    } else if (comp(newNode.key, root.key) === 1) {
+    } else if (compResult === 1) {
       root = root.right;
     } else {
       root.value = value;
@@ -43,15 +44,16 @@ export function BSTInsert(key, value, Node) {
  * @private
  * @param {BSTNode} root - The root node to start search
  * @param {*} key - The key to search for in bst
- * @returns {(null|BSTNode)} Null if not found. Or the actual node if found
+ * @returns {(undefined|BSTNode)} undefined if not found. Or the actual node if found
  */
 export function BSTSearch(root, key) {
   let curRoot = root;
   const comp = this.comp;
   while (curRoot.key !== undefined) {
-    if (comp(curRoot.key, key) === 0) {
+    let compResult = comp(curRoot.key, key);
+    if (compResult === 0) {
       return curRoot;
-    } else if (comp(curRoot.key, key) === -1) {
+    } else if (compResult === -1) {
       curRoot = curRoot.right;
     } else {
       curRoot = curRoot.left;
@@ -60,7 +62,7 @@ export function BSTSearch(root, key) {
 }
 
 /**
- * Finds the inorder successor of the given node that has a right child
+ * Finds the inorder successor of the given node that has 2 children
  * @private
  * @param {BSTNode} node - The Node to find the successor for
  * @returns {BSTNode} The inorder successor of @param node
@@ -76,9 +78,9 @@ function successor(node) {
 /**
  * Searches for a node with given key and removes it from tree
  * @private
- * @param {*} key - Key to search for in tree
- * @param {BSTNode} nodeType - Type of Nodes in the tree
- * @returns {boolean} Returns True if node was deleted and false otherwise
+ * @param {*} key - The key to search for in the tree
+ * @returns {boolean|BSTNode} Returns false if node doesn't exist with @param key
+ * or the successor and successor child of the node to remove
  */
 export function BSTRemove(key) {
   let node = BSTSearch.call(this, this.root, key);
@@ -117,8 +119,7 @@ export function BSTRemove(key) {
  * Gets the inorder traversal starting at given root
  * @private
  * @param {BSTNode} root - The root of tree
- * @returns {Array(Object)} Array containing key and value info as well as
- * parent info for each node
+ * @returns {Array(Object)} Array containing tree representation
  */
 export function BSTInorder(root) {
   if (root && root.key !== undefined) {
@@ -129,45 +130,47 @@ export function BSTInorder(root) {
 }
 
 /**
- * Returns all keys less than the given key
+ * Returns all keys less than the given value
  * @private
  * @param {BSTNode} root - The root of the tree
- * @param {*} key - The upper bound key
- * @param {function} comparator - The function used to compare tree keys
- * @returns {Array} Array of keys less than @param key
+ * @param {*} key - The upper bound value
+ * @param {function} comparator - The function used to compare keys to @param value
+ * @returns {Array} Array of keys less than @param value
  */
-export function less(root, key, comparator) {
+export function less(root, value, comparator) {
   let temp = [];
   if (!root || root.key === undefined) {
     return temp;
   }
-  const comp = comparator(root.key, key);
-  const leftRes = less(root.left, key, comparator);
+  const rootKey = root.key;
+  const comp = comparator(rootKey, value);
+  const leftRes = less(root.left, value, comparator);
   if (comp === -1) {
-    temp.push(root.key);
-    return temp.concat(leftRes, less(root.right, key, comparator));
+    temp.push(rootKey);
+    return temp.concat(leftRes, less(root.right, value, comparator));
   }
   return leftRes;
 }
 
 /**
- * Returns all keys greater than the given key
+ * Returns all keys greater than the given value
  * @private
  * @param {BSTNode} root - The root of the tree
- * @param {*} key - The lower bound key
- * @param {function} comparator - The function used to compare tree keys
- * @returns {Array} Array of keys greater than @param key
+ * @param {*} key - The lower bound value
+ * @param {function} comparator - The function used to compare keys to @param value
+ * @returns {Array} Array of keys greater than @param value
  */
-export function greater(root, key, comparator) {
+export function greater(root, value, comparator) {
   let temp = [];
   if (!root || root.key === undefined) {
     return temp;
   }
-  const comp = comparator(root.key, key);
-  const rightRes = greater(root.right, key, comparator);
+  const rootKey = root.key;
+  const comp = comparator(rootKey, value);
+  const rightRes = greater(root.right, value, comparator);
   if (comp === 1) {
-    temp.push(root.key);
-    return temp.concat(greater(root.left, key, comparator), rightRes);
+    temp.push(rootKey);
+    return temp.concat(greater(root.left, value, comparator), rightRes);
   }
   return rightRes;
 }
