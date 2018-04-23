@@ -1948,9 +1948,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	  * Inserts the given key and value into BST
-	  * @param {*} key - The key to insert into BST
-	  * @param {*} value - The value that is mapped to by @param key
+	  * Inserts the given key and value into the BST
+	  * @param {*} [key=null] - The key to insert into the BST
+	  * @param {*} [value=null] - The value that is mapped to by @param key
 	  * @returns {BST} The instance that this method was called with
 	  *
 	  * @example
@@ -1959,7 +1959,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.insert = function insert(key, value) {
+	  BST.prototype.insert = function insert() {
+	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
 	    var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
 	    if (inserted) {
 	      this.inserts += 1;
@@ -1968,8 +1971,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Removes the given key and its associated value from BST
-	   * @param {*} key - The key to search for
+	   * Removes the given key and its associated value from the BST
+	   * @param {*} [key=null] - The key to search for
 	   * @returns {BST} The instance that this method was called with
 	   *
 	   * @example
@@ -1979,7 +1982,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BST.prototype.remove = function remove(key) {
+	  BST.prototype.remove = function remove() {
+	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
 	    var removed = _BSTPrototype.BSTRemove.call(this, key);
 	    if (removed) {
 	      this.inserts -= 1;
@@ -1989,7 +1994,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Finds the value associated with the given key
-	  * @param {*} key - The key to search for in BST
+	  * @param {*} key - The key to search for in the BST
 	  * @returns {(*|undefined)} The value associated with @param key or undefined
 	  * if not found.
 	  *
@@ -2010,7 +2015,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	  * Determines if the BST contains the given key
 	  * @param {*} key - The key to search for
-	  * @returns {boolean} True if BST contains @param key and false otherwise
+	  * @returns {boolean} True if the BST contains @param key and false otherwise
 	  *
 	  * @example
 	  * bst.insert(1, 5).insert(5, 10);
@@ -2034,31 +2039,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns the smallest value in the tree
+	   * Returns the smallest value in the tree according to it's ordering function
 	   * @returns {*} The smallest value in the tree
 	   */
 
 
 	  BST.prototype.min = function min() {
 	    var root = this.root;
-	    if (!root.left) {
+	    if (root.key === undefined) {
 	      return;
 	    }
 	    while (root.left.key !== undefined) {
 	      root = root.left;
 	    }
-	    return root ? root.key : undefined;
+	    return root.key;
 	  };
 
 	  /**
-	   * Returns the greatest value in the tree
+	   * Returns the greatest value in the tree according to it's ordering function
 	   * @returns {*} The greatest value in the tree
 	   */
 
 
 	  BST.prototype.max = function max() {
 	    var root = this.root;
-	    if (!root.right) {
+	    if (root.key === undefined) {
 	      return;
 	    }
 	    while (root.right.key !== undefined) {
@@ -2069,28 +2074,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Returns all keys less than the given key in the tree
-	   * @param {*} key - The key to search for
+	   * @param {*} key - The value used as the upper bound
 	   * @returns {Array} Array of keys less than @param key
 	   */
 
 
-	  BST.prototype.keysLess = function keysLess(key) {
-	    return (0, _BSTPrototype.less)(this.root, key, this.comp);
+	  BST.prototype.keysLess = function keysLess(value) {
+	    return (0, _BSTPrototype.less)(this.root, value, this.comp);
 	  };
 
 	  /**
 	   * Returns all keys greater than the given key in the tree
-	   * @param {*} key - The key to search for
+	   * @param {*} key - The value used as the lower bound
 	   * @returns {Array} Array of keys greater than @param key
 	   */
 
 
-	  BST.prototype.keysGreater = function keysGreater(key) {
-	    return (0, _BSTPrototype.greater)(this.root, key, this.comp);
+	  BST.prototype.keysGreater = function keysGreater(value) {
+	    return (0, _BSTPrototype.greater)(this.root, value, this.comp);
 	  };
 
 	  /**
-	   * Clears the tree of all
+	   * Empties the tree
 	   * @returns {undefined}
 	   */
 
@@ -2164,24 +2169,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.greater = greater;
 
 	/**
-	* Inserts given key and value into bst (maps key to value)
+	* Inserts the given key and value into bst (maps key to value)
 	* @private
-	* @param {*} key - The key to insert in bst
-	* @param {*} value - the value that is mapped to by @param key
-	* @param {BSTNode} Node - The Node type to insert into tree
-	* @returns {(BSTNode|null)} Null if the node was already in tree, thus not inserted
-	* or the new node that was just inserted successfully.
+	* @param {*} key - The key to insert into the bst
+	* @param {*} value - The value that is mapped to by @param key
+	* @param {BSTNode} Node - The Node type to insert into the tree
+	* @returns {(BSTNode|undefined)} undefined if the node was already in tree,
+	* thus not inserted or the new node that was just inserted successfully.
 	*/
-	function BSTInsert(key, value, Node) {
+	function BSTInsert(key, value, NodeType) {
 	  var comp = this.comp;
 	  var root = this.root;
-	  var newNode = new Node(key, value);
-	  var prevRoot = new Node();
+	  var newNode = new NodeType(key, value);
+	  var prevRoot = new NodeType();
 	  while (root.key !== undefined) {
+	    var compResult = comp(newNode.key, root.key);
 	    prevRoot = root;
-	    if (comp(newNode.key, root.key) === -1) {
+	    if (compResult === -1) {
 	      root = root.left;
-	    } else if (comp(newNode.key, root.key) === 1) {
+	    } else if (compResult === 1) {
 	      root = root.right;
 	    } else {
 	      root.value = value;
@@ -2197,8 +2203,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    prevRoot.right = newNode;
 	  }
-	  newNode.left = new Node();
-	  newNode.right = new Node();
+	  newNode.left = new NodeType();
+	  newNode.right = new NodeType();
 	  return newNode;
 	}
 
@@ -2207,15 +2213,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @param {BSTNode} root - The root node to start search
 	 * @param {*} key - The key to search for in bst
-	 * @returns {(null|BSTNode)} Null if not found. Or the actual node if found
+	 * @returns {(undefined|BSTNode)} undefined if not found. Or the actual node if found
 	 */
 	function BSTSearch(root, key) {
 	  var curRoot = root;
 	  var comp = this.comp;
 	  while (curRoot.key !== undefined) {
-	    if (comp(curRoot.key, key) === 0) {
+	    var compResult = comp(curRoot.key, key);
+	    if (compResult === 0) {
 	      return curRoot;
-	    } else if (comp(curRoot.key, key) === -1) {
+	    } else if (compResult === -1) {
 	      curRoot = curRoot.right;
 	    } else {
 	      curRoot = curRoot.left;
@@ -2224,7 +2231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Finds the inorder successor of the given node that has a right child
+	 * Finds the inorder successor of the given node that has 2 children
 	 * @private
 	 * @param {BSTNode} node - The Node to find the successor for
 	 * @returns {BSTNode} The inorder successor of @param node
@@ -2240,9 +2247,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Searches for a node with given key and removes it from tree
 	 * @private
-	 * @param {*} key - Key to search for in tree
-	 * @param {BSTNode} nodeType - Type of Nodes in the tree
-	 * @returns {boolean} Returns True if node was deleted and false otherwise
+	 * @param {*} key - The key to search for in the tree
+	 * @returns {boolean|BSTNode} Returns false if node doesn't exist with @param key
+	 * or the successor and successor child of the node to remove
 	 */
 	function BSTRemove(key) {
 	  var node = BSTSearch.call(this, this.root, key);
@@ -2281,8 +2288,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Gets the inorder traversal starting at given root
 	 * @private
 	 * @param {BSTNode} root - The root of tree
-	 * @returns {Array(Object)} Array containing key and value info as well as
-	 * parent info for each node
+	 * @returns {Array(Object)} Array containing tree representation
 	 */
 	function BSTInorder(root) {
 	  if (root && root.key !== undefined) {
@@ -2293,45 +2299,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Returns all keys less than the given key
+	 * Returns all keys less than the given value
 	 * @private
 	 * @param {BSTNode} root - The root of the tree
-	 * @param {*} key - The upper bound key
-	 * @param {function} comparator - The function used to compare tree keys
-	 * @returns {Array} Array of keys less than @param key
+	 * @param {*} key - The upper bound value
+	 * @param {function} comparator - The function used to compare keys to @param value
+	 * @returns {Array} Array of keys less than @param value
 	 */
-	function less(root, key, comparator) {
+	function less(root, value, comparator) {
 	  var temp = [];
 	  if (!root || root.key === undefined) {
 	    return temp;
 	  }
-	  var comp = comparator(root.key, key);
-	  var leftRes = less(root.left, key, comparator);
+	  var rootKey = root.key;
+	  var comp = comparator(rootKey, value);
+	  var leftRes = less(root.left, value, comparator);
 	  if (comp === -1) {
-	    temp.push(root.key);
-	    return temp.concat(leftRes, less(root.right, key, comparator));
+	    temp.push(rootKey);
+	    return temp.concat(leftRes, less(root.right, value, comparator));
 	  }
 	  return leftRes;
 	}
 
 	/**
-	 * Returns all keys greater than the given key
+	 * Returns all keys greater than the given value
 	 * @private
 	 * @param {BSTNode} root - The root of the tree
-	 * @param {*} key - The lower bound key
-	 * @param {function} comparator - The function used to compare tree keys
-	 * @returns {Array} Array of keys greater than @param key
+	 * @param {*} key - The lower bound value
+	 * @param {function} comparator - The function used to compare keys to @param value
+	 * @returns {Array} Array of keys greater than @param value
 	 */
-	function greater(root, key, comparator) {
+	function greater(root, value, comparator) {
 	  var temp = [];
 	  if (!root || root.key === undefined) {
 	    return temp;
 	  }
-	  var comp = comparator(root.key, key);
-	  var rightRes = greater(root.right, key, comparator);
+	  var rootKey = root.key;
+	  var comp = comparator(rootKey, value);
+	  var rightRes = greater(root.right, value, comparator);
 	  if (comp === 1) {
-	    temp.push(root.key);
-	    return temp.concat(greater(root.left, key, comparator), rightRes);
+	    temp.push(rootKey);
+	    return temp.concat(greater(root.left, value, comparator), rightRes);
 	  }
 	  return rightRes;
 	}
