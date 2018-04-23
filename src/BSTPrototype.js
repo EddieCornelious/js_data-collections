@@ -34,8 +34,8 @@ export function BSTInsert(key, value, NodeType) {
   } else {
     prevRoot.right = newNode;
   }
-  newNode.left = new Node();
-  newNode.right = new Node();
+  newNode.left = new NodeType();
+  newNode.right = new NodeType();
   return newNode;
 }
 
