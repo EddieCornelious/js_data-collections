@@ -411,13 +411,13 @@ describe("Binary Search Tree", function() {
     expect(bst.find("e")).to.be.equal(undefined);
   });
   
-  it("key returns empty array for empty tree", function() {
+  it("keys returns empty array for empty tree", function() {
     actual = bst.keys();
     expected = [];
     expect(actual).to.have.ordered.members(expected);
   });
   
-  it("key returns all keys in the tree", function() {
+  it("keys returns all keys in the tree", function() {
     bst.insert(8).insert(12).insert(5);
     actual = bst.keys();
     expected = [5, 8, 12];
