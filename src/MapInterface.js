@@ -40,20 +40,6 @@ class MapInterface {
   }
 
   /**
-   * Retrieves the value mapped to by the given key or a default value
-   * @param {*} key - The key to lookup
-   * @param {*} defaultValue - The default value if not found
-   * @returns {*} The value associated with @param key or @param defaultValue
-   *
-   * @example
-   * map.put(99, "problems");
-   * map.getOrDefault(92, "not here"); // returns "not here"
-   */
-  getOrDefault(key, defaultValue) {
-    throw new Error("must implement this method");
-  }
-
-  /**
    * Removes the given key and its associated value from the Map
    * @param {*} key - The key to lookup
    * @returns {boolean} True if the key was removed and false otherwise
@@ -64,19 +50,6 @@ class MapInterface {
    * map.remove(99); // return true
    */
   remove(key) {
-    throw new Error("must implement this method");
-  }
-
-  /**
-   * Removes the given key if the given callback is truthy for the given value
-   * @param {*} key - The key to remove
-   * @returns {boolean} True if the key was removed and false otherwise
-   *
-   * @example
-   * map.put(99, "problems");
-   * map.remove(88, value, (value)=> value< 99); // returns true
-   */
-  removeIf(key, value, callback) {
     throw new Error("must implement this method");
   }
 
@@ -135,6 +108,7 @@ class MapInterface {
 
   /**
    * Clears the map of all k,v pairs
+   * @returns {undefined}
    */
   clear() {
     throw new Error("must implement this method");
