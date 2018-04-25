@@ -4,7 +4,6 @@ import MapInterface from './MapInterface.js';
 /**
  * From immutable.js implementation of java hashcode
  * https://github.com/facebook/immutable-js/blob/master/src/Hash.js
- * better distribution than fnv hash
  *
  * Returns the hashcode for the given string
  * @private
@@ -28,10 +27,7 @@ function hashStr(str) {
  */
 function mod(dividend, divisor) {
   const modulo = dividend % divisor;
-  if (dividend < 0) {
-    return modulo * -1;
-  }
-  return modulo;
+  return dividend < 0 ? modulo * -1 : modulo;
 }
 
 /**
@@ -49,32 +45,41 @@ function createTable(size) {
 }
 
 /**
- * Inserts into a hashtable based on the hashcode of the given key
+ * Gets the proper index the given key should be hashed to in the given array
  * @private
  * @param {*} key - The key
- * @param {*} value - The value mapped to by key
+ * @param {Array} Associative Array
+ * @returns {number} The index that @param key hashes to
+ */
+function getLocation(key, table) {
+  const hash = hashStr(toString(key) + typeof key);
+  return mod(hash, table.length);
+}
+
+/**
+ * Inserts into an Associative Array based on the hashcode of the given key
+ * @private
+ * @param {*} key - The key
+ * @param {*} value - The value mapped to by @param key
  * @param {Array} table - Associative Array
  * @returns {number} 1 for true
  */
 function insert(key, value, table) {
-  const hash = hashStr(toString(key) + typeof key);
-  const location = mod(hash, table.length);
+  const location = getLocation(key, table);
   const bucket = table[location];
   return bucket.push(key, value);
 }
 
 /**
- * Searches a hashtable based on the hashcode of the given key
+ * Searches an Associative Array based on the hashcode of the given key
  * @private
  * @param {*} key - The key to look for
  * @param {Array} table - Associative Array
- * @returns {Object} Objet literal with the bucket where @param key is found
+ * @returns {Object} Object literal with the bucket where @param key is found
  * and the index of @param key in that bucket or undefined and -1 if not found
  */
 function search(key, table) {
-  const toStr = toString(key);
-  const hash = hashStr(toStr + typeof key);
-  const location = mod(hash, table.length);
+  const location = getLocation(key, table);
   const bucket = table[location];
   // skip values [k1, v1, k2, v2]
   for (let index = 0; index < bucket.length; index += 2) {
@@ -86,20 +91,21 @@ function search(key, table) {
 }
 
 /**
- * Figures out if the given hashtable should grow larger
+ * Figures out if the given Associative Array should grow larger
  * @private
  * @param {number} inserts - The number of items in the table
  * @param {Array} table - Associative Array
  * @returns {boolean} True if @param table should rehash and false otherwise
  */
 function shouldRehash(inserts, table) {
-  const loadFactor = (inserts / table.length);
-  return loadFactor >= 0.75 ? true : false;
+  const load = (inserts / table.length);
+  return load >= 0.75 ? true : false;
 }
 
 /**
  * HashTable representation
  * @class
+ * @private
  * @implements MapInterface
  * @param {number} [initialCapacity=13] - Initial size of the hashtable
  * IMPORTANT : It is not recommended that you choose a size that will be a
@@ -109,11 +115,6 @@ function shouldRehash(inserts, table) {
  * approximately 100,000 as the hastable will resize once 75,000
  * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
  * which is 112,500 , greater than your space needed.
- * So, try something around 150,000. Or you can just rehash a lot :)
- *
- * @example
- * const map = new Collections.HashTable(37);
- * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
  */
 class HashTable extends MapInterface {
   constructor(initialCapacity = 13) {
@@ -123,19 +124,20 @@ class HashTable extends MapInterface {
   }
 
   put(key = null, value = null) {
-    const { table, inserts } = this;
+    const self = this;
+    const { table, inserts } = self;
     const searchRes = search(key, table);
     const { bucket, index } = searchRes;
     if (index === -1) {
       insert(key, value, table);
-      this.inserts += 1;
+      self.inserts += 1;
       if (shouldRehash(inserts + 1, table)) {
-        this.rehash();
+        self.rehash();
       }
     } else {
       bucket[index + 1] = value;
     }
-    return this;
+    return self;
   }
 
   getVal(key) {
@@ -145,13 +147,13 @@ class HashTable extends MapInterface {
   }
 
   remove(key) {
-    const searchRes = search(key, this.table);
+    const self = this;
+    const searchRes = search(key, self.table);
     const { bucket, index } = searchRes;
     if (index !== -1) {
-      bucket.splice(index, 2);
-      this.inserts -= 1;
+      self.inserts -= 1;
+      return bucket.splice(index, 2)[1];
     }
-    return this;
   }
 
   contains(key) {
@@ -192,15 +194,31 @@ class HashTable extends MapInterface {
     return keyArr;
   }
 
+  values() {
+    const table = this.table;
+    const valArr = [];
+    const tableLen = table.length;
+    for (let i = 0; i < tableLen; i += 1) {
+      const currentBucket = table[i];
+      for (let j = 1; j < currentBucket.length; j += 2) {
+        valArr.push(currentBucket[j]);
+      }
+    }
+    return valArr;
+  }
+
   /**
    * Returns the number of buckets in the Associative Array
    * @returns {number} Size of inner Associative Array
-   *
-   * @example
-   * new Collections.HashTable().tableSize() // 13 initial value empty args
    */
   tableSize() {
     return this.table.length;
+  }
+
+  clear() {
+    const self = this;
+    self.table.length = 0;
+    self.table = createTable(13);
   }
 
   size() {
