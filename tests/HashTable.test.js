@@ -1,4 +1,4 @@
-const Collections = require("../collections.js");
+import HashTable from "../src/HashTable.js";
 var expect = require("chai").expect;
 
 
@@ -6,7 +6,7 @@ describe("HashTable", function() {
   let map, expected, actual;
 
   beforeEach(function() {
-    map = new Collections.HashTable();
+    map = new HashTable();
   });
 
   beforeEach(function() {
@@ -19,9 +19,9 @@ describe("HashTable", function() {
     map.put("a", "A");
     map.put("b", "B");
     map.put("c", "C");
-    expect(map.contains("a")).to.be.equal(true);
-    expect(map.contains("b")).to.be.equal(true);
-    expect(map.contains("c")).to.be.equal(true);
+    expect(map.getVal("a")).to.be.equal("A");
+    expect(map.getVal("b")).to.be.equal("B");
+    expect(map.getVal("c")).to.be.equal("C");
     expect(map.size()).to.be.equal(3);
   });
 
@@ -30,9 +30,9 @@ describe("HashTable", function() {
     map.put("b", "B");
     map.put("c", "C");
     map.put("b", "I like golf");
-    expect(map.contains("a")).to.be.equal(true);
+    expect(map.getVal("a")).to.be.equal("A");
     expect(map.getVal("b")).to.be.equal("I like golf");
-    expect(map.contains("c")).to.be.equal(true);
+    expect(map.getVal("c")).to.be.equal("C");
     expect(map.size()).to.be.equal(3);
   });
 
@@ -67,10 +67,23 @@ describe("HashTable", function() {
     }
     expect(map.tableSize()).to.be.equal(52);
   });
-
-  it("remove should remove key", function() {
+  
+  it("remove should return value if key exists and was removed", function() {
     map.put("a", "Pizza");
-    expect(map.contains("a")).to.be.equal(true);
+    expect(map.remove("a")).to.be.equal("Pizza");
+    expect(map.getVal("a")).to.be.equal();
+    expect(map.size()).to.be.equal(0);
+  });
+  
+  it("remove should return undefined if key does not exist", function() {
+    map.put("a", "Pizza");
+    expect(map.remove("b")).to.be.equal();
+    expect(map.size()).to.be.equal(1);
+  });
+  
+  it("remove should return undefined for empty table", function() {
+    expect(map.remove("a")).to.be.equal();
+    expect(map.size()).to.be.equal(0);
   });
 
   it("keys should return all keys in map", function() {
@@ -80,20 +93,48 @@ describe("HashTable", function() {
     map.put("apple", "doe");
     expected = ["dog", 0, 1, "apple"];
     actual = map.keys();
-    for (let i = 0; i < expected.length; i += 1) {
-      expect(actual.indexOf(expected[i])).to.not.be.equal(-1);
-    }
-    expect(expected.length).to.be.equal(actual.length);
+    expect(actual).to.have.members(expected);
   });
-
-  it("size should update properly after insert", function() {
+  
+  it("keys should return empty array for empty table", function() {
+    actual = map.keys();
+    expect(actual).to.have.members([]);
+  });
+  
+  it("values should return all values in map", function() {
     map.put(0, "c");
     map.put(1, "doe");
     map.put("dog", "doe");
     map.put("apple", "doe");
-
-    expect(map.size()).to.be.equal(4);
-    map.remove("apple");
-    expect(map.size()).to.be.equal(3);
+    expected = ["doe", "c", "doe", "doe"];
+    actual = map.values();
+    expect(actual).to.have.members(expected);
+  });
+  
+  it("values should return empty array for empty table", function() {
+    actual = map.values();
+    expect(actual).to.have.members([]);
+  });
+  
+  it("contains should return true when key exists and has value", function() {
+    map.put("a", null).put("b", 0);
+    expect(map.contains("a")).to.be.equal(true);
+    expect(map.contains("b")).to.be.equal(true);
+  });
+  
+  it("contains should return false when key does not exist (empty)", function() {
+    expect(map.contains()).to.be.equal(false);
+  });
+  
+  it("contains should return false when key does not exist (non-empty)", function() {
+    map.put("a").put("b").put("c");
+    expect(map.contains("d")).to.be.equal(false);
+  });
+  
+  it("contains should return true when key exists but has no defined value", function() {
+    map.put("a").put("b").put("c");
+    expect(map.contains("a")).to.be.equal(true);
+    expect(map.contains("b")).to.be.equal(true);
+    expect(map.contains("c")).to.be.equal(true);
   });
 });
