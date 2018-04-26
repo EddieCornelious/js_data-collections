@@ -69,6 +69,7 @@ function rightRotate(node) {
  */
 function insertFix(nodeToFix) {
   let currentNode = nodeToFix;
+  const context = this;
   let uncle;
   while (currentNode.parent.color === 'red') {
     if (currentNode.parent === currentNode.parent.parent.left) {
@@ -81,11 +82,11 @@ function insertFix(nodeToFix) {
       } else {
         if (currentNode === currentNode.parent.right) {
           currentNode = currentNode.parent;
-          leftRotate.call(this, currentNode);
+          leftRotate.call(context, currentNode);
         }
         currentNode.parent.color = 'black';
         currentNode.parent.parent.color = 'red';
-        rightRotate.call(this, currentNode.parent.parent);
+        rightRotate.call(context, currentNode.parent.parent);
       }
     } else {
       uncle = currentNode.parent.parent.left;
@@ -97,15 +98,15 @@ function insertFix(nodeToFix) {
       } else {
         if (currentNode === currentNode.parent.left) {
           currentNode = currentNode.parent;
-          rightRotate.call(this, currentNode);
+          rightRotate.call(context, currentNode);
         }
         currentNode.parent.color = 'black';
         currentNode.parent.parent.color = 'red';
-        leftRotate.call(this, currentNode.parent.parent);
+        leftRotate.call(context, currentNode.parent.parent);
       }
     }
   }
-  this.root.color = 'black';
+  context.root.color = 'black';
 }
 
 /**
@@ -116,6 +117,7 @@ function insertFix(nodeToFix) {
  */
 function deletefixUp(nodeToFix) {
   let currentNode = nodeToFix;
+  const context = this;
   while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
     let uncle;
     if (currentNode === currentNode.parent.left) {
@@ -123,7 +125,7 @@ function deletefixUp(nodeToFix) {
       if (uncle.color === 'red') {
         uncle.color = 'black';
         currentNode.parent.color = 'red';
-        leftRotate.call(this, currentNode.parent);
+        leftRotate.call(context, currentNode.parent);
         uncle = currentNode.parent.right;
       }
       if (uncle.left.color === 'black' && uncle.right.color === 'black') {
@@ -133,21 +135,21 @@ function deletefixUp(nodeToFix) {
         if (uncle.right.color === 'black') {
           uncle.left.color = 'black';
           uncle.color = 'red';
-          rightRotate.call(this, uncle);
+          rightRotate.call(context, uncle);
           uncle = currentNode.parent.right;
         }
         uncle.color = currentNode.parent.color;
         currentNode.parent.color = 'black';
         uncle.right.color = 'black';
-        leftRotate.call(this, currentNode.parent);
-        currentNode = this.root;
+        leftRotate.call(context, currentNode.parent);
+        currentNode = context.root;
       }
     } else {
       uncle = currentNode.parent.left;
       if (uncle.color === 'red') {
         uncle.color = 'black';
         currentNode.parent.color = 'red';
-        rightRotate.call(this, currentNode.parent);
+        rightRotate.call(context, currentNode.parent);
         uncle = currentNode.parent.left;
       }
       if (uncle.right.color === 'black' && uncle.left.color === 'black') {
@@ -157,14 +159,14 @@ function deletefixUp(nodeToFix) {
         if (uncle.left.color === 'black') {
           uncle.right.color = 'black';
           uncle.color = 'red';
-          leftRotate.call(this, uncle);
+          leftRotate.call(context, uncle);
           uncle = currentNode.parent.left;
         }
         uncle.color = currentNode.parent.color;
         currentNode.parent.color = 'black';
         uncle.left.color = 'black';
-        rightRotate.call(this, currentNode.parent);
-        currentNode = this.root;
+        rightRotate.call(context, currentNode.parent);
+        currentNode = context.root;
       }
     }
   }
@@ -173,6 +175,7 @@ function deletefixUp(nodeToFix) {
 
 /**
  * Red-Black Tree representation
+ * @private
  * @class
  * @extends BST
  * @param {function} comparator - @see Global#defaultComp for examples
@@ -186,26 +189,29 @@ class RBTree extends BST {
   }
 
   insert(key, value) {
-    const insertedNode = BSTInsert.call(this, key, value, RBNode);
+    const self = this;
+    const insertedNode = BSTInsert.call(self, key, value, RBNode);
     if (insertedNode) {
       insertedNode.color = 'red';
-      insertFix.call(this, insertedNode);
-      this.inserts += 1;
+      insertFix.call(self, insertedNode);
+      self.inserts += 1;
     }
-    return this;
+    return context;
   }
 
   remove(key) {
+    const self = this;
     // successor and child
-    const didRemove = BSTRemove.call(this, key);
+    const didRemove = BSTRemove.call(self, key);
     if (didRemove) {
       const { succChild, succ } = didRemove;
       if (succ.color === 'black') {
-        deletefixUp.call(this, succChild);
-        this.inserts -= 1;
+        deletefixUp.call(self, succChild);
       }
+      self.inserts -= 1;
+      return true;
     }
-    return this;
+    return false;
   }
 }
 
