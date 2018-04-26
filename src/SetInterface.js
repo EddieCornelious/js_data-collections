@@ -12,7 +12,7 @@ class SetInterface {
   }
 
   /**
-   * Adds an element to the set. Does nothing if already in set
+   * Adds an element to the set if already in set
    * @param {*} element - The element to add to the set
    * @returns {Set} The instance that this method was called
    *
@@ -27,26 +27,64 @@ class SetInterface {
   }
 
   /**
-   * Updates 'this' with the mathematical set difference of 'this' set and
-   * another set
-   * @param {Set} Set - another set instance
-   * @returns {undefined}
+   * Returns the set difference (not symmetric) of 'this' set and
+   * another set x such that x is in A and x is not in B, where A and B
+   * are two sets
+   * @param {Set} thatSet - another set instance
+   * @returns {Array} The difference of this and @param thatSet
    *
    * @example
    * set.add(1);
    * set.add(2);
    * set2 = new <Another Set>
    * set2.add(2);
-   * set.diff(set2);
-   * // set is now [1] and set2 is unchanged
+   * set.diff(set2); // [1]
    */
   diff(thatSet) {
-    const thatKeys = thatSet.keys();
-    const context = this;
-    thatKeys.forEach(element => {
-      context.remove(element);
-    });
-    return context;
+    const thisKeys = this.entries();
+    const result = [];
+    const thisLen = thisKeys.length;
+    let curElement;
+    for (let i = 0; i < thisLen; i += 1) {
+      curElement = thisKeys[i];
+      if (!thatSet.has(curElement)) {
+        result.push(curElement);
+      }
+    }
+    return result;
+  }
+  
+  /**
+   * Returns the mathematical set union of 'this' set and
+   * another set
+   * @param {Set} thatSet - another set instance
+   * @returns {Array} An array containing the union of this and @param thatSet
+   *
+   * @example
+   * set.add(1);
+   * set.add(2);
+   * set2 = new <Another Set>
+   * set2.add(2);
+   * set.union(set2); // [1, 2]
+   */
+  union(thatSet) {
+    const thatKeys = thatSet.entries();
+    const self = this;
+    const thisKeys = self.entries();
+    const result = [];
+    const thisLen = thisKeys.length;
+    for (let i = 0; i < thisLen ; i += 1) {
+      result.push(thisKeys[i]);
+    }
+    let curElement;
+    const thatLen = thatKeys.length;
+    for (let i = 0; i< thatLen ; i += 1) {
+      curElement = thatKeys[i];
+      if (!self.has(curElement)) {
+        result.push(curElement);
+      }
+    }
+    return result;
   }
 
   /**
@@ -67,7 +105,7 @@ class SetInterface {
   * Returns all elements in the set
   * @returns {Array} Array with all elements in the set
   */
-  keys() {
+  entries() {
     throw new Error("must implement this method");
   }
 
@@ -80,32 +118,43 @@ class SetInterface {
   }
 
   /**
-   * Updates 'this' with the mathematical set intersection of 'this' set and
+   * Returns the mathematical set intersection of 'this' set and
    * another set
    * @param {Set} thatSet - another Set instance
-   * @returns {undefined}
+   * @returns {Array} The array containing the set intersection of this and
+   * @param thatSet
    *
    * @example
    * set.add(1);
    * set.add(2);
    * set2 = new Collections.HashSet();
    * set2.add(2);
-   * set.intersect(set2);
-   * // set1 is now [2] and set2 is unchanged
+   * set.intersect(set2); // [2]
    */
   intersect(thatSet) {
-    const thisKeys = this.keys();
-    const context = this;
-    thisKeys.forEach(element => {
-      if (!thatSet.has(element)) {
-        context.remove(element);
+    let largerSet, smallerSet;
+    const self = this;
+    const result = [];
+    if(self.cardinality() > thatSet.cardinality()) {
+      largerSet = self;
+      smallerSet = thatSet.entries();
+    } else {
+      largerSet = thatSet;
+      smallerSet = self.entries();
+    }
+    const smallLen = smallerSet.length;
+    let curElement;
+    for(let i = 0; i < smallLen; i += 1) {
+      curElement = smallerSet[i];
+      if (largerSet.has(curElement)) {
+        result.push(curElement);
       }
-    });
-    return context;
+    }
+    return result;
   }
 
   /**
-   * Returns ths size of the set
+   * Returns the number of elements in the set
    *
    * @example
    * set.add(1);
