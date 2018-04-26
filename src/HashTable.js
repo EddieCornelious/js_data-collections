@@ -152,8 +152,10 @@ class HashTable extends MapInterface {
     const { bucket, index } = searchRes;
     if (index !== -1) {
       self.inserts -= 1;
-      return bucket.splice(index, 2)[1];
+      bucket.splice(index, 2);
+      return true;
     }
+    return false;
   }
 
   contains(key) {
