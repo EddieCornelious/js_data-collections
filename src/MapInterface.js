@@ -6,7 +6,6 @@ class MapInterface {
   constructor() {
     if (this.constructor.name === "MapInterface") {
       throw new Error("cannot instansiate an interface");
-
     }
   }
 
@@ -14,7 +13,7 @@ class MapInterface {
    * Inserts the given key and value into the Map
    * @param {*} key - The key
    * @param {*} value - The value mapped to by @param key
-   * @returns {boolean} True
+   * @returns {Map} The instance that this method was called 
    *
    * @example
    * map.put("ed", "jones");
@@ -42,12 +41,12 @@ class MapInterface {
   /**
    * Removes the given key and its associated value from the Map
    * @param {*} key - The key to lookup
-   * @returns {boolean} True if the key was removed and false otherwise
+   * @returns {boolean} True if the key and it's value were removed and false otherwise
    *
    * @example
    * map.put(99, "problems");
    * map.remove(88); // returns false
-   * map.remove(99); // return true
+   * map.remove(99); // returns true
    */
   remove(key) {
     throw new Error("must implement this method");
