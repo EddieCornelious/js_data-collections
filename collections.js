@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.Set = exports.Map = exports.RBTree = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMultiMap = exports.HashTable = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
+	exports.Set = exports.Map = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMultiMap = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
 
 	var _List = __webpack_require__(1);
 
@@ -83,10 +83,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _HashMap2 = _interopRequireDefault(_HashMap);
 
-	var _HashTable = __webpack_require__(8);
-
-	var _HashTable2 = _interopRequireDefault(_HashTable);
-
 	var _HashSet = __webpack_require__(10);
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
@@ -111,11 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
-	var _RedBlackTree = __webpack_require__(19);
-
-	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
-
-	var _Map = __webpack_require__(20);
+	var _Map = __webpack_require__(19);
 
 	var _Map2 = _interopRequireDefault(_Map);
 
@@ -131,14 +123,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BHeap = _BHeap2['default'];
 	exports.PriorityQueue = _PriorityQueue2['default'];
 	exports.HashMap = _HashMap2['default'];
-	exports.HashTable = _HashTable2['default'];
 	exports.HashMultiMap = _HashMultiMap2['default'];
 	exports.HashSet = _HashSet2['default'];
 	exports.BST = _BST2['default'];
 	exports.Graph = _Graph2['default'];
 	exports.Trie = _Trie2['default'];
 	exports.ArrayUtils = _ArrayUtils2['default'];
-	exports.RBTree = _RedBlackTree2['default'];
 	exports.Map = _Map2['default'];
 	exports.Set = _Set2['default'];
 
@@ -1277,21 +1267,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  HashMap.prototype.put = function put(key, value) {
-	    this.map.put(key, value);
-	    return this;
+	    var self = this;
+	    self.map.put(key, value);
+	    return self;
 	  };
 
 	  HashMap.prototype.getVal = function getVal(key) {
 	    return this.map.getVal(key);
 	  };
 
+	  HashMap.prototype.clear = function clear() {
+	    return this.map.clear();
+	  };
+
 	  HashMap.prototype.remove = function remove(key) {
-	    this.map.remove(key);
-	    return this;
+	    return this.map.remove(key);
 	  };
 
 	  HashMap.prototype.keys = function keys() {
 	    return this.map.keys();
+	  };
+
+	  HashMap.prototype.values = function values() {
+	    return this.map.values();
 	  };
 
 	  HashMap.prototype.contains = function contains(key) {
@@ -1336,7 +1334,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * From immutable.js implementation of java hashcode
 	 * https://github.com/facebook/immutable-js/blob/master/src/Hash.js
-	 * better distribution than fnv hash
 	 *
 	 * Returns the hashcode for the given string
 	 * @private
@@ -1360,10 +1357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function mod(dividend, divisor) {
 	  var modulo = dividend % divisor;
-	  if (dividend < 0) {
-	    return modulo * -1;
-	  }
-	  return modulo;
+	  return dividend < 0 ? modulo * -1 : modulo;
 	}
 
 	/**
@@ -1381,32 +1375,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Inserts into a hashtable based on the hashcode of the given key
+	 * Gets the proper index the given key should be hashed to in the given array
 	 * @private
 	 * @param {*} key - The key
-	 * @param {*} value - The value mapped to by key
+	 * @param {Array} Associative Array
+	 * @returns {number} The index that @param key hashes to
+	 */
+	function getLocation(key, table) {
+	  var hash = hashStr((0, _Util.toString)(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
+	  return mod(hash, table.length);
+	}
+
+	/**
+	 * Inserts into an Associative Array based on the hashcode of the given key
+	 * @private
+	 * @param {*} key - The key
+	 * @param {*} value - The value mapped to by @param key
 	 * @param {Array} table - Associative Array
 	 * @returns {number} 1 for true
 	 */
 	function insert(key, value, table) {
-	  var hash = hashStr((0, _Util.toString)(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	  var location = mod(hash, table.length);
+	  var location = getLocation(key, table);
 	  var bucket = table[location];
 	  return bucket.push(key, value);
 	}
 
 	/**
-	 * Searches a hashtable based on the hashcode of the given key
+	 * Searches an Associative Array based on the hashcode of the given key
 	 * @private
 	 * @param {*} key - The key to look for
 	 * @param {Array} table - Associative Array
-	 * @returns {Object} Objet literal with the bucket where @param key is found
+	 * @returns {Object} Object literal with the bucket where @param key is found
 	 * and the index of @param key in that bucket or undefined and -1 if not found
 	 */
 	function search(key, table) {
-	  var toStr = (0, _Util.toString)(key);
-	  var hash = hashStr(toStr + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	  var location = mod(hash, table.length);
+	  var location = getLocation(key, table);
 	  var bucket = table[location];
 	  // skip values [k1, v1, k2, v2]
 	  for (var index = 0; index < bucket.length; index += 2) {
@@ -1418,20 +1421,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Figures out if the given hashtable should grow larger
+	 * Figures out if the given Associative Array should grow larger
 	 * @private
 	 * @param {number} inserts - The number of items in the table
 	 * @param {Array} table - Associative Array
 	 * @returns {boolean} True if @param table should rehash and false otherwise
 	 */
 	function shouldRehash(inserts, table) {
-	  var loadFactor = inserts / table.length;
-	  return loadFactor >= 0.75 ? true : false;
+	  var load = inserts / table.length;
+	  return load >= 0.75 ? true : false;
 	}
 
 	/**
 	 * HashTable representation
 	 * @class
+	 * @private
 	 * @implements MapInterface
 	 * @param {number} [initialCapacity=13] - Initial size of the hashtable
 	 * IMPORTANT : It is not recommended that you choose a size that will be a
@@ -1441,11 +1445,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * approximately 100,000 as the hastable will resize once 75,000
 	 * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
 	 * which is 112,500 , greater than your space needed.
-	 * So, try something around 150,000. Or you can just rehash a lot :)
-	 *
-	 * @example
-	 * const map = new Collections.HashTable(37);
-	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
 	 */
 
 	var HashTable = function (_MapInterface) {
@@ -1466,8 +1465,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  HashTable.prototype.put = function put() {
 	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	    var table = this.table,
-	        inserts = this.inserts;
+
+	    var self = this;
+	    var table = self.table,
+	        inserts = self.inserts;
 
 	    var searchRes = search(key, table);
 	    var bucket = searchRes.bucket,
@@ -1475,14 +1476,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (index === -1) {
 	      insert(key, value, table);
-	      this.inserts += 1;
+	      self.inserts += 1;
 	      if (shouldRehash(inserts + 1, table)) {
-	        this.rehash();
+	        self.rehash();
 	      }
 	    } else {
 	      bucket[index + 1] = value;
 	    }
-	    return this;
+	    return self;
 	  };
 
 	  HashTable.prototype.getVal = function getVal(key) {
@@ -1494,15 +1495,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  HashTable.prototype.remove = function remove(key) {
-	    var searchRes = search(key, this.table);
+	    var self = this;
+	    var searchRes = search(key, self.table);
 	    var bucket = searchRes.bucket,
 	        index = searchRes.index;
 
 	    if (index !== -1) {
+	      self.inserts -= 1;
 	      bucket.splice(index, 2);
-	      this.inserts -= 1;
+	      return true;
 	    }
-	    return this;
+	    return false;
 	  };
 
 	  HashTable.prototype.contains = function contains(key) {
@@ -1545,17 +1548,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return keyArr;
 	  };
 
+	  HashTable.prototype.values = function values() {
+	    var table = this.table;
+	    var valArr = [];
+	    var tableLen = table.length;
+	    for (var i = 0; i < tableLen; i += 1) {
+	      var currentBucket = table[i];
+	      for (var j = 1; j < currentBucket.length; j += 2) {
+	        valArr.push(currentBucket[j]);
+	      }
+	    }
+	    return valArr;
+	  };
+
 	  /**
 	   * Returns the number of buckets in the Associative Array
 	   * @returns {number} Size of inner Associative Array
-	   *
-	   * @example
-	   * new Collections.HashTable().tableSize() // 13 initial value empty args
 	   */
 
 
 	  HashTable.prototype.tableSize = function tableSize() {
 	    return this.table.length;
+	  };
+
+	  HashTable.prototype.clear = function clear() {
+	    var self = this;
+	    self.table.length = 0;
+	    self.inserts = 0;
+	    self.table = createTable(13);
 	  };
 
 	  HashTable.prototype.size = function size() {
@@ -1594,7 +1614,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Inserts the given key and value into the Map
 	   * @param {*} key - The key
 	   * @param {*} value - The value mapped to by @param key
-	   * @returns {boolean} True
+	   * @returns {Map} The instance that this method was called 
 	   *
 	   * @example
 	   * map.put("ed", "jones");
@@ -1615,7 +1635,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *
 	   * @example
 	   * map.put(99, "problems");
-	   * map.getVal(99); // returns "promblems"
+	   * map.getVal(99); // returns "problems"
 	   */
 
 
@@ -1626,12 +1646,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Removes the given key and its associated value from the Map
 	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if the key was removed and false otherwise
+	   * @returns {boolean} True if the key and it's value were removed and false otherwise
 	   *
 	   * @example
 	   * map.put(99, "problems");
 	   * map.remove(88); // returns false
-	   * map.remove(99); // return true
+	   * map.remove(99); // returns true
 	   */
 
 
@@ -1654,16 +1674,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Returns all of the keys in the Map
-	  * @returns {Array} An array of keys
-	  *
-	  * @example
-	  * map.put(1, "b");
-	  * map.put(2, "c");
-	  * map.put(3, "d");
-	  * map.keys() // returns ["a", "b", "c"] permutation (order may 
-	  * or may not be guarenteed)
-	  */
+	   * Returns all of the keys in the Map
+	   * @returns {Array} An array of keys
+	   *
+	   * @example
+	   * map.put(1, "b");
+	   * map.put(2, "c");
+	   * map.put(3, "d");
+	   * map.keys() // returns [1, 2, 3] permutation (order may 
+	   * or may not be guarenteed)
+	   */
 
 
 	  MapInterface.prototype.keys = function keys() {
@@ -1671,16 +1691,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Returns number of elements in the Map
-	  * @returns {number} The number of insertions
-	  *
-	  * @example
-	  * map.put(99, "problems");
-	  * map.size() // 1
-	  */
+	   * Returns all of the values in the Map
+	   * @returns {Array} An array of values
+	   *
+	   * @example
+	   * map.put(1, "b");
+	   * map.put(2, "c");
+	   * map.put(3, "d");
+	   * map.values() // returns ["c", "b", "d"] permutation
+	   */
+
+
+	  MapInterface.prototype.values = function values() {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	   * Returns number of elements in the Map
+	   * @returns {number} The number of insertions
+	   *
+	   * @example
+	   * map.put(99, "problems");
+	   * map.size() // 1
+	   */
 
 
 	  MapInterface.prototype.size = function size() {
+	    throw new Error("must implement this method");
+	  };
+
+	  /**
+	   * Clears the map of all k,v pairs
+	   * @returns {undefined}
+	   */
+
+
+	  MapInterface.prototype.clear = function clear() {
 	    throw new Error("must implement this method");
 	  };
 
@@ -1737,7 +1783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  HashSet.prototype.add = function add(element) {
-	    this.set.put(element);
+	    this.set.put(element, 1);
 	    return this;
 	  };
 
@@ -1750,7 +1796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  };
 
-	  HashSet.prototype.keys = function keys() {
+	  HashSet.prototype.entries = function entries() {
 	    return this.set.keys();
 	  };
 
@@ -1787,7 +1833,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	   * Adds an element to the set. Does nothing if already in set
+	   * Adds an element to the set if already in set
 	   * @param {*} element - The element to add to the set
 	   * @returns {Set} The instance that this method was called
 	   *
@@ -1804,28 +1850,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Updates 'this' with the mathematical set difference of 'this' set and
-	   * another set
-	   * @param {Set} Set - another set instance
-	   * @returns {undefined}
+	   * Returns the set difference (not symmetric) of 'this' set and
+	   * another set x such that x is in A and x is not in B, where A and B
+	   * are two sets
+	   * @param {Set} thatSet - another set instance
+	   * @returns {Array} The difference of this and @param thatSet
 	   *
 	   * @example
 	   * set.add(1);
 	   * set.add(2);
 	   * set2 = new <Another Set>
 	   * set2.add(2);
-	   * set.diff(set2);
-	   * // set is now [1] and set2 is unchanged
+	   * set.diff(set2); // [1]
 	   */
 
 
 	  SetInterface.prototype.diff = function diff(thatSet) {
-	    var thatKeys = thatSet.keys();
-	    var context = this;
-	    thatKeys.forEach(function (element) {
-	      context.remove(element);
-	    });
-	    return context;
+	    var thisKeys = this.entries();
+	    var result = [];
+	    var thisLen = thisKeys.length;
+	    var curElement = void 0;
+	    for (var i = 0; i < thisLen; i += 1) {
+	      curElement = thisKeys[i];
+	      if (!thatSet.has(curElement)) {
+	        result.push(curElement);
+	      }
+	    }
+	    return result;
+	  };
+
+	  /**
+	   * Returns the mathematical set union of 'this' set and
+	   * another set
+	   * @param {Set} thatSet - another set instance
+	   * @returns {Array} An array containing the union of this and @param thatSet
+	   *
+	   * @example
+	   * set.add(1);
+	   * set.add(2);
+	   * set2 = new <Another Set>
+	   * set2.add(2);
+	   * set.union(set2); // [1, 2]
+	   */
+
+
+	  SetInterface.prototype.union = function union(thatSet) {
+	    var thatKeys = thatSet.entries();
+	    var self = this;
+	    var thisKeys = self.entries();
+	    var result = [];
+	    var thisLen = thisKeys.length;
+	    for (var i = 0; i < thisLen; i += 1) {
+	      result.push(thisKeys[i]);
+	    }
+	    var curElement = void 0;
+	    var thatLen = thatKeys.length;
+	    for (var _i = 0; _i < thatLen; _i += 1) {
+	      curElement = thatKeys[_i];
+	      if (!self.has(curElement)) {
+	        result.push(curElement);
+	      }
+	    }
+	    return result;
 	  };
 
 	  /**
@@ -1850,7 +1936,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  SetInterface.prototype.keys = function keys() {
+	  SetInterface.prototype.entries = function entries() {
 	    throw new Error("must implement this method");
 	  };
 
@@ -1865,34 +1951,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Updates 'this' with the mathematical set intersection of 'this' set and
+	   * Returns the mathematical set intersection of 'this' set and
 	   * another set
 	   * @param {Set} thatSet - another Set instance
-	   * @returns {undefined}
+	   * @returns {Array} The array containing the set intersection of this and
+	   * @param thatSet
 	   *
 	   * @example
 	   * set.add(1);
 	   * set.add(2);
 	   * set2 = new Collections.HashSet();
 	   * set2.add(2);
-	   * set.intersect(set2);
-	   * // set1 is now [2] and set2 is unchanged
+	   * set.intersect(set2); // [2]
 	   */
 
 
 	  SetInterface.prototype.intersect = function intersect(thatSet) {
-	    var thisKeys = this.keys();
-	    var context = this;
-	    thisKeys.forEach(function (element) {
-	      if (!thatSet.has(element)) {
-	        context.remove(element);
+	    var largerSet = void 0,
+	        smallerSet = void 0;
+	    var self = this;
+	    var result = [];
+	    if (self.cardinality() > thatSet.cardinality()) {
+	      largerSet = self;
+	      smallerSet = thatSet.entries();
+	    } else {
+	      largerSet = thatSet;
+	      smallerSet = self.entries();
+	    }
+	    var smallLen = smallerSet.length;
+	    var curElement = void 0;
+	    for (var i = 0; i < smallLen; i += 1) {
+	      curElement = smallerSet[i];
+	      if (largerSet.has(curElement)) {
+	        result.push(curElement);
 	      }
-	    });
-	    return context;
+	    }
+	    return result;
 	  };
 
 	  /**
-	   * Returns ths size of the set
+	   * Returns the number of elements in the set
 	   *
 	   * @example
 	   * set.add(1);
@@ -1963,33 +2061,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-	    var inserted = _BSTPrototype.BSTInsert.call(this, key, value, _BSTNode2['default']);
+	    var self = this;
+	    var inserted = _BSTPrototype.BSTInsert.call(self, key, value, _BSTNode2['default']);
 	    if (inserted) {
-	      this.inserts += 1;
+	      self.inserts += 1;
 	    }
-	    return this;
+	    return self;
 	  };
 
 	  /**
 	   * Removes the given key and its associated value from the BST
-	   * @param {*} [key=null] - The key to search for
-	   * @returns {BST} The instance that this method was called with
+	   * @param {*} key - The key to search for
+	   * @returns {boolean} True if the key existed before and false otherwise
 	   *
 	   * @example
 	   * bst.insert(1, 5).insert(5, 10);
-	   * bst.remove(1); // 1 and it's associated value are removed from tree
-	   * bst.remove("dog"); // this call fails silently as dog never existed in tree
+	   * bst.remove(1); // 1 and it's associated value are removed from BST
+	   * bst.remove("dog"); // this call fails silently as dog never existed in BST
 	   */
 
 
-	  BST.prototype.remove = function remove() {
-	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-	    var removed = _BSTPrototype.BSTRemove.call(this, key);
+	  BST.prototype.remove = function remove(key) {
+	    var self = this;
+	    var removed = _BSTPrototype.BSTRemove.call(self, key);
 	    if (removed) {
-	      this.inserts -= 1;
+	      self.inserts -= 1;
+	      return true;
 	    }
-	    return this;
+	    return false;
 	  };
 
 	  /**
@@ -2005,10 +2104,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.find = function find() {
-	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-	    var node = _BSTPrototype.BSTSearch.call(this, this.root, key);
+	  BST.prototype.find = function find(key) {
+	    var self = this;
+	    var node = _BSTPrototype.BSTSearch.call(self, self.root, key);
 	    return node ? node.value : undefined;
 	  };
 
@@ -2030,7 +2128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * Gives the inorder traversal of the BST
-	  * @returns {Array} Array of objects representing the tree
+	  * @returns {Array} Array of objects representing the BST
 	  */
 
 
@@ -2039,8 +2137,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns the smallest value in the tree according to it's ordering function
-	   * @returns {*} The smallest value in the tree
+	   * Returns the smallest value in the BST according to it's ordering function
+	   * @returns {*} The smallest value in the BST
 	   */
 
 
@@ -2057,7 +2155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Returns the greatest value in the tree according to it's ordering function
-	   * @returns {*} The greatest value in the tree
+	   * @returns {*} The greatest value in the BST
 	   */
 
 
@@ -2073,29 +2171,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	   * Returns all keys less than the given key in the tree
-	   * @param {*} key - The value used as the upper bound
+	   * Returns all keys less than the given key in the BST
+	   * @param {*} value - The value used as the upper bound
 	   * @returns {Array} Array of keys less than @param key
 	   */
 
 
 	  BST.prototype.keysLess = function keysLess(value) {
-	    return (0, _BSTPrototype.less)(this.root, value, this.comp);
+	    var self = this;
+	    return (0, _BSTPrototype.less)(self.root, value, self.comp);
 	  };
 
 	  /**
-	   * Returns all keys greater than the given key in the tree
-	   * @param {*} key - The value used as the lower bound
+	   * Returns all keys greater than the given key in the BST
+	   * @param {*} value - The value used as the lower bound
 	   * @returns {Array} Array of keys greater than @param key
 	   */
 
 
 	  BST.prototype.keysGreater = function keysGreater(value) {
-	    return (0, _BSTPrototype.greater)(this.root, value, this.comp);
+	    var self = this;
+	    return (0, _BSTPrototype.greater)(self.root, value, self.comp);
 	  };
 
 	  /**
-	   * Empties the tree
+	   * Empties the BST
 	   * @returns {undefined}
 	   */
 
@@ -2124,6 +2224,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BST.prototype.keys = function keys() {
 	    return this.inorder().map(function (node) {
 	      return node.key;
+	    });
+	  };
+
+	  /**
+	   * Gives the values in the BST
+	   * @returns {Array} The value set
+	   */
+
+
+	  BST.prototype.values = function values() {
+	    return this.inorder().map(function (node) {
+	      return node.value;
 	    });
 	  };
 
@@ -3199,6 +3311,133 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
+	var _MapInterface2 = __webpack_require__(9);
+
+	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
+
+	var _RedBlackTree = __webpack_require__(20);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
+
+	/**
+	 * Map representaion
+	 * @class
+	 * @implements MapInterface
+	 * @param {function} comparator - @see Global#defaultComparator
+	 *
+	 * @example
+	 * const map = new Collections.Map();
+	 */
+	var Map = function (_MapInterface) {
+	  _inherits(Map, _MapInterface);
+
+	  function Map(comparator) {
+	    _classCallCheck(this, Map);
+
+	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
+
+	    _this.map = new _RedBlackTree2['default'](comparator);
+	    return _this;
+	  }
+
+	  Map.prototype.put = function put(key, value) {
+	    this.map.insert(key, value);
+	    return this;
+	  };
+
+	  Map.prototype.getVal = function getVal(key) {
+	    return this.map.find(key);
+	  };
+
+	  Map.prototype.clear = function clear() {
+	    return this.map.clear();
+	  };
+
+	  Map.prototype.remove = function remove(key) {
+	    return this.map.remove(key);
+	  };
+
+	  Map.prototype.keys = function keys() {
+	    return this.map.keys();
+	  };
+
+	  Map.prototype.values = function values() {
+	    return this.map.values();
+	  };
+
+	  Map.prototype.contains = function contains(key) {
+	    return this.map.contains(key);
+	  };
+
+	  Map.prototype.size = function size() {
+	    return this.map.size();
+	  };
+
+	  /**
+	   * Returns the smallest key in the Map
+	   * @returns {*} The smallest key
+	   */
+
+
+	  Map.prototype.floorKey = function floorKey() {
+	    return this.map.min();
+	  };
+
+	  /**
+	   * Returns the largest key in the Map
+	   * @returns {*} The largest key
+	   */
+
+
+	  Map.prototype.ceilKey = function ceilKey() {
+	    return this.map.max();
+	  };
+
+	  /**
+	   * Returns all keys less than the given value
+	   * @param {*} value - The upper bound
+	   * @returns {Array} Array of keys smaller than @param value
+	   */
+
+
+	  Map.prototype.lowerThan = function lowerThan(value) {
+	    return this.map.keysLess(value);
+	  };
+
+	  /**
+	   * Returns all keys greater than the given value
+	   * @param {*} value - The lower bound
+	   * @returns {Array} Array of keys larger than @param value
+	   */
+
+
+	  Map.prototype.higherThan = function higherThan(value) {
+	    return this.map.keysGreater(value);
+	  };
+
+	  return Map;
+	}(_MapInterface3['default']);
+
+	exports['default'] = Map;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
 	var _BSTNode2 = __webpack_require__(13);
 
 	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
@@ -3292,6 +3531,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function insertFix(nodeToFix) {
 	  var currentNode = nodeToFix;
+	  var context = this;
 	  var uncle = void 0;
 	  while (currentNode.parent.color === 'red') {
 	    if (currentNode.parent === currentNode.parent.parent.left) {
@@ -3304,11 +3544,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        if (currentNode === currentNode.parent.right) {
 	          currentNode = currentNode.parent;
-	          leftRotate.call(this, currentNode);
+	          leftRotate.call(context, currentNode);
 	        }
 	        currentNode.parent.color = 'black';
 	        currentNode.parent.parent.color = 'red';
-	        rightRotate.call(this, currentNode.parent.parent);
+	        rightRotate.call(context, currentNode.parent.parent);
 	      }
 	    } else {
 	      uncle = currentNode.parent.parent.left;
@@ -3320,15 +3560,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        if (currentNode === currentNode.parent.left) {
 	          currentNode = currentNode.parent;
-	          rightRotate.call(this, currentNode);
+	          rightRotate.call(context, currentNode);
 	        }
 	        currentNode.parent.color = 'black';
 	        currentNode.parent.parent.color = 'red';
-	        leftRotate.call(this, currentNode.parent.parent);
+	        leftRotate.call(context, currentNode.parent.parent);
 	      }
 	    }
 	  }
-	  this.root.color = 'black';
+	  context.root.color = 'black';
 	}
 
 	/**
@@ -3339,6 +3579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function deletefixUp(nodeToFix) {
 	  var currentNode = nodeToFix;
+	  var context = this;
 	  while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
 	    var uncle = void 0;
 	    if (currentNode === currentNode.parent.left) {
@@ -3346,7 +3587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (uncle.color === 'red') {
 	        uncle.color = 'black';
 	        currentNode.parent.color = 'red';
-	        leftRotate.call(this, currentNode.parent);
+	        leftRotate.call(context, currentNode.parent);
 	        uncle = currentNode.parent.right;
 	      }
 	      if (uncle.left.color === 'black' && uncle.right.color === 'black') {
@@ -3356,21 +3597,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (uncle.right.color === 'black') {
 	          uncle.left.color = 'black';
 	          uncle.color = 'red';
-	          rightRotate.call(this, uncle);
+	          rightRotate.call(context, uncle);
 	          uncle = currentNode.parent.right;
 	        }
 	        uncle.color = currentNode.parent.color;
 	        currentNode.parent.color = 'black';
 	        uncle.right.color = 'black';
-	        leftRotate.call(this, currentNode.parent);
-	        currentNode = this.root;
+	        leftRotate.call(context, currentNode.parent);
+	        currentNode = context.root;
 	      }
 	    } else {
 	      uncle = currentNode.parent.left;
 	      if (uncle.color === 'red') {
 	        uncle.color = 'black';
 	        currentNode.parent.color = 'red';
-	        rightRotate.call(this, currentNode.parent);
+	        rightRotate.call(context, currentNode.parent);
 	        uncle = currentNode.parent.left;
 	      }
 	      if (uncle.right.color === 'black' && uncle.left.color === 'black') {
@@ -3380,14 +3621,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (uncle.left.color === 'black') {
 	          uncle.right.color = 'black';
 	          uncle.color = 'red';
-	          leftRotate.call(this, uncle);
+	          leftRotate.call(context, uncle);
 	          uncle = currentNode.parent.left;
 	        }
 	        uncle.color = currentNode.parent.color;
 	        currentNode.parent.color = 'black';
 	        uncle.left.color = 'black';
-	        rightRotate.call(this, currentNode.parent);
-	        currentNode = this.root;
+	        rightRotate.call(context, currentNode.parent);
+	        currentNode = context.root;
 	      }
 	    }
 	  }
@@ -3396,6 +3637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Red-Black Tree representation
+	 * @private
 	 * @class
 	 * @extends BST
 	 * @param {function} comparator - @see Global#defaultComp for examples
@@ -3416,112 +3658,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  RBTree.prototype.insert = function insert(key, value) {
-	    var insertedNode = _BSTPrototype.BSTInsert.call(this, key, value, RBNode);
+	    var self = this;
+	    var insertedNode = _BSTPrototype.BSTInsert.call(self, key, value, RBNode);
 	    if (insertedNode) {
 	      insertedNode.color = 'red';
-	      insertFix.call(this, insertedNode);
-	      this.inserts += 1;
+	      insertFix.call(self, insertedNode);
+	      self.inserts += 1;
 	    }
-	    return this;
+	    return self;
 	  };
 
 	  RBTree.prototype.remove = function remove(key) {
+	    var self = this;
 	    // successor and child
-	    var didRemove = _BSTPrototype.BSTRemove.call(this, key);
+	    var didRemove = _BSTPrototype.BSTRemove.call(self, key);
 	    if (didRemove) {
 	      var succChild = didRemove.succChild,
 	          succ = didRemove.succ;
 
 	      if (succ.color === 'black') {
-	        deletefixUp.call(this, succChild);
-	        this.inserts -= 1;
+	        deletefixUp.call(self, succChild);
 	      }
+	      self.inserts -= 1;
+	      return true;
 	    }
-	    return this;
+	    return false;
 	  };
 
 	  return RBTree;
 	}(_BST3['default']);
 
 	exports['default'] = RBTree;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _MapInterface2 = __webpack_require__(9);
-
-	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
-
-	var _RedBlackTree = __webpack_require__(19);
-
-	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
-
-	/**
-	 * Map representaion
-	 * @class
-	 * @implements MapInterface
-	 * @param {function} comparator - @see Global#defaultComparator
-	 *
-	 * @example
-	 * const map = new Collections.Map();
-	 */
-	var Map = function (_MapInterface) {
-	  _inherits(Map, _MapInterface);
-
-	  function Map(comparator) {
-	    _classCallCheck(this, Map);
-
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
-
-	    _this.map = new _RedBlackTree2['default'](comparator);
-	    return _this;
-	  }
-
-	  Map.prototype.put = function put(key, value) {
-	    this.map.insert(key, value);
-	    return this;
-	  };
-
-	  Map.prototype.getVal = function getVal(key) {
-	    return this.map.find(key);
-	  };
-
-	  Map.prototype.remove = function remove(key) {
-	    this.map.remove(key);
-	    return this;
-	  };
-
-	  Map.prototype.keys = function keys() {
-	    return this.map.keys();
-	  };
-
-	  Map.prototype.contains = function contains(key) {
-	    return this.map.contains(key);
-	  };
-
-	  Map.prototype.size = function size() {
-	    return this.map.size();
-	  };
-
-	  return Map;
-	}(_MapInterface3['default']);
-
-	exports['default'] = Map;
 
 /***/ },
 /* 21 */
@@ -3535,7 +3702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	var _RedBlackTree = __webpack_require__(19);
+	var _RedBlackTree = __webpack_require__(20);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
@@ -3579,23 +3746,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.set.contains(element);
 	  };
 
-	  /**
-	   * Removes an element from the set
-	   * @returns {Set} The instance this method was called
-	   */
-
-
 	  Set.prototype.remove = function remove(element) {
-	    this.set.remove(element);
-	    return this;
+	    return this.set.remove(element);
 	  };
 
-	  Set.prototype.keys = function keys() {
+	  Set.prototype.entries = function entries() {
 	    return this.set.keys();
 	  };
 
 	  Set.prototype.cardinality = function cardinality() {
 	    return this.set.size();
+	  };
+
+	  Set.prototype.min = function min() {
+	    return this.map.min();
+	  };
+
+	  Set.prototype.max = function max() {
+	    return this.map.max();
 	  };
 
 	  return Set;
