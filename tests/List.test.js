@@ -328,4 +328,56 @@ describe("List", function(){
     list.clear();
     expect(list.toArray()).to.have.ordered.members([]);
   });
+  
+  it("filter works correctly", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+    actual = [];
+   expected = [2, 4];
+   expect(list.filter(e => e%2===0).toArray()).to.have.members(expected);
+   
+  });
+  
+  it("some return true when at least one passes", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+   expect(list.some(e => e > 4)).to.be.equal(true);
+   
+  });
+  
+  it("some returns false when none pass", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+   expect(list.some(e => e > 5)).to.be.equal(false);
+   
+  });
+  
+  it("every returns false when at least one fails", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+   expect(list.every(e => e > 4)).to.be.equal(false);
+   
+  });
+  
+  it("every returns true when all pass", function(){
+   list.addToBack(1)
+    .addToBack(2)
+    .addToBack(3)
+    .addToBack(4)
+    .addToBack(5);
+   expect(list.every(e => e > 0)).to.be.equal(true);
+   
+  });
 })
