@@ -26,13 +26,20 @@ class Map extends MapInterface {
     return this.map.find(key);
   }
 
+  clear() {
+    return this.map.clear();
+  }
+
   remove(key) {
-    this.map.remove(key);
-    return this;
+    return this.map.remove(key);
   }
 
   keys() {
     return this.map.keys();
+  }
+  
+  values() {
+    return this.map.values();
   }
 
   contains(key) {
@@ -41,6 +48,40 @@ class Map extends MapInterface {
 
   size() {
     return this.map.size();
+  }
+
+  /**
+   * Returns the smallest key in the Map
+   * @returns {*} The smallest key
+   */
+  floorKey() {
+    return this.map.min();
+  }
+
+  /**
+   * Returns the largest key in the Map
+   * @returns {*} The largest key
+   */
+  ceilKey() {
+    return this.map.max();
+  }
+
+  /**
+   * Returns all keys less than the given value
+   * @param {*} value - The upper bound
+   * @returns {Array} Array of keys smaller than @param value
+   */
+  lowerThan(value) {
+    return this.map.keysLess(value);
+  }
+
+  /**
+   * Returns all keys greater than the given value
+   * @param {*} value - The lower bound
+   * @returns {Array} Array of keys larger than @param value
+   */
+  higherThan(value) {
+    return this.map.keysGreater(value);
   }
 }
 
