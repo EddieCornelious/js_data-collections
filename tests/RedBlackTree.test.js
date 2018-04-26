@@ -1,4 +1,4 @@
-const Collections = require("../collections.js");
+import RBTree from "../src/RedBlackTree.js";
 var expect = require("chai").expect;
 
 // custom inorder function to help test colors and all references of tree
@@ -20,7 +20,7 @@ describe("RB", function() {
   let rb, expected, actual;
 
   beforeEach(function() {
-    rb = new Collections.RBTree();
+    rb = new RBTree();
   });
 
   afterEach(function() {
@@ -307,11 +307,12 @@ describe("RB", function() {
     }
 
   })
+
   it("delete should simply remove node normally when red", function() {
     rb.insert(20, 2);
     rb.insert(30, 3);
     rb.insert(10, 5);
-    rb.remove(30);
+    let rm = rb.remove(30);
     actual = Test(rb.root)
     expected = [{
         key: undefined,
@@ -345,7 +346,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling is right child and red is right", function() {
@@ -353,7 +354,7 @@ describe("RB", function() {
     rb.insert(20, 2);
     rb.insert(40, 4);
     rb.insert(60, 6);
-    rb.remove(20);
+    let rm = rb.remove(20);
     actual = Test(rb.root)
     expected = [{
         key: undefined,
@@ -397,7 +398,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling right child and red is left", function() {
@@ -408,7 +409,7 @@ describe("RB", function() {
     //deliberately keep prior inserts
     rb.remove(20);
     rb.insert(50, 5)
-    rb.remove(30);
+    let rm = rb.remove(30);
     actual = Test(rb.root)
     expected = [{
         key: undefined,
@@ -452,7 +453,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling left child and red is left", function() {
@@ -465,7 +466,7 @@ describe("RB", function() {
     rb.insert(50, 5)
     rb.remove(30);
     rb.insert(30, 3)
-    rb.remove(60);
+    let rm = rb.remove(60);
     actual = Test(rb.root)
     expected = [{
         key: undefined,
@@ -509,7 +510,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling left child and red is right", function() {
@@ -524,7 +525,7 @@ describe("RB", function() {
     rb.insert(30, 3)
     rb.remove(60);
     rb.insert(35, 35);
-    rb.remove(50);
+    let rm = rb.remove(50);
     actual = Test(rb.root)
     expected = [{
         key: undefined,
@@ -568,16 +569,16 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling is black and both sibling's children are black (node deleted was left child)", function() {
     rb.insert(20, 3);
-    rb.insert(10, 2);
-    rb.insert(30, 2);
+    rb.insert(10, 21);
+    rb.insert(30, 22);
     rb.insert(40, 2);
     rb.remove(40);
-    rb.remove(10);
+    let rm = rb.remove(10);
 
     actual = Test(rb.root)
     expected = [{
@@ -596,7 +597,7 @@ describe("RB", function() {
       },
       {
         key: 30,
-        value: 2,
+        value: 22,
         color: "red"
       },
       {
@@ -613,16 +614,16 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling is black and both sibling's children are black (node deleted was right child)", function() {
-    rb.insert(20, 3);
-    rb.insert(10, 2);
-    rb.insert(30, 2);
-    rb.insert(40, 2);
+    rb.insert(20, "20");
+    rb.insert(10, "10");
+    rb.insert(30, "30");
+    rb.insert(40, "40");
     rb.remove(40);
-    rb.remove(30);
+    let rm = rb.remove(30);
 
     actual = Test(rb.root)
     expected = [{
@@ -631,7 +632,7 @@ describe("RB", function() {
         color: "black"
       }, {
         key: 10,
-        value: 2,
+        value: "10",
         color: "red"
       },
       {
@@ -641,7 +642,7 @@ describe("RB", function() {
       },
       {
         key: 20,
-        value: 3,
+        value: "20",
         color: "black"
       },
       {
@@ -658,7 +659,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling is red and is left child", function() {
@@ -669,7 +670,7 @@ describe("RB", function() {
     rb.insert(25, 25)
     rb.insert(50, 50)
     rb.remove(50);
-    rb.remove(10);
+    let rm = rb.remove(10);
     //case met
 
 
@@ -726,7 +727,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
   it("delete should fix double black case-sibling is red and is right child", function() {
@@ -737,7 +738,7 @@ describe("RB", function() {
     rb.insert(15, 15)
     rb.insert(16, 16);
     rb.remove(16);
-    rb.remove(30);
+    let rm = rb.remove(30);
     //case met
 
 
@@ -795,7 +796,7 @@ describe("RB", function() {
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
+    expect(rm).to.be.equal(true);
   });
 
 });
