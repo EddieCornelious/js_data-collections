@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.Set = exports.Map = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMultiMap = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
+	exports.Set = exports.Map = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
 
 	var _List = __webpack_require__(1);
 
@@ -99,19 +99,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Trie2 = _interopRequireDefault(_Trie);
 
-	var _HashMultiMap = __webpack_require__(17);
-
-	var _HashMultiMap2 = _interopRequireDefault(_HashMultiMap);
-
-	var _ArrayUtils = __webpack_require__(18);
+	var _ArrayUtils = __webpack_require__(17);
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
-	var _Map = __webpack_require__(19);
+	var _Map = __webpack_require__(18);
 
 	var _Map2 = _interopRequireDefault(_Map);
 
-	var _Set = __webpack_require__(21);
+	var _Set = __webpack_require__(20);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
@@ -123,7 +119,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BHeap = _BHeap2['default'];
 	exports.PriorityQueue = _PriorityQueue2['default'];
 	exports.HashMap = _HashMap2['default'];
-	exports.HashMultiMap = _HashMultiMap2['default'];
 	exports.HashSet = _HashSet2['default'];
 	exports.BST = _BST2['default'];
 	exports.Graph = _Graph2['default'];
@@ -2886,82 +2881,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _HashMap2 = __webpack_require__(7);
-
-	var _HashMap3 = _interopRequireDefault(_HashMap2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
-
-	/**
-	 * HashMultiMap representation
-	 * @class
-	 * @extends HashMap
-	 * @param {number} [initialCapacity=13] - Initial size of the hashmultimap
-	 * @inheritdoc
-	 * @example
-	 * const map = new Collections.HashMultiMap();
-	 * // FOR ALL EXAMPLES BELOW. ASSUME map IS CLEARED BEFORE EACH EXAMPLE
-	 */
-	var HashMultiMap = function (_HashMap) {
-	  _inherits(HashMultiMap, _HashMap);
-
-	  function HashMultiMap(initialCapacity) {
-	    _classCallCheck(this, HashMultiMap);
-
-	    return _possibleConstructorReturn(this, _HashMap.call(this, initialCapacity));
-	  }
-
-	  /**
-	   * Inserts given key and value into HashMultiMap
-	   * @param {*} key - The key
-	   * @param {*} value - The value mapped to by @param key
-	   * @returns {boolean} True
-	   *
-	   * @example
-	   * map.put("ed", "jones");
-	   * map.put("ed", "james");
-	   * // ed now maps to jones and james.
-	   */
-
-
-	  HashMultiMap.prototype.put = function put(key) {
-	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-	    var retVal = _HashMap.prototype.getVal.call(this, key);
-	    if (retVal) {
-	      // no duplicate values for one key
-	      if (retVal.indexOf(value) === -1) {
-	        return retVal.push(value);
-	      }
-	    } else {
-	      var newValArr = [];
-	      newValArr.push(value);
-	      _HashMap.prototype.put.call(this, key, newValArr);
-	    }
-	    return this;
-	  };
-
-	  return HashMultiMap;
-	}(_HashMap3['default']);
-
-	exports['default'] = HashMultiMap;
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
 	var _Util = __webpack_require__(2);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3304,7 +3223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = ArrayUtils;
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3315,7 +3234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
 
-	var _RedBlackTree = __webpack_require__(20);
+	var _RedBlackTree = __webpack_require__(19);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
@@ -3431,7 +3350,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Map;
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3691,7 +3610,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = RBTree;
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3702,7 +3621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	var _RedBlackTree = __webpack_require__(20);
+	var _RedBlackTree = __webpack_require__(19);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
