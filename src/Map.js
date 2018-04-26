@@ -37,7 +37,7 @@ class Map extends MapInterface {
   keys() {
     return this.map.keys();
   }
-  
+
   values() {
     return this.map.values();
   }

@@ -35,7 +35,7 @@ class HashMap extends MapInterface {
   }
 
   clear() {
-    return this.map.clear(); 
+    return this.map.clear();
   }
 
   remove(key) {
@@ -45,7 +45,7 @@ class HashMap extends MapInterface {
   keys() {
     return this.map.keys();
   }
-  
+
   values() {
     return this.map.values();
   }
