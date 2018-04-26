@@ -37,29 +37,32 @@ class BST {
   * // ed now maps to kane because ed already existed before.
   */
   insert(key = null, value = null) {
-    const inserted = BSTInsert.call(this, key, value, BSTNode);
+    const self = this;
+    const inserted = BSTInsert.call(self, key, value, BSTNode);
     if (inserted) {
-      this.inserts += 1;
+      self.inserts += 1;
     }
-    return this;
+    return self;
   }
 
   /**
    * Removes the given key and its associated value from the BST
-   * @param {*} [key=null] - The key to search for
-   * @returns {BST} The instance that this method was called with
+   * @param {*} key - The key to search for
+   * @returns {boolean} True if the key existed before and false otherwise
    *
    * @example
    * bst.insert(1, 5).insert(5, 10);
-   * bst.remove(1); // 1 and it's associated value are removed from tree
-   * bst.remove("dog"); // this call fails silently as dog never existed in tree
+   * bst.remove(1); // 1 and it's associated value are removed from BST
+   * bst.remove("dog"); // this call fails silently as dog never existed in BST
    */
-  remove(key = null) {
-    const removed = BSTRemove.call(this, key);
+  remove(key) {
+    const self = this;
+    const removed = BSTRemove.call(self, key);
     if (removed) {
-      this.inserts -= 1;
+      self.inserts -= 1;
+      return true;
     }
-    return this;
+    return false;
   }
 
   /**
@@ -73,8 +76,9 @@ class BST {
   * bst.find(5); // returns 10
   * bst.find(67); // returns undefined
   */
-  find(key = null) {
-    const node = BSTSearch.call(this, this.root, key);
+  find(key) {
+    const self = this;
+    const node = BSTSearch.call(self, self.root, key);
     return node ? node.value : undefined;
   }
 
@@ -94,15 +98,15 @@ class BST {
 
   /**
   * Gives the inorder traversal of the BST
-  * @returns {Array} Array of objects representing the tree
+  * @returns {Array} Array of objects representing the BST
   */
   inorder() {
     return BSTInorder(this.root);
   }
 
   /**
-   * Returns the smallest value in the tree according to it's ordering function
-   * @returns {*} The smallest value in the tree
+   * Returns the smallest value in the BST according to it's ordering function
+   * @returns {*} The smallest value in the BST
    */
   min() {
     let root = this.root;
@@ -117,7 +121,7 @@ class BST {
 
   /**
    * Returns the greatest value in the tree according to it's ordering function
-   * @returns {*} The greatest value in the tree
+   * @returns {*} The greatest value in the BST
    */
   max() {
     let root = this.root;
@@ -131,25 +135,27 @@ class BST {
   }
 
   /**
-   * Returns all keys less than the given key in the tree
-   * @param {*} key - The value used as the upper bound
+   * Returns all keys less than the given key in the BST
+   * @param {*} value - The value used as the upper bound
    * @returns {Array} Array of keys less than @param key
    */
   keysLess(value) {
-    return less(this.root, value, this.comp);
+    const self = this;
+    return less(self.root, value, self.comp);
   }
 
   /**
-   * Returns all keys greater than the given key in the tree
-   * @param {*} key - The value used as the lower bound
+   * Returns all keys greater than the given key in the BST
+   * @param {*} value - The value used as the lower bound
    * @returns {Array} Array of keys greater than @param key
    */
   keysGreater(value) {
-    return greater(this.root, value, this.comp);
+    const self = this;
+    return greater(self.root, value, self.comp);
   }
 
   /**
-   * Empties the tree
+   * Empties the BST
    * @returns {undefined}
    */
   clear() {
@@ -171,6 +177,14 @@ class BST {
    */
   keys() {
     return this.inorder().map(node => node.key);
+  }
+
+  /**
+   * Gives the values in the BST
+   * @returns {Array} The value set
+   */
+  values() {
+    return this.inorder().map(node => node.value);
   }
 }
 
