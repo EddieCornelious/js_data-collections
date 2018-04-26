@@ -70,19 +70,19 @@ describe("HashTable", function() {
   
   it("remove should return value if key exists and was removed", function() {
     map.put("a", "Pizza");
-    expect(map.remove("a")).to.be.equal("Pizza");
+    expect(map.remove("a")).to.be.equal(true);
     expect(map.getVal("a")).to.be.equal();
     expect(map.size()).to.be.equal(0);
   });
   
   it("remove should return undefined if key does not exist", function() {
     map.put("a", "Pizza");
-    expect(map.remove("b")).to.be.equal();
+    expect(map.remove("b")).to.be.equal(false);
     expect(map.size()).to.be.equal(1);
   });
   
   it("remove should return undefined for empty table", function() {
-    expect(map.remove("a")).to.be.equal();
+    expect(map.remove("a")).to.be.equal(false);
     expect(map.size()).to.be.equal(0);
   });
 
@@ -136,5 +136,12 @@ describe("HashTable", function() {
     expect(map.contains("a")).to.be.equal(true);
     expect(map.contains("b")).to.be.equal(true);
     expect(map.contains("c")).to.be.equal(true);
+  });
+  
+  it("clear does clear hashtable and resets inner size", function() {
+    map.put("a").put("b").put("c");
+    map.clear();
+    expect(map.tableSize()).to.be.equal(13);
+    expect(map.size()).to.be.equal(0);
   });
 });
