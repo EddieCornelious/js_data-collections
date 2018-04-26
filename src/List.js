@@ -317,20 +317,71 @@ class List {
 
   /**
    * Calls a callback function for each element in the list
-   * @param {function} callback - Function executed for each element
+   * @param {function} f - Function executed for each element
    * (data, index)
    * @returns {List} The instance that this method was called
    */
-  forEach(callback) {
-    const func = callback;
+  forEach(f) {
     let head = this.head;
     let index = 0;
     while (head) {
-      func(head.data, index);
+      f(head.data, index);
       head = head.next;
       index += 1;
     }
     return this;
+  }
+
+  /**
+   * Returns a new list with only elements that return truthy when passed to the
+   * given callback
+   * @param {function(data)} f - The function used to evaluate elements
+   * @returns {List} A new list with filtered elements
+   */
+  filter(f) {
+    let head = this.head;
+    const newList = new List();
+    let data;
+    while (head) {
+      data = head.data;
+      if (f(data)) {
+        newList.addToBack(data);
+      }
+      head = head.next;
+    }
+    return newList;
+  }
+
+  /**
+   * Reports if every element in the list passes a certain condition
+   * @param {function(data)} f - The function used for evaluations
+   * @returns {boolean} True if every element passes the test and false otherwise
+   */
+  every(f) {
+    let head = this.head;
+    while (head) {
+      if (!f(head.data)) {
+        return false;
+      }
+      head = head.next;
+    }
+    return true;
+  }
+
+  /**
+   * Reports if at least one element in the list passes a certain condition
+   * @param {function(data)} f - The function used for evaluations
+   * @returns {boolean} True if one or more elements passes the test and false otherwise
+   */
+  some(f) {
+    let head = this.head;
+    while (head) {
+      if (f(head.data)) {
+        return true;
+      }
+      head = head.next;
+    }
+    return false;
   }
 
   /**
