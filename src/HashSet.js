@@ -17,7 +17,7 @@ class HashSet extends SetInterface {
   }
 
   add(element) {
-    this.set.put(element);
+    this.set.put(element, 1);
     return this;
   }
 
@@ -30,7 +30,7 @@ class HashSet extends SetInterface {
     return this;
   }
 
-  keys() {
+  entries() {
     return this.set.keys();
   }
 

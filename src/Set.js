@@ -26,21 +26,24 @@ class Set extends SetInterface {
     return this.set.contains(element);
   }
 
-  /**
-   * Removes an element from the set
-   * @returns {Set} The instance this method was called
-   */
   remove(element) {
-    this.set.remove(element);
-    return this;
+    return this.set.remove(element);
   }
 
-  keys() {
+  entries() {
     return this.set.keys();
   }
 
   cardinality() {
     return this.set.size();
+  }
+
+  min() {
+    return this.map.min();
+  }
+
+  max() {
+    return this.map.max();
   }
 }
 
