@@ -6,7 +6,6 @@ A simple data structure library
 
 * Linked List
 * Binary Search Tree
-* Red-Black Tree
 * Queue
 * Stack
 * Trie
@@ -16,7 +15,6 @@ A simple data structure library
 * Priority Queue
 * Binary Heap
 * Graph
-* HashMultiMap
 * Set
 * Map
 
