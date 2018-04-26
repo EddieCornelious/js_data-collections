@@ -495,30 +495,38 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Calls a callback function for each element in the list
-	   * @param {function} callback - Function executed for each element
+	   * @param {function} f - Function executed for each element
 	   * (data, index)
 	   * @returns {List} The instance that this method was called
 	   */
 
 
-	  List.prototype.forEach = function forEach(callback) {
-	    var func = callback;
+	  List.prototype.forEach = function forEach(f) {
 	    var head = this.head;
 	    var index = 0;
 	    while (head) {
-	      func(head.data, index);
+	      f(head.data, index);
 	      head = head.next;
 	      index += 1;
 	    }
 	    return this;
 	  };
 
-	  List.prototype.filter = function filter(cb) {
+	  /**
+	   * Returns a new list with only elements that return truthy when passed to the
+	   * given callback
+	   * @param {function(data)} f - The function used to evaluate elements
+	   * @returns {List} A new list with filtered elements
+	   */
+
+
+	  List.prototype.filter = function filter(f) {
 	    var head = this.head;
 	    var newList = new List();
+	    var data = void 0;
 	    while (head) {
-	      var data = head.data;
-	      if (cb(data)) {
+	      data = head.data;
+	      if (f(data)) {
 	        newList.addToBack(data);
 	      }
 	      head = head.next;
@@ -526,22 +534,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return newList;
 	  };
 
-	  List.prototype.every = function every(cb) {
+	  /**
+	   * Reports if every element in the list passes a certain condition
+	   * @param {function(data)} f - The function used for evaluations
+	   * @returns {boolean} True if every element passes the test and false otherwise
+	   */
+
+
+	  List.prototype.every = function every(f) {
 	    var head = this.head;
 	    while (head) {
-	      if (!cb(head.data)) {
+	      if (!f(head.data)) {
 	        return false;
 	      }
 	      head = head.next;
 	    }
-	    return false;
+	    return true;
 	  };
 
-	  List.prototype.some = function some(cb) {
+	  /**
+	   * Reports if at least one element in the list passes a certain condition
+	   * @param {function(data)} f - The function used for evaluations
+	   * @returns {boolean} True if one or more elements passes the test and false otherwise
+	   */
+
+
+	  List.prototype.some = function some(f) {
 	    var head = this.head;
 	    while (head) {
-	      var data = head.data;
-	      if (cb(data)) {
+	      if (f(head.data)) {
 	        return true;
 	      }
 	      head = head.next;
