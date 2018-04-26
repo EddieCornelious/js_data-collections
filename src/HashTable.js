@@ -220,6 +220,7 @@ class HashTable extends MapInterface {
   clear() {
     const self = this;
     self.table.length = 0;
+    self.inserts = 0;
     self.table = createTable(13);
   }
 
