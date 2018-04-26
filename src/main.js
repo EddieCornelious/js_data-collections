@@ -9,7 +9,6 @@ import HashSet from './HashSet.js';
 import  BST from './BST.js';
 import Graph from './Graph.js';
 import Trie from './Trie.js';
-import HashMultiMap from './HashMultiMap.js';
 import ArrayUtils from './ArrayUtils.js';
 import Map from './Map.js';
 import Set from './Set.js';
@@ -21,7 +20,6 @@ export {
    BHeap,
    PriorityQueue,
    HashMap,
-   HashMultiMap,
    HashSet,
    BST,
    Graph,
