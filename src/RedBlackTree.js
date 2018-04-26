@@ -196,7 +196,7 @@ class RBTree extends BST {
       insertFix.call(self, insertedNode);
       self.inserts += 1;
     }
-    return context;
+    return self;
   }
 
   remove(key) {
