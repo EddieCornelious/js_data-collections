@@ -25,21 +25,29 @@ class HashMap extends MapInterface {
   }
 
   put(key, value) {
-    this.map.put(key, value);
-    return this;
+    const self = this;
+    self.map.put(key, value);
+    return self;
   }
 
   getVal(key) {
     return this.map.getVal(key);
   }
 
+  clear() {
+    return this.map.clear(); 
+  }
+
   remove(key) {
-    this.map.remove(key);
-    return this;
+    return this.map.remove(key);
   }
 
   keys() {
     return this.map.keys();
+  }
+  
+  values() {
+    return this.map.values();
   }
 
   contains(key) {
