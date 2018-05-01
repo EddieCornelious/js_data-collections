@@ -10,9 +10,7 @@
     "build": "webpack",
     "build:watch": "webpack --watch",
     "prod": "uglifyjs collections.js -o collections.min.js",
-    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "travis-deploy-once": "travis-deploy-once"
+    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md"
   },
   "keywords": [
     "data-structures",
