@@ -7,7 +7,7 @@ module.exports = {
     library: "Collections",
     libraryTarget: "umd", 
     umdNamedDefine: true
-  },,
+  },
   module: {
     loaders: [
       {
