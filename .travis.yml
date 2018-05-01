@@ -24,3 +24,4 @@ deploy:
   on:
     tags: true
     repo: EddieCornelious/js_data-collections
+    all_branches: true
