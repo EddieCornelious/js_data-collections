@@ -47,7 +47,7 @@ class BST {
 
   /**
    * Removes the given key and its associated value from the BST
-   * @param {*} key - The key to search for
+   * @param {*} key - The key to search fo
    * @returns {boolean} True if the key existed before and false otherwise
    *
    * @example
