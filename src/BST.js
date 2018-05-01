@@ -48,7 +48,7 @@ class BST {
   /**
    * Removes the given key and its associated value from the BST
    * @param {*} key - The key to search for
-   * @returns {boolean} True if the key existed before and false otherwise.
+   * @returns {boolean} True if the key existed before and false otherwise
    *
    * @example
    * bst.insert(1, 5).insert(5, 10);
