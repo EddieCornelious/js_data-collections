@@ -2,18 +2,25 @@ sudo: false
 language: node_js
 cache:
   directories:
-    - node_modules
+  - node_modules
 notifications:
   email: false
 node_js:
-  - '8.3'
+- '8.3'
 before_script:
-  - npm prune
+- npm prune
 script:
-  - npm run build
+- npm run build
 after_success:
-  - npm run semantic-release
-  - npm publish
+- npm run semantic-release
 branches:
   except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+  - "/^v\\d+\\.\\d+\\.\\d+$/"
+deploy:
+  provider: npm
+  email: eulerissmart@gmail.com
+  api_key:
+    secure: LzpH2KukoV/TSUeIf5DsDAJGsJgu6+z5Psj5Y2A4NzfKMFB57izcrt3mSZ50dAW8MaxxhRhTNr7PD+IexMnG7NTVNNa/hUFJBeQt61uihIxF+bhq7/OWG4Mdw72G1sADiVxs+X1n6SZtEBXi2aAHY38QgwPXUguUkoh3RVog+rYxdhFzDPmaEVfine1fZsfmfLyyyHEjQS9Ph4gqh11uLxwSNoMnpZRPnYT5H4zhayNhyZZzzpucIbUWVjhlkg3NxdwGoCb7/z88AnQzVpJsQNOJEm5EUyiOjut6kWgvpkjNncmFbjnhmzpxID22gN0ti4kJRhkYeQT4zett3kNqWvijf39d45VBwG7IsR8sPlQmF6dXjSEgvKm1XSHLJdXjoReUs/g2bNEB+8aqKQU3tM00mMyya1fLyAge9kuI7Fcsrz8rgBpLJ0sWmFwgc+6ck+oKDXdqApgs5qBDgncRRzSsAM3xFWatNMyvYPcQUBHRkSY2lYXa+SKwvgWHirqMsoEfSBnVABAVTKPJPiBAJQt+VfDMQ+9v5Wc6OAB9ZbHnTWzeRRq/2agcuHGyF3168YLwHIt4uHKN5sAdPa3hYIzQ313JuYs1z9MFtxyMmw5633WIK5OFbFtoJqLGlWjrC80EcNrZc1b8enQ3M3XPwwbf6/CU7U3h90X0qMEiMQ0=
+  on:
+    tags: true
+    repo: EddieCornelious/js_data-collections
