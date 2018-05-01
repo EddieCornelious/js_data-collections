@@ -1,6 +1,6 @@
 {
   "name": "js_data-collections",
-  "version": "0.6.8",
+  "version": "0.6.8-semantically-released",
   "description": "js ds library",
   "author": "Eddie Cornelious",
   "main": "collections.js",
@@ -8,7 +8,9 @@
     "test": "mocha --require babel-core/register --colors ./tests/* -w",
     "build": "webpack --watch",
     "prod": "uglifyjs collections.js -o collections.min.js",
-    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md"
+    "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "keywords": [
     "data-structures",
@@ -50,11 +52,13 @@
     "jsdoc": "^3.5.5",
     "mocha": "^4.0.1",
     "uglify-js": "^3.3.16",
-    "webpack": "1.13"
+    "webpack": "1.13",
+    "semantic-release": "^15.1.8",
+    "travis-deploy-once": "^5.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EddieCornelious/js_data-collections.git"
+    "url": "https://github.com/EddieCornelious/js_data-collections.git"
   },
   "bugs": {
     "url": "https://github.com/EddieCornelious/js_data-collections/issues"
