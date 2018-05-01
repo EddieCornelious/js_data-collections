@@ -53,7 +53,7 @@ class BST {
    * @example
    * bst.insert(1, 5).insert(5, 10);
    * bst.remove(1); //1 and it's associated value are removed from BST
-   * bst.remove("dog"); // this call fails silently as dog never existed in BST
+   * bst.remove("dog");// this call fails silently as dog never existed in BST
    */
   remove(key) {
     const self = this;
