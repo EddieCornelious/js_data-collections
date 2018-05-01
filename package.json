@@ -1,6 +1,6 @@
 {
   "name": "js_data-collections",
-  "version": "0.6.11",
+  "version": "0.6.12",
   "description": "js ds library",
   "author": "Eddie Cornelious",
   "main": "collections.js",
