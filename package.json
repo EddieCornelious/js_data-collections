@@ -1,16 +1,17 @@
 {
   "name": "js_data-collections",
-  "version": "0.6.9-semantic-release",
+  "version": "0.6.11",
   "description": "js ds library",
   "author": "Eddie Cornelious",
   "main": "collections.js",
   "scripts": {
     "test": "mocha --require babel-core/register --colors ./tests/*",
     "test:watch": "mocha --require babel-core/register --colors ./tests/* -w",
-    "build": "webpack --watch",
+    "build": "webpack",
+    "build:watch": "webpack --watch",
     "prod": "uglifyjs collections.js -o collections.min.js",
     "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release pre && semantic-release post",
     "travis-deploy-once": "travis-deploy-once"
   },
   "keywords": [
