@@ -68,20 +68,20 @@ describe("HashTable", function() {
     expect(map.tableSize()).to.be.equal(52);
   });
   
-  it("remove should return value if key exists and was removed", function() {
+  it("remove should return true if key exists and was removed", function() {
     map.put("a", "Pizza");
     expect(map.remove("a")).to.be.equal(true);
     expect(map.getVal("a")).to.be.equal();
     expect(map.size()).to.be.equal(0);
   });
   
-  it("remove should return undefined if key does not exist", function() {
+  it("remove should return false if key does not exist", function() {
     map.put("a", "Pizza");
     expect(map.remove("b")).to.be.equal(false);
     expect(map.size()).to.be.equal(1);
   });
   
-  it("remove should return undefined for empty table", function() {
+  it("remove should return false for empty table", function() {
     expect(map.remove("a")).to.be.equal(false);
     expect(map.size()).to.be.equal(0);
   });
