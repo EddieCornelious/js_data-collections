@@ -5,14 +5,14 @@
   "author": "Eddie Cornelious",
   "main": "collections.js",
   "scripts": {
-    "test": "mocha --require babel-core/register --colors ./tests/*",
-    "test:watch": "mocha --require babel-core/register --colors ./tests/* -w",
-    "build": "webpack",
-    "build:watch": "webpack --watch",
-    "prod": "uglifyjs collections.js -o collections.min.js",
+    "test": "node_modules/.bin/mocha --require babel-core/register --colors ./tests/*",
+    "test:watch": "node_modules/.bin/mocha --require babel-core/register --colors ./tests/* -w",
+    "build": "node_modules/.bin/webpack",
+    "build:watch": "node_modules/.bin/webpack --watch",
+    "prod": "node_modules/.bin/uglifyjs collections.js -o collections.min.js",
     "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md",
-    "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "semantic-release",
+    "travis-deploy-once": "node_modules/.bin/travis-deploy-once",
+    "semantic-release": "node_modules/.bin/semantic-release",
     "commit": "git cz"
   },
   "keywords": [
@@ -54,10 +54,11 @@
     "eslint-plugin-import": "^2.8.0",
     "jsdoc": "^3.5.5",
     "mocha": "^5.1.1",
-    "uglify-js": "^3.3.16",
-    "webpack": "1.13",
+    "prettier": "1.12.1",
     "semantic-release": "^15.2.0",
-    "travis-deploy-once": "^5.0.0"
+    "travis-deploy-once": "^5.0.0",
+    "uglify-js": "^3.3.16",
+    "webpack": "1.13"
   },
   "repository": {
     "type": "git",
