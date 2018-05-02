@@ -2,10 +2,7 @@
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Build Status](https://travis-ci.org/EddieCornelious/js_data-collections.svg?branch=master)](https://travis-ci.org/EddieCornelious/js_data-collections)
-
 [![npm](https://img.shields.io/npm/v/js_data-collections.svg)](https://www.npmjs.com/package/js_data-collections)
-
-
 [![npm](https://img.shields.io/npm/l/js_data-collections.svg)](https://npmjs.com/package/js_data-collections)
 
 
