@@ -1,7 +1,6 @@
 const Collections = require("../collections.js");
 var expect = require("chai").expect;
 
-
 describe("HashSet", function() {
   let Set, Set2, expected;
 
@@ -11,9 +10,7 @@ describe("HashSet", function() {
   });
 
   afterEach(function() {
-    expected,
-    Set,
-    Set2 = null;
+    expected, Set, (Set2 = null);
   });
 
   it("intersect should return intersection when this set is larger than that set", function() {
@@ -24,7 +21,7 @@ describe("HashSet", function() {
     Set2.add("c");
     expect(Set.intersect(Set2)).to.have.members(["b", "c"]);
   });
-  
+
   it("intersect should return intersection when this set is same size of that set", function() {
     Set.add("a");
     Set.add("b");
@@ -32,11 +29,14 @@ describe("HashSet", function() {
     Set2.add("c");
     expect(Set.intersect(Set2)).to.have.members(["b"]);
   });
-  
+
   it("intersect should return intersection when this set is smaller than that set", function() {
     Set.add("a");
     Set.add("b");
-    Set2.add("b").add("c").add("d").add("e");
+    Set2.add("b")
+      .add("c")
+      .add("d")
+      .add("e");
     expect(Set.intersect(Set2)).to.have.members(["b"]);
   });
 
@@ -55,7 +55,6 @@ describe("HashSet", function() {
     Set.add("a");
     expect(Set.intersect(Set2)).to.have.members([]);
   });
-
 
   it("intersect should return empty array when 'this' is empty", function() {
     Set2.add("b");
@@ -85,12 +84,14 @@ describe("HashSet", function() {
     Set2.add("c");
     expect(Set.diff(Set2)).to.have.members(["a", "b"]);
   });
-  
+
   it("diff should return empty array for equal sets", function() {
     Set.add("a");
     Set.add("b");
     Set.add("c");
-    Set2.add("c").add("b").add("a");
+    Set2.add("c")
+      .add("b")
+      .add("a");
     expect(Set.diff(Set2)).to.have.members([]);
   });
 
@@ -109,21 +110,23 @@ describe("HashSet", function() {
   it("diff should return empty array when both are empty", function() {
     expect(Set.diff(Set2)).to.have.members([]);
   });
-  
-  
+
   it("union should return empty array when both are empty", function() {
     expect(Set.union(Set2)).to.have.members([]);
-   
   });
-  
+
   it("union should not include duplicates in union", function() {
     Set.add(9).add(10);
-    Set2.add(9).add(11).add(10);
+    Set2.add(9)
+      .add(11)
+      .add(10);
     expect(Set.union(Set2)).to.have.members([9, 10, 11]);
   });
-  
+
   it("union should return union when both sets are totally different", function() {
-    Set.add(1).add(2).add(3);
+    Set.add(1)
+      .add(2)
+      .add(3);
     Set2.add(9).add(13);
     expect(Set.union(Set2)).to.have.members([1, 2, 3, 9, 13]);
   });

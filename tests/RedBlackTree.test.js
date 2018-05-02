@@ -3,7 +3,7 @@ var expect = require("chai").expect;
 
 // custom inorder function to help test colors and all references of tree
 // Since rb tree is so tricky, need to test color of undefined nodes as well
-// Normally, I would not care about nil children, but delete often is 
+// Normally, I would not care about nil children, but delete often is
 // dependent on the color of the nil node and is not
 // ignored (double black cases etc..)
 function Test(node) {
@@ -12,11 +12,9 @@ function Test(node) {
     return tmp.concat(Test(node.left), node, Test(node.right));
   }
   return [];
-
 }
 
 describe("RB", function() {
-
   let rb, expected, actual;
 
   beforeEach(function() {
@@ -24,9 +22,7 @@ describe("RB", function() {
   });
 
   afterEach(function() {
-    rb,
-    expected,
-    actual = null;
+    rb, expected, (actual = null);
   });
 
   it("insert into empty tree should recolor root", function() {
@@ -40,19 +36,21 @@ describe("RB", function() {
     expect(rb.root.key).to.be.equal(expected[2]);
     expect(rb.root.value).to.be.equal(expected[3]);
     expect(rb.root.parent.parent).to.be.equal(expected[4]);
-  })
+  });
 
   it("insert should recolor p and uncle when uncle is red", function() {
     rb.insert(1, 2);
     rb.insert(2, 4);
     rb.insert(0, 44);
     rb.insert(3, 7);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 0,
         value: 44,
         color: "black"
@@ -97,15 +95,12 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-    ]
+    ];
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
-
-
     }
-
   });
 
   it("insert should rotate on RR case when uncle is black", function() {
@@ -113,12 +108,14 @@ describe("RB", function() {
     rb.insert(30, 3);
     rb.insert(40, 4);
 
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 20,
         value: 2,
         color: "red"
@@ -148,29 +145,27 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
-
-
     }
-
   });
-
 
   it("insert should rotate on RL case when uncle is black", function() {
     rb.insert(20, 2);
     rb.insert(30, 3);
     rb.insert(25, 5);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 20,
         value: 2,
         color: "red"
@@ -200,26 +195,27 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
   });
 
   it("insert should rotate on LL case when uncle is black", function() {
     rb.insert(20, 2);
     rb.insert(10, 3);
     rb.insert(5, 5);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 5,
         value: 5,
         color: "red"
@@ -249,26 +245,27 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
   });
 
   it("insert should rotate on LR case when uncle is black", function() {
     rb.insert(20, 2);
     rb.insert(10, 3);
     rb.insert(15, 5);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 10,
         value: 3,
         color: "red"
@@ -298,27 +295,28 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
       expect(actual[i].value).to.be.equal(expected[i].value);
       expect(actual[i].color).to.be.equal(expected[i].color);
     }
-
-  })
+  });
 
   it("delete should simply remove node normally when red", function() {
     rb.insert(20, 2);
     rb.insert(30, 3);
     rb.insert(10, 5);
     let rm = rb.remove(30);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 10,
         value: 5,
         color: "red"
@@ -338,8 +336,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -355,12 +352,14 @@ describe("RB", function() {
     rb.insert(40, 4);
     rb.insert(60, 6);
     let rm = rb.remove(20);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 30,
         value: 3,
         color: "black"
@@ -390,8 +389,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -408,14 +406,16 @@ describe("RB", function() {
     rb.insert(60, 6);
     //deliberately keep prior inserts
     rb.remove(20);
-    rb.insert(50, 5)
+    rb.insert(50, 5);
     let rm = rb.remove(30);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 40,
         value: 4,
         color: "black"
@@ -445,8 +445,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -463,16 +462,18 @@ describe("RB", function() {
     rb.insert(60, 6);
     //deliberately keep prior inserts and deletions
     rb.remove(20);
-    rb.insert(50, 5)
+    rb.insert(50, 5);
     rb.remove(30);
-    rb.insert(30, 3)
+    rb.insert(30, 3);
     let rm = rb.remove(60);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 30,
         value: 3,
         color: "black"
@@ -502,8 +503,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -520,18 +520,20 @@ describe("RB", function() {
     rb.insert(60, 6);
     //deliberately keep prior inserts and deletions
     rb.remove(20);
-    rb.insert(50, 5)
+    rb.insert(50, 5);
     rb.remove(30);
-    rb.insert(30, 3)
+    rb.insert(30, 3);
     rb.remove(60);
     rb.insert(35, 35);
     let rm = rb.remove(50);
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 30,
         value: 3,
         color: "black"
@@ -561,8 +563,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -580,12 +581,14 @@ describe("RB", function() {
     rb.remove(40);
     let rm = rb.remove(10);
 
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 20,
         value: 3,
         color: "black"
@@ -605,9 +608,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -625,12 +626,14 @@ describe("RB", function() {
     rb.remove(40);
     let rm = rb.remove(30);
 
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 10,
         value: "10",
         color: "red"
@@ -650,9 +653,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -667,19 +668,20 @@ describe("RB", function() {
     rb.insert(10, 10);
     rb.insert(30, 30);
     rb.insert(40, 40);
-    rb.insert(25, 25)
-    rb.insert(50, 50)
+    rb.insert(25, 25);
+    rb.insert(50, 50);
     rb.remove(50);
     let rm = rb.remove(10);
     //case met
 
-
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 20,
         value: 20,
         color: "black"
@@ -719,8 +721,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -735,19 +736,20 @@ describe("RB", function() {
     rb.insert(10, 10);
     rb.insert(30, 30);
     rb.insert(5, 5);
-    rb.insert(15, 15)
+    rb.insert(15, 15);
     rb.insert(16, 16);
     rb.remove(16);
     let rm = rb.remove(30);
     //case met
 
-
-    actual = Test(rb.root)
-    expected = [{
+    actual = Test(rb.root);
+    expected = [
+      {
         key: undefined,
         value: undefined,
         color: "black"
-      }, {
+      },
+      {
         key: 5,
         value: 5,
         color: "black"
@@ -787,9 +789,7 @@ describe("RB", function() {
         value: undefined,
         color: "black"
       }
-
-
-    ]
+    ];
 
     for (let i = 0; i < actual.length; i++) {
       expect(actual[i].key).to.be.equal(expected[i].key);
@@ -798,5 +798,4 @@ describe("RB", function() {
     }
     expect(rm).to.be.equal(true);
   });
-
 });

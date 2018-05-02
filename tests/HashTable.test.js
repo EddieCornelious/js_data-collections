@@ -1,7 +1,6 @@
 import HashTable from "../src/HashTable.js";
 var expect = require("chai").expect;
 
-
 describe("HashTable", function() {
   let map, expected, actual;
 
@@ -10,9 +9,7 @@ describe("HashTable", function() {
   });
 
   beforeEach(function() {
-    expected,
-    map,
-    actual = null;
+    expected, map, (actual = null);
   });
 
   it("put inserts data into map correctly", function() {
@@ -67,20 +64,20 @@ describe("HashTable", function() {
     }
     expect(map.tableSize()).to.be.equal(52);
   });
-  
+
   it("remove should return true if key exists and was removed", function() {
     map.put("a", "Pizza");
     expect(map.remove("a")).to.be.equal(true);
     expect(map.getVal("a")).to.be.equal();
     expect(map.size()).to.be.equal(0);
   });
-  
+
   it("remove should return false if key does not exist", function() {
     map.put("a", "Pizza");
     expect(map.remove("b")).to.be.equal(false);
     expect(map.size()).to.be.equal(1);
   });
-  
+
   it("remove should return false for empty table", function() {
     expect(map.remove("a")).to.be.equal(false);
     expect(map.size()).to.be.equal(0);
@@ -95,12 +92,12 @@ describe("HashTable", function() {
     actual = map.keys();
     expect(actual).to.have.members(expected);
   });
-  
+
   it("keys should return empty array for empty table", function() {
     actual = map.keys();
     expect(actual).to.have.members([]);
   });
-  
+
   it("values should return all values in map", function() {
     map.put(0, "c");
     map.put(1, "doe");
@@ -110,36 +107,45 @@ describe("HashTable", function() {
     actual = map.values();
     expect(actual).to.have.members(expected);
   });
-  
+
   it("values should return empty array for empty table", function() {
     actual = map.values();
     expect(actual).to.have.members([]);
   });
-  
+
   it("contains should return true when key exists and has value", function() {
     map.put("a", null).put("b", 0);
     expect(map.contains("a")).to.be.equal(true);
     expect(map.contains("b")).to.be.equal(true);
   });
-  
+
   it("contains should return false when key does not exist (empty)", function() {
     expect(map.contains()).to.be.equal(false);
   });
-  
+
   it("contains should return false when key does not exist (non-empty)", function() {
-    map.put("a").put("b").put("c");
+    map
+      .put("a")
+      .put("b")
+      .put("c");
     expect(map.contains("d")).to.be.equal(false);
   });
-  
+
   it("contains should return true when key exists but has no defined value", function() {
-    map.put("a").put("b").put("c");
+    map
+      .put("a")
+      .put("b")
+      .put("c");
     expect(map.contains("a")).to.be.equal(true);
     expect(map.contains("b")).to.be.equal(true);
     expect(map.contains("c")).to.be.equal(true);
   });
-  
+
   it("clear does clear hashtable and resets inner size", function() {
-    map.put("a").put("b").put("c");
+    map
+      .put("a")
+      .put("b")
+      .put("c");
     map.clear();
     expect(map.tableSize()).to.be.equal(13);
     expect(map.size()).to.be.equal(0);

@@ -1,18 +1,15 @@
 const Collections = require("../collections.js");
 var expect = require("chai").expect;
 
-
 describe("Graph", function() {
   let graph, expected, actual;
 
-  beforeEach( function() {
+  beforeEach(function() {
     graph = new Collections.Graph();
   });
 
-  afterEach( function() {
-    graph,
-    expected,
-    actual = null;
+  afterEach(function() {
+    graph, expected, (actual = null);
   });
 
   it("BFS should return bfs with connected graph", function() {
@@ -77,5 +74,4 @@ describe("Graph", function() {
     }
     expect(graph.isConnected()).to.equal(false);
   });
-
 });

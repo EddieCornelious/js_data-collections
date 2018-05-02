@@ -4,21 +4,20 @@ const expect = require("chai").expect;
 describe("Heap", function() {
   let heap, expected, actual;
 
-  beforeEach( function() {
+  beforeEach(function() {
     heap = new Collections.BHeap();
   });
 
-  afterEach( function() {
-    heap,
-    expected,
-    actual = null;
+  afterEach(function() {
+    heap, expected, (actual = null);
   });
 
   it("insert should siftup from bottom to root", function() {
-    heap.insert(10)
-    .insert(9)
-    .insert(8)
-    .insert(11);
+    heap
+      .insert(10)
+      .insert(9)
+      .insert(8)
+      .insert(11);
     expected = [11, 10, 8, 9];
     actual = heap.toArray();
     for (let i = 0; i < actual.length; i += 1) {
@@ -103,36 +102,36 @@ describe("Heap", function() {
     heap.insert(5);
     expected = [5, 4, 3, 2, 1];
     let i = 0;
-    while(heap.size()){
+    while (heap.size()) {
       let val = heap.extractRoot();
       expect(expected[i]).to.be.equal(val);
       i += 1;
     }
     expect(heap.size()).to.be.equal(0);
   });
-  
-   it("extractRoot with continuous example (ref types) maintains references", function() {
-    let tempHeap = new Collections.BHeap(function(a, b){
-      if(a.data < b.data) {
+
+  it("extractRoot with continuous example (ref types) maintains references", function() {
+    let tempHeap = new Collections.BHeap(function(a, b) {
+      if (a.data < b.data) {
         return -1;
-      } else if(a.data > b.data) {
+      } else if (a.data > b.data) {
         return 1;
       }
       return 0;
     });
 
     for (let i = 0; i < 10000; i += 1) {
-      tempHeap.insert({data: i });
+      tempHeap.insert({ data: i });
     }
 
     let count = 9999;
-    while(tempHeap.size() > 0) {
+    while (tempHeap.size() > 0) {
       expect(tempHeap.extractRoot().data).to.be.equal(count);
       count -= 1;
     }
     expect(tempHeap.size()).to.be.equal(0);
   });
-  
+
   it("min heap works", function() {
     let minHeap = new Collections.BHeap(function(a, b) {
       if (a < b) {
@@ -154,34 +153,33 @@ describe("Heap", function() {
     }
     expect(minHeap.size()).to.be.equal(5);
   });
-  
-  it("contains returns true when heap contains given element ", function(){
-     heap.insert(10).insert(10);
-     expect(heap.contains(10)).to.be.equal(true);
-  });
-  
-   it("contains returns false when heap does not contain given element ", function(){
-     heap.insert(10).insert(10);
-     expect(heap.contains(11)).to.be.equal(false);
-  });
-  
-   it("contains returns false when null refers to underlying null ", function(){
-     heap.insert(10).insert(10);
-     expect(heap.contains(null)).to.be.equal(false);
-  });
-  
-  it("contains returns true when null does not refer to underlying null ", function(){
-     heap.insert(null);
-     expect(heap.contains(null)).to.be.equal(true);
-  });
-  
-  it("peek returns the element ready to be removed ", function(){
-     heap.insert(null);
-     expect(heap.peek()).to.be.equal(null);
-  });
-  
-  it("peek returns undefined when heap is empty ", function(){
-     expect(heap.peek()).to.be.equal();
+
+  it("contains returns true when heap contains given element ", function() {
+    heap.insert(10).insert(10);
+    expect(heap.contains(10)).to.be.equal(true);
   });
 
+  it("contains returns false when heap does not contain given element ", function() {
+    heap.insert(10).insert(10);
+    expect(heap.contains(11)).to.be.equal(false);
+  });
+
+  it("contains returns false when null refers to underlying null ", function() {
+    heap.insert(10).insert(10);
+    expect(heap.contains(null)).to.be.equal(false);
+  });
+
+  it("contains returns true when null does not refer to underlying null ", function() {
+    heap.insert(null);
+    expect(heap.contains(null)).to.be.equal(true);
+  });
+
+  it("peek returns the element ready to be removed ", function() {
+    heap.insert(null);
+    expect(heap.peek()).to.be.equal(null);
+  });
+
+  it("peek returns undefined when heap is empty ", function() {
+    expect(heap.peek()).to.be.equal();
+  });
 });

@@ -9,9 +9,7 @@ describe("Trie", function() {
   });
 
   afterEach(function() {
-    trie,
-    expected,
-    actual = null;
+    trie, expected, (actual = null);
   });
 
   it("addWord adds one word to trie", function() {
@@ -170,7 +168,6 @@ describe("Trie", function() {
     trie.addWord("capple");
     trie.addWord("capples");
     expect(trie.containsWord("capple")).to.be.equal(true);
-
   });
 
   it("containsWord should work correctly when word is only a prefix in trie  ", function() {
@@ -183,13 +180,11 @@ describe("Trie", function() {
     trie.addWord("capple");
     trie.addWord("capples");
     expect(trie.containsWord("capples")).to.be.equal(true);
-
   });
 
   it("containsWord should return false when word does not exist but has prefix in trie ", function() {
     trie.addWord("capple");
     trie.addWord("capples");
     expect(trie.containsWord("capplez")).to.be.equal(false);
-
   });
 });
