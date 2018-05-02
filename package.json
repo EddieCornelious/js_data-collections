@@ -1,6 +1,6 @@
 {
   "name": "js_data-collections",
-  "version": "0.6.14",
+  "version": "0.6.15",
   "description": "A JavaScript data-structure library",
   "author": "Eddie Cornelious",
   "main": "collections.js",
@@ -12,7 +12,8 @@
     "prod": "uglifyjs collections.js -o collections.min.js",
     "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md",
     "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "commit": "git cz"
   },
   "keywords": [
     "data-structures",
@@ -52,7 +53,7 @@
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.8.0",
     "jsdoc": "^3.5.5",
-    "mocha": "^4.0.1",
+    "mocha": "^5.1.1",
     "uglify-js": "^3.3.16",
     "webpack": "1.13",
     "semantic-release": "^15.2.0",
