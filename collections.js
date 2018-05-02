@@ -2087,13 +2087,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Removes the given key and its associated value from the BST
-	   * @param {*} key - The key to search for
+	   * @param {*} key - The key to search fo
 	   * @returns {boolean} True if the key existed before and false otherwise
 	   *
 	   * @example
 	   * bst.insert(1, 5).insert(5, 10);
 	   * bst.remove(1); // 1 and it's associated value are removed from BST
-	   * bst.remove("dog"); // this call fails silently as dog never existed in BST
+	   * bst.remove("dog");// this call fails silently as dog never existed in BST
 	   */
 
 
