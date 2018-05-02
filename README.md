@@ -3,6 +3,15 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Build Status](https://travis-ci.org/EddieCornelious/js_data-collections.svg?branch=master)](https://travis-ci.org/EddieCornelious/js_data-collections)
 
+[![npm](https://img.shields.io/npm/v/js_data-collections.svg)](https://www.npmjs.com/package/js_data-collections)
+
+
+[![npm](https://img.shields.io/npm/l/js_data-collections.svg)](https://npmjs.com/package/js_data-collections)
+
+
+[![GitHub last commit](https://img.shields.io/github/last-commit/EddieCornelious/js_data-collections.svg)](https://github.com/EddieCornelious/js_data-collections)
+
+
 
 A simple data structure library
 
@@ -56,7 +65,7 @@ make sure the tests pass and send a pull request
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. 
+We use [SemVer](http://semver.org/) for versioning.
 
 ## Authors
 
