@@ -1,7 +1,7 @@
 # Js_Data-Collections
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
+[![Build Status](https://travis-ci.org/EddieCornelious/js_data-collections.svg?branch=master)](https://travis-ci.org/EddieCornelious/js_data-collections)
 
 
 A simple data structure library
