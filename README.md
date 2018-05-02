@@ -4,10 +4,10 @@
 [![Build Status](https://travis-ci.org/EddieCornelious/js_data-collections.svg?branch=master)](https://travis-ci.org/EddieCornelious/js_data-collections)
 [![npm](https://img.shields.io/npm/v/js_data-collections.svg)](https://www.npmjs.com/package/js_data-collections)
 [![npm](https://img.shields.io/npm/l/js_data-collections.svg)](https://npmjs.com/package/js_data-collections)
-
-
 [![GitHub last commit](https://img.shields.io/github/last-commit/EddieCornelious/js_data-collections.svg)](https://github.com/EddieCornelious/js_data-collections)
-
+[![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/js_data-collections.svg)](https://npmjs.com/package/js_data-collections)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/js_data-collections.svg)](https://www.npmjs.com/package/js_data-collections)
+[![David](https://img.shields.io/david/EddieCornelious/js_data-collections.svg)](https://david-dm.org/EddieCornelious/js_data-collections)
 
 
 A simple data structure library
