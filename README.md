@@ -8,7 +8,6 @@
 [![David](https://img.shields.io/david/EddieCornelious/js_data-collections.svg)](https://david-dm.org/EddieCornelious/js_data-collections)
 [![devDependencies Status](https://david-dm.org/EddieCornelious/js_data-collections/dev-status.svg)](https://david-dm.org/EddieCornelious/js_data-collections?type=dev)
 
-
 A simple data structure library
 
 ## Included data structures
@@ -36,10 +35,7 @@ npm install js_data-collections
 [Docs](https://eddiecornelious.github.io/js_data-collections/)
 
 ## Important For browsers
-
-Currently, this project is not Ie8 compatible but works fine for Ie9 and up.
-In future releases, I plan to alleviate these compatibility issues
-
+IE > 8 compatible
 
 ### Production
 
