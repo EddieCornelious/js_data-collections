@@ -1417,6 +1417,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
+	 * Gets the keys or the values in the given table
+	 * @private
+	 * @param {string} query - The partial of the pair wanted either key or value
+	 * @param {Array} table - The associative array
+	 * @returns {Array} Array filled with keys or values
+	 */
+	function getKeysOrValues(query, table) {
+	  var start = query === 'keys' ? 0 : 1;
+	  var result = [];
+	  var tableLen = table.length;
+	  for (var i = 0; i < tableLen; i += 1) {
+	    var currentBucket = table[i];
+	    for (var j = start; j < currentBucket.length; j += 2) {
+	      result.push(currentBucket[j]);
+	    }
+	  }
+	  return result;
+	}
+
+	/**
 	 * Searches an Associative Array based on the hashcode of the given key
 	 * @private
 	 * @param {*} key - The key to look for
@@ -1552,29 +1572,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  HashTable.prototype.keys = function keys() {
-	    var table = this.table;
-	    var keyArr = [];
-	    var tableLen = table.length;
-	    for (var i = 0; i < tableLen; i += 1) {
-	      var currentBucket = table[i];
-	      for (var j = 0; j < currentBucket.length; j += 2) {
-	        keyArr.push(currentBucket[j]);
-	      }
-	    }
-	    return keyArr;
+	    return getKeysOrValues('keys', this.table);
 	  };
 
 	  HashTable.prototype.values = function values() {
-	    var table = this.table;
-	    var valArr = [];
-	    var tableLen = table.length;
-	    for (var i = 0; i < tableLen; i += 1) {
-	      var currentBucket = table[i];
-	      for (var j = 1; j < currentBucket.length; j += 2) {
-	        valArr.push(currentBucket[j]);
-	      }
-	    }
-	    return valArr;
+	    return getKeysOrValues('values', this.table);
 	  };
 
 	  /**
@@ -2159,14 +2161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.min = function min() {
-	    var root = this.root;
-	    if (root.key === undefined) {
-	      return;
-	    }
-	    while (root.left.key !== undefined) {
-	      root = root.left;
-	    }
-	    return root.key;
+	    return (0, _BSTPrototype.minOrMax)('min', this.root);
 	  };
 
 	  /**
@@ -2176,14 +2171,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.max = function max() {
-	    var root = this.root;
-	    if (root.key === undefined) {
-	      return;
-	    }
-	    while (root.right.key !== undefined) {
-	      root = root.right;
-	    }
-	    return root.key;
+	    return (0, _BSTPrototype.minOrMax)('max', this.root);
 	  };
 
 	  /**
@@ -2286,7 +2274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 14 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	exports.__esModule = true;
 	exports.BSTInsert = BSTInsert;
@@ -2295,6 +2283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BSTInorder = BSTInorder;
 	exports.less = less;
 	exports.greater = greater;
+	exports.minOrMax = minOrMax;
 
 	/**
 	* Inserts the given key and value into bst (maps key to value)
@@ -2470,6 +2459,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return temp.concat(greater(root.left, value, comparator), rightRes);
 	  }
 	  return rightRes;
+	}
+
+	/**
+	 * Returns the max or min based on the given query
+	 * @private
+	 * @param {string} query - The value wanted either min or max
+	 * @param {BSTNode} root - The root of the tree
+	 * @returns {*|undefined} The min or max value in the tree or undefined for empty tree
+	 */
+	function minOrMax(query, root) {
+	  var curRoot = root;
+	  var direction = query === 'min' ? 'left' : 'right';
+	  if (curRoot.key === undefined) {
+	    return;
+	  }
+	  while (curRoot[direction].key !== undefined) {
+	    curRoot = curRoot[direction];
+	  }
+	  return curRoot.key;
 	}
 
 /***/ },
@@ -2854,9 +2862,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var lastChar = str.charAt(str.length - 1);
 	      if (foundPrefix[lastChar]) {
 	        var hasChildren = hasChild(foundPrefix[lastChar].children);
-	        if (hasChildren) {
-	          return true;
-	        }
+	        return hasChildren;
 	      }
 	    }
 	    return false;
