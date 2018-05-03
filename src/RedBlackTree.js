@@ -82,7 +82,8 @@ function insertFixRecolor(uncle, currentNode) {
  * @param {RBNode} context - The RBTree instance
  * @returns {undefined}
  */
-function insertFixRotate1(currentNode, context) {
+function insertFixRotate1(node, context) {
+  let currentNode = node;
   if (currentNode === currentNode.parent.right) {
     currentNode = currentNode.parent;
     leftRotate.call(context, currentNode);
@@ -100,7 +101,8 @@ function insertFixRotate1(currentNode, context) {
  * @param {RBNode} context - The RBTree instance
  * @returns {undefined}
  */
-function insertFixRotate2(currentNode, context) {
+function insertFixRotate2(node, context) {
+  let currentNode = node;
   if (currentNode === currentNode.parent.left) {
     currentNode = currentNode.parent;
     rightRotate.call(context, currentNode);
@@ -108,6 +110,14 @@ function insertFixRotate2(currentNode, context) {
   currentNode.parent.color = 'black';
   currentNode.parent.parent.color = 'red';
   leftRotate.call(context, currentNode.parent.parent);
+}
+
+/**
+ * Performs the recoloring stage when the node's sibling is red
+ */
+function deleteRedSiblingCase(currentNode, sibling) {
+  sibling.color = 'black';
+  currentNode.parent.color = 'red';
 }
 
 /**
@@ -152,52 +162,50 @@ function deletefixUp(nodeToFix) {
   let currentNode = nodeToFix;
   const context = this;
   while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
-    let uncle;
+    let sibling;
     if (currentNode === currentNode.parent.left) {
-      uncle = currentNode.parent.right;
-      if (uncle.color === 'red') {
-        uncle.color = 'black';
-        currentNode.parent.color = 'red';
+      sibling = currentNode.parent.right;
+      if (sibling.color === 'red') {
+        deleteRedSiblingCase(currentNode, sibling);
         leftRotate.call(context, currentNode.parent);
-        uncle = currentNode.parent.right;
+        sibling = currentNode.parent.right;
       }
-      if (uncle.left.color === 'black' && uncle.right.color === 'black') {
-        uncle.color = 'red';
+      if (sibling.left.color === 'black' && sibling.right.color === 'black') {
+        sibling.color = 'red';
         currentNode = currentNode.parent;
       } else {
-        if (uncle.right.color === 'black') {
-          uncle.left.color = 'black';
-          uncle.color = 'red';
-          rightRotate.call(context, uncle);
-          uncle = currentNode.parent.right;
+        if (sibling.right.color === 'black') {
+          sibling.left.color = 'black';
+          sibling.color = 'red';
+          rightRotate.call(context, sibling);
+          sibling = currentNode.parent.right;
         }
-        uncle.color = currentNode.parent.color;
+        sibling.color = currentNode.parent.color;
         currentNode.parent.color = 'black';
-        uncle.right.color = 'black';
+        sibling.right.color = 'black';
         leftRotate.call(context, currentNode.parent);
         currentNode = context.root;
       }
     } else {
-      uncle = currentNode.parent.left;
-      if (uncle.color === 'red') {
-        uncle.color = 'black';
-        currentNode.parent.color = 'red';
+      sibling = currentNode.parent.left;
+      if (sibling.color === 'red') {
+        deleteRedSiblingCase(currentNode, sibling);
         rightRotate.call(context, currentNode.parent);
-        uncle = currentNode.parent.left;
+        sibling = currentNode.parent.left;
       }
-      if (uncle.right.color === 'black' && uncle.left.color === 'black') {
-        uncle.color = 'red';
+      if (sibling.right.color === 'black' && sibling.left.color === 'black') {
+        sibling.color = 'red';
         currentNode = currentNode.parent;
       } else {
-        if (uncle.left.color === 'black') {
-          uncle.right.color = 'black';
-          uncle.color = 'red';
-          leftRotate.call(context, uncle);
-          uncle = currentNode.parent.left;
+        if (sibling.left.color === 'black') {
+          sibling.right.color = 'black';
+          sibling.color = 'red';
+          leftRotate.call(context, sibling);
+          sibling = currentNode.parent.left;
         }
-        uncle.color = currentNode.parent.color;
+        sibling.color = currentNode.parent.color;
         currentNode.parent.color = 'black';
-        uncle.left.color = 'black';
+        sibling.left.color = 'black';
         rightRotate.call(context, currentNode.parent);
         currentNode = context.root;
       }
