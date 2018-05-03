@@ -6,7 +6,8 @@ import {
   BSTSearch,
   BSTInorder,
   less,
-  greater
+  greater,
+  minOrMax
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -109,14 +110,7 @@ class BST {
    * @returns {*} The smallest value in the BST
    */
   min() {
-    let root = this.root;
-    if (root.key === undefined) {
-      return;
-    }
-    while (root.left.key !== undefined) {
-      root = root.left;
-    }
-    return root.key;
+    return minOrMax('min', this.root);
   }
 
   /**
@@ -124,14 +118,7 @@ class BST {
    * @returns {*} The greatest value in the BST
    */
   max() {
-    let root = this.root;
-    if (root.key === undefined) {
-      return;
-    }
-    while (root.right.key !== undefined) {
-      root = root.right;
-    }
-    return root.key;
+    return minOrMax('max', this.root);
   }
 
   /**
