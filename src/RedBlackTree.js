@@ -62,6 +62,55 @@ function rightRotate(node) {
 }
 
 /**
+ * @private
+ * Performs the re coloring stage upon insert, based on uncle color
+ * @param {RBNode} uncle - The uncle of the current node
+ * @param {RBNode} currentNode - The current node being fixed in the tree
+ * @returns {undefined}
+ */
+function insertFixRecolor(uncle, currentNode) {
+  currentNode.parent.color = 'black';
+  uncle.color = 'black';
+  currentNode.parent.parent.color = 'red';
+}
+
+/**
+ * @private
+ * Performs the rotation stage on insert, based on uncle color and if current
+ * right child
+ * @param {RBNode} currentNode - The current node being fixed in the tree
+ * @param {RBNode} context - The RBTree instance
+ * @returns {undefined}
+ */
+function insertFixRotate1(currentNode, context) {
+  if (currentNode === currentNode.parent.right) {
+    currentNode = currentNode.parent;
+    leftRotate.call(context, currentNode);
+  }
+  currentNode.parent.color = 'black';
+  currentNode.parent.parent.color = 'red';
+  rightRotate.call(context, currentNode.parent.parent);
+}
+
+/**
+ * @private
+ * Performs the rotation stage on insert, based on uncle color and if current
+ * node is left child
+ * @param {RBNode} currentNode - The current node being fixed in the tree
+ * @param {RBNode} context - The RBTree instance
+ * @returns {undefined}
+ */
+function insertFixRotate2(currentNode, context) {
+  if (currentNode === currentNode.parent.left) {
+    currentNode = currentNode.parent;
+    rightRotate.call(context, currentNode);
+  }
+  currentNode.parent.color = 'black';
+  currentNode.parent.parent.color = 'red';
+  leftRotate.call(context, currentNode.parent.parent);
+}
+
+/**
  * Fixes up the rb tree after insertion
  * @private
  * @param {BSTNode} node - The node to begin fixing
@@ -75,34 +124,18 @@ function insertFix(nodeToFix) {
     if (currentNode.parent === currentNode.parent.parent.left) {
       uncle = currentNode.parent.parent.right;
       if (uncle.color === 'red') {
-        currentNode.parent.color = 'black';
-        uncle.color = 'black';
-        currentNode.parent.parent.color = 'red';
+        insertFixRecolor(uncle, currentNode);
         currentNode = currentNode.parent.parent;
       } else {
-        if (currentNode === currentNode.parent.right) {
-          currentNode = currentNode.parent;
-          leftRotate.call(context, currentNode);
-        }
-        currentNode.parent.color = 'black';
-        currentNode.parent.parent.color = 'red';
-        rightRotate.call(context, currentNode.parent.parent);
+        insertFixRotate1(currentNode, context);
       }
     } else {
       uncle = currentNode.parent.parent.left;
       if (uncle.color === 'red') {
-        currentNode.parent.color = 'black';
-        uncle.color = 'black';
-        currentNode.parent.parent.color = 'red';
+        insertFixRecolor(uncle, currentNode);
         currentNode = currentNode.parent.parent;
       } else {
-        if (currentNode === currentNode.parent.left) {
-          currentNode = currentNode.parent;
-          rightRotate.call(context, currentNode);
-        }
-        currentNode.parent.color = 'black';
-        currentNode.parent.parent.color = 'red';
-        leftRotate.call(context, currentNode.parent.parent);
+        insertFixRotate2(currentNode, context);
       }
     }
   }
