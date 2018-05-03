@@ -71,6 +71,26 @@ function insert(key, value, table) {
 }
 
 /**
+ * Gets the keys or the values in the given table
+ * @private
+ * @param {string} query - The partial of the pair wanted either key or value
+ * @param {Array} table - The associative array
+ * @returns {Array} Array filled with keys or values
+ */
+function getKeysOrValues(query, table) {
+  const start = query === 'keys' ? 0 : 1;
+  const result = [];
+  const tableLen = table.length;
+  for (let i = 0; i < tableLen; i += 1) {
+    const currentBucket = table[i];
+    for (let j = start; j < currentBucket.length; j += 2) {
+      result.push(currentBucket[j]);
+    }
+  }
+  return result;
+}
+
+/**
  * Searches an Associative Array based on the hashcode of the given key
  * @private
  * @param {*} key - The key to look for
@@ -184,29 +204,11 @@ class HashTable extends MapInterface {
   }
 
   keys() {
-    const table = this.table;
-    const keyArr = [];
-    const tableLen = table.length;
-    for (let i = 0; i < tableLen; i += 1) {
-      const currentBucket = table[i];
-      for (let j = 0; j < currentBucket.length; j += 2) {
-        keyArr.push(currentBucket[j]);
-      }
-    }
-    return keyArr;
+    return getKeysOrValues('keys', this.table);
   }
 
   values() {
-    const table = this.table;
-    const valArr = [];
-    const tableLen = table.length;
-    for (let i = 0; i < tableLen; i += 1) {
-      const currentBucket = table[i];
-      for (let j = 1; j < currentBucket.length; j += 2) {
-        valArr.push(currentBucket[j]);
-      }
-    }
-    return valArr;
+    return getKeysOrValues('values', this.table);
   }
 
   /**
