@@ -174,3 +174,22 @@ export function greater(root, value, comparator) {
   }
   return rightRes;
 }
+
+/**
+ * Returns the max or min based on the given query
+ * @private
+ * @param {string} query - The value wanted either min or max
+ * @param {BSTNode} root - The root of the tree
+ * @returns {*|undefined} The min or max value in the tree or undefined for empty tree
+ */
+export function minOrMax(query, root) {
+  let curRoot = root;
+  const direction = query === 'min' ? 'left' : 'right';
+  if (curRoot.key === undefined) {
+    return;
+  }
+  while (curRoot[direction].key !== undefined) {
+    curRoot = curRoot[direction];
+  }
+  return curRoot.key;
+}
