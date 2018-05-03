@@ -161,9 +161,7 @@ class Trie {
       let lastChar = str.charAt(str.length - 1);
       if (foundPrefix[lastChar]) {
         const hasChildren = hasChild(foundPrefix[lastChar].children);
-        if (hasChildren) {
-          return true;
-        }
+        return hasChildren;
       }
     }
     return false;
