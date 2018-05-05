@@ -11,38 +11,38 @@
 
 A simple data structure library
 
-## Included data structures
+## Included data structures :hammer:
 
-* Linked List
-* Binary Search Tree
-* Queue
-* Stack
-* Trie
-* HashMap
-* HashSet
-* Array Methods
-* Priority Queue
-* Binary Heap
-* Graph
-* Set
-* Map
+* Linked List :heavy_check_mark:
+* Binary Search Tree :heavy_check_mark:
+* Queue :heavy_check_mark:
+* Stack :heavy_check_mark:
+* Trie :heavy_check_mark:
+* HashMap :heavy_check_mark:
+* HashSet :heavy_check_mark:
+* Array Methods :heavy_check_mark:
+* Priority Queue :heavy_check_mark:
+* Binary Heap :heavy_check_mark:
+* Graph :heavy_check_mark:
+* Set :heavy_check_mark:
+* Map :heavy_check_mark:
 
-## Getting Started
+## Getting Started :rocket:
 
 ```
 npm install js_data-collections
 ```
-## Offical docs
+## Offical docs :scroll:
 [Docs](https://eddiecornelious.github.io/js_data-collections/)
 
-## Important For browsers
+## Important For browsers :trumpet:
 IE > 8 compatible
 
-### Production
+### Production :ghost:
 
 [Production](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
-### Development
+### Development :computer:
 
 [Dev](https://rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
@@ -50,25 +50,25 @@ IE > 8 compatible
 [Min](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.min.js)
 
 
-## Contributing
+## Contributing :thumbsup:
 
 Simply download the project, write some code, run the build, write some tests, 
 make sure the tests pass and send a pull request
 
 
-## Versioning
+## Versioning :punch:
 
 We use [SemVer](http://semver.org/) for versioning.
 
-## Authors
+## Authors :mortar_board:
 
 * **Eddie Cornelious** - *Initial work* - [EddieCornelious](https://github.com/EddieCornelious)
 
-## License
+## License :eyes:
 
 This project is licensed under the MIT License.
 
-## Purpose
+## Purpose :question:
 
 The initial purpose of this library was to simply apply the concepts I have 
 learned as a computer science student.
