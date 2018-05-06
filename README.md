@@ -11,7 +11,7 @@
 
 **A simple data structure library**
 
-## Included data structures :hammer:
+## Included data structures &#128178;
 
 * Linked List :heavy_check_mark:
 * Binary Search Tree :heavy_check_mark:
