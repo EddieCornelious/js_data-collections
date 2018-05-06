@@ -11,7 +11,7 @@
 
 **A simple data structure library**
 
-## Included data structures &#128178;
+## Included data structures &#128296;
 
 * Linked List &#10004;
 * Binary Search Tree &#10004;
