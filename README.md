@@ -9,7 +9,7 @@
 [![devDependencies Status](https://david-dm.org/EddieCornelious/js_data-collections/dev-status.svg)](https://david-dm.org/EddieCornelious/js_data-collections?type=dev)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/EddieCornelious/js_data-collections/maintainability)
 
-A simple data structure library
+**A simple data structure library**
 
 ## Included data structures :hammer:
 
@@ -46,7 +46,7 @@ IE > 8 compatible
 
 [Dev](https://rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
-### Minified version
+### Minified version :sparkles:
 [Min](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.min.js)
 
 
