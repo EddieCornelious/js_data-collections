@@ -13,62 +13,62 @@
 
 ## Included data structures &#128178;
 
-* Linked List :heavy_check_mark:
-* Binary Search Tree :heavy_check_mark:
-* Queue :heavy_check_mark:
-* Stack :heavy_check_mark:
-* Trie :heavy_check_mark:
-* HashMap :heavy_check_mark:
-* HashSet :heavy_check_mark:
-* Array Methods :heavy_check_mark:
-* Priority Queue :heavy_check_mark:
-* Binary Heap :heavy_check_mark:
-* Graph :heavy_check_mark:
-* Set :heavy_check_mark:
-* Map :heavy_check_mark:
+* Linked List &#10004;
+* Binary Search Tree &#10004;
+* Queue &#10004;
+* Stack &#10004;
+* Trie &#10004;
+* HashMap &#10004;
+* HashSet &#10004;
+* Array Methods &#10004;
+* Priority Queue &#10004;
+* Binary Heap &#10004;
+* Graph &#10004;
+* Set &#10004;
+* Map &#10004;
 
-## Getting Started :rocket:
+## Getting Started &#128640;
 
 ```
 npm install js_data-collections
 ```
-## Offical docs :scroll:
+## Offical docs &#128220;
 [Docs](https://eddiecornelious.github.io/js_data-collections/)
 
-## Important For browsers :trumpet:
+## Important For browsers &#127930;
 IE > 8 compatible
 
-### Production :ghost:
+### Production &#128123;
 
 [Production](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
-### Development :computer:
+### Development &#128187;
 
 [Dev](https://rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
 
-### Minified version :sparkles:
+### Minified version &#10024;
 [Min](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.min.js)
 
 
-## Contributing :thumbsup:
+## Contributing &#128077;
 
 Simply download the project, write some code, run the build, write some tests, 
 make sure the tests pass and send a pull request
 
 
-## Versioning :punch:
+## Versioning &#127917;
 
 We use [SemVer](http://semver.org/) for versioning.
 
-## Authors :mortar_board:
+## Authors &#127891;
 
 * **Eddie Cornelious** - *Initial work* - [EddieCornelious](https://github.com/EddieCornelious)
 
-## License :eyes:
+## License &#128064;
 
 This project is licensed under the MIT License.
 
-## Purpose :question:
+## Purpose &#10067;
 
 The initial purpose of this library was to simply apply the concepts I have 
 learned as a computer science student.
