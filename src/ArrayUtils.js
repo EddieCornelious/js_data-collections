@@ -1,52 +1,6 @@
 import { swap, isNumber, genRand } from './Util.js';
 
 /**
- * Pushes the given value to an array and returns the new array
- * @private
- * @param {*} value - The value to push to a new array
- * @returns {Array} Array of length one with @param value in it
- */
-function pushValToArray(value) {
-  const array = [];
-  array.push(value);
-  return array;
-}
-
-/**
- * Rotates the given array's elements to the left a fixed number of times
- * @private
- * @param {Array} array - The array to rotate
- * @param {number} times - The number of times to rotate left
- * @returns {undefined}
- */
-function lRotate(array, times) {
-  let rotations = times;
-  if (array.length > 1) {
-    while (rotations < 0) {
-      array.push(array.shift());
-      rotations += 1;
-    }
-  }
-}
-
-/**
- * Rotates the given array's elements to the right a fixed number of times
- * @private
- * @param {Array} array - The array to rotate
- * @param {number} times -The number of times to rotate right
- * @returns {undefined}
- */
-function rRotate(array, times) {
-  let rotations = times;
-  if (array.length > 1) {
-    while (rotations > 0) {
-      array.unshift(array.pop());
-      rotations -= 1;
-    }
-  }
-}
-
-/**
  * Various utility methods that can be used on arrays
  * @class
  * @static
@@ -95,22 +49,24 @@ class ArrayUtils {
    * @param {Array} array - The array to rotate
    * @param {number} [times=0] - The number of times to rotate @param array
    * @throws {TypeError} If @param times is not a primitive number
-   * @returns {undefined}
+   * @returns {Array} A new Array with rotations applied
    *
    * @example
    * const myArray = [1, 2, 3, 4];
-   * arrayMethods.rotate(myArray, 2);
-   * // myArray is [3, 4, 1, 2]
-   * arrayMethods.rotate(myArray, -2);
-   * // myArray is back to original positioning [1, 2, 3, 4]
+   * let B = arrayMethods.rotate(myArray, 2);
+   * // myArray is [1, 2, 3, 4]
+   * // B is [3, 4, 1, 2]
+   * B = arrayMethods.rotate(B, -2);
+   * // B is back to original positioning of myArray [1, 2, 3, 4]
    */
   static rotate(array = [], times = 0) {
-    // avoid infinite loop in rotate methods for unconventional args
-    isNumber(times);
-    if (times < 0) {
-      return lRotate(array, times);
+    const len = array.length;
+    if (times > 0) {
+      const diff = len - times;
+      return array.slice(diff).concat(array.slice(0, diff));
     }
-    return rRotate(array, times);
+    const posTime = Math.abs(times);
+    return array.slice(posTime).concat(array.slice(0, Math.abs(posTime)));
   }
 
   /**
@@ -250,7 +206,7 @@ class ArrayUtils {
       curValue = array[i];
       newArr = Array.isArray(curValue)
         ? newArr.concat(ArrayUtils.flatten(curValue))
-        : newArr.concat(pushValToArray(curValue));
+        : newArr.concat([curValue]);
     }
     return newArr;
   }
