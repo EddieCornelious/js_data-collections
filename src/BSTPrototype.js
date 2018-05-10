@@ -119,14 +119,16 @@ export function BSTRemove(key) {
  * Gets the inorder traversal starting at given root
  * @private
  * @param {BSTNode} root - The root of tree
- * @returns {Array(Object)} Array containing tree representation
+ * @param {string} propWanted - The property of each node wanted
+ * @param {Array} array - The Array to be updated with the result
+ * @returns {undefined}
  */
-export function BSTInorder(root) {
+export function BSTInorder(root, propWanted, array) {
   if (root && root.key !== undefined) {
-    let tmp = [];
-    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
+    BSTInorder(root.left, propWanted, array);
+    array.push(root[propWanted] || root);
+    BSTInorder(root.right, propWanted, array);
   }
-  return [];
 }
 
 /**
@@ -135,21 +137,21 @@ export function BSTInorder(root) {
  * @param {BSTNode} root - The root of the tree
  * @param {*} key - The upper bound value
  * @param {function} comparator - The function used to compare keys to @param value
- * @returns {Array} Array of keys less than @param value
+ * @param {Array} array - The array that holds the result
+ * @returns {undefined}
  */
-export function less(root, value, comparator) {
-  let temp = [];
+export function less(root, value, comparator, array) {
   if (!root || root.key === undefined) {
-    return temp;
+    return;
   }
   const rootKey = root.key;
   const comp = comparator(rootKey, value);
-  const leftRes = less(root.left, value, comparator);
   if (comp === -1) {
-    temp.push(rootKey);
-    return temp.concat(leftRes, less(root.right, value, comparator));
+    array.push(rootKey);
+    less(root.left, value, comparator, array);
+    return less(root.right, value, comparator, array);
   }
-  return leftRes;
+  return less(root.left, value, comparator, array);
 }
 
 /**
@@ -158,21 +160,21 @@ export function less(root, value, comparator) {
  * @param {BSTNode} root - The root of the tree
  * @param {*} key - The lower bound value
  * @param {function} comparator - The function used to compare keys to @param value
- * @returns {Array} Array of keys greater than @param value
+ * @param {Array} array - The array that holds the result
+ * @returns {undefined}
  */
-export function greater(root, value, comparator) {
-  let temp = [];
+export function greater(root, value, comparator, array) {
   if (!root || root.key === undefined) {
-    return temp;
+    return;
   }
   const rootKey = root.key;
   const comp = comparator(rootKey, value);
-  const rightRes = greater(root.right, value, comparator);
   if (comp === 1) {
-    temp.push(rootKey);
-    return temp.concat(greater(root.left, value, comparator), rightRes);
+    array.push(rootKey);
+    greater(root.left, value, comparator, array);
+    return greater(root.right, value, comparator, array);
   }
-  return rightRes;
+  return greater(root.right, value, comparator, array);
 }
 
 /**
