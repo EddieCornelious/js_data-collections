@@ -102,7 +102,9 @@ class BST {
   * @returns {Array} Array of objects representing the BST
   */
   inorder() {
-    return BSTInorder(this.root);
+    const result = [];
+    BSTInorder(this.root, '$', result);
+    return result;
   }
 
   /**
@@ -128,7 +130,9 @@ class BST {
    */
   keysLess(value) {
     const self = this;
-    return less(self.root, value, self.comp);
+    const result = [];
+    less(self.root, value, self.comp, result);
+    return result;
   }
 
   /**
@@ -138,7 +142,9 @@ class BST {
    */
   keysGreater(value) {
     const self = this;
-    return greater(self.root, value, self.comp);
+    const result = [];
+    greater(self.root, value, self.comp, result);
+    return result;
   }
 
   /**
@@ -163,7 +169,9 @@ class BST {
    * @returns {Array} The key set
    */
   keys() {
-    return this.inorder().map(node => node.key);
+    const result = [];
+    BSTInorder(this.root, 'key', result);
+    return result;
   }
 
   /**
@@ -171,7 +179,9 @@ class BST {
    * @returns {Array} The value set
    */
   values() {
-    return this.inorder().map(node => node.value);
+    const result = [];
+    BSTInorder(this.root, 'value', result);
+    return result;
   }
 }
 
