@@ -87,28 +87,17 @@ describe("ArrayUtils", function() {
     expect(actual).to.have.ordered.members(expected);
   });
 
-  it("rotate should throw error for OBVIOUS non numbers", function() {
-    actual.push("A", "B");
-    expect(() => ArrayUtils.rotate(actual, "a")).to.throw(TypeError);
-    expect(() => ArrayUtils.rotate(actual, null)).to.throw(TypeError);
-    expect(() => ArrayUtils.rotate(actual, "9")).to.throw(TypeError);
-    expect(() => ArrayUtils.rotate(actual, {})).to.throw(TypeError);
-    expect(() => ArrayUtils.rotate(actual, [1, 2])).to.throw(TypeError);
-    expected = ["A", "B"];
-    expect(actual).to.have.ordered.members(expected);
-  });
-
   it("rotate should rotate left for negative numbers", function() {
     actual.push("A", "B", "C", "D");
     expected = ["B", "C", "D", "A"];
-    ArrayUtils.rotate(actual, -1);
+    actual = ArrayUtils.rotate(actual, -1);
     expect(actual).to.have.ordered.members(expected);
   });
 
   it("rotate should rotate right for positive numbers", function() {
     actual.push("A", "B", "C", "D");
     expected = ["B", "C", "D", "A"];
-    ArrayUtils.rotate(actual, 3);
+    actual = ArrayUtils.rotate(actual, 3);
     expect(actual).to.have.ordered.members(expected);
   });
 
@@ -121,23 +110,23 @@ describe("ArrayUtils", function() {
   it("rotate should result in same array when length is 1", function() {
     actual.push("A");
     expected = ["A"];
-    ArrayUtils.rotate(actual, 13);
+   actual = ArrayUtils.rotate(actual, 13);
     expect(actual).to.have.ordered.members(expected);
   });
 
   it("rotate should revert to normal array when rotations equal |length|", function() {
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
-    ArrayUtils.rotate(actual, 3);
+    actual = ArrayUtils.rotate(actual, 3);
     expect(actual).to.have.ordered.members(expected);
-    ArrayUtils.rotate(actual, -3);
+    actual = ArrayUtils.rotate(actual, -3);
     expect(actual).to.have.ordered.members(expected);
   });
 
   it("rotate zero times should do nothing to array", function() {
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
-    ArrayUtils.rotate(actual);
+    actual = ArrayUtils.rotate(actual);
     expect(actual).to.have.ordered.members(expected);
   });
 
