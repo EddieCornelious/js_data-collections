@@ -2151,7 +2151,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.inorder = function inorder() {
-	    return (0, _BSTPrototype.BSTInorder)(this.root);
+	    var result = [];
+	    (0, _BSTPrototype.BSTInorder)(this.root, '$', result);
+	    return result;
 	  };
 
 	  /**
@@ -2183,7 +2185,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.keysLess = function keysLess(value) {
 	    var self = this;
-	    return (0, _BSTPrototype.less)(self.root, value, self.comp);
+	    var result = [];
+	    (0, _BSTPrototype.less)(self.root, value, self.comp, result);
+	    return result;
 	  };
 
 	  /**
@@ -2195,7 +2199,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.keysGreater = function keysGreater(value) {
 	    var self = this;
-	    return (0, _BSTPrototype.greater)(self.root, value, self.comp);
+	    var result = [];
+	    (0, _BSTPrototype.greater)(self.root, value, self.comp, result);
+	    return result;
 	  };
 
 	  /**
@@ -2226,9 +2232,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.keys = function keys() {
-	    return this.inorder().map(function (node) {
-	      return node.key;
-	    });
+	    var result = [];
+	    (0, _BSTPrototype.BSTInorder)(this.root, 'key', result);
+	    return result;
 	  };
 
 	  /**
@@ -2238,9 +2244,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.values = function values() {
-	    return this.inorder().map(function (node) {
-	      return node.value;
-	    });
+	    var result = [];
+	    (0, _BSTPrototype.BSTInorder)(this.root, 'value', result);
+	    return result;
 	  };
 
 	  return BST;
@@ -2405,14 +2411,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Gets the inorder traversal starting at given root
 	 * @private
 	 * @param {BSTNode} root - The root of tree
-	 * @returns {Array(Object)} Array containing tree representation
+	 * @param {string} propWanted - The property of each node wanted
+	 * @param {Array} array - The Array to be updated with the result
+	 * @returns {undefined}
 	 */
-	function BSTInorder(root) {
+	function BSTInorder(root, propWanted, array) {
 	  if (root && root.key !== undefined) {
-	    var tmp = [];
-	    return tmp.concat(BSTInorder(root.left), root, BSTInorder(root.right));
+	    BSTInorder(root.left, propWanted, array);
+	    array.push(root[propWanted] || root);
+	    BSTInorder(root.right, propWanted, array);
 	  }
-	  return [];
 	}
 
 	/**
@@ -2421,21 +2429,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {BSTNode} root - The root of the tree
 	 * @param {*} key - The upper bound value
 	 * @param {function} comparator - The function used to compare keys to @param value
-	 * @returns {Array} Array of keys less than @param value
+	 * @param {Array} array - The array that holds the result
+	 * @returns {undefined}
 	 */
-	function less(root, value, comparator) {
-	  var temp = [];
+	function less(root, value, comparator, array) {
 	  if (!root || root.key === undefined) {
-	    return temp;
+	    return;
 	  }
 	  var rootKey = root.key;
 	  var comp = comparator(rootKey, value);
-	  var leftRes = less(root.left, value, comparator);
 	  if (comp === -1) {
-	    temp.push(rootKey);
-	    return temp.concat(leftRes, less(root.right, value, comparator));
+	    array.push(rootKey);
+	    less(root.left, value, comparator, array);
+	    return less(root.right, value, comparator, array);
 	  }
-	  return leftRes;
+	  return less(root.left, value, comparator, array);
 	}
 
 	/**
@@ -2444,21 +2452,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {BSTNode} root - The root of the tree
 	 * @param {*} key - The lower bound value
 	 * @param {function} comparator - The function used to compare keys to @param value
-	 * @returns {Array} Array of keys greater than @param value
+	 * @param {Array} array - The array that holds the result
+	 * @returns {undefined}
 	 */
-	function greater(root, value, comparator) {
-	  var temp = [];
+	function greater(root, value, comparator, array) {
 	  if (!root || root.key === undefined) {
-	    return temp;
+	    return;
 	  }
 	  var rootKey = root.key;
 	  var comp = comparator(rootKey, value);
-	  var rightRes = greater(root.right, value, comparator);
 	  if (comp === 1) {
-	    temp.push(rootKey);
-	    return temp.concat(greater(root.left, value, comparator), rightRes);
+	    array.push(rootKey);
+	    greater(root.left, value, comparator, array);
+	    return greater(root.right, value, comparator, array);
 	  }
-	  return rightRes;
+	  return greater(root.right, value, comparator, array);
 	}
 
 	/**
@@ -2913,52 +2921,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
-	 * Pushes the given value to an array and returns the new array
-	 * @private
-	 * @param {*} value - The value to push to a new array
-	 * @returns {Array} Array of length one with @param value in it
-	 */
-	function pushValToArray(value) {
-	  var array = [];
-	  array.push(value);
-	  return array;
-	}
-
-	/**
-	 * Rotates the given array's elements to the left a fixed number of times
-	 * @private
-	 * @param {Array} array - The array to rotate
-	 * @param {number} times - The number of times to rotate left
-	 * @returns {undefined}
-	 */
-	function lRotate(array, times) {
-	  var rotations = times;
-	  if (array.length > 1) {
-	    while (rotations < 0) {
-	      array.push(array.shift());
-	      rotations += 1;
-	    }
-	  }
-	}
-
-	/**
-	 * Rotates the given array's elements to the right a fixed number of times
-	 * @private
-	 * @param {Array} array - The array to rotate
-	 * @param {number} times -The number of times to rotate right
-	 * @returns {undefined}
-	 */
-	function rRotate(array, times) {
-	  var rotations = times;
-	  if (array.length > 1) {
-	    while (rotations > 0) {
-	      array.unshift(array.pop());
-	      rotations -= 1;
-	    }
-	  }
-	}
-
-	/**
 	 * Various utility methods that can be used on arrays
 	 * @class
 	 * @static
@@ -2966,7 +2928,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @example
 	 * const arrayMethods = Collections.ArrayUtils;
 	 */
-
 	var ArrayUtils = function () {
 	  function ArrayUtils() {
 	    _classCallCheck(this, ArrayUtils);
@@ -3020,14 +2981,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {Array} array - The array to rotate
 	   * @param {number} [times=0] - The number of times to rotate @param array
 	   * @throws {TypeError} If @param times is not a primitive number
-	   * @returns {undefined}
+	   * @returns {Array} A new Array with rotations applied
 	   *
 	   * @example
 	   * const myArray = [1, 2, 3, 4];
-	   * arrayMethods.rotate(myArray, 2);
-	   * // myArray is [3, 4, 1, 2]
-	   * arrayMethods.rotate(myArray, -2);
-	   * // myArray is back to original positioning [1, 2, 3, 4]
+	   * let B = arrayMethods.rotate(myArray, 2);
+	   * // myArray is [1, 2, 3, 4]
+	   * // B is [3, 4, 1, 2]
+	   * B = arrayMethods.rotate(B, -2);
+	   * // B is back to original positioning of myArray [1, 2, 3, 4]
 	   */
 
 
@@ -3035,12 +2997,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	    // avoid infinite loop in rotate methods for unconventional args
-	    (0, _Util.isNumber)(times);
-	    if (times < 0) {
-	      return lRotate(array, times);
+	    var len = array.length;
+	    if (times > 0) {
+	      var diff = len - times;
+	      return array.slice(diff).concat(array.slice(0, diff));
 	    }
-	    return rRotate(array, times);
+	    var posTime = Math.abs(times);
+	    return array.slice(posTime).concat(array.slice(0, Math.abs(posTime)));
 	  };
 
 	  /**
@@ -3210,7 +3173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var curValue = void 0;
 	    for (var i = 0; i < array.length; i += 1) {
 	      curValue = array[i];
-	      newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat(pushValToArray(curValue));
+	      newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat([curValue]);
 	    }
 	    return newArr;
 	  };
@@ -3470,6 +3433,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
+	 * @private
+	 * Performs the re coloring stage upon insert, based on uncle color
+	 * @param {RBNode} uncle - The uncle of the current node
+	 * @param {RBNode} currentNode - The current node being fixed in the tree
+	 * @returns {undefined}
+	 */
+	function insertFixRecolor(uncle, currentNode) {
+	  currentNode.parent.color = 'black';
+	  uncle.color = 'black';
+	  currentNode.parent.parent.color = 'red';
+	}
+
+	/**
+	 * @private
+	 * Performs the rotation stage on insert, based on uncle color and if current
+	 * right child
+	 * @param {RBNode} currentNode - The current node being fixed in the tree
+	 * @param {RBNode} context - The RBTree instance
+	 * @returns {undefined}
+	 */
+	function insertFixRotate1(node, context) {
+	  var currentNode = node;
+	  if (currentNode === currentNode.parent.right) {
+	    currentNode = currentNode.parent;
+	    leftRotate.call(context, currentNode);
+	  }
+	  currentNode.parent.color = 'black';
+	  currentNode.parent.parent.color = 'red';
+	  rightRotate.call(context, currentNode.parent.parent);
+	}
+
+	/**
+	 * @private
+	 * Performs the rotation stage on insert, based on uncle color and if current
+	 * node is left child
+	 * @param {RBNode} currentNode - The current node being fixed in the tree
+	 * @param {RBNode} context - The RBTree instance
+	 * @returns {undefined}
+	 */
+	function insertFixRotate2(node, context) {
+	  var currentNode = node;
+	  if (currentNode === currentNode.parent.left) {
+	    currentNode = currentNode.parent;
+	    rightRotate.call(context, currentNode);
+	  }
+	  currentNode.parent.color = 'black';
+	  currentNode.parent.parent.color = 'red';
+	  leftRotate.call(context, currentNode.parent.parent);
+	}
+
+	/**
+	 * Performs the recoloring stage when the node's sibling is red
+	 */
+	function deleteRedSiblingCase(currentNode, sibling) {
+	  sibling.color = 'black';
+	  currentNode.parent.color = 'red';
+	}
+
+	/**
 	 * Fixes up the rb tree after insertion
 	 * @private
 	 * @param {BSTNode} node - The node to begin fixing
@@ -3483,34 +3505,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (currentNode.parent === currentNode.parent.parent.left) {
 	      uncle = currentNode.parent.parent.right;
 	      if (uncle.color === 'red') {
-	        currentNode.parent.color = 'black';
-	        uncle.color = 'black';
-	        currentNode.parent.parent.color = 'red';
+	        insertFixRecolor(uncle, currentNode);
 	        currentNode = currentNode.parent.parent;
 	      } else {
-	        if (currentNode === currentNode.parent.right) {
-	          currentNode = currentNode.parent;
-	          leftRotate.call(context, currentNode);
-	        }
-	        currentNode.parent.color = 'black';
-	        currentNode.parent.parent.color = 'red';
-	        rightRotate.call(context, currentNode.parent.parent);
+	        insertFixRotate1(currentNode, context);
 	      }
 	    } else {
 	      uncle = currentNode.parent.parent.left;
 	      if (uncle.color === 'red') {
-	        currentNode.parent.color = 'black';
-	        uncle.color = 'black';
-	        currentNode.parent.parent.color = 'red';
+	        insertFixRecolor(uncle, currentNode);
 	        currentNode = currentNode.parent.parent;
 	      } else {
-	        if (currentNode === currentNode.parent.left) {
-	          currentNode = currentNode.parent;
-	          rightRotate.call(context, currentNode);
-	        }
-	        currentNode.parent.color = 'black';
-	        currentNode.parent.parent.color = 'red';
-	        leftRotate.call(context, currentNode.parent.parent);
+	        insertFixRotate2(currentNode, context);
 	      }
 	    }
 	  }
@@ -3527,52 +3533,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var currentNode = nodeToFix;
 	  var context = this;
 	  while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
-	    var uncle = void 0;
+	    var sibling = void 0;
 	    if (currentNode === currentNode.parent.left) {
-	      uncle = currentNode.parent.right;
-	      if (uncle.color === 'red') {
-	        uncle.color = 'black';
-	        currentNode.parent.color = 'red';
+	      sibling = currentNode.parent.right;
+	      if (sibling.color === 'red') {
+	        deleteRedSiblingCase(currentNode, sibling);
 	        leftRotate.call(context, currentNode.parent);
-	        uncle = currentNode.parent.right;
+	        sibling = currentNode.parent.right;
 	      }
-	      if (uncle.left.color === 'black' && uncle.right.color === 'black') {
-	        uncle.color = 'red';
+	      if (sibling.left.color === 'black' && sibling.right.color === 'black') {
+	        sibling.color = 'red';
 	        currentNode = currentNode.parent;
 	      } else {
-	        if (uncle.right.color === 'black') {
-	          uncle.left.color = 'black';
-	          uncle.color = 'red';
-	          rightRotate.call(context, uncle);
-	          uncle = currentNode.parent.right;
+	        if (sibling.right.color === 'black') {
+	          sibling.left.color = 'black';
+	          sibling.color = 'red';
+	          rightRotate.call(context, sibling);
+	          sibling = currentNode.parent.right;
 	        }
-	        uncle.color = currentNode.parent.color;
+	        sibling.color = currentNode.parent.color;
 	        currentNode.parent.color = 'black';
-	        uncle.right.color = 'black';
+	        sibling.right.color = 'black';
 	        leftRotate.call(context, currentNode.parent);
 	        currentNode = context.root;
 	      }
 	    } else {
-	      uncle = currentNode.parent.left;
-	      if (uncle.color === 'red') {
-	        uncle.color = 'black';
-	        currentNode.parent.color = 'red';
+	      sibling = currentNode.parent.left;
+	      if (sibling.color === 'red') {
+	        deleteRedSiblingCase(currentNode, sibling);
 	        rightRotate.call(context, currentNode.parent);
-	        uncle = currentNode.parent.left;
+	        sibling = currentNode.parent.left;
 	      }
-	      if (uncle.right.color === 'black' && uncle.left.color === 'black') {
-	        uncle.color = 'red';
+	      if (sibling.right.color === 'black' && sibling.left.color === 'black') {
+	        sibling.color = 'red';
 	        currentNode = currentNode.parent;
 	      } else {
-	        if (uncle.left.color === 'black') {
-	          uncle.right.color = 'black';
-	          uncle.color = 'red';
-	          leftRotate.call(context, uncle);
-	          uncle = currentNode.parent.left;
+	        if (sibling.left.color === 'black') {
+	          sibling.right.color = 'black';
+	          sibling.color = 'red';
+	          leftRotate.call(context, sibling);
+	          sibling = currentNode.parent.left;
 	        }
-	        uncle.color = currentNode.parent.color;
+	        sibling.color = currentNode.parent.color;
 	        currentNode.parent.color = 'black';
-	        uncle.left.color = 'black';
+	        sibling.left.color = 'black';
 	        rightRotate.call(context, currentNode.parent);
 	        currentNode = context.root;
 	      }
