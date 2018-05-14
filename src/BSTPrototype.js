@@ -210,16 +210,13 @@ function keysBetween(root, lower, upper, comparator, array) {
   }
   const rootKey = root.key;
   const lower_root_comp = comparator(lower, rootKey);
-  if (lower_root_comp >= 0) {
-    if (lower_root_comp === 0) {
-      array.push(rootKey);
-    }
+  if (lower_root_comp > 0) {
     return keysBetween(root.right, lower, upper, comparator, array);
-  } else {
-    if (comparator(rootKey, upper) <= 0) {
-      array.push(rootKey);
-    }
-    keysBetween(root.left, lower, upper, comparator, array);
-    return keysBetween(root.right, lower, upper, comparator, array) 
   }
+  if (comparator(rootKey, upper) < 0) {
+      array.push(rootKey);
+  }
+  keysBetween(root.left, lower, upper, comparator, array);
+  return keysBetween(root.right, lower, upper, comparator, array);
 }
+  
