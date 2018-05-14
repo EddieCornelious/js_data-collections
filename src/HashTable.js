@@ -90,6 +90,16 @@ function getKeysOrValues(query, table) {
   return result;
 }
 
+function each(table, f) {
+  const tableLen = table.length;
+  for (let i = 0; i < tableLen; i += 1) {
+    const currentBucket = table[i];
+    for (let j = 0; j < currentBucket.length; j += 2) {
+      f(currentBucket[j], currentBucket[j + 1]);
+    }
+  }
+}
+
 /**
  * Searches an Associative Array based on the hashcode of the given key
  * @private

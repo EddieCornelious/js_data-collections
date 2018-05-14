@@ -131,6 +131,14 @@ export function BSTInorder(root, propWanted, array) {
   }
 }
 
+export function each(root, f) {
+  if (root && root.key !== undefined) {
+    each(root.left, f);
+    f(root.key, root.value);
+    each(root.right, f);
+  }
+}
+
 /**
  * Returns all keys less than the given value
  * @private
