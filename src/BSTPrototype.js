@@ -131,14 +131,6 @@ export function BSTInorder(root, propWanted, array) {
   }
 }
 
-export function each(root, f) {
-  if (root && root.key !== undefined) {
-    each(root.left, f);
-    f(root.key, root.value);
-    each(root.right, f);
-  }
-}
-
 /**
  * Returns all keys less than the given value
  * @private
@@ -209,14 +201,16 @@ function keysBetween(root, lower, upper, comparator, array) {
     return;
   }
   const rootKey = root.key;
-  const lower_root_comp = comparator(lower, rootKey);
-  if (lower_root_comp > 0) {
+  const lowerRootComp = comparator(lower, rootKey);
+  if (lowerRootComp >= 0) {
+    if (lowerRootComp === 0) {
+      array.push(rootKey);
+    }
     return keysBetween(root.right, lower, upper, comparator, array);
   }
-  if (comparator(rootKey, upper) < 0) {
-      array.push(rootKey);
+  if (comparator(rootKey, upper) <= 0) {
+    array.push(rootKey);
   }
   keysBetween(root.left, lower, upper, comparator, array);
   return keysBetween(root.right, lower, upper, comparator, array);
 }
-  
