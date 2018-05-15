@@ -123,11 +123,19 @@ export function BSTRemove(key) {
  * @param {Array} array - The Array to be updated with the result
  * @returns {undefined}
  */
-export function BSTInorder(root, propWanted, array) {
+export function BSTInorder(root, array) {
   if (root && root.key !== undefined) {
-    BSTInorder(root.left, propWanted, array);
-    array.push(root[propWanted] || root);
-    BSTInorder(root.right, propWanted, array);
+    BSTInorder(root.left, array);
+    array.push(root);
+    BSTInorder(root.right, array);
+  }
+}
+
+export function getKeysOrValues(root, prop, array) {
+  if (root && root.key !== undefined) {
+    getKeysOrValues(root.left, prop, array);
+    array.push(root[prop]);
+    getKeysOrValues(root.right, prop, array);
   }
 }
 

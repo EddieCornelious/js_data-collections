@@ -7,7 +7,8 @@ import {
   BSTInorder,
   less,
   greater,
-  minOrMax
+  minOrMax,
+  getKeysOrValues,
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -103,7 +104,7 @@ class BST {
   */
   inorder() {
     const result = [];
-    BSTInorder(this.root, '$', result);
+    BSTInorder(this.root, result);
     return result;
   }
 
@@ -170,7 +171,7 @@ class BST {
    */
   keys() {
     const result = [];
-    BSTInorder(this.root, 'key', result);
+    getKeysOrValues(this.root, 'key', result);
     return result;
   }
 
@@ -180,7 +181,7 @@ class BST {
    */
   values() {
     const result = [];
-    BSTInorder(this.root, 'value', result);
+    getKeysOrValues(this.root, 'value', result);
     return result;
   }
 }
