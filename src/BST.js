@@ -8,7 +8,7 @@ import {
   less,
   greater,
   minOrMax,
-  getKeysOrValues,
+  getKeysOrValues
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
