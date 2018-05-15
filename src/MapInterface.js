@@ -3,17 +3,13 @@
  * @interface
  */
 class MapInterface {
-  constructor() {
-    if (this.constructor.name === "MapInterface") {
-      throw new Error("cannot instansiate an interface");
-    }
-  }
+  constructor() {}
 
   /**
    * Inserts the given key and value into the Map
    * @param {*} key - The key
    * @param {*} value - The value mapped to by @param key
-   * @returns {Map} The instance that this method was called 
+   * @returns {Map} The instance that this method was called
    *
    * @example
    * map.put("ed", "jones");
@@ -21,9 +17,7 @@ class MapInterface {
    * map.put("ed", "james");
    * // now same ed maps to james and not jones
    */
-  put(key, value) {
-    throw new Error("must implement this method");
-  }
+  put(key, value) {}
 
   /**
    * Retrieves the value mapped to by the given key
@@ -34,9 +28,7 @@ class MapInterface {
    * map.put(99, "problems");
    * map.getVal(99); // returns "problems"
    */
-  getVal(key) {
-    throw new Error("must implement this method");
-  }
+  getVal(key) {}
 
   /**
    * Removes the given key and its associated value from the Map
@@ -48,9 +40,7 @@ class MapInterface {
    * map.remove(88); // returns false
    * map.remove(99); // returns true
    */
-  remove(key) {
-    throw new Error("must implement this method");
-  }
+  remove(key) {}
 
   /**
    * Reports whether the Map contains the given key
@@ -60,9 +50,7 @@ class MapInterface {
    * @example
    * map.contains("empty"); // return false
    */
-  contains(key) {
-    throw new Error("must implement this method");
-  }
+  contains(key) {}
 
   /**
    * Returns all of the keys in the Map
@@ -72,12 +60,10 @@ class MapInterface {
    * map.put(1, "b");
    * map.put(2, "c");
    * map.put(3, "d");
-   * map.keys() // returns [1, 2, 3] permutation (order may 
+   * map.keys() // returns [1, 2, 3] permutation (order may
    * or may not be guarenteed)
    */
-  keys() {
-    throw new Error("must implement this method");
-  }
+  keys() {}
 
   /**
    * Returns all of the values in the Map
@@ -89,9 +75,7 @@ class MapInterface {
    * map.put(3, "d");
    * map.values() // returns ["c", "b", "d"] permutation
    */
-  values() {
-    throw new Error("must implement this method");
-  }
+  values() {}
 
   /**
    * Returns number of elements in the Map
@@ -101,17 +85,13 @@ class MapInterface {
    * map.put(99, "problems");
    * map.size() // 1
    */
-  size() {
-    throw new Error("must implement this method");
-  }
+  size() {}
 
   /**
    * Clears the map of all k,v pairs
    * @returns {undefined}
    */
-  clear() {
-    throw new Error("must implement this method");
-  }
+  clear() {}
 }
 
 export default MapInterface;

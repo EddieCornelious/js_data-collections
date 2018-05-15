@@ -1,15 +1,9 @@
-
 /**
  * Set Interface
  * @interface
  */
 class SetInterface {
-  constructor() {
-    if(this.constructor.name === "SetInterface") {
-      throw new Error("cannot instansiate an interface");
-        
-    }
-  }
+  constructor() {}
 
   /**
    * Adds an element to the set if already in set
@@ -22,9 +16,7 @@ class SetInterface {
    * set.add(1);
    * // set contains [1, 2] order might not be guareenteed
    */
-  add(element) {
-    throw new Error("must implement this method");
-  }
+  add(element) {}
 
   /**
    * Returns the set difference (not symmetric) of 'this' set and
@@ -53,7 +45,7 @@ class SetInterface {
     }
     return result;
   }
-  
+
   /**
    * Returns the mathematical set union of 'this' set and
    * another set
@@ -73,12 +65,12 @@ class SetInterface {
     const thisKeys = self.entries();
     const result = [];
     const thisLen = thisKeys.length;
-    for (let i = 0; i < thisLen ; i += 1) {
+    for (let i = 0; i < thisLen; i += 1) {
       result.push(thisKeys[i]);
     }
     let curElement;
     const thatLen = thatKeys.length;
-    for (let i = 0; i< thatLen ; i += 1) {
+    for (let i = 0; i < thatLen; i += 1) {
       curElement = thatKeys[i];
       if (!self.has(curElement)) {
         result.push(curElement);
@@ -97,25 +89,19 @@ class SetInterface {
    * set.add(2);
    * set.has(3); // false
    */
-   has(element) {
-     throw new Error("must implement this method");
-   }
+  has(element) {}
 
   /**
-  * Returns all elements in the set
-  * @returns {Array} Array with all elements in the set
-  */
-  entries() {
-    throw new Error("must implement this method");
-  }
+   * Returns all elements in the set
+   * @returns {Array} Array with all elements in the set
+   */
+  entries() {}
 
   /**
    * Removes an element from the set
    * @returns {Set} the instance that this method was called
    */
-  remove(element) {
-    throw new Error("must implement this method");
-  }
+  remove(element) {}
 
   /**
    * Returns the mathematical set intersection of 'this' set and
@@ -135,7 +121,7 @@ class SetInterface {
     let largerSet, smallerSet;
     const self = this;
     const result = [];
-    if(self.cardinality() > thatSet.cardinality()) {
+    if (self.cardinality() > thatSet.cardinality()) {
       largerSet = self;
       smallerSet = thatSet.entries();
     } else {
@@ -144,7 +130,7 @@ class SetInterface {
     }
     const smallLen = smallerSet.length;
     let curElement;
-    for(let i = 0; i < smallLen; i += 1) {
+    for (let i = 0; i < smallLen; i += 1) {
       curElement = smallerSet[i];
       if (largerSet.has(curElement)) {
         result.push(curElement);
@@ -161,9 +147,7 @@ class SetInterface {
    * set.add(2);
    * set.cardinality() ; // 2
    */
-  cardinality() {
-    throw new Error("must implement this method");
-  }
+  cardinality() {}
 }
 
 export default SetInterface;
