@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.RBTree = exports.Set = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
+	exports.MultiMap = exports.RBTree = exports.Set = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
 
 	var _List = __webpack_require__(1);
 
@@ -111,6 +111,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Set2 = _interopRequireDefault(_Set);
 
+	var _MultiMap = __webpack_require__(20);
+
+	var _MultiMap2 = _interopRequireDefault(_MultiMap);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	exports.List = _List2['default'];
@@ -126,6 +130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ArrayUtils = _ArrayUtils2['default'];
 	exports.Set = _Set2['default'];
 	exports.RBTree = _RedBlackTree2['default'];
+	exports.MultiMap = _MultiMap2['default'];
 
 /***/ },
 /* 1 */
@@ -3587,6 +3592,90 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_SetInterface3['default']);
 
 	exports['default'] = Set;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _RedBlackTree = __webpack_require__(18);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
+
+	/**
+	 * @implements MultiMapInterFace
+	 * @extends RedBlackTree
+	 */
+	var MultiMap = function (_RBTree) {
+	  _inherits(MultiMap, _RBTree);
+
+	  function MultiMap(comparator) {
+	    _classCallCheck(this, MultiMap);
+
+	    return _possibleConstructorReturn(this, _RBTree.call(this, comparator));
+	  }
+
+	  MultiMap.prototype.put = function put(key, value) {
+	    var hasKey = _RBTree.prototype.getVal;
+	    if (hasKey(key)) {
+	      var vals = hasKey(key);
+	      if (vals.indexOf(value) === -1) {
+	        vals.push(value);
+	      }
+	    } else {
+	      _RBTree.prototype.put.call(this, key, [value]);
+	    }
+	    return this;
+	  };
+
+	  MultiMap.prototype.removeVal = function removeVal(key, value) {
+	    var vals = _RBTree.prototype.getVal.call(this, key);
+	    var rem = [];
+	    if (vals && vals.length > 0) {
+	      var indexVal = vals.indexOf(value);
+	      if (indexVal !== -1) {
+	        rem = vals.splice(indexVal, 1);
+	      }
+	    }
+	    return rem;
+	  };
+
+	  MultiMap.prototype.containsEntry = function containsEntry(key, value) {
+	    var vals = _RBTree.prototype.getVal.call(this, key);
+	    if (vals && vals.length > 0) {
+	      return vals.indexOf(value) !== -1;
+	    }
+	    return false;
+	  };
+
+	  MultiMap.prototype.replaceVal = function replaceVal(key, oldValue, newValue) {
+	    var vals = _RBTree.prototype.getVal.call(this, key);
+	    if (vals && vals.length > 0) {
+	      var index = vals.indexOf(oldValue);
+	      if (index !== -1) {
+	        return vals.splice(index, 1, newValue);
+	      }
+	    }
+	    return [];
+	  };
+
+	  return MultiMap;
+	}(_RedBlackTree2["default"]);
+
+	exports["default"] = MultiMap;
 
 /***/ }
 /******/ ])

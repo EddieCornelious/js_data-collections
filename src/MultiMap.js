@@ -53,3 +53,5 @@ class MultiMap extends RBTree {
     return [];
   }
 }
+
+export default MultiMap;

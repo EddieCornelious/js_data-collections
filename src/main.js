@@ -12,6 +12,7 @@ import Trie from './Trie.js';
 import ArrayUtils from './ArrayUtils.js';
 import RBTree from './RedBlackTree.js';
 import Set from './Set.js';
+import MultiMap from "./MultiMap.js"
 
 export {
    List,
@@ -26,6 +27,7 @@ export {
    Trie,
    ArrayUtils,
    Set,
-   RBTree
+   RBTree,
+   MultiMap
 };
 
