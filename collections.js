@@ -1622,10 +1622,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var MapInterface = function () {
 	  function MapInterface() {
 	    _classCallCheck(this, MapInterface);
-
-	    if (this.constructor.name === "MapInterface") {
-	      throw new Error("cannot instansiate an interface");
-	    }
 	  }
 
 	  /**
@@ -1642,9 +1638,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.put = function put(key, value) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.put = function put(key, value) {};
 
 	  /**
 	   * Retrieves the value mapped to by the given key
@@ -1657,9 +1651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.getVal = function getVal(key) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.getVal = function getVal(key) {};
 
 	  /**
 	   * Removes the given key and its associated value from the Map
@@ -1673,9 +1665,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.remove = function remove(key) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.remove = function remove(key) {};
 
 	  /**
 	   * Reports whether the Map contains the given key
@@ -1687,9 +1677,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.contains = function contains(key) {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.contains = function contains(key) {};
 
 	  /**
 	   * Returns all of the keys in the Map
@@ -1704,9 +1692,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.keys = function keys() {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.keys = function keys() {};
 
 	  /**
 	   * Returns all of the values in the Map
@@ -1720,9 +1706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.values = function values() {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.values = function values() {};
 
 	  /**
 	   * Returns number of elements in the Map
@@ -1734,9 +1718,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.size = function size() {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.size = function size() {};
 
 	  /**
 	   * Clears the map of all k,v pairs
@@ -1744,9 +1726,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  MapInterface.prototype.clear = function clear() {
-	    throw new Error("must implement this method");
-	  };
+	  MapInterface.prototype.clear = function clear() {};
 
 	  return MapInterface;
 	}();
@@ -1844,10 +1824,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var SetInterface = function () {
 	  function SetInterface() {
 	    _classCallCheck(this, SetInterface);
-
-	    if (this.constructor.name === "SetInterface") {
-	      throw new Error("cannot instansiate an interface");
-	    }
 	  }
 
 	  /**
@@ -1863,9 +1839,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.add = function add(element) {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.add = function add(element) {};
 
 	  /**
 	   * Returns the set difference (not symmetric) of 'this' set and
@@ -1944,9 +1918,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.has = function has(element) {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.has = function has(element) {};
 
 	  /**
 	  * Returns all elements in the set
@@ -1954,9 +1926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  SetInterface.prototype.entries = function entries() {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.entries = function entries() {};
 
 	  /**
 	   * Removes an element from the set
@@ -1964,9 +1934,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.remove = function remove(element) {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.remove = function remove(element) {};
 
 	  /**
 	   * Returns the mathematical set intersection of 'this' set and
@@ -2017,9 +1985,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  SetInterface.prototype.cardinality = function cardinality() {
-	    throw new Error("must implement this method");
-	  };
+	  SetInterface.prototype.cardinality = function cardinality() {};
 
 	  return SetInterface;
 	}();
@@ -2152,7 +2118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.inorder = function inorder() {
 	    var result = [];
-	    (0, _BSTPrototype.BSTInorder)(this.root, '$', result);
+	    (0, _BSTPrototype.BSTInorder)(this.root, result);
 	    return result;
 	  };
 
@@ -2233,7 +2199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.keys = function keys() {
 	    var result = [];
-	    (0, _BSTPrototype.BSTInorder)(this.root, 'key', result);
+	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'key', result);
 	    return result;
 	  };
 
@@ -2245,7 +2211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BST.prototype.values = function values() {
 	    var result = [];
-	    (0, _BSTPrototype.BSTInorder)(this.root, 'value', result);
+	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'value', result);
 	    return result;
 	  };
 
@@ -2287,6 +2253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.BSTSearch = BSTSearch;
 	exports.BSTRemove = BSTRemove;
 	exports.BSTInorder = BSTInorder;
+	exports.getKeysOrValues = getKeysOrValues;
 	exports.less = less;
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
@@ -2415,11 +2382,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Array} array - The Array to be updated with the result
 	 * @returns {undefined}
 	 */
-	function BSTInorder(root, propWanted, array) {
+	function BSTInorder(root, array) {
 	  if (root && root.key !== undefined) {
-	    BSTInorder(root.left, propWanted, array);
-	    array.push(root[propWanted] || root);
-	    BSTInorder(root.right, propWanted, array);
+	    BSTInorder(root.left, array);
+	    array.push(root);
+	    BSTInorder(root.right, array);
+	  }
+	}
+
+	function getKeysOrValues(root, prop, array) {
+	  if (root && root.key !== undefined) {
+	    getKeysOrValues(root.left, prop, array);
+	    array.push(root[prop]);
+	    getKeysOrValues(root.right, prop, array);
 	  }
 	}
 
@@ -2486,6 +2461,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    curRoot = curRoot[direction];
 	  }
 	  return curRoot.key;
+	}
+
+	function keysBetween(root, lower, upper, comparator, array) {
+	  if (!root || root.key === undefined) {
+	    return;
+	  }
+	  var rootKey = root.key;
+	  var lowerRootComp = comparator(lower, rootKey);
+	  if (lowerRootComp >= 0) {
+	    if (lowerRootComp === 0) {
+	      array.push(rootKey);
+	    }
+	    return keysBetween(root.right, lower, upper, comparator, array);
+	  }
+	  if (comparator(rootKey, upper) <= 0) {
+	    array.push(rootKey);
+	  }
+	  keysBetween(root.left, lower, upper, comparator, array);
+	  return keysBetween(root.right, lower, upper, comparator, array);
 	}
 
 /***/ },
