@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
-	exports.Set = exports.Map = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
+	exports.RBTree = exports.Set = exports.ArrayUtils = exports.Trie = exports.Graph = exports.BST = exports.HashSet = exports.HashMap = exports.PriorityQueue = exports.BHeap = exports.Queue = exports.Stack = exports.List = undefined;
 
 	var _List = __webpack_require__(1);
 
@@ -103,11 +103,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
-	var _Map = __webpack_require__(18);
+	var _RedBlackTree = __webpack_require__(18);
 
-	var _Map2 = _interopRequireDefault(_Map);
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _Set = __webpack_require__(20);
+	var _Set = __webpack_require__(19);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
@@ -124,8 +124,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Graph = _Graph2['default'];
 	exports.Trie = _Trie2['default'];
 	exports.ArrayUtils = _ArrayUtils2['default'];
-	exports.Map = _Map2['default'];
 	exports.Set = _Set2['default'];
+	exports.RBTree = _RedBlackTree2['default'];
 
 /***/ },
 /* 1 */
@@ -1628,7 +1628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Inserts the given key and value into the Map
 	   * @param {*} key - The key
 	   * @param {*} value - The value mapped to by @param key
-	   * @returns {Map} The instance that this method was called 
+	   * @returns {Map} The instance that this method was called
 	   *
 	   * @example
 	   * map.put("ed", "jones");
@@ -1687,7 +1687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * map.put(1, "b");
 	   * map.put(2, "c");
 	   * map.put(3, "d");
-	   * map.keys() // returns [1, 2, 3] permutation (order may 
+	   * map.keys() // returns [1, 2, 3] permutation (order may
 	   * or may not be guarenteed)
 	   */
 
@@ -1921,9 +1921,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  SetInterface.prototype.has = function has(element) {};
 
 	  /**
-	  * Returns all elements in the set
-	  * @returns {Array} Array with all elements in the set
-	  */
+	   * Returns all elements in the set
+	   * @returns {Array} Array with all elements in the set
+	   */
 
 
 	  SetInterface.prototype.entries = function entries() {};
@@ -3214,133 +3214,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _MapInterface2 = __webpack_require__(9);
-
-	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
-
-	var _RedBlackTree = __webpack_require__(19);
-
-	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
-
-	/**
-	 * Map representaion
-	 * @class
-	 * @implements MapInterface
-	 * @param {function} comparator - @see Global#defaultComparator
-	 *
-	 * @example
-	 * const map = new Collections.Map();
-	 */
-	var Map = function (_MapInterface) {
-	  _inherits(Map, _MapInterface);
-
-	  function Map(comparator) {
-	    _classCallCheck(this, Map);
-
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
-
-	    _this.map = new _RedBlackTree2['default'](comparator);
-	    return _this;
-	  }
-
-	  Map.prototype.put = function put(key, value) {
-	    this.map.insert(key, value);
-	    return this;
-	  };
-
-	  Map.prototype.getVal = function getVal(key) {
-	    return this.map.find(key);
-	  };
-
-	  Map.prototype.clear = function clear() {
-	    return this.map.clear();
-	  };
-
-	  Map.prototype.remove = function remove(key) {
-	    return this.map.remove(key);
-	  };
-
-	  Map.prototype.keys = function keys() {
-	    return this.map.keys();
-	  };
-
-	  Map.prototype.values = function values() {
-	    return this.map.values();
-	  };
-
-	  Map.prototype.contains = function contains(key) {
-	    return this.map.contains(key);
-	  };
-
-	  Map.prototype.size = function size() {
-	    return this.map.size();
-	  };
-
-	  /**
-	   * Returns the smallest key in the Map
-	   * @returns {*} The smallest key
-	   */
-
-
-	  Map.prototype.floorKey = function floorKey() {
-	    return this.map.min();
-	  };
-
-	  /**
-	   * Returns the largest key in the Map
-	   * @returns {*} The largest key
-	   */
-
-
-	  Map.prototype.ceilKey = function ceilKey() {
-	    return this.map.max();
-	  };
-
-	  /**
-	   * Returns all keys less than the given value
-	   * @param {*} value - The upper bound
-	   * @returns {Array} Array of keys smaller than @param value
-	   */
-
-
-	  Map.prototype.lowerThan = function lowerThan(value) {
-	    return this.map.keysLess(value);
-	  };
-
-	  /**
-	   * Returns all keys greater than the given value
-	   * @param {*} value - The lower bound
-	   * @returns {Array} Array of keys larger than @param value
-	   */
-
-
-	  Map.prototype.higherThan = function higherThan(value) {
-	    return this.map.keysGreater(value);
-	  };
-
-	  return Map;
-	}(_MapInterface3['default']);
-
-	exports['default'] = Map;
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
 	var _BSTNode2 = __webpack_require__(13);
 
 	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
@@ -3635,7 +3508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = RBTree;
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3646,7 +3519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	var _RedBlackTree = __webpack_require__(19);
+	var _RedBlackTree = __webpack_require__(18);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
