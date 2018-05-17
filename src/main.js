@@ -10,7 +10,7 @@ import  BST from './BST.js';
 import Graph from './Graph.js';
 import Trie from './Trie.js';
 import ArrayUtils from './ArrayUtils.js';
-import Map from './Map.js';
+import RBTree from './RedBlackTree.js';
 import Set from './Set.js';
 
 export {
@@ -25,7 +25,7 @@ export {
    Graph,
    Trie,
    ArrayUtils,
-   Map,
-   Set
+   Set,
+   RBTree
 };
 
