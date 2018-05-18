@@ -1,11 +1,17 @@
 docs
-.env
 tests
-structs.min.js
+collections.min.js
 jsdoc.json
 webpack.config.js
 .eslintrc
 .eslintignore
+.gitignore
+src
+.travis.yml
+.npmignore
+.babelrc
+node_modules
+
 
 
 
