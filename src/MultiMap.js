@@ -4,11 +4,11 @@ import RBTree from "./RedBlackTree.js";
  * @implements MultiMapInterFace
  * @extends RedBlackTree
  */
-
 class MultiMap extends RBTree {
   constructor(c) {
     super(c);
   }
+
   puts(key, value) {
     const v = super.getVal(key);
     if (v) {
@@ -20,6 +20,7 @@ class MultiMap extends RBTree {
     }
     return this;
   }
+
   removeVal(key, value) {
     const vals = super.getVal(key);
     let rem = [];
@@ -31,6 +32,7 @@ class MultiMap extends RBTree {
     }
     return rem;
   }
+
   containsEntry(key, value) {
     const vals = super.getVal(key);
     if (vals && vals.length > 0) {
@@ -38,6 +40,7 @@ class MultiMap extends RBTree {
     }
     return false;
   }
+
   replaceVal(key, oldValue, newValue) {
     const vals = super.getVal(key);
     if (vals && vals.length > 0) {
