@@ -35,7 +35,7 @@ class BST {
   * @returns {BST} The instance that this method was called with
   *
   * @example
-  * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
+  * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
   * // ed now maps to kane because ed already existed before.
   */
   put(key = null, value = null) {
@@ -53,7 +53,7 @@ class BST {
    * @returns {boolean} True if the key existed before and false otherwise
    *
    * @example
-   * bst.insert(1, 5).insert(5, 10);
+   * bst.put(1, 5).put(5, 10);
    * bst.remove(1); // 1 and it's associated value are removed from BST
    * bst.remove("dog");// this call fails silently as dog never existed in BST
    */
@@ -74,7 +74,7 @@ class BST {
   * if not found.
   *
   * @example
-  * bst.insert(1, 5).insert(5, 10);
+  * bst.put(1, 5).put(5, 10);
   * bst.find(5); // returns 10
   * bst.find(67); // returns undefined
   */
@@ -90,7 +90,7 @@ class BST {
   * @returns {boolean} True if the BST contains @param key and false otherwise
   *
   * @example
-  * bst.insert(1, 5).insert(5, 10);
+  * bst.put(1, 5).put(5, 10);
   * bst.contains(5); // returns true
   * bst.contains(67); // returns false
   */
