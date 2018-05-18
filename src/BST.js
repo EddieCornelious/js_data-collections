@@ -29,7 +29,7 @@ class BST {
   }
 
   /**
-  * Inserts the given key and value into the BST
+  * puts the given key and value into the BST
   * @param {*} [key=null] - The key to insert into the BST
   * @param {*} [value=null] - The value that is mapped to by @param key
   * @returns {BST} The instance that this method was called with
@@ -38,7 +38,7 @@ class BST {
   * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
   * // ed now maps to kane because ed already existed before.
   */
-  insert(key = null, value = null) {
+  put(key = null, value = null) {
     const self = this;
     const inserted = BSTInsert.call(self, key, value, BSTNode);
     if (inserted) {
@@ -78,7 +78,7 @@ class BST {
   * bst.find(5); // returns 10
   * bst.find(67); // returns undefined
   */
-  find(key) {
+  getVal(key) {
     const self = this;
     const node = BSTSearch.call(self, self.root, key);
     return node ? node.value : undefined;
@@ -95,7 +95,7 @@ class BST {
   * bst.contains(67); // returns false
   */
   contains(key) {
-    return this.find(key) !== undefined;
+    return this.getVal(key) !== undefined;
   }
 
   /**

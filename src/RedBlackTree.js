@@ -229,7 +229,7 @@ class RBTree extends BST {
     this.root = new RBNode();
   }
 
-  insert(key, value) {
+  put(key, value) {
     const self = this;
     const insertedNode = BSTInsert.call(self, key, value, RBNode);
     if (insertedNode) {

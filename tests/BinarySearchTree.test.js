@@ -11,9 +11,9 @@ describe("Binary Search Tree", function() {
     bst, expected, (actual = null);
   });
 
-  it("insert should insert into empty tree", function() {
+  it("put should put into empty tree", function() {
     expected = ["a"];
-    bst.insert("a", 1);
+    bst.put("a", 1);
     actual = bst.inorder();
     for (let i = 0; i < actual.length; i += 1) {
       expect(expected[i]).to.be.equal(actual[i].key);
@@ -21,10 +21,10 @@ describe("Binary Search Tree", function() {
     expect(bst.size()).to.be.equal(expected.length);
   });
 
-  it("insert should insert into non empty tree right", function() {
+  it("put should put into non empty tree right", function() {
     expected = ["a", "b"];
-    bst.insert("a", 1);
-    bst.insert("b", 1);
+    bst.put("a", 1);
+    bst.put("b", 1);
     actual = bst.inorder();
     for (let i = 0; i < actual.length; i += 1) {
       expect(expected[i]).to.be.equal(actual[i].key);
@@ -32,10 +32,10 @@ describe("Binary Search Tree", function() {
     expect(bst.size()).to.be.equal(expected.length);
   });
 
-  it("insert should insert into non empty tree left", function() {
+  it("put should put into non empty tree left", function() {
     expected = ["a", "b"];
-    bst.insert("b", 1);
-    bst.insert("a", 1);
+    bst.put("b", 1);
+    bst.put("a", 1);
     actual = bst.inorder();
     for (let i = 0; i < actual.length; i += 1) {
       expect(expected[i]).to.be.equal(actual[i].key);
@@ -43,11 +43,11 @@ describe("Binary Search Tree", function() {
     expect(bst.size()).to.be.equal(expected.length);
   });
 
-  it("insert should not insert if key exists but update value", function() {
+  it("put should not put if key exists but update value", function() {
     expected = ["b"];
-    bst.insert("b", 1);
-    bst.insert("b", 2);
-    expect(bst.find("b")).to.be.equal(2);
+    bst.put("b", 1);
+    bst.put("b", 2);
+    expect(bst.getVal("b")).to.be.equal(2);
     actual = bst.inorder();
     //ensure
     for (let i = 0; i < actual.length; i += 1) {
@@ -57,7 +57,7 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove of non-existent key does not alter size", function() {
-    bst.insert("a").insert("b");
+    bst.put("a").put("b");
     expect(bst.remove("c")).to.be.equal(false);
     expect(bst.size()).to.be.equal(2);
   });
@@ -68,7 +68,7 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 0 children root case", function() {
-    bst.insert("b", 1);
+    bst.put("b", 1);
     expect(bst.remove("b")).to.be.equal(true);
     expected = [
       {
@@ -85,10 +85,10 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 0 children not root case", function() {
-    bst.insert("c", 1);
-    bst.insert("a", 1);
-    bst.insert("d", 1);
-    bst.insert("f", 1);
+    bst.put("c", 1);
+    bst.put("a", 1);
+    bst.put("d", 1);
+    bst.put("f", 1);
     bst.remove("f");
     expected = [
       {
@@ -113,10 +113,10 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 1 child root case", function() {
-    bst.insert("m", 1);
-    bst.insert("o", 1);
-    bst.insert("n", 1);
-    bst.insert("r", 1);
+    bst.put("m", 1);
+    bst.put("o", 1);
+    bst.put("n", 1);
+    bst.put("r", 1);
     expect(bst.remove("m")).to.be.equal(true);
     expected = [
       {
@@ -141,12 +141,12 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 1 child rr case", function() {
-    bst.insert("m", 1);
-    bst.insert("a", 1);
-    bst.insert("q", 1);
-    bst.insert("v", 1);
-    bst.insert("r", 1);
-    bst.insert("w", 1);
+    bst.put("m", 1);
+    bst.put("a", 1);
+    bst.put("q", 1);
+    bst.put("v", 1);
+    bst.put("r", 1);
+    bst.put("w", 1);
     expect(bst.remove("q")).to.be.equal(true);
     expected = [
       {
@@ -179,12 +179,12 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 1 child ll case", function() {
-    bst.insert("m", 1);
-    bst.insert("e", 1);
-    bst.insert("t", 1);
-    bst.insert("c", 1);
-    bst.insert("a", 1);
-    bst.insert("d", 1);
+    bst.put("m", 1);
+    bst.put("e", 1);
+    bst.put("t", 1);
+    bst.put("c", 1);
+    bst.put("a", 1);
+    bst.put("d", 1);
     expect(bst.remove("e")).to.be.equal(true);
     expected = [
       {
@@ -217,12 +217,12 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 1 child rl case", function() {
-    bst.insert("m", 1);
-    bst.insert("a", 1);
-    bst.insert("r", 1);
-    bst.insert("p", 1);
-    bst.insert("n", 1);
-    bst.insert("q", 1);
+    bst.put("m", 1);
+    bst.put("a", 1);
+    bst.put("r", 1);
+    bst.put("p", 1);
+    bst.put("n", 1);
+    bst.put("q", 1);
     expect(bst.remove("r")).to.be.equal(true);
     expected = [
       {
@@ -255,12 +255,12 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 1 child lr case", function() {
-    bst.insert("m", 1);
-    bst.insert("c", 1);
-    bst.insert("t", 1);
-    bst.insert("g", 1);
-    bst.insert("d", 1);
-    bst.insert("h", 1);
+    bst.put("m", 1);
+    bst.put("c", 1);
+    bst.put("t", 1);
+    bst.put("g", 1);
+    bst.put("d", 1);
+    bst.put("h", 1);
     expect(bst.remove("c")).to.be.equal(true);
     expected = [
       {
@@ -293,11 +293,11 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 2 children root case", function() {
-    bst.insert("m", 1);
-    bst.insert("a", 1);
-    bst.insert("p", 1);
-    bst.insert("n", 1);
-    bst.insert("q", 1);
+    bst.put("m", 1);
+    bst.put("a", 1);
+    bst.put("p", 1);
+    bst.put("n", 1);
+    bst.put("q", 1);
     expect(bst.remove("m")).to.be.equal(true);
     expected = [
       {
@@ -326,12 +326,12 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 2 children not root case (1)", function() {
-    bst.insert("e", 1);
-    bst.insert("a", 1);
-    bst.insert("j", 1);
-    bst.insert("h", 1);
-    bst.insert("k", 1);
-    bst.insert("l", 1);
+    bst.put("e", 1);
+    bst.put("a", 1);
+    bst.put("j", 1);
+    bst.put("h", 1);
+    bst.put("k", 1);
+    bst.put("l", 1);
     expect(bst.remove("j")).to.be.equal(true);
     expected = [
       {
@@ -364,13 +364,13 @@ describe("Binary Search Tree", function() {
   });
 
   it("remove node with 2 children not root case (2)", function() {
-    bst.insert(50, 1);
-    bst.insert(49, 1);
-    bst.insert(75, 1);
-    bst.insert(74, 1);
-    bst.insert(89, 1);
-    bst.insert(84, 1);
-    bst.insert(85, 1);
+    bst.put(50, 1);
+    bst.put(49, 1);
+    bst.put(75, 1);
+    bst.put(74, 1);
+    bst.put(89, 1);
+    bst.put(84, 1);
+    bst.put(85, 1);
     expect(bst.remove(75)).to.be.equal(true);
     expected = [
       {
@@ -407,28 +407,28 @@ describe("Binary Search Tree", function() {
   });
 
   it("contains is true when tree contains key", function() {
-    bst.insert("e", 1);
-    bst.insert("a", 1);
+    bst.put("e", 1);
+    bst.put("a", 1);
     expect(bst.contains("a")).to.be.equal(true);
     expect(bst.contains("e")).to.be.equal(true);
   });
 
   it("contains is false when tree does not contain key", function() {
-    bst.insert("e", 1);
-    bst.insert("a", 1);
+    bst.put("e", 1);
+    bst.put("a", 1);
     expect(bst.contains("u")).to.be.equal(false);
     expect(bst.contains("f")).to.be.equal(false);
   });
 
-  it("find returns correct value for key", function() {
-    bst.insert("e", 1);
-    bst.insert("a", "Boxer");
-    expect(bst.find("e")).to.be.equal(1);
-    expect(bst.find("a")).to.be.equal("Boxer");
+  it("getVal returns correct value for key", function() {
+    bst.put("e", 1);
+    bst.put("a", "Boxer");
+    expect(bst.getVal("e")).to.be.equal(1);
+    expect(bst.getVal("a")).to.be.equal("Boxer");
   });
 
-  it("find returns undefined for key for empty tree", function() {
-    expect(bst.find("e")).to.be.equal(undefined);
+  it("getVal returns undefined for key for empty tree", function() {
+    expect(bst.getVal("e")).to.be.equal(undefined);
   });
 
   it("keys returns empty array for empty tree", function() {
@@ -439,9 +439,9 @@ describe("Binary Search Tree", function() {
 
   it("keys returns all keys in the tree", function() {
     bst
-      .insert(8)
-      .insert(12)
-      .insert(5);
+      .put(8)
+      .put(12)
+      .put(5);
     actual = bst.keys();
     expected = [5, 8, 12];
     expect(actual).to.have.ordered.members(expected);
@@ -455,9 +455,9 @@ describe("Binary Search Tree", function() {
 
   it("values returns all keys in the tree", function() {
     bst
-      .insert(8, 1)
-      .insert(12, 44)
-      .insert(5, 1);
+      .put(8, 1)
+      .put(12, 44)
+      .put(5, 1);
     actual = bst.values();
     expected = [1, 1, 44];
     expect(actual).to.have.ordered.members(expected);
@@ -468,15 +468,15 @@ describe("Binary Search Tree", function() {
   });
 
   it("min returns correct min when min is root", function() {
-    bst.insert(1, 1).insert(2, 3);
+    bst.put(1, 1).put(2, 3);
     expect(bst.min()).to.be.equal(1);
   });
 
   it("min returns min when min is not root", function() {
     bst
-      .insert(1, 1)
-      .insert(2, 3)
-      .insert(0, 0);
+      .put(1, 1)
+      .put(2, 3)
+      .put(0, 0);
     expect(bst.min()).to.be.equal(0);
   });
 
@@ -485,24 +485,24 @@ describe("Binary Search Tree", function() {
   });
 
   it("max returns correct max when max is root", function() {
-    bst.insert(2, 1).insert(1, 3);
+    bst.put(2, 1).put(1, 3);
     expect(bst.max()).to.be.equal(2);
   });
 
   it("max returns correct max when max is not root", function() {
     bst
-      .insert(2, 1)
-      .insert(3, 3)
-      .insert(1, 0);
+      .put(2, 1)
+      .put(3, 3)
+      .put(1, 0);
     expect(bst.max()).to.be.equal(3);
   });
 
   it("keysLess returns array of smaller keys", function() {
     bst
-      .insert(1, 1)
-      .insert(3, 4)
-      .insert(9, 3)
-      .insert(-67);
+      .put(1, 1)
+      .put(3, 4)
+      .put(9, 3)
+      .put(-67);
     expect(bst.keysLess(-67)).to.have.members([]);
     expect(bst.keysLess(1)).to.have.members([-67]);
     expect(bst.keysLess(3)).to.have.members([1, -67]);
@@ -512,10 +512,10 @@ describe("Binary Search Tree", function() {
 
   it("keysGreater returns array of larger keys", function() {
     bst
-      .insert(1, 1)
-      .insert(3, 4)
-      .insert(9, 3)
-      .insert(-67);
+      .put(1, 1)
+      .put(3, 4)
+      .put(9, 3)
+      .put(-67);
     expect(bst.keysGreater(-67)).to.have.members([3, 1, 9]);
     expect(bst.keysGreater(1)).to.have.members([3, 9]);
     expect(bst.keysGreater(3)).to.have.members([9]);

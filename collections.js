@@ -2035,7 +2035,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	  * Inserts the given key and value into the BST
+	  * puts the given key and value into the BST
 	  * @param {*} [key=null] - The key to insert into the BST
 	  * @param {*} [value=null] - The value that is mapped to by @param key
 	  * @returns {BST} The instance that this method was called with
@@ -2046,7 +2046,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.insert = function insert() {
+	  BST.prototype.put = function put() {
 	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
@@ -2093,7 +2093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  */
 
 
-	  BST.prototype.find = function find(key) {
+	  BST.prototype.getVal = function getVal(key) {
 	    var self = this;
 	    var node = _BSTPrototype.BSTSearch.call(self, self.root, key);
 	    return node ? node.value : undefined;
@@ -2112,7 +2112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  BST.prototype.contains = function contains(key) {
-	    return this.find(key) !== undefined;
+	    return this.getVal(key) !== undefined;
 	  };
 
 	  /**
@@ -3479,7 +3479,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this2;
 	  }
 
-	  RBTree.prototype.insert = function insert(key, value) {
+	  RBTree.prototype.put = function put(key, value) {
 	    var self = this;
 	    var insertedNode = _BSTPrototype.BSTInsert.call(self, key, value, RBNode);
 	    if (insertedNode) {
