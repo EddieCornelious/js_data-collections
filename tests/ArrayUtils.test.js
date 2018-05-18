@@ -110,7 +110,7 @@ describe("ArrayUtils", function() {
   it("rotate should result in same array when length is 1", function() {
     actual.push("A");
     expected = ["A"];
-   actual = ArrayUtils.rotate(actual, 13);
+    actual = ArrayUtils.rotate(actual, 13);
     expect(actual).to.have.ordered.members(expected);
   });
 
