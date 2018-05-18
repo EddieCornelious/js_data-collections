@@ -3619,21 +3619,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @implements MultiMapInterFace
 	 * @extends RedBlackTree
 	 */
+
 	var MultiMap = function (_RBTree) {
 	  _inherits(MultiMap, _RBTree);
 
-	  function MultiMap(comparator) {
+	  function MultiMap(c) {
 	    _classCallCheck(this, MultiMap);
 
-	    return _possibleConstructorReturn(this, _RBTree.call(this, comparator));
+	    return _possibleConstructorReturn(this, _RBTree.call(this, c));
 	  }
 
-	  MultiMap.prototype.put = function put(key, value) {
-	    var hasKey = _RBTree.prototype.getVal;
-	    if (hasKey(key)) {
-	      var vals = hasKey(key);
-	      if (vals.indexOf(value) === -1) {
-	        vals.push(value);
+	  MultiMap.prototype.puts = function puts(key, value) {
+	    var v = _RBTree.prototype.getVal.call(this, key);
+	    if (v) {
+	      if (v.indexOf(value) === -1) {
+	        v.push(value);
 	      }
 	    } else {
 	      _RBTree.prototype.put.call(this, key, [value]);
