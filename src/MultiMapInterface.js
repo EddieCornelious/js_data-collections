@@ -17,7 +17,7 @@ class MultiMapInterface {
   /**
    * Removes the value associated with the given key
    * @param {*} key - The key to remove the value from
-   * @param {*} value - the value
+   * @param {*} value - The value
    * @returns {Array} The removed value of an empty array if not found
    */
   removeVal(key, value) {}
