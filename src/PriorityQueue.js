@@ -12,7 +12,8 @@ import { isNumber } from './Util.js';
 function minHeapComparator(valueA, valueB) {
   if (valueA.priority < valueB.priority) {
     return 1;
-  } else if (valueA.priority === valueB.priority) {
+  }
+  if (valueA.priority === valueB.priority) {
     return 0;
   }
   return -1;
