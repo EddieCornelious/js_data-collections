@@ -1,6 +1,8 @@
 /**
- * Set Interface
+ * Collection of elements that contain no duplicates
+ * 
  * @interface
+ * 
  */
 class SetInterface {
   constructor() {}

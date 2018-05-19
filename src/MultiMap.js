@@ -1,15 +1,16 @@
 import RBTree from "./RedBlackTree.js";
 
 /**
- * @implements MultiMapInterFace
- * @extends RedBlackTree
+ * @class
+ * @implements {MultiMapInterface}
+ * @extends {RBTree}
  */
 class MultiMap extends RBTree {
   constructor(c) {
     super(c);
   }
 
-  puts(key, value) {
+  put(key, value) {
     const v = super.getVal(key);
     if (v) {
       if (v.indexOf(value) === -1) {

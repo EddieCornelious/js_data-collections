@@ -4,7 +4,7 @@ import SetInterface from './SetInterface.js';
 /**
  * HashSet representation
  * @class
- * @implements SetInterface
+ * @implements {SetInterface}
  * @param {number} [initialCapacity=13] - The initial size of the hashset
  *
  * @example

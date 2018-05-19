@@ -5,7 +5,7 @@ import RBTree from './RedBlackTree.js';
 /**
  * Set representaion
  * @class
- * @implements SetInterface
+ * @implements {SetInterface}
  * @param {function} comparator - @see Global#defaultComparator
  *
  * @example
@@ -44,6 +44,18 @@ class Set extends SetInterface {
 
   max() {
     return this.map.max();
+  }
+  
+  union(thatSet){
+    return super.union(thatSet);
+  }
+  
+  intersect(thatSet){
+    return super.intersect(thatSet);
+  }
+  
+  diff(thatSet){
+    return super.diff(thatSet);
   }
 }
 
