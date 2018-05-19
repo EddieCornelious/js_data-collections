@@ -1827,7 +1827,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Collection of elements that contain no duplicates
+	 * 
 	 * @interface
+	 * 
 	 */
 	var SetInterface = function () {
 	  function SetInterface() {
@@ -2023,6 +2025,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Binary search tree representation
 	 * @class
+	 * @implements {MapInterface}
 	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
 	 * const bst = new Collections.BST();
@@ -3557,7 +3560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Set(comparator) {
 	    _classCallCheck(this, Set);
 
-	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this, comparator));
+	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
 
 	    _this.set = new _RedBlackTree2['default'](comparator);
 	    return _this;
@@ -3592,6 +3595,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.map.max();
 	  };
 
+	  Set.prototype.union = function union(thatSet) {
+	    return _SetInterface.prototype.union.call(this, thatSet);
+	  };
+
+	  Set.prototype.intersect = function intersect(thatSet) {
+	    return _SetInterface.prototype.intersect.call(this, thatSet);
+	  };
+
+	  Set.prototype.diff = function diff(thatSet) {
+	    return _SetInterface.prototype.diff.call(this, thatSet);
+	  };
+
 	  return Set;
 	}(_SetInterface3['default']);
 
@@ -3620,9 +3635,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
 
 	/**
+	 * MultiMap representation
 	 * @class
+	 * @extends {RBTree}
 	 * @implements {MultiMapInterface}
-	 * @extends RedBlackTree
 	 */
 	var MultiMap = function (_RBTree) {
 	  _inherits(MultiMap, _RBTree);
