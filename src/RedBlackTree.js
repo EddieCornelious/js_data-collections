@@ -62,8 +62,8 @@ function rightRotate(node) {
 }
 
 /**
- * @private
  * Performs the re coloring stage upon insert, based on uncle color
+ * @private
  * @param {RBNode} uncle - The uncle of the current node
  * @param {RBNode} currentNode - The current node being fixed in the tree
  * @returns {undefined}
@@ -114,6 +114,7 @@ function insertFixRotate2(node, context) {
 
 /**
  * Performs the recoloring stage when the node's sibling is red
+ * @private
  */
 function deleteRedSiblingCase(currentNode, sibling) {
   sibling.color = 'black';
@@ -216,9 +217,8 @@ function deletefixUp(nodeToFix) {
 
 /**
  * Red-Black Tree representation
- * @private
  * @class
- * @extends BST
+ * @extends {BST}
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
  * const bst = new Collections.RBTree();

@@ -16,6 +16,7 @@ import { defaultComp } from './Util.js';
 /**
  * Binary search tree representation
  * @class
+ * @implements {MapInterface}
  * @param {function} comparator - @see Global#defaultComp for examples
  * @example
  * const bst = new Collections.BST();
