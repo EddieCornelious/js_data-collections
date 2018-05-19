@@ -204,7 +204,7 @@ export function minOrMax(query, root) {
   return curRoot.key;
 }
 
-function keysBetween(root, lower, upper, comparator, array) {
+export function keysBetween(root, lower, upper, comparator, array) {
   if (!root || root.key === undefined) {
     return;
   }
