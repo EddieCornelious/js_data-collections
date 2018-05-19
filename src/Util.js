@@ -49,10 +49,11 @@ export function toString(value) {
 export function defaultComp(a, b) {
   if (a < b) {
     return -1;
-  } else if (a > b) {
-    return 1;
   }
-  return 0;
+  if (a === b) {
+    return 0;
+  }
+  return 1;
 }
 
 /**
@@ -76,10 +77,11 @@ export function defaultComp(a, b) {
 function customComp(a, b) { // eslint-disable-line no-unused-vars
   if (a < b) {
     return -1;
-  } else if (a > b) {
-    return 1;
   }
-  return 0;
+  if (a === b) {
+    return 0;
+  }
+  return 1;
 }
 
 /**
