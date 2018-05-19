@@ -1770,7 +1770,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * HashSet representation
 	 * @class
-	 * @implements SetInterface
+	 * @implements {SetInterface}
 	 * @param {number} [initialCapacity=13] - The initial size of the hashset
 	 *
 	 * @example
@@ -1826,7 +1826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
-	 * Set Interface
+	 * Collection of elements that contain no duplicates
 	 * @interface
 	 */
 	var SetInterface = function () {
@@ -3309,8 +3309,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * @private
 	 * Performs the re coloring stage upon insert, based on uncle color
+	 * @private
 	 * @param {RBNode} uncle - The uncle of the current node
 	 * @param {RBNode} currentNode - The current node being fixed in the tree
 	 * @returns {undefined}
@@ -3361,6 +3361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Performs the recoloring stage when the node's sibling is red
+	 * @private
 	 */
 	function deleteRedSiblingCase(currentNode, sibling) {
 	  sibling.color = 'black';
@@ -3463,9 +3464,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Red-Black Tree representation
-	 * @private
 	 * @class
-	 * @extends BST
+	 * @extends {BST}
 	 * @param {function} comparator - @see Global#defaultComp for examples
 	 * @example
 	 * const bst = new Collections.RBTree();
@@ -3545,7 +3545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Set representaion
 	 * @class
-	 * @implements SetInterface
+	 * @implements {SetInterface}
 	 * @param {function} comparator - @see Global#defaultComparator
 	 *
 	 * @example
@@ -3557,7 +3557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Set(comparator) {
 	    _classCallCheck(this, Set);
 
-	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
+	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this, comparator));
 
 	    _this.set = new _RedBlackTree2['default'](comparator);
 	    return _this;
@@ -3620,7 +3620,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
 
 	/**
-	 * @implements MultiMapInterFace
+	 * @class
+	 * @implements {MultiMapInterface}
 	 * @extends RedBlackTree
 	 */
 	var MultiMap = function (_RBTree) {
@@ -3632,7 +3633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _possibleConstructorReturn(this, _RBTree.call(this, c));
 	  }
 
-	  MultiMap.prototype.puts = function puts(key, value) {
+	  MultiMap.prototype.put = function put(key, value) {
 	    var v = _RBTree.prototype.getVal.call(this, key);
 	    if (v) {
 	      if (v.indexOf(value) === -1) {
