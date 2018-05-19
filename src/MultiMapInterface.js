@@ -2,6 +2,7 @@
  * Maps one key to multiple values but does not contain duplicate kv pairs
  * 
  * @interface
+ * @extends {MapInterface}
  *
  */
 class MultiMapInterface {
