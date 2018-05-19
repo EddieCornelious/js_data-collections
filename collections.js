@@ -660,10 +660,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	function defaultComp(a, b) {
 	  if (a < b) {
 	    return -1;
-	  } else if (a > b) {
-	    return 1;
 	  }
-	  return 0;
+	  if (a === b) {
+	    return 0;
+	  }
+	  return 1;
 	}
 
 	/**
@@ -688,10 +689,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // eslint-disable-line no-unused-vars
 	  if (a < b) {
 	    return -1;
-	  } else if (a > b) {
-	    return 1;
 	  }
-	  return 0;
+	  if (a === b) {
+	    return 0;
+	  }
+	  return 1;
 	}
 
 	/**
@@ -1151,7 +1153,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function minHeapComparator(valueA, valueB) {
 	  if (valueA.priority < valueB.priority) {
 	    return 1;
-	  } else if (valueA.priority === valueB.priority) {
+	  }
+	  if (valueA.priority === valueB.priority) {
 	    return 0;
 	  }
 	  return -1;
@@ -2041,7 +2044,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @returns {BST} The instance that this method was called with
 	  *
 	  * @example
-	  * bst.insert("ed", "jones").insert("george", "james").insert("ed", "kane");
+	  * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
 	  * // ed now maps to kane because ed already existed before.
 	  */
 
@@ -2064,7 +2067,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @returns {boolean} True if the key existed before and false otherwise
 	   *
 	   * @example
-	   * bst.insert(1, 5).insert(5, 10);
+	   * bst.put(1, 5).put(5, 10);
 	   * bst.remove(1); // 1 and it's associated value are removed from BST
 	   * bst.remove("dog");// this call fails silently as dog never existed in BST
 	   */
@@ -2087,7 +2090,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * if not found.
 	  *
 	  * @example
-	  * bst.insert(1, 5).insert(5, 10);
+	  * bst.put(1, 5).put(5, 10);
 	  * bst.find(5); // returns 10
 	  * bst.find(67); // returns undefined
 	  */
@@ -2105,7 +2108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @returns {boolean} True if the BST contains @param key and false otherwise
 	  *
 	  * @example
-	  * bst.insert(1, 5).insert(5, 10);
+	  * bst.put(1, 5).put(5, 10);
 	  * bst.contains(5); // returns true
 	  * bst.contains(67); // returns false
 	  */
@@ -2262,6 +2265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.less = less;
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
+	exports.keysBetween = keysBetween;
 
 	/**
 	* Inserts the given key and value into bst (maps key to value)
@@ -3619,7 +3623,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @implements MultiMapInterFace
 	 * @extends RedBlackTree
 	 */
-
 	var MultiMap = function (_RBTree) {
 	  _inherits(MultiMap, _RBTree);
 
