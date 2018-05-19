@@ -20,6 +20,22 @@ describe("Binary Search Tree", function() {
     }
     expect(bst.size()).to.be.equal(expected.length);
   });
+  
+  it("put inserts truthy values and falsy values with no conflicts", function() {
+    bst.put(0, "1").put(true, "2" );
+    expect(bst.contains(false)).to.be.equal(false);
+    expect(bst.contains(0)).to.be.equal(true);
+    expect(bst.contains(true)).to.be.equal(true);
+    expect(bst.contains(1)).to.be.equal(false);
+  });
+  
+  it("put inserts truthy values and falsy values with no conflicts", function() {
+    bst.put(0, "1").put(true, "2" );
+    expect(bst.contains(false)).to.be.equal(false);
+    expect(bst.contains(0)).to.be.equal(true);
+    expect(bst.contains(true)).to.be.equal(true);
+    expect(bst.contains(1)).to.be.equal(false);
+  });
 
   it("put should put into non empty tree right", function() {
     expected = ["a", "b"];
