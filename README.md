@@ -25,7 +25,8 @@
 * Binary Heap &#10004;
 * Graph &#10004;
 * Set &#10004;
-* Map &#10004;
+* Red-Black Tree &#10004;
+* MultiMap &#10004;
 
 ## Getting Started &#128640;
 
