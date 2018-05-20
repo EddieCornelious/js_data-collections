@@ -37,6 +37,18 @@ class HashSet extends SetInterface {
   cardinality() {
     return this.set.size();
   }
+
+  union(thatSet) {
+    return super.union(thatSet);
+  }
+
+  diff(thatSet) {
+    return super.diff(thatSet);
+  }
+
+  intersect(thatSet) {
+    return super.intersect(thatSet);
+  }
 }
 
 export default HashSet;
