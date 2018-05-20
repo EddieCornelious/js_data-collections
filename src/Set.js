@@ -18,7 +18,7 @@ class Set extends SetInterface {
   }
 
   add(element) {
-    this.set.insert(element, 1);
+    this.set.put(element, 1);
     return this;
   }
 
@@ -45,16 +45,16 @@ class Set extends SetInterface {
   max() {
     return this.map.max();
   }
-  
-  union(thatSet){
+
+  union(thatSet) {
     return super.union(thatSet);
   }
-  
-  intersect(thatSet){
+
+  intersect(thatSet) {
     return super.intersect(thatSet);
   }
-  
-  diff(thatSet){
+
+  diff(thatSet) {
     return super.diff(thatSet);
   }
 }
