@@ -1810,6 +1810,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.set.size();
 	  };
 
+	  HashSet.prototype.union = function union(thatSet) {
+	    return _SetInterface.prototype.union.call(this, thatSet);
+	  };
+
+	  HashSet.prototype.diff = function diff(thatSet) {
+	    return _SetInterface.prototype.diff.call(this, thatSet);
+	  };
+
+	  HashSet.prototype.intersect = function intersect(thatSet) {
+	    return _SetInterface.prototype.intersect.call(this, thatSet);
+	  };
+
 	  return HashSet;
 	}(_SetInterface3['default']);
 
@@ -3567,7 +3579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  Set.prototype.add = function add(element) {
-	    this.set.insert(element, 1);
+	    this.set.put(element, 1);
 	    return this;
 	  };
 
@@ -3616,7 +3628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	exports.__esModule = true;
 
@@ -3624,7 +3636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
 
@@ -3693,9 +3705,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return MultiMap;
-	}(_RedBlackTree2["default"]);
+	}(_RedBlackTree2['default']);
 
-	exports["default"] = MultiMap;
+	exports['default'] = MultiMap;
 
 /***/ }
 /******/ ])
