@@ -1,4 +1,4 @@
-import RBTree from "./RedBlackTree.js";
+import RBTree from './RedBlackTree.js';
 
 /**
  * MultiMap representation
