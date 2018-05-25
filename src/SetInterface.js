@@ -1,3 +1,16 @@
+
+function findIndex(array, f){
+  let len = array.length;
+  let index = 0;
+  let data;
+  while(index < len){
+    data = array[index];
+    if(f(data)){
+      return data;
+    }
+  }
+  return -1;
+}
 /**
  * Collection of elements that contain no duplicates
  * 
@@ -145,6 +158,42 @@ class SetInterface {
    * set.cardinality() ; // 2
    */
   cardinality() {}
+  
+  addAll(array){
+    let len = array.length;
+    let index = 0;
+    const self = this;
+    while (index < len) {
+      self.add(array[index]);
+      index += 1;
+    }
+    return self;
+  }
+  
+  removeAll(array){
+    let len = array.length;
+    let index = 0;
+    const self = this;
+    while (index < len) {
+      self.remove(array[index]);
+      index += 1;
+    }
+    return self;
+  }
+  
+  retainAll(array, f){
+    let len = array.length;
+    let index = 0;
+    const self = this;
+    const comp = f ? findIndex.bind(null, array, f) : Array.prototype.indexOf.bind(array);
+    while (index < len) {
+      if(!comp(array[index])){
+       self.remove(array[index]); 
+      }
+      index += 1;
+    }
+    return self;
+  }
 }
 
 export default SetInterface;
