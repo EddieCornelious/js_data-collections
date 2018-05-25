@@ -1837,12 +1837,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function findIndex(array, f) {
+	  var len = array.length;
+	  var index = 0;
+	  var data = void 0;
+	  while (index < len) {
+	    data = array[index];
+	    if (f(data)) {
+	      return data;
+	    }
+	  }
+	  return -1;
+	}
 	/**
 	 * Collection of elements that contain no duplicates
 	 * 
 	 * @interface
 	 * 
 	 */
+
 	var SetInterface = function () {
 	  function SetInterface() {
 	    _classCallCheck(this, SetInterface);
@@ -2003,6 +2016,42 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  SetInterface.prototype.cardinality = function cardinality() {};
+
+	  SetInterface.prototype.addAll = function addAll(array) {
+	    var len = array.length;
+	    var index = 0;
+	    var self = this;
+	    while (index < len) {
+	      self.add(array[index]);
+	      index += 1;
+	    }
+	    return self;
+	  };
+
+	  SetInterface.prototype.removeAll = function removeAll(array) {
+	    var len = array.length;
+	    var index = 0;
+	    var self = this;
+	    while (index < len) {
+	      self.remove(array[index]);
+	      index += 1;
+	    }
+	    return self;
+	  };
+
+	  SetInterface.prototype.retainAll = function retainAll(array, f) {
+	    var len = array.length;
+	    var index = 0;
+	    var self = this;
+	    var comp = f ? findIndex.bind(null, array, f) : Array.prototype.indexOf.bind(array);
+	    while (index < len) {
+	      if (!comp(array[index])) {
+	        self.remove(array[index]);
+	      }
+	      index += 1;
+	    }
+	    return self;
+	  };
 
 	  return SetInterface;
 	}();
