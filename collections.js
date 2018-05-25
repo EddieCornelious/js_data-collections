@@ -1912,20 +1912,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var thatKeys = thatSet.entries();
 	    var self = this;
 	    var thisKeys = self.entries();
-	    var result = [];
-	    var thisLen = thisKeys.length;
-	    for (var i = 0; i < thisLen; i += 1) {
-	      result.push(thisKeys[i]);
-	    }
 	    var curElement = void 0;
 	    var thatLen = thatKeys.length;
-	    for (var _i = 0; _i < thatLen; _i += 1) {
-	      curElement = thatKeys[_i];
+	    for (var i = 0; i < thatLen; i += 1) {
+	      curElement = thatKeys[i];
 	      if (!self.has(curElement)) {
-	        result.push(curElement);
+	        thisKeys.push(curElement);
 	      }
 	    }
-	    return result;
+	    return thisKeys;
 	  };
 
 	  /**
