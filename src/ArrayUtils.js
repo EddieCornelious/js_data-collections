@@ -42,18 +42,6 @@ class ArrayUtils {
   static removeElement(array = [], value) {
     return ArrayUtils.remove(array, array.indexOf(value));
   }
-  
-  static findIndex(array, data, comp){
-    let len = array.length;
-    let index = 0;
-    while(index<len){
-      if(comp(array[index], data)){
-        return index;
-      }
-      index += 1;
-    }
-    return -1;
-  }
 
   /**
    * Rotates the given array left(negative number) or right(positive number)

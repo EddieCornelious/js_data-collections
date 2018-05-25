@@ -2032,16 +2032,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return self;
 	  };
 
-	  SetInterface.prototype.retainAll = function retainAll(array, comp) {
+	  SetInterface.prototype.retainAll = function retainAll(array, search) {
 	    var index = 0;
 	    var self = this;
 	    var thisKeys = self.entries();
 	    var len = thisKeys.length;
 	    var data = void 0;
-	    var find = _ArrayUtils2['default'].findIndex;
+	    var find = search.bind(array);
 	    while (index < len) {
 	      data = thisKeys[index];
-	      if (find(array, data, comp) === -1) {
+	      if (!find(data)) {
 	        self.remove(data);
 	      }
 	      index += 1;
@@ -2119,18 +2119,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var value = arguments[1];
 
 	    return ArrayUtils.remove(array, array.indexOf(value));
-	  };
-
-	  ArrayUtils.findIndex = function findIndex(array, data, comp) {
-	    var len = array.length;
-	    var index = 0;
-	    while (index < len) {
-	      if (comp(array[index], data)) {
-	        return index;
-	      }
-	      index += 1;
-	    }
-	    return -1;
 	  };
 
 	  /**

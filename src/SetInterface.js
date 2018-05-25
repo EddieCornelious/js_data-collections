@@ -169,16 +169,16 @@ class SetInterface {
     return self;
   }
   
-  retainAll(array, comp){
+  retainAll(array, search){
     let index = 0;
     const self = this;
     const thisKeys = self.entries();
     const len = thisKeys.length;
     let data;
-    const find = ArrayUtils.findIndex;
+    const find = search.bind(array);
     while (index < len) {
       data = thisKeys[index];
-      if(find(array, data, comp) === -1){
+      if(!find(data)){
        self.remove(data); 
       }
       index += 1;
