@@ -6,6 +6,7 @@ function findIndex(array, f){
     if(f(array[index])){
       return index;
     }
+    index += 1;
   }
   return -1;
 }
