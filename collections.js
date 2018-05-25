@@ -2044,9 +2044,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var thisKeys = self.entries();
 	    var len = thisKeys.length;
 	    var data = void 0;
+	    var search = f.bind(array);
 	    while (index < len) {
 	      data = thisKeys[index];
-	      if (findIndex(array, data, f) === -1) {
+	      if (search(data, index) === -1) {
 	        self.remove(data);
 	      }
 	      index += 1;

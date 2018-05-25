@@ -183,12 +183,13 @@ class SetInterface {
   retainAll(array, f){
     let index = 0;
     const self = this;
-    let thisKeys = self.entries();
+    const thisKeys = self.entries();
     const len = thisKeys.length;
     let data;
+    let search = f.bind(array);
     while (index < len) {
       data = thisKeys[index];
-      if(findIndex(array, data, f) === -1){
+      if(search(data, index) === -1){
        self.remove(data); 
       }
       index += 1;
