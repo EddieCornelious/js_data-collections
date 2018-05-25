@@ -1,9 +1,9 @@
 
-function findIndex(array, f){
+function findIndex(array, d, f){
   let len = array.length;
   let index = 0;
   while(index < len){
-    if(f(array[index])){
+    if(f(d, array[index]) === 0){
       return index;
     }
     index += 1;
@@ -181,13 +181,15 @@ class SetInterface {
   }
   
   retainAll(array, f){
-    let len = array.length;
     let index = 0;
     const self = this;
-    const comp = f ? findIndex.bind(null, array, f) : Array.prototype.indexOf.bind(array);
+    let thisKeys = self.entries();
+    const len = thisKeys.length;
+    let data;
     while (index < len) {
-      if(!comp(array[index])){
-       self.remove(array[index]); 
+      data = thisKeys[index];
+      if(findIndex(array, data, f) === -1){
+       self.remove(data); 
       }
       index += 1;
     }

@@ -1837,11 +1837,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function findIndex(array, f) {
+	function findIndex(array, d, f) {
 	  var len = array.length;
 	  var index = 0;
 	  while (index < len) {
-	    if (f(array[index])) {
+	    if (f(d, array[index]) === 0) {
 	      return index;
 	    }
 	    index += 1;
@@ -2039,13 +2039,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  SetInterface.prototype.retainAll = function retainAll(array, f) {
-	    var len = array.length;
 	    var index = 0;
 	    var self = this;
-	    var comp = f ? findIndex.bind(null, array, f) : Array.prototype.indexOf.bind(array);
+	    var thisKeys = self.entries();
+	    var len = thisKeys.length;
+	    var data = void 0;
 	    while (index < len) {
-	      if (!comp(array[index])) {
-	        self.remove(array[index]);
+	      data = thisKeys[index];
+	      if (findIndex(array, data, f) === -1) {
+	        self.remove(data);
 	      }
 	      index += 1;
 	    }
