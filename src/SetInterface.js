@@ -65,20 +65,15 @@ class SetInterface {
     const thatKeys = thatSet.entries();
     const self = this;
     const thisKeys = self.entries();
-    const result = [];
-    const thisLen = thisKeys.length;
-    for (let i = 0; i < thisLen; i += 1) {
-      result.push(thisKeys[i]);
-    }
     let curElement;
     const thatLen = thatKeys.length;
     for (let i = 0; i < thatLen; i += 1) {
       curElement = thatKeys[i];
       if (!self.has(curElement)) {
-        result.push(curElement);
+        thisKeys.push(curElement);
       }
     }
-    return result;
+    return thisKeys;
   }
 
   /**
