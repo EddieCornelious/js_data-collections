@@ -2,11 +2,9 @@
 function findIndex(array, f){
   let len = array.length;
   let index = 0;
-  let data;
   while(index < len){
-    data = array[index];
-    if(f(data)){
-      return data;
+    if(f(array[index])){
+      return index;
     }
   }
   return -1;

@@ -1840,11 +1840,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function findIndex(array, f) {
 	  var len = array.length;
 	  var index = 0;
-	  var data = void 0;
 	  while (index < len) {
-	    data = array[index];
-	    if (f(data)) {
-	      return data;
+	    if (f(array[index])) {
+	      return index;
 	    }
 	  }
 	  return -1;
