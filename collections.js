@@ -87,19 +87,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
 
-	var _BST = __webpack_require__(12);
+	var _BST = __webpack_require__(13);
 
 	var _BST2 = _interopRequireDefault(_BST);
 
-	var _Graph = __webpack_require__(15);
+	var _Graph = __webpack_require__(16);
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
-	var _Trie = __webpack_require__(16);
+	var _Trie = __webpack_require__(17);
 
 	var _Trie2 = _interopRequireDefault(_Trie);
 
-	var _ArrayUtils = __webpack_require__(17);
+	var _ArrayUtils = __webpack_require__(12);
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
@@ -1829,32 +1829,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 11 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	exports.__esModule = true;
 
+	var _ArrayUtils = __webpack_require__(12);
+
+	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function findIndex(array, d, f) {
-	  var len = array.length;
-	  var index = 0;
-	  while (index < len) {
-	    if (f(d, array[index]) === 0) {
-	      return index;
-	    }
-	    index += 1;
-	  }
-	  return -1;
-	}
 	/**
 	 * Collection of elements that contain no duplicates
 	 * 
 	 * @interface
 	 * 
 	 */
-
 	var SetInterface = function () {
 	  function SetInterface() {
 	    _classCallCheck(this, SetInterface);
@@ -2044,9 +2038,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var thisKeys = self.entries();
 	    var len = thisKeys.length;
 	    var data = void 0;
+	    var find = _ArrayUtils2['default'].findIndex;
 	    while (index < len) {
 	      data = thisKeys[index];
-	      if (findIndex(array, data, comp) === -1) {
+	      if (find(array, data, comp) === -1) {
 	        self.remove(data);
 	      }
 	      index += 1;
@@ -2057,922 +2052,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return SetInterface;
 	}();
 
-	exports["default"] = SetInterface;
+	exports['default'] = SetInterface;
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _BSTNode = __webpack_require__(13);
-
-	var _BSTNode2 = _interopRequireDefault(_BSTNode);
-
-	var _BSTPrototype = __webpack_require__(14);
-
-	var _Util = __webpack_require__(2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	/**
-	 * Binary search tree representation
-	 * @class
-	 * @implements {MapInterface}
-	 * @param {function} comparator - @see Global#defaultComp for examples
-	 * @example
-	 * const bst = new Collections.BST();
-	 * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
-	 */
-	var BST = function () {
-	  function BST(comparator) {
-	    _classCallCheck(this, BST);
-
-	    this.root = new _BSTNode2['default']();
-	    this.comp = comparator || _Util.defaultComp;
-	    this.inserts = 0;
-	  }
-
-	  /**
-	  * puts the given key and value into the BST
-	  * @param {*} [key=null] - The key to insert into the BST
-	  * @param {*} [value=null] - The value that is mapped to by @param key
-	  * @returns {BST} The instance that this method was called with
-	  *
-	  * @example
-	  * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
-	  * // ed now maps to kane because ed already existed before.
-	  */
-
-
-	  BST.prototype.put = function put() {
-	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-	    var self = this;
-	    var inserted = _BSTPrototype.BSTInsert.call(self, key, value, _BSTNode2['default']);
-	    if (inserted) {
-	      self.inserts += 1;
-	    }
-	    return self;
-	  };
-
-	  /**
-	   * Removes the given key and its associated value from the BST
-	   * @param {*} key - The key to search fo
-	   * @returns {boolean} True if the key existed before and false otherwise
-	   *
-	   * @example
-	   * bst.put(1, 5).put(5, 10);
-	   * bst.remove(1); // 1 and it's associated value are removed from BST
-	   * bst.remove("dog");// this call fails silently as dog never existed in BST
-	   */
-
-
-	  BST.prototype.remove = function remove(key) {
-	    var self = this;
-	    var removed = _BSTPrototype.BSTRemove.call(self, key);
-	    if (removed) {
-	      self.inserts -= 1;
-	      return true;
-	    }
-	    return false;
-	  };
-
-	  /**
-	  * Finds the value associated with the given key
-	  * @param {*} key - The key to search for in the BST
-	  * @returns {(*|undefined)} The value associated with @param key or undefined
-	  * if not found.
-	  *
-	  * @example
-	  * bst.put(1, 5).put(5, 10);
-	  * bst.find(5); // returns 10
-	  * bst.find(67); // returns undefined
-	  */
-
-
-	  BST.prototype.getVal = function getVal(key) {
-	    var self = this;
-	    var node = _BSTPrototype.BSTSearch.call(self, self.root, key);
-	    return node ? node.value : undefined;
-	  };
-
-	  /**
-	  * Determines if the BST contains the given key
-	  * @param {*} key - The key to search for
-	  * @returns {boolean} True if the BST contains @param key and false otherwise
-	  *
-	  * @example
-	  * bst.put(1, 5).put(5, 10);
-	  * bst.contains(5); // returns true
-	  * bst.contains(67); // returns false
-	  */
-
-
-	  BST.prototype.contains = function contains(key) {
-	    return this.getVal(key) !== undefined;
-	  };
-
-	  /**
-	  * Gives the inorder traversal of the BST
-	  * @returns {Array} Array of objects representing the BST
-	  */
-
-
-	  BST.prototype.inorder = function inorder() {
-	    var result = [];
-	    (0, _BSTPrototype.BSTInorder)(this.root, result);
-	    return result;
-	  };
-
-	  /**
-	   * Returns the smallest value in the BST according to it's ordering function
-	   * @returns {*} The smallest value in the BST
-	   */
-
-
-	  BST.prototype.min = function min() {
-	    return (0, _BSTPrototype.minOrMax)('min', this.root);
-	  };
-
-	  /**
-	   * Returns the greatest value in the tree according to it's ordering function
-	   * @returns {*} The greatest value in the BST
-	   */
-
-
-	  BST.prototype.max = function max() {
-	    return (0, _BSTPrototype.minOrMax)('max', this.root);
-	  };
-
-	  /**
-	   * Returns all keys less than the given key in the BST
-	   * @param {*} value - The value used as the upper bound
-	   * @returns {Array} Array of keys less than @param key
-	   */
-
-
-	  BST.prototype.keysLess = function keysLess(value) {
-	    var self = this;
-	    var result = [];
-	    (0, _BSTPrototype.less)(self.root, value, self.comp, result);
-	    return result;
-	  };
-
-	  /**
-	   * Returns all keys greater than the given key in the BST
-	   * @param {*} value - The value used as the lower bound
-	   * @returns {Array} Array of keys greater than @param key
-	   */
-
-
-	  BST.prototype.keysGreater = function keysGreater(value) {
-	    var self = this;
-	    var result = [];
-	    (0, _BSTPrototype.greater)(self.root, value, self.comp, result);
-	    return result;
-	  };
-
-	  /**
-	   * Empties the BST
-	   * @returns {undefined}
-	   */
-
-
-	  BST.prototype.clear = function clear() {
-	    this.root = null;
-	    this.inserts = 0;
-	  };
-
-	  /**
-	   * Reports the number of elements in the BST
-	   * @returns {number} Number of elements in the BST
-	   */
-
-
-	  BST.prototype.size = function size() {
-	    return this.inserts;
-	  };
-
-	  /**
-	   * Gives the keys in the BST
-	   * @returns {Array} The key set
-	   */
-
-
-	  BST.prototype.keys = function keys() {
-	    var result = [];
-	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'key', result);
-	    return result;
-	  };
-
-	  /**
-	   * Gives the values in the BST
-	   * @returns {Array} The value set
-	   */
-
-
-	  BST.prototype.values = function values() {
-	    var result = [];
-	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'value', result);
-	    return result;
-	  };
-
-	  return BST;
-	}();
-
-	exports['default'] = BST;
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var BSTNode = function BSTNode(key, value) {
-	  _classCallCheck(this, BSTNode);
-
-	  this.parent = null;
-	  this.left = null;
-	  this.right = null;
-	  this.key = key;
-	  this.value = value;
-	};
-
-	exports["default"] = BSTNode;
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.BSTInsert = BSTInsert;
-	exports.BSTSearch = BSTSearch;
-	exports.BSTRemove = BSTRemove;
-	exports.BSTInorder = BSTInorder;
-	exports.getKeysOrValues = getKeysOrValues;
-	exports.less = less;
-	exports.greater = greater;
-	exports.minOrMax = minOrMax;
-	exports.keysBetween = keysBetween;
-
-	/**
-	* Inserts the given key and value into bst (maps key to value)
-	* @private
-	* @param {*} key - The key to insert into the bst
-	* @param {*} value - The value that is mapped to by @param key
-	* @param {BSTNode} Node - The Node type to insert into the tree
-	* @returns {(BSTNode|undefined)} undefined if the node was already in tree,
-	* thus not inserted or the new node that was just inserted successfully.
-	*/
-	function BSTInsert(key, value, NodeType) {
-	  var comp = this.comp;
-	  var root = this.root;
-	  var newNode = new NodeType(key, value);
-	  var prevRoot = new NodeType();
-	  while (root.key !== undefined) {
-	    var compResult = comp(newNode.key, root.key);
-	    prevRoot = root;
-	    if (compResult === -1) {
-	      root = root.left;
-	    } else if (compResult === 1) {
-	      root = root.right;
-	    } else {
-	      root.value = value;
-	      return;
-	    }
-	  }
-
-	  newNode.parent = prevRoot;
-	  if (prevRoot.key === undefined) {
-	    this.root = newNode;
-	  } else if (comp(newNode.key, prevRoot.key) === -1) {
-	    prevRoot.left = newNode;
-	  } else {
-	    prevRoot.right = newNode;
-	  }
-	  newNode.left = new NodeType();
-	  newNode.right = new NodeType();
-	  return newNode;
-	}
-
-	/**
-	 * Searches for the given key in tree
-	 * @private
-	 * @param {BSTNode} root - The root node to start search
-	 * @param {*} key - The key to search for in bst
-	 * @returns {(undefined|BSTNode)} undefined if not found. Or the actual node if found
-	 */
-	function BSTSearch(root, key) {
-	  var curRoot = root;
-	  var comp = this.comp;
-	  while (curRoot.key !== undefined) {
-	    var compResult = comp(curRoot.key, key);
-	    if (compResult === 0) {
-	      return curRoot;
-	    } else if (compResult === -1) {
-	      curRoot = curRoot.right;
-	    } else {
-	      curRoot = curRoot.left;
-	    }
-	  }
-	}
-
-	/**
-	 * Finds the inorder successor of the given node that has 2 children
-	 * @private
-	 * @param {BSTNode} node - The Node to find the successor for
-	 * @returns {BSTNode} The inorder successor of @param node
-	 */
-	function successor(node) {
-	  var suc = node.right;
-	  while (suc.left.key !== undefined) {
-	    suc = suc.left;
-	  }
-	  return suc;
-	}
-
-	/**
-	 * Searches for a node with given key and removes it from tree
-	 * @private
-	 * @param {*} key - The key to search for in the tree
-	 * @returns {boolean|BSTNode} Returns false if node doesn't exist with @param key
-	 * or the successor and successor child of the node to remove
-	 */
-	function BSTRemove(key) {
-	  var node = BSTSearch.call(this, this.root, key);
-	  if (!node) {
-	    return false;
-	  }
-	  var succ = void 0;
-	  var succChild = void 0;
-	  if (node.left.key === undefined || node.right.key === undefined) {
-	    succ = node;
-	  } else {
-	    succ = successor(node);
-	  }
-	  if (succ.left.key !== undefined) {
-	    succChild = succ.left;
-	  } else {
-	    succChild = succ.right;
-	  }
-	  succChild.parent = succ.parent;
-	  if (succ.parent.key === undefined) {
-	    this.root = succChild;
-	  } else if (succ === succ.parent.left) {
-	    succ.parent.left = succChild;
-	  } else {
-	    succ.parent.right = succChild;
-	  }
-
-	  if (succ !== node) {
-	    node.key = succ.key;
-	    node.value = succ.value;
-	  }
-	  return { succChild: succChild, succ: succ };
-	}
-
-	/**
-	 * Gets the inorder traversal starting at given root
-	 * @private
-	 * @param {BSTNode} root - The root of tree
-	 * @param {string} propWanted - The property of each node wanted
-	 * @param {Array} array - The Array to be updated with the result
-	 * @returns {undefined}
-	 */
-	function BSTInorder(root, array) {
-	  if (root && root.key !== undefined) {
-	    BSTInorder(root.left, array);
-	    array.push(root);
-	    BSTInorder(root.right, array);
-	  }
-	}
-
-	function getKeysOrValues(root, prop, array) {
-	  if (root && root.key !== undefined) {
-	    getKeysOrValues(root.left, prop, array);
-	    array.push(root[prop]);
-	    getKeysOrValues(root.right, prop, array);
-	  }
-	}
-
-	/**
-	 * Returns all keys less than the given value
-	 * @private
-	 * @param {BSTNode} root - The root of the tree
-	 * @param {*} key - The upper bound value
-	 * @param {function} comparator - The function used to compare keys to @param value
-	 * @param {Array} array - The array that holds the result
-	 * @returns {undefined}
-	 */
-	function less(root, value, comparator, array) {
-	  if (!root || root.key === undefined) {
-	    return;
-	  }
-	  var rootKey = root.key;
-	  var comp = comparator(rootKey, value);
-	  if (comp === -1) {
-	    array.push(rootKey);
-	    less(root.left, value, comparator, array);
-	    return less(root.right, value, comparator, array);
-	  }
-	  return less(root.left, value, comparator, array);
-	}
-
-	/**
-	 * Returns all keys greater than the given value
-	 * @private
-	 * @param {BSTNode} root - The root of the tree
-	 * @param {*} key - The lower bound value
-	 * @param {function} comparator - The function used to compare keys to @param value
-	 * @param {Array} array - The array that holds the result
-	 * @returns {undefined}
-	 */
-	function greater(root, value, comparator, array) {
-	  if (!root || root.key === undefined) {
-	    return;
-	  }
-	  var rootKey = root.key;
-	  var comp = comparator(rootKey, value);
-	  if (comp === 1) {
-	    array.push(rootKey);
-	    greater(root.left, value, comparator, array);
-	    return greater(root.right, value, comparator, array);
-	  }
-	  return greater(root.right, value, comparator, array);
-	}
-
-	/**
-	 * Returns the max or min based on the given query
-	 * @private
-	 * @param {string} query - The value wanted either min or max
-	 * @param {BSTNode} root - The root of the tree
-	 * @returns {*|undefined} The min or max value in the tree or undefined for empty tree
-	 */
-	function minOrMax(query, root) {
-	  var curRoot = root;
-	  var direction = query === 'min' ? 'left' : 'right';
-	  if (curRoot.key === undefined) {
-	    return;
-	  }
-	  while (curRoot[direction].key !== undefined) {
-	    curRoot = curRoot[direction];
-	  }
-	  return curRoot.key;
-	}
-
-	function keysBetween(root, lower, upper, comparator, array) {
-	  if (!root || root.key === undefined) {
-	    return;
-	  }
-	  var rootKey = root.key;
-	  var lowerRootComp = comparator(lower, rootKey);
-	  if (lowerRootComp >= 0) {
-	    if (lowerRootComp === 0) {
-	      array.push(rootKey);
-	    }
-	    return keysBetween(root.right, lower, upper, comparator, array);
-	  }
-	  if (comparator(rootKey, upper) <= 0) {
-	    array.push(rootKey);
-	  }
-	  keysBetween(root.left, lower, upper, comparator, array);
-	  return keysBetween(root.right, lower, upper, comparator, array);
-	}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _Queue = __webpack_require__(4);
-
-	var _Queue2 = _interopRequireDefault(_Queue);
-
-	var _Stack = __webpack_require__(3);
-
-	var _Stack2 = _interopRequireDefault(_Stack);
-
-	var _HashMap = __webpack_require__(7);
-
-	var _HashMap2 = _interopRequireDefault(_HashMap);
-
-	var _HashSet = __webpack_require__(10);
-
-	var _HashSet2 = _interopRequireDefault(_HashSet);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	/**
-	 * Undirected, weighted graph representation
-	 * @class
-	 * @param {number} numVerticies - Number of expected verticies for the graph
-	 *
-	 * @example
-	 * const graph = new Collections.Graph(97);
-	 * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
-	 */
-	var Graph = function () {
-	  function Graph(numVerticies) {
-	    _classCallCheck(this, Graph);
-
-	    this.graph = new _HashMap2['default'](numVerticies);
-	  }
-
-	  /**
-	   * Adds a vertex to the graph
-	   * @param {*} vertex - The vertex to place into graph
-	   * @returns {undefined}
-	   *
-	   * @example
-	   * graph.addVertex("A");
-	   * graph.addVertex("B");
-	   * // two verticies with id "A" and "B" are added to graph
-	   */
-
-
-	  Graph.prototype.addVertex = function addVertex(vertex) {
-	    var graph = this.graph;
-	    // so user does not accidentally overwrite values array
-
-	    if (!graph.contains(vertex) && vertex !== undefined) {
-	      graph.put(vertex, []);
-	    }
-	  };
-
-	  /**
-	   * Connects two verticies to create an undirected edge
-	   * @param {*} vertex1 - The first vertex
-	   * @param {*} vertex2 - The second vertex
-	   * @param {number} [weight=0] - Optional cost of
-	   * edge between @param vertex1, vertex2
-	   * @returns {undefined}
-	   *
-	   * @example
-	   * graph.addVertex("A");
-	   * graph.addVertex("B");
-	   * graph.addEdge("A", "B", 4); // adds edge between "A" & "B" of weight 4
-	   */
-
-
-	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
-	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-	    // TODO: replace with PQ for Prim's
-	    var graph = this.graph;
-
-	    var v1neighbors = graph.getVal(vertex1);
-	    var v2neighbors = graph.getVal(vertex2);
-	    // they both exist as verticies
-	    if (v1neighbors && v2neighbors) {
-	      // make sure edge does not already exist
-	      if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
-	        // body
-	        v1neighbors.push({ vertex: vertex2, weight: weight });
-	        v2neighbors.push({ vertex: vertex1, weight: weight });
-	      }
-	    }
-	  };
-
-	  /**
-	   * Performs Breadth First Search
-	   * @param {*} startingVertex - The vertex to start Search from
-	   * @returns {Array} An Array containing verticies in order visited
-	   * through BFS
-	   */
-
-
-	  Graph.prototype.BFS = function BFS(startingVertex) {
-	    var graph = this.graph;
-
-	    if (!graph.contains(startingVertex)) {
-	      return [];
-	    }
-
-	    var bfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var queue = new _Queue2['default']();
-	    queue.enqueue(startingVertex);
-	    while (queue.size() !== 0) {
-	      var currentVertex = queue.dequeue();
-
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        bfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            queue.enqueue(curNeighbor);
-	          }
-	        }
-	      }
-	    }
-	    return bfs;
-	  };
-
-	  /**
-	   * Performs Depth First Search
-	   * @param {*} startingVertex - The vertex to start Search from
-	   * @returns {Array} An Array containing verticies in order visited
-	   * through DFS
-	   */
-
-
-	  Graph.prototype.DFS = function DFS(startingVertex) {
-	    var graph = this.graph;
-	    if (!graph.contains(startingVertex)) {
-	      return [];
-	    }
-
-	    var dfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var stack = new _Stack2['default']();
-	    stack.push(startingVertex);
-	    while (stack.size() !== 0) {
-	      var currentVertex = stack.pop();
-
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        dfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            stack.push(curNeighbor);
-	          }
-	        }
-	      }
-	    }
-	    return dfs;
-	  };
-
-	  /**
-	   * Reports whether the graph is connected
-	   * @returns {boolean} True if connected and false otherwise
-	   */
-
-
-	  Graph.prototype.isConnected = function isConnected() {
-	    var graph = this.graph;
-	    var firstKey = '';
-	    var verticies = graph.keys();
-	    firstKey = verticies[0];
-	    return this.BFS(firstKey).length === verticies.length;
-	  };
-
-	  return Graph;
-	}();
-
-	exports['default'] = Graph;
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _Util = __webpack_require__(2);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	/**
-	 * Converts the given data to a lowercase string
-	 * @private
-	 * @param {*} data - The data to convert
-	 * @returns @param data to a string
-	 */
-	function toLowerCaseString(data) {
-	  return (0, _Util.toString)(data).toLowerCase();
-	}
-	/**
-	 * Returns a reference to the tail of the prefix if trie contains it
-	 * @private
-	 * @param {TrieNode} root - The root of the trie
-	 * @param {string} prefix - The prefix to search for
-	 * @returns {(TrieNode|boolean)} Returns a reference to the prefix's last word
-	 * or false if prefix not found in trie
-	 */
-	function getNode(root, pattern) {
-	  if (pattern.length === 0) {
-	    return false;
-	  }
-	  var currentNode = root.children;
-	  var currentChar = void 0;
-	  for (var i = 0; i < pattern.length - 1; i += 1) {
-	    currentChar = pattern.charAt(i);
-	    if (!currentNode[currentChar]) {
-	      return false;
-	    }
-	    currentNode = currentNode[currentChar].children;
-	  }
-	  return currentNode;
-	}
-
-	/**
-	 * Recursively searches a trie to find all words starting at root
-	 * @private
-	 * @param {TrieNode} node - The starting node
-	 * @param {Array} array - The array to add words to
-	 * @returns {undefined}
-	 */
-	function recurseTree(trieNode, array) {
-	  if (!trieNode) {
-	    return;
-	  }
-	  // all character children
-	  var keys = Object.keys(trieNode);
-	  for (var i = 0; i < keys.length; i += 1) {
-	    var currentNode = trieNode[keys[i]];
-	    if (currentNode.endOfWord) {
-	      array.push(currentNode.word);
-	    }
-	    recurseTree(currentNode.children, array);
-	  }
-	}
-
-	/**
-	 * Reports whether the given trieNode has at least one child
-	 * @private
-	 * @param {TrieNode} trieNode - The trie node to check children of
-	 * @returns {boolean} True if the node has children and false otherwise
-	 */
-	function hasChild(trieNode) {
-	  if (!trieNode) {
-	    return false;
-	  }
-
-	  /**
-	   *Using this instead of Object.keys because I only need existence of one child
-	   *not all
-	   */
-	  for (var prop in trieNode) {
-	    // eslint-disable-line no-restricted-syntax
-	    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
-	      return true;
-	    }
-	  }
-	  return false;
-	}
-
-	/**
-	 * Nodes for Trie
-	 * @class
-	 * @private
-	 */
-
-	var TrieNode = function TrieNode() {
-	  _classCallCheck(this, TrieNode);
-
-	  this.children = {};
-	  this.endOfWord = false;
-	  this.word = null;
-	};
-
-	/**
-	 * Trie (prefix tree) representation
-	 * @class
-	 *
-	 * @example
-	 * const trie = new Collections.Trie();
-	 * // FOR ALL EXAMPLES BELOW. ASSUME trie IS CLEARED BEFORE EACH EXAMPLE
-	 */
-
-
-	var Trie = function () {
-	  function Trie() {
-	    _classCallCheck(this, Trie);
-
-	    this.root = new TrieNode();
-	  }
-
-	  /**
-	   * Converts the given data to string and adds it to trie
-	   * @param {*} word - The word to add into trie
-	   * @returns {undefined}
-	   */
-
-
-	  Trie.prototype.addWord = function addWord() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    var currentNode = this.root.children;
-	    var word = toLowerCaseString(data);
-	    var currentChar = void 0;
-	    for (var i = 0; i < word.length; i += 1) {
-	      currentChar = word.charAt(i);
-	      // path does not exist currently in trie
-	      if (!currentNode[currentChar]) {
-	        currentNode[currentChar] = new TrieNode();
-	      }
-	      // add end of word and word flags
-	      if (i === word.length - 1) {
-	        currentNode[currentChar].endOfWord = true;
-	        currentNode[currentChar].word = word;
-	      }
-	      // trickle down the tree
-	      currentNode = currentNode[currentChar].children;
-	    }
-	  };
-
-	  /**
-	   * Reports whether the trie contains the given word
-	   * @param {*} data - The data to search for
-	   * @returns {boolean} True if the trie contains @param data.toString()
-	   * or false if it does not
-	   */
-
-
-	  Trie.prototype.containsWord = function containsWord() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    var word = toLowerCaseString(data);
-	    var foundWord = getNode(this.root, word);
-	    if (foundWord) {
-	      var lastChar = word.charAt(word.length - 1);
-	      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
-	        return true;
-	      }
-	    }
-	    return false;
-	  };
-
-	  /*
-	  * trie.addWord("apple");
-	  * trie.addWord.("app");
-	  * trie.containsPrefix("apple"); // false
-	  * trie.containsPrefix("app"); // true
-	  */
-
-
-	  Trie.prototype.containsPrefix = function containsPrefix() {
-	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    var root = this.root;
-	    var str = toLowerCaseString(prefix);
-	    var foundPrefix = getNode(root, str);
-	    if (foundPrefix) {
-	      var lastChar = str.charAt(str.length - 1);
-	      if (foundPrefix[lastChar]) {
-	        var hasChildren = hasChild(foundPrefix[lastChar].children);
-	        return hasChildren;
-	      }
-	    }
-	    return false;
-	  };
-
-	  /**
-	   * Gives all of the words in the trie with the given prefix
-	   * @param {*} prefix - The prefix to search for
-	   * @returns {Array} An array with all the words that are prefixed by
-	   * @param prefix
-	   *
-	   * @example
-	   * trie.addWord("apple");
-	   * trie.addWord.("app");
-	   * trie.prefixAll("app"); // returns only apple because app is equal to prefix
-	   */
-
-
-	  Trie.prototype.prefixAll = function prefixAll() {
-	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-	    if (!this.containsPrefix(prefix)) {
-	      return [];
-	    }
-	    var word = toLowerCaseString(prefix);
-	    var prefixTail = getNode(this.root, word);
-	    var lastChar = word.charAt(word.length - 1);
-	    var prefixes = [];
-	    recurseTree(prefixTail[lastChar].children, prefixes);
-	    return prefixes;
-	  };
-
-	  return Trie;
-	}();
-
-	exports['default'] = Trie;
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3036,6 +2119,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var value = arguments[1];
 
 	    return ArrayUtils.remove(array, array.indexOf(value));
+	  };
+
+	  ArrayUtils.findIndex = function findIndex(array, data, comp) {
+	    var len = array.length;
+	    var index = 0;
+	    while (index < len) {
+	      if (comp(array[index], data)) {
+	        return index;
+	      }
+	      index += 1;
+	    }
+	    return -1;
 	  };
 
 	  /**
@@ -3276,6 +2371,918 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = ArrayUtils;
 
 /***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _BSTNode = __webpack_require__(14);
+
+	var _BSTNode2 = _interopRequireDefault(_BSTNode);
+
+	var _BSTPrototype = __webpack_require__(15);
+
+	var _Util = __webpack_require__(2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * Binary search tree representation
+	 * @class
+	 * @implements {MapInterface}
+	 * @param {function} comparator - @see Global#defaultComp for examples
+	 * @example
+	 * const bst = new Collections.BST();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME bst IS CLEARED BEFORE EACH EXAMPLE
+	 */
+	var BST = function () {
+	  function BST(comparator) {
+	    _classCallCheck(this, BST);
+
+	    this.root = new _BSTNode2['default']();
+	    this.comp = comparator || _Util.defaultComp;
+	    this.inserts = 0;
+	  }
+
+	  /**
+	  * puts the given key and value into the BST
+	  * @param {*} [key=null] - The key to insert into the BST
+	  * @param {*} [value=null] - The value that is mapped to by @param key
+	  * @returns {BST} The instance that this method was called with
+	  *
+	  * @example
+	  * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
+	  * // ed now maps to kane because ed already existed before.
+	  */
+
+
+	  BST.prototype.put = function put() {
+	    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	    var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+	    var self = this;
+	    var inserted = _BSTPrototype.BSTInsert.call(self, key, value, _BSTNode2['default']);
+	    if (inserted) {
+	      self.inserts += 1;
+	    }
+	    return self;
+	  };
+
+	  /**
+	   * Removes the given key and its associated value from the BST
+	   * @param {*} key - The key to search fo
+	   * @returns {boolean} True if the key existed before and false otherwise
+	   *
+	   * @example
+	   * bst.put(1, 5).put(5, 10);
+	   * bst.remove(1); // 1 and it's associated value are removed from BST
+	   * bst.remove("dog");// this call fails silently as dog never existed in BST
+	   */
+
+
+	  BST.prototype.remove = function remove(key) {
+	    var self = this;
+	    var removed = _BSTPrototype.BSTRemove.call(self, key);
+	    if (removed) {
+	      self.inserts -= 1;
+	      return true;
+	    }
+	    return false;
+	  };
+
+	  /**
+	  * Finds the value associated with the given key
+	  * @param {*} key - The key to search for in the BST
+	  * @returns {(*|undefined)} The value associated with @param key or undefined
+	  * if not found.
+	  *
+	  * @example
+	  * bst.put(1, 5).put(5, 10);
+	  * bst.find(5); // returns 10
+	  * bst.find(67); // returns undefined
+	  */
+
+
+	  BST.prototype.getVal = function getVal(key) {
+	    var self = this;
+	    var node = _BSTPrototype.BSTSearch.call(self, self.root, key);
+	    return node ? node.value : undefined;
+	  };
+
+	  /**
+	  * Determines if the BST contains the given key
+	  * @param {*} key - The key to search for
+	  * @returns {boolean} True if the BST contains @param key and false otherwise
+	  *
+	  * @example
+	  * bst.put(1, 5).put(5, 10);
+	  * bst.contains(5); // returns true
+	  * bst.contains(67); // returns false
+	  */
+
+
+	  BST.prototype.contains = function contains(key) {
+	    return this.getVal(key) !== undefined;
+	  };
+
+	  /**
+	  * Gives the inorder traversal of the BST
+	  * @returns {Array} Array of objects representing the BST
+	  */
+
+
+	  BST.prototype.inorder = function inorder() {
+	    var result = [];
+	    (0, _BSTPrototype.BSTInorder)(this.root, result);
+	    return result;
+	  };
+
+	  /**
+	   * Returns the smallest value in the BST according to it's ordering function
+	   * @returns {*} The smallest value in the BST
+	   */
+
+
+	  BST.prototype.min = function min() {
+	    return (0, _BSTPrototype.minOrMax)('min', this.root);
+	  };
+
+	  /**
+	   * Returns the greatest value in the tree according to it's ordering function
+	   * @returns {*} The greatest value in the BST
+	   */
+
+
+	  BST.prototype.max = function max() {
+	    return (0, _BSTPrototype.minOrMax)('max', this.root);
+	  };
+
+	  /**
+	   * Returns all keys less than the given key in the BST
+	   * @param {*} value - The value used as the upper bound
+	   * @returns {Array} Array of keys less than @param key
+	   */
+
+
+	  BST.prototype.keysLess = function keysLess(value) {
+	    var self = this;
+	    var result = [];
+	    (0, _BSTPrototype.less)(self.root, value, self.comp, result);
+	    return result;
+	  };
+
+	  /**
+	   * Returns all keys greater than the given key in the BST
+	   * @param {*} value - The value used as the lower bound
+	   * @returns {Array} Array of keys greater than @param key
+	   */
+
+
+	  BST.prototype.keysGreater = function keysGreater(value) {
+	    var self = this;
+	    var result = [];
+	    (0, _BSTPrototype.greater)(self.root, value, self.comp, result);
+	    return result;
+	  };
+
+	  /**
+	   * Empties the BST
+	   * @returns {undefined}
+	   */
+
+
+	  BST.prototype.clear = function clear() {
+	    this.root = null;
+	    this.inserts = 0;
+	  };
+
+	  /**
+	   * Reports the number of elements in the BST
+	   * @returns {number} Number of elements in the BST
+	   */
+
+
+	  BST.prototype.size = function size() {
+	    return this.inserts;
+	  };
+
+	  /**
+	   * Gives the keys in the BST
+	   * @returns {Array} The key set
+	   */
+
+
+	  BST.prototype.keys = function keys() {
+	    var result = [];
+	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'key', result);
+	    return result;
+	  };
+
+	  /**
+	   * Gives the values in the BST
+	   * @returns {Array} The value set
+	   */
+
+
+	  BST.prototype.values = function values() {
+	    var result = [];
+	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'value', result);
+	    return result;
+	  };
+
+	  return BST;
+	}();
+
+	exports['default'] = BST;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var BSTNode = function BSTNode(key, value) {
+	  _classCallCheck(this, BSTNode);
+
+	  this.parent = null;
+	  this.left = null;
+	  this.right = null;
+	  this.key = key;
+	  this.value = value;
+	};
+
+	exports["default"] = BSTNode;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.BSTInsert = BSTInsert;
+	exports.BSTSearch = BSTSearch;
+	exports.BSTRemove = BSTRemove;
+	exports.BSTInorder = BSTInorder;
+	exports.getKeysOrValues = getKeysOrValues;
+	exports.less = less;
+	exports.greater = greater;
+	exports.minOrMax = minOrMax;
+	exports.keysBetween = keysBetween;
+
+	/**
+	* Inserts the given key and value into bst (maps key to value)
+	* @private
+	* @param {*} key - The key to insert into the bst
+	* @param {*} value - The value that is mapped to by @param key
+	* @param {BSTNode} Node - The Node type to insert into the tree
+	* @returns {(BSTNode|undefined)} undefined if the node was already in tree,
+	* thus not inserted or the new node that was just inserted successfully.
+	*/
+	function BSTInsert(key, value, NodeType) {
+	  var comp = this.comp;
+	  var root = this.root;
+	  var newNode = new NodeType(key, value);
+	  var prevRoot = new NodeType();
+	  while (root.key !== undefined) {
+	    var compResult = comp(newNode.key, root.key);
+	    prevRoot = root;
+	    if (compResult === -1) {
+	      root = root.left;
+	    } else if (compResult === 1) {
+	      root = root.right;
+	    } else {
+	      root.value = value;
+	      return;
+	    }
+	  }
+
+	  newNode.parent = prevRoot;
+	  if (prevRoot.key === undefined) {
+	    this.root = newNode;
+	  } else if (comp(newNode.key, prevRoot.key) === -1) {
+	    prevRoot.left = newNode;
+	  } else {
+	    prevRoot.right = newNode;
+	  }
+	  newNode.left = new NodeType();
+	  newNode.right = new NodeType();
+	  return newNode;
+	}
+
+	/**
+	 * Searches for the given key in tree
+	 * @private
+	 * @param {BSTNode} root - The root node to start search
+	 * @param {*} key - The key to search for in bst
+	 * @returns {(undefined|BSTNode)} undefined if not found. Or the actual node if found
+	 */
+	function BSTSearch(root, key) {
+	  var curRoot = root;
+	  var comp = this.comp;
+	  while (curRoot.key !== undefined) {
+	    var compResult = comp(curRoot.key, key);
+	    if (compResult === 0) {
+	      return curRoot;
+	    } else if (compResult === -1) {
+	      curRoot = curRoot.right;
+	    } else {
+	      curRoot = curRoot.left;
+	    }
+	  }
+	}
+
+	/**
+	 * Finds the inorder successor of the given node that has 2 children
+	 * @private
+	 * @param {BSTNode} node - The Node to find the successor for
+	 * @returns {BSTNode} The inorder successor of @param node
+	 */
+	function successor(node) {
+	  var suc = node.right;
+	  while (suc.left.key !== undefined) {
+	    suc = suc.left;
+	  }
+	  return suc;
+	}
+
+	/**
+	 * Searches for a node with given key and removes it from tree
+	 * @private
+	 * @param {*} key - The key to search for in the tree
+	 * @returns {boolean|BSTNode} Returns false if node doesn't exist with @param key
+	 * or the successor and successor child of the node to remove
+	 */
+	function BSTRemove(key) {
+	  var node = BSTSearch.call(this, this.root, key);
+	  if (!node) {
+	    return false;
+	  }
+	  var succ = void 0;
+	  var succChild = void 0;
+	  if (node.left.key === undefined || node.right.key === undefined) {
+	    succ = node;
+	  } else {
+	    succ = successor(node);
+	  }
+	  if (succ.left.key !== undefined) {
+	    succChild = succ.left;
+	  } else {
+	    succChild = succ.right;
+	  }
+	  succChild.parent = succ.parent;
+	  if (succ.parent.key === undefined) {
+	    this.root = succChild;
+	  } else if (succ === succ.parent.left) {
+	    succ.parent.left = succChild;
+	  } else {
+	    succ.parent.right = succChild;
+	  }
+
+	  if (succ !== node) {
+	    node.key = succ.key;
+	    node.value = succ.value;
+	  }
+	  return { succChild: succChild, succ: succ };
+	}
+
+	/**
+	 * Gets the inorder traversal starting at given root
+	 * @private
+	 * @param {BSTNode} root - The root of tree
+	 * @param {string} propWanted - The property of each node wanted
+	 * @param {Array} array - The Array to be updated with the result
+	 * @returns {undefined}
+	 */
+	function BSTInorder(root, array) {
+	  if (root && root.key !== undefined) {
+	    BSTInorder(root.left, array);
+	    array.push(root);
+	    BSTInorder(root.right, array);
+	  }
+	}
+
+	function getKeysOrValues(root, prop, array) {
+	  if (root && root.key !== undefined) {
+	    getKeysOrValues(root.left, prop, array);
+	    array.push(root[prop]);
+	    getKeysOrValues(root.right, prop, array);
+	  }
+	}
+
+	/**
+	 * Returns all keys less than the given value
+	 * @private
+	 * @param {BSTNode} root - The root of the tree
+	 * @param {*} key - The upper bound value
+	 * @param {function} comparator - The function used to compare keys to @param value
+	 * @param {Array} array - The array that holds the result
+	 * @returns {undefined}
+	 */
+	function less(root, value, comparator, array) {
+	  if (!root || root.key === undefined) {
+	    return;
+	  }
+	  var rootKey = root.key;
+	  var comp = comparator(rootKey, value);
+	  if (comp === -1) {
+	    array.push(rootKey);
+	    less(root.left, value, comparator, array);
+	    return less(root.right, value, comparator, array);
+	  }
+	  return less(root.left, value, comparator, array);
+	}
+
+	/**
+	 * Returns all keys greater than the given value
+	 * @private
+	 * @param {BSTNode} root - The root of the tree
+	 * @param {*} key - The lower bound value
+	 * @param {function} comparator - The function used to compare keys to @param value
+	 * @param {Array} array - The array that holds the result
+	 * @returns {undefined}
+	 */
+	function greater(root, value, comparator, array) {
+	  if (!root || root.key === undefined) {
+	    return;
+	  }
+	  var rootKey = root.key;
+	  var comp = comparator(rootKey, value);
+	  if (comp === 1) {
+	    array.push(rootKey);
+	    greater(root.left, value, comparator, array);
+	    return greater(root.right, value, comparator, array);
+	  }
+	  return greater(root.right, value, comparator, array);
+	}
+
+	/**
+	 * Returns the max or min based on the given query
+	 * @private
+	 * @param {string} query - The value wanted either min or max
+	 * @param {BSTNode} root - The root of the tree
+	 * @returns {*|undefined} The min or max value in the tree or undefined for empty tree
+	 */
+	function minOrMax(query, root) {
+	  var curRoot = root;
+	  var direction = query === 'min' ? 'left' : 'right';
+	  if (curRoot.key === undefined) {
+	    return;
+	  }
+	  while (curRoot[direction].key !== undefined) {
+	    curRoot = curRoot[direction];
+	  }
+	  return curRoot.key;
+	}
+
+	function keysBetween(root, lower, upper, comparator, array) {
+	  if (!root || root.key === undefined) {
+	    return;
+	  }
+	  var rootKey = root.key;
+	  var lowerRootComp = comparator(lower, rootKey);
+	  if (lowerRootComp >= 0) {
+	    if (lowerRootComp === 0) {
+	      array.push(rootKey);
+	    }
+	    return keysBetween(root.right, lower, upper, comparator, array);
+	  }
+	  if (comparator(rootKey, upper) <= 0) {
+	    array.push(rootKey);
+	  }
+	  keysBetween(root.left, lower, upper, comparator, array);
+	  return keysBetween(root.right, lower, upper, comparator, array);
+	}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _Queue = __webpack_require__(4);
+
+	var _Queue2 = _interopRequireDefault(_Queue);
+
+	var _Stack = __webpack_require__(3);
+
+	var _Stack2 = _interopRequireDefault(_Stack);
+
+	var _HashMap = __webpack_require__(7);
+
+	var _HashMap2 = _interopRequireDefault(_HashMap);
+
+	var _HashSet = __webpack_require__(10);
+
+	var _HashSet2 = _interopRequireDefault(_HashSet);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * Undirected, weighted graph representation
+	 * @class
+	 * @param {number} numVerticies - Number of expected verticies for the graph
+	 *
+	 * @example
+	 * const graph = new Collections.Graph(97);
+	 * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
+	 */
+	var Graph = function () {
+	  function Graph(numVerticies) {
+	    _classCallCheck(this, Graph);
+
+	    this.graph = new _HashMap2['default'](numVerticies);
+	  }
+
+	  /**
+	   * Adds a vertex to the graph
+	   * @param {*} vertex - The vertex to place into graph
+	   * @returns {undefined}
+	   *
+	   * @example
+	   * graph.addVertex("A");
+	   * graph.addVertex("B");
+	   * // two verticies with id "A" and "B" are added to graph
+	   */
+
+
+	  Graph.prototype.addVertex = function addVertex(vertex) {
+	    var graph = this.graph;
+	    // so user does not accidentally overwrite values array
+
+	    if (!graph.contains(vertex) && vertex !== undefined) {
+	      graph.put(vertex, []);
+	    }
+	  };
+
+	  /**
+	   * Connects two verticies to create an undirected edge
+	   * @param {*} vertex1 - The first vertex
+	   * @param {*} vertex2 - The second vertex
+	   * @param {number} [weight=0] - Optional cost of
+	   * edge between @param vertex1, vertex2
+	   * @returns {undefined}
+	   *
+	   * @example
+	   * graph.addVertex("A");
+	   * graph.addVertex("B");
+	   * graph.addEdge("A", "B", 4); // adds edge between "A" & "B" of weight 4
+	   */
+
+
+	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
+	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+	    // TODO: replace with PQ for Prim's
+	    var graph = this.graph;
+
+	    var v1neighbors = graph.getVal(vertex1);
+	    var v2neighbors = graph.getVal(vertex2);
+	    // they both exist as verticies
+	    if (v1neighbors && v2neighbors) {
+	      // make sure edge does not already exist
+	      if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
+	        // body
+	        v1neighbors.push({ vertex: vertex2, weight: weight });
+	        v2neighbors.push({ vertex: vertex1, weight: weight });
+	      }
+	    }
+	  };
+
+	  /**
+	   * Performs Breadth First Search
+	   * @param {*} startingVertex - The vertex to start Search from
+	   * @returns {Array} An Array containing verticies in order visited
+	   * through BFS
+	   */
+
+
+	  Graph.prototype.BFS = function BFS(startingVertex) {
+	    var graph = this.graph;
+
+	    if (!graph.contains(startingVertex)) {
+	      return [];
+	    }
+
+	    var bfs = [];
+	    var visited = new _HashSet2['default'](graph.size());
+	    var queue = new _Queue2['default']();
+	    queue.enqueue(startingVertex);
+	    while (queue.size() !== 0) {
+	      var currentVertex = queue.dequeue();
+
+	      if (!visited.has(currentVertex)) {
+	        visited.add(currentVertex);
+	        bfs.push(currentVertex);
+	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	          if (!visited.has(curNeighbor)) {
+	            queue.enqueue(curNeighbor);
+	          }
+	        }
+	      }
+	    }
+	    return bfs;
+	  };
+
+	  /**
+	   * Performs Depth First Search
+	   * @param {*} startingVertex - The vertex to start Search from
+	   * @returns {Array} An Array containing verticies in order visited
+	   * through DFS
+	   */
+
+
+	  Graph.prototype.DFS = function DFS(startingVertex) {
+	    var graph = this.graph;
+	    if (!graph.contains(startingVertex)) {
+	      return [];
+	    }
+
+	    var dfs = [];
+	    var visited = new _HashSet2['default'](graph.size());
+	    var stack = new _Stack2['default']();
+	    stack.push(startingVertex);
+	    while (stack.size() !== 0) {
+	      var currentVertex = stack.pop();
+
+	      if (!visited.has(currentVertex)) {
+	        visited.add(currentVertex);
+	        dfs.push(currentVertex);
+	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	          if (!visited.has(curNeighbor)) {
+	            stack.push(curNeighbor);
+	          }
+	        }
+	      }
+	    }
+	    return dfs;
+	  };
+
+	  /**
+	   * Reports whether the graph is connected
+	   * @returns {boolean} True if connected and false otherwise
+	   */
+
+
+	  Graph.prototype.isConnected = function isConnected() {
+	    var graph = this.graph;
+	    var firstKey = '';
+	    var verticies = graph.keys();
+	    firstKey = verticies[0];
+	    return this.BFS(firstKey).length === verticies.length;
+	  };
+
+	  return Graph;
+	}();
+
+	exports['default'] = Graph;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _Util = __webpack_require__(2);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * Converts the given data to a lowercase string
+	 * @private
+	 * @param {*} data - The data to convert
+	 * @returns @param data to a string
+	 */
+	function toLowerCaseString(data) {
+	  return (0, _Util.toString)(data).toLowerCase();
+	}
+	/**
+	 * Returns a reference to the tail of the prefix if trie contains it
+	 * @private
+	 * @param {TrieNode} root - The root of the trie
+	 * @param {string} prefix - The prefix to search for
+	 * @returns {(TrieNode|boolean)} Returns a reference to the prefix's last word
+	 * or false if prefix not found in trie
+	 */
+	function getNode(root, pattern) {
+	  if (pattern.length === 0) {
+	    return false;
+	  }
+	  var currentNode = root.children;
+	  var currentChar = void 0;
+	  for (var i = 0; i < pattern.length - 1; i += 1) {
+	    currentChar = pattern.charAt(i);
+	    if (!currentNode[currentChar]) {
+	      return false;
+	    }
+	    currentNode = currentNode[currentChar].children;
+	  }
+	  return currentNode;
+	}
+
+	/**
+	 * Recursively searches a trie to find all words starting at root
+	 * @private
+	 * @param {TrieNode} node - The starting node
+	 * @param {Array} array - The array to add words to
+	 * @returns {undefined}
+	 */
+	function recurseTree(trieNode, array) {
+	  if (!trieNode) {
+	    return;
+	  }
+	  // all character children
+	  var keys = Object.keys(trieNode);
+	  for (var i = 0; i < keys.length; i += 1) {
+	    var currentNode = trieNode[keys[i]];
+	    if (currentNode.endOfWord) {
+	      array.push(currentNode.word);
+	    }
+	    recurseTree(currentNode.children, array);
+	  }
+	}
+
+	/**
+	 * Reports whether the given trieNode has at least one child
+	 * @private
+	 * @param {TrieNode} trieNode - The trie node to check children of
+	 * @returns {boolean} True if the node has children and false otherwise
+	 */
+	function hasChild(trieNode) {
+	  if (!trieNode) {
+	    return false;
+	  }
+
+	  /**
+	   *Using this instead of Object.keys because I only need existence of one child
+	   *not all
+	   */
+	  for (var prop in trieNode) {
+	    // eslint-disable-line no-restricted-syntax
+	    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
+	      return true;
+	    }
+	  }
+	  return false;
+	}
+
+	/**
+	 * Nodes for Trie
+	 * @class
+	 * @private
+	 */
+
+	var TrieNode = function TrieNode() {
+	  _classCallCheck(this, TrieNode);
+
+	  this.children = {};
+	  this.endOfWord = false;
+	  this.word = null;
+	};
+
+	/**
+	 * Trie (prefix tree) representation
+	 * @class
+	 *
+	 * @example
+	 * const trie = new Collections.Trie();
+	 * // FOR ALL EXAMPLES BELOW. ASSUME trie IS CLEARED BEFORE EACH EXAMPLE
+	 */
+
+
+	var Trie = function () {
+	  function Trie() {
+	    _classCallCheck(this, Trie);
+
+	    this.root = new TrieNode();
+	  }
+
+	  /**
+	   * Converts the given data to string and adds it to trie
+	   * @param {*} word - The word to add into trie
+	   * @returns {undefined}
+	   */
+
+
+	  Trie.prototype.addWord = function addWord() {
+	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    var currentNode = this.root.children;
+	    var word = toLowerCaseString(data);
+	    var currentChar = void 0;
+	    for (var i = 0; i < word.length; i += 1) {
+	      currentChar = word.charAt(i);
+	      // path does not exist currently in trie
+	      if (!currentNode[currentChar]) {
+	        currentNode[currentChar] = new TrieNode();
+	      }
+	      // add end of word and word flags
+	      if (i === word.length - 1) {
+	        currentNode[currentChar].endOfWord = true;
+	        currentNode[currentChar].word = word;
+	      }
+	      // trickle down the tree
+	      currentNode = currentNode[currentChar].children;
+	    }
+	  };
+
+	  /**
+	   * Reports whether the trie contains the given word
+	   * @param {*} data - The data to search for
+	   * @returns {boolean} True if the trie contains @param data.toString()
+	   * or false if it does not
+	   */
+
+
+	  Trie.prototype.containsWord = function containsWord() {
+	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    var word = toLowerCaseString(data);
+	    var foundWord = getNode(this.root, word);
+	    if (foundWord) {
+	      var lastChar = word.charAt(word.length - 1);
+	      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  };
+
+	  /*
+	  * trie.addWord("apple");
+	  * trie.addWord.("app");
+	  * trie.containsPrefix("apple"); // false
+	  * trie.containsPrefix("app"); // true
+	  */
+
+
+	  Trie.prototype.containsPrefix = function containsPrefix() {
+	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    var root = this.root;
+	    var str = toLowerCaseString(prefix);
+	    var foundPrefix = getNode(root, str);
+	    if (foundPrefix) {
+	      var lastChar = str.charAt(str.length - 1);
+	      if (foundPrefix[lastChar]) {
+	        var hasChildren = hasChild(foundPrefix[lastChar].children);
+	        return hasChildren;
+	      }
+	    }
+	    return false;
+	  };
+
+	  /**
+	   * Gives all of the words in the trie with the given prefix
+	   * @param {*} prefix - The prefix to search for
+	   * @returns {Array} An array with all the words that are prefixed by
+	   * @param prefix
+	   *
+	   * @example
+	   * trie.addWord("apple");
+	   * trie.addWord.("app");
+	   * trie.prefixAll("app"); // returns only apple because app is equal to prefix
+	   */
+
+
+	  Trie.prototype.prefixAll = function prefixAll() {
+	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	    if (!this.containsPrefix(prefix)) {
+	      return [];
+	    }
+	    var word = toLowerCaseString(prefix);
+	    var prefixTail = getNode(this.root, word);
+	    var lastChar = word.charAt(word.length - 1);
+	    var prefixes = [];
+	    recurseTree(prefixTail[lastChar].children, prefixes);
+	    return prefixes;
+	  };
+
+	  return Trie;
+	}();
+
+	exports['default'] = Trie;
+
+/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3283,13 +3290,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _BSTNode2 = __webpack_require__(13);
+	var _BSTNode2 = __webpack_require__(14);
 
 	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
 
-	var _BSTPrototype = __webpack_require__(14);
+	var _BSTPrototype = __webpack_require__(15);
 
-	var _BST2 = __webpack_require__(12);
+	var _BST2 = __webpack_require__(13);
 
 	var _BST3 = _interopRequireDefault(_BST2);
 

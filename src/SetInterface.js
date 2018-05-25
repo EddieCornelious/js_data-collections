@@ -1,15 +1,4 @@
-
-function findIndex(array, d, f){
-  let len = array.length;
-  let index = 0;
-  while(index < len){
-    if(f(d, array[index]) === 0){
-      return index;
-    }
-    index += 1;
-  }
-  return -1;
-}
+import ArrayUtils from './ArrayUtils.js';
 /**
  * Collection of elements that contain no duplicates
  * 
@@ -186,9 +175,10 @@ class SetInterface {
     const thisKeys = self.entries();
     const len = thisKeys.length;
     let data;
+    const find = ArrayUtils.findIndex;
     while (index < len) {
       data = thisKeys[index];
-      if(findIndex(array, data, comp) === -1){
+      if(find(array, data, comp) === -1){
        self.remove(data); 
       }
       index += 1;
