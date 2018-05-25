@@ -2010,43 +2010,41 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  SetInterface.prototype.cardinality = function cardinality() {};
 
-	  SetInterface.prototype.addAll = function addAll(array) {
-	    var len = array.length;
+	  SetInterface.prototype.addAll = function addAll(thatSet) {
+	    var index = 0;
+	    var self = this;
+	    var thatKeys = thatSet.entries();
+	    var len = thatKeys.length;
+	    while (index < len) {
+	      self.add(thatKeys[index]);
+	      index += 1;
+	    }
+	  };
+
+	  SetInterface.prototype.removeAll = function removeAll(thatSet) {
+	    var thatKeys = thatSet.entries();
+	    var len = thatKeys.length;
 	    var index = 0;
 	    var self = this;
 	    while (index < len) {
-	      self.add(array[index]);
+	      self.remove(thatKeys[index]);
 	      index += 1;
 	    }
-	    return self;
 	  };
 
-	  SetInterface.prototype.removeAll = function removeAll(array) {
-	    var len = array.length;
-	    var index = 0;
-	    var self = this;
-	    while (index < len) {
-	      self.remove(array[index]);
-	      index += 1;
-	    }
-	    return self;
-	  };
-
-	  SetInterface.prototype.retainAll = function retainAll(array, search) {
+	  SetInterface.prototype.retainAll = function retainAll(thatSet) {
 	    var index = 0;
 	    var self = this;
 	    var thisKeys = self.entries();
 	    var len = thisKeys.length;
 	    var data = void 0;
-	    var find = search.bind(array);
 	    while (index < len) {
 	      data = thisKeys[index];
-	      if (!find(data)) {
+	      if (!thatSet.has(data)) {
 	        self.remove(data);
 	      }
 	      index += 1;
 	    }
-	    return self;
 	  };
 
 	  return SetInterface;

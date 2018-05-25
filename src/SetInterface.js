@@ -147,43 +147,41 @@ class SetInterface {
    */
   cardinality() {}
   
-  addAll(array){
-    let len = array.length;
+  addAll(thatSet){
+    let index = 0;
+    const self = this;
+    const thatKeys = thatSet.entries();
+    let len = thatKeys.length;
+    while (index < len) {
+      self.add(thatKeys[index]);
+      index += 1;
+    }
+  }
+  
+  removeAll(thatSet){
+    let thatKeys = thatSet.entries();
+    let len = thatKeys.length;
     let index = 0;
     const self = this;
     while (index < len) {
-      self.add(array[index]);
+      self.remove(thatKeys[index]);
       index += 1;
     }
-    return self;
   }
   
-  removeAll(array){
-    let len = array.length;
-    let index = 0;
-    const self = this;
-    while (index < len) {
-      self.remove(array[index]);
-      index += 1;
-    }
-    return self;
-  }
-  
-  retainAll(array, search){
+  retainAll(thatSet){
     let index = 0;
     const self = this;
     const thisKeys = self.entries();
     const len = thisKeys.length;
     let data;
-    const find = search.bind(array);
     while (index < len) {
       data = thisKeys[index];
-      if(!find(data)){
+      if(!thatSet.has(data)){
        self.remove(data); 
       }
       index += 1;
     }
-    return self;
   }
 }
 
