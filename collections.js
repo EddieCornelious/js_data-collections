@@ -2038,16 +2038,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return self;
 	  };
 
-	  SetInterface.prototype.retainAll = function retainAll(array, f) {
+	  SetInterface.prototype.retainAll = function retainAll(array, comp) {
 	    var index = 0;
 	    var self = this;
 	    var thisKeys = self.entries();
 	    var len = thisKeys.length;
 	    var data = void 0;
-	    var search = f.bind(array);
 	    while (index < len) {
 	      data = thisKeys[index];
-	      if (search(data, index) === -1) {
+	      if (findIndex(array, data, comp) === -1) {
 	        self.remove(data);
 	      }
 	      index += 1;
