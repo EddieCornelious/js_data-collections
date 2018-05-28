@@ -1,3 +1,4 @@
+import ArrayUtils from './ArrayUtils.js';
 /**
  * Collection of elements that contain no duplicates
  * 
@@ -145,6 +146,43 @@ class SetInterface {
    * set.cardinality() ; // 2
    */
   cardinality() {}
+  
+  addAll(thatSet){
+    let index = 0;
+    const self = this;
+    const thatKeys = thatSet.entries();
+    let len = thatKeys.length;
+    while (index < len) {
+      self.add(thatKeys[index]);
+      index += 1;
+    }
+  }
+  
+  removeAll(thatSet){
+    let thatKeys = thatSet.entries();
+    let len = thatKeys.length;
+    let index = 0;
+    const self = this;
+    while (index < len) {
+      self.remove(thatKeys[index]);
+      index += 1;
+    }
+  }
+  
+  retainAll(thatSet){
+    let index = 0;
+    const self = this;
+    const thisKeys = self.entries();
+    const len = thisKeys.length;
+    let data;
+    while (index < len) {
+      data = thisKeys[index];
+      if(!thatSet.has(data)){
+       self.remove(data); 
+      }
+      index += 1;
+    }
+  }
 }
 
 export default SetInterface;
