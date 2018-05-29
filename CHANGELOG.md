@@ -1,5 +1,5 @@
 <a name="0.7.0"></a>
-# [0.7.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.6.19...v0.7.0) (2018-05-20)
+# [0.7.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.6.19...v0.7.0) (2018-05-28)
 
 
 ### Bug Fixes

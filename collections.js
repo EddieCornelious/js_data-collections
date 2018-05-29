@@ -2010,43 +2010,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  SetInterface.prototype.cardinality = function cardinality() {};
 
-	  SetInterface.prototype.addAll = function addAll(thatSet) {
-	    var index = 0;
-	    var self = this;
-	    var thatKeys = thatSet.entries();
-	    var len = thatKeys.length;
-	    while (index < len) {
-	      self.add(thatKeys[index]);
-	      index += 1;
-	    }
-	  };
-
-	  SetInterface.prototype.removeAll = function removeAll(thatSet) {
-	    var thatKeys = thatSet.entries();
-	    var len = thatKeys.length;
-	    var index = 0;
-	    var self = this;
-	    while (index < len) {
-	      self.remove(thatKeys[index]);
-	      index += 1;
-	    }
-	  };
-
-	  SetInterface.prototype.retainAll = function retainAll(thatSet) {
-	    var index = 0;
-	    var self = this;
-	    var thisKeys = self.entries();
-	    var len = thisKeys.length;
-	    var data = void 0;
-	    while (index < len) {
-	      data = thisKeys[index];
-	      if (!thatSet.has(data)) {
-	        self.remove(data);
-	      }
-	      index += 1;
-	    }
-	  };
-
 	  return SetInterface;
 	}();
 
@@ -3655,6 +3618,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Set.prototype.diff = function diff(thatSet) {
 	    return _SetInterface.prototype.diff.call(this, thatSet);
+	  };
+
+	  Set.prototype.addAll = function addAll(thatSet) {
+	    var index = 0;
+	    var thatKeys = thatSet.entries();
+	    var len = thatKeys.length;
+	    var add = Set.prototype.add.bind(this);
+	    while (index < len) {
+	      add(thatKeys[index]);
+	      index += 1;
+	    }
+	  };
+
+	  Set.prototype.removeAll = function removeAll(thatSet) {
+	    var thatKeys = thatSet.entries();
+	    var len = thatKeys.length;
+	    var index = 0;
+	    var remove = Set.prototype.remove.bind(this);
+	    while (index < len) {
+	      remove(thatKeys[index]);
+	      index += 1;
+	    }
+	  };
+
+	  Set.prototype.retainAll = function retainAll(thatSet) {
+	    var index = 0;
+	    var self = this;
+	    var thisKeys = self.entries();
+	    var len = thisKeys.length;
+	    var data = void 0;
+	    var remove = Set.prototype.remove.bind(this);
+	    while (index < len) {
+	      data = thisKeys[index];
+	      if (!thatSet.has(data)) {
+	        remove(data);
+	      }
+	      index += 1;
+	    }
 	  };
 
 	  return Set;
