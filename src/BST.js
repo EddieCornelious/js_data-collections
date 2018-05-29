@@ -8,7 +8,8 @@ import {
   less,
   greater,
   minOrMax,
-  getKeysOrValues
+  getKeysOrValues,
+  keysBetween
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -184,6 +185,12 @@ class BST {
     const result = [];
     getKeysOrValues(this.root, 'value', result);
     return result;
+  }
+  
+  keyRange(lower, upper){
+    const res = [];
+    keysBetween(this.root, lower, upper, this.comp, res);
+    return res;
   }
 }
 

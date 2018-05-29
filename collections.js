@@ -2082,6 +2082,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ArrayUtils.remove(array, array.indexOf(value));
 	  };
 
+	  ArrayUtils.filterNot = function filterNot(array, f) {
+	    var len = array.length;
+	    var index = 0;
+	    var data = void 0;
+	    var res = [];
+	    while (index < len) {
+	      data = array[index];
+	      if (!f(data)) {
+	        res.push(data);
+	      }
+	      index += 1;
+	    }
+	    return res;
+	  };
+
 	  /**
 	   * Rotates the given array left(negative number) or right(positive number)
 	   * @static
@@ -2541,6 +2556,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var result = [];
 	    (0, _BSTPrototype.getKeysOrValues)(this.root, 'value', result);
 	    return result;
+	  };
+
+	  BST.prototype.keyRange = function keyRange(lower, upper) {
+	    var res = [];
+	    (0, _BSTPrototype.keysBetween)(this.root, lower, upper, this.comp, res);
+	    return res;
 	  };
 
 	  return BST;

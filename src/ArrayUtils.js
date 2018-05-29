@@ -42,6 +42,21 @@ class ArrayUtils {
   static removeElement(array = [], value) {
     return ArrayUtils.remove(array, array.indexOf(value));
   }
+  
+  static filterNot(array, f){
+    let len = array.length;
+    let index = 0;
+    let data;
+    let res = [];
+    while(index < len){
+      data = array[index];
+      if(!f(data)){
+        res.push(data);
+      }
+      index += 1;
+    }
+    return res;
+  }
 
   /**
    * Rotates the given array left(negative number) or right(positive number)
