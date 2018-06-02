@@ -20,17 +20,17 @@ describe("Binary Search Tree", function() {
     }
     expect(bst.size()).to.be.equal(expected.length);
   });
-  
+
   it("put inserts truthy values and falsy values with no conflicts", function() {
-    bst.put(0, "1").put(true, "2" );
+    bst.put(0, "1").put(true, "2");
     expect(bst.contains(false)).to.be.equal(false);
     expect(bst.contains(0)).to.be.equal(true);
     expect(bst.contains(true)).to.be.equal(true);
     expect(bst.contains(1)).to.be.equal(false);
   });
-  
+
   it("put inserts truthy values and falsy values with no conflicts", function() {
-    bst.put(0, "1").put(true, "2" );
+    bst.put(0, "1").put(true, "2");
     expect(bst.contains(false)).to.be.equal(false);
     expect(bst.contains(0)).to.be.equal(true);
     expect(bst.contains(true)).to.be.equal(true);
@@ -542,5 +542,95 @@ describe("Binary Search Tree", function() {
   it("keysGreater|keysLess returns empty array when tree is empty", function() {
     expect(bst.keysGreater(45)).to.have.members([]);
     expect(bst.keysLess(45)).to.have.members([]);
+  });
+
+  it("keyRange returns all keys in given range when both bounds exist in tree", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(bst.keyRange(0, 17)).to.have.members(bst.keys());
+  });
+
+  it("keyRange returns all keys in given range when only upper exists in tree", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(bst.keyRange(2, 17)).to.have.members(
+      bst.keys().filter(e => e !== 0 && e !== 1)
+    );
+  });
+
+  it("keyRange returns all keys in given range when only lower exists in tree", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(bst.keyRange(0, 16)).to.have.members(
+      bst.keys().filter(e => e !== 17)
+    );
+  });
+
+  it("keyRange returns all keys in given range when neither bound exists in tree but all keys in range", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(bst.keyRange(-2, 82)).to.have.members(bst.keys());
+  });
+
+  it("keyRange returns empty array when keys out of range", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(bst.keyRange(18, 82)).to.have.members([]);
+  });
+
+  it("keyRange throws range error when lower is gt or equal to upper", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(() => bst.keyRange(0, -1)).to.throw(RangeError);
+    expect(() => bst.keyRange(1, 1)).to.throw(RangeError);
+  });
+  it("keyRange throws type errors for undefined args", function() {
+    bst
+      .put(10, 10)
+      .put(1, 1)
+      .put(0, 0)
+      .put(15, 15)
+      .put(5, 5)
+      .put(14, 14)
+      .put(17, 17);
+    expect(() => bst.keyRange()).to.throw(TypeError);
+    expect(() => bst.keyRange(1)).to.throw(TypeError);
+    expect(() => bst.keyRange(undefined, 1)).to.throw(TypeError);
   });
 });
