@@ -2233,6 +2233,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return result;
 	  };
 
+	  /**
+	   * Returns an array of all keys in the given range
+	   * @param {*} lower - The lower bound
+	   * @param {*} upper - The upper bound
+	   * @returns {Array} An array containing the keyRange [lower, upper]
+	   */
+
+
+	  BST.prototype.keyRange = function keyRange(lower, upper) {
+	    var self = this;
+	    if (lower === undefined || upper === undefined) {
+	      throw new TypeError('Both a lower and upper bound are required');
+	    }
+	    if (self.comp(lower, upper) !== -1) {
+	      throw new RangeError('Lower bound must be strictly less than upper bound');
+	    }
+	    var res = [];
+	    (0, _BSTPrototype.keysBetween)(self.root, lower, upper, self.comp, res);
+	    return res;
+	  };
+
 	  return BST;
 	}();
 
@@ -2482,6 +2503,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return curRoot.key;
 	}
 
+	/**
+	 * Returns all keys in the given range
+	 * @private
+	 * @param {BSTNode} root - The root of the tree
+	 * @param {*} lower - The lower bound
+	 * @param {*} upper - The upper bound
+	 * @param {function} comparator - The compare function
+	 * @param {Array} array - The result array
+	 * @returns {undefined}
+	 */
 	function keysBetween(root, lower, upper, comparator, array) {
 	  if (!root || root.key === undefined) {
 	    return;
@@ -3272,9 +3303,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var len = array.length;
 	    var res = [];
 	    var index = 0;
-	    var data = void 0;
 	    while (index < len) {
-	      data = array[index];
+	      var data = array[index];
 	      if (!callback(data, index)) {
 	        res.push(data);
 	      }
@@ -3296,9 +3326,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var len = array.length;
 	    var index = 0;
 	    var res = [];
-	    var data = void 0;
 	    while (index < len) {
-	      data = array[index];
+	      var data = array[index];
 	      if (test(data, index)) {
 	        res.push(mapper(data, index));
 	      }
