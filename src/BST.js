@@ -8,7 +8,8 @@ import {
   less,
   greater,
   minOrMax,
-  getKeysOrValues
+  getKeysOrValues,
+  keysBetween
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -184,6 +185,25 @@ class BST {
     const result = [];
     getKeysOrValues(this.root, 'value', result);
     return result;
+  }
+
+  /**
+   * Returns an array of all keys in the given range
+   * @param {*} lower - The lower bound
+   * @param {*} upper - The upper bound
+   * @returns {Array} An array containing the keyRange [lower, upper]
+   */
+  keyRange(lower, upper) {
+    const self = this;
+    if (lower === undefined || upper === undefined) {
+      throw new TypeError('Both a lower and upper bound are required');
+    }
+    if (self.comp(lower, upper) !== -1) {
+      throw new RangeError('Lower bound must be strictly less than upper bound');
+    }
+    const res = [];
+    keysBetween(self.root, lower, upper, self.comp, res);
+    return res;
   }
 }
 
