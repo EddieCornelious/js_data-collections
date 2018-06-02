@@ -234,6 +234,83 @@ class ArrayUtils {
     }
     return newArr;
   }
+
+  /**
+   * Finds the first occurrence in the given array where a given callback evaluates to truthy
+   * @param {Array} array - The array to search through
+   * @param {function(curElement, index)} callback - The function used to evaluate each element
+   * @returns {number|undefined} The element @callback is truthy or undefined if none passed
+   */
+  static find(array, callback) {
+    const len = array.length;
+    let index = 0;
+    while (index < len) {
+      const data = array[index];
+      if (callback(data, index)) {
+        return data;
+      }
+      index += 1;
+    }
+  }
+
+  /**
+   * Finds the index in the given array that passes the given testing function
+   * @param {Array} array - The array to search through
+   * @param {function(curElement, index)} callback - The function used to evaluate each element
+   * @returns {number} The index where @callback is truthy or -1 if none passed
+   */
+  static findIndex(array, callback) {
+    const len = array.length;
+    let index = 0;
+    while (index < len) {
+      if (callback(array[index], index)) {
+        return index;
+      }
+      index += 1;
+    }
+    return -1;
+  }
+
+  /**
+   * Returns a new array with elements that give non-truthy values for the given testing function
+   * @param {Array} array - The array to filter
+   * @param {function(curElement, index)} callback - The function used to evaluate each element
+   * @returns {Array} A new Array filled wit only elements that did not pass the test
+   */
+  static filterNot(array, callback) {
+    const len = array.length;
+    const res = [];
+    let index = 0;
+    while (index < len) {
+      const data = array[index];
+      if (!callback(data, index)) {
+        res.push(data);
+      }
+      index += 1;
+    }
+    return res;
+  }
+
+  /**
+   * Returns a new Array with elements mapped only if they pass a testing function first
+   * @param {Array} array - The array to map to another array
+   * @param {function(curElement, index)} test - The testing function
+   * @param {function(curElement, index)} mapper - The mappping function
+   * @return {Array} A new Array with mapped elements that pass the @param test
+   */
+  static mapIf(array, test, mapper) {
+    const len = array.length;
+    let index = 0;
+    const res = [];
+    while (index < len) {
+      const data = array[index];
+      if (test(data, index)) {
+        res.push(mapper(data, index));
+      }
+      index += 1;
+    }
+    return res;
+  }
 }
 export default ArrayUtils;
 
