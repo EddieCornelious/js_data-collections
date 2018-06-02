@@ -3,6 +3,7 @@ const expect = require("chai").expect;
 
 describe("ArrayUtils", function() {
   let expected, actual;
+  const even = e => e % 2 === 0;
 
   beforeEach(function() {
     expected = [];
@@ -442,5 +443,68 @@ describe("ArrayUtils", function() {
     for (let i = 0; i < actual.length; i += 1) {
       expect(actual[i]).to.have.ordered.members(expected[i]);
     }
+  });
+
+  it("find finds and returns first element that passes the test", function() {
+    actual.push(1, 2, 3, 4);
+    expected = actual[1];
+    expect(ArrayUtils.find(actual, even)).to.be.equal(expected);
+  });
+
+  it("find finds and returns undefined for failed tests for all", function() {
+    actual.push(1, 2, 3, 4);
+    expect(ArrayUtils.find(actual, e => e > 4)).to.be.equal();
+  });
+
+  it("find returns undefined for empty array", function() {
+    expect(ArrayUtils.find(actual, e => e > 4)).to.be.equal();
+  });
+
+  it("findIndex returns first index that passes the test", function() {
+    actual.push(1, 2, 3, 4);
+    expected = 1;
+    expect(ArrayUtils.findIndex(actual, even)).to.be.equal(expected);
+  });
+
+  it("findIndex returns -1 for failed tests for all", function() {
+    actual.push(1, 2, 3, 4);
+    expect(ArrayUtils.findIndex(actual, e => e > 4)).to.be.equal(-1);
+  });
+
+  it("findIndex returns -1 for empty array", function() {
+    expect(ArrayUtils.findIndex(actual, e => e > 4)).to.be.equal(-1);
+  });
+
+  it("filterNot returns all elements that fail a given test ", function() {
+    actual.push(1, 2, 3, 4);
+    expected = [1, 3];
+    expect(ArrayUtils.filterNot(actual, even)).to.have.ordered.members(
+      expected
+    );
+  });
+
+  it("filterNot returns empty array for empty input array", function() {
+    expect(ArrayUtils.filterNot(actual, even)).to.have.ordered.members([]);
+  });
+
+  it("mapIf only maps elements that pass test", function() {
+    actual.push(1, 2, 3, 4);
+    expect(ArrayUtils.mapIf(actual, even, e => e * 3)).to.have.ordered.members([
+      6,
+      12
+    ]);
+  });
+
+  it("mapIf returns empty array for empty input array", function() {
+    expect(ArrayUtils.mapIf(actual, even, e => e * 3)).to.have.ordered.members(
+      []
+    );
+  });
+
+  it("mapIf returns empty array when no element passes test", function() {
+    actual.push(3, 1, 7, 9);
+    expect(ArrayUtils.mapIf(actual, even, e => e * 3)).to.have.ordered.members(
+      []
+    );
   });
 });
