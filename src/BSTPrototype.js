@@ -204,6 +204,16 @@ export function minOrMax(query, root) {
   return curRoot.key;
 }
 
+/**
+ * Returns all keys in the given range
+ * @private
+ * @param {BSTNode} root - The root of the tree
+ * @param {*} lower - The lower bound
+ * @param {*} upper - The upper bound
+ * @param {function} comparator - The compare function
+ * @param {Array} array - The result array
+ * @returns {undefined}
+ */
 export function keysBetween(root, lower, upper, comparator, array) {
   if (!root || root.key === undefined) {
     return;
