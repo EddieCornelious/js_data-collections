@@ -1,3 +1,13 @@
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.8.0...v0.9.0) (2018-06-02)
+
+
+### Features
+
+* **BST:** added key range method ([c5bd432](https://github.com/EddieCornelious/js_data-collections/commit/c5bd432))
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.6.19...v0.8.0) (2018-06-02)
 
