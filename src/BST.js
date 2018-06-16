@@ -9,7 +9,8 @@ import {
   greater,
   minOrMax,
   getKeysOrValues,
-  keysBetween
+  keysBetween,
+  filter
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -192,6 +193,12 @@ class BST {
     keysBetween(this.root, lower, upper, this.comp, res);
     return res;
   }
+  
+ filter(cb){
+ const newTree = new this.constructor(this.comp);
+ filter(this.root, cb, BSTNode, newTree)
+ return newTree
+}
 }
 
 export default BST;

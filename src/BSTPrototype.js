@@ -222,3 +222,14 @@ export function keysBetween(root, lower, upper, comparator, array) {
   keysBetween(root.left, lower, upper, comparator, array);
   return keysBetween(root.right, lower, upper, comparator, array);
 }
+
+export function filter(root, cb, nodeType, newTree){
+ if(!root || root.key === undefined){
+   return
+ }
+ if(cb(root.key)){
+   newTree.put(root.key, root.value)
+ }
+  filter(root.left, cb, nodeType, newTree)
+  filter(root.right, cb, nodeType, newTree)
+}
