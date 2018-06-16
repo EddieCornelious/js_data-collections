@@ -2564,6 +2564,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return res;
 	  };
 
+	  BST.prototype.filter = function filter(cb) {
+	    var newTree = new this.constructor(this.comp);
+	    (0, _BSTPrototype.filter)(this.root, cb, _BSTNode2['default'], newTree);
+	    return newTree;
+	  };
+
 	  return BST;
 	}();
 
@@ -2607,6 +2613,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
 	exports.keysBetween = keysBetween;
+	exports.filter = filter;
 
 	/**
 	* Inserts the given key and value into bst (maps key to value)
@@ -2830,6 +2837,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  keysBetween(root.left, lower, upper, comparator, array);
 	  return keysBetween(root.right, lower, upper, comparator, array);
+	}
+
+	function filter(root, cb, nodeType, newTree) {
+	  if (!root || root.key === undefined) {
+	    return;
+	  }
+	  if (cb(root.key)) {
+	    newTree.put(root.key, root.value);
+	  }
+	  filter(root.left, cb, nodeType, newTree);
+	  filter(root.right, cb, nodeType, newTree);
 	}
 
 /***/ },
