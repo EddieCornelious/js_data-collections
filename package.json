@@ -14,7 +14,8 @@
     "travis-deploy-once": "node_modules/.bin/travis-deploy-once",
     "semantic-release": "node_modules/.bin/semantic-release",
     "commit": "node_modules/.bin/git-cz",
-    "pretty-tests": "node_modules/.bin/prettier --write tests/*"
+    "pretty-tests": "node_modules/.bin/prettier --write tests/*",
+    "gen-log" : "node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "keywords": [
     "data-structures",
