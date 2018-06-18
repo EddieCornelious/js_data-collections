@@ -10,7 +10,8 @@ import {
   minOrMax,
   getKeysOrValues,
   keysBetween,
-  filter
+  _map,
+  _reduce
 } from './BSTPrototype.js';
 
 import { defaultComp } from './Util.js';
@@ -194,11 +195,22 @@ class BST {
     return res;
   }
   
- filter(cb){
- const newTree = new this.constructor(this.comp);
- filter(this.root, cb, BSTNode, newTree)
- return newTree
-}
+  map(cb) {
+  const callingNode = this.root.constructor;
+  const newTree = _map(this.root,callingNode, cb );
+  const newBST = new this.constructor(this.comp);
+  newBST.root = newTree;
+  newBST.inserts = this.inserts;
+  if(this.inserts > 0){
+    newBST.root.parent = new callingNode();
+  }
+  return newBST;
+  }
+  
+  reduce(cb, initial = []) {
+    return _reduce(this.root, cb, initial);
+  }
+  
 }
 
 export default BST;

@@ -2564,10 +2564,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return res;
 	  };
 
-	  BST.prototype.filter = function filter(cb) {
-	    var newTree = new this.constructor(this.comp);
-	    (0, _BSTPrototype.filter)(this.root, cb, _BSTNode2['default'], newTree);
-	    return newTree;
+	  BST.prototype.map = function map(cb) {
+	    var callingNode = this.root.constructor;
+	    var newTree = (0, _BSTPrototype._map)(this.root, callingNode, cb);
+	    var newBST = new this.constructor(this.comp);
+	    newBST.root = newTree;
+	    newBST.inserts = this.inserts;
+	    if (this.inserts > 0) {
+	      newBST.root.parent = new callingNode();
+	    }
+	    return newBST;
+	  };
+
+	  BST.prototype.reduce = function reduce(cb) {
+	    var initial = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	    return (0, _BSTPrototype._reduce)(this.root, cb, initial);
 	  };
 
 	  return BST;
@@ -2613,7 +2625,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
 	exports.keysBetween = keysBetween;
-	exports.filter = filter;
+	exports._reduce = _reduce;
+	exports._map = _map;
 
 	/**
 	* Inserts the given key and value into bst (maps key to value)
@@ -2839,15 +2852,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return keysBetween(root.right, lower, upper, comparator, array);
 	}
 
-	function filter(root, cb, nodeType, newTree) {
+	function _reduce(root, cb, acc) {
 	  if (!root || root.key === undefined) {
-	    return;
+	    return acc;
 	  }
-	  if (cb(root.key)) {
-	    newTree.put(root.key, root.value);
+	  var res = cb(root.key, acc);
+	  res = _reduce(root.left, cb, res);
+	  res = _reduce(root.right, cb, res);
+	  return res;
+	}
+
+	function _map(root, nodeType, cb) {
+	  if (!root) {
+	    return null;
 	  }
-	  filter(root.left, cb, nodeType, newTree);
-	  filter(root.right, cb, nodeType, newTree);
+	  if (root.key === undefined) {
+	    return new nodeType();
+	  }
+	  var newRoot = new nodeType(cb(root.key), root.value);
+	  var left = _map(root.left, nodeType, cb);
+	  var right = _map(root.right, nodeType, cb);
+	  newRoot.right = right;
+	  newRoot.left = left;
+	  left.parent = newRoot;
+	  right.parent = newRoot;
+	  return newRoot;
 	}
 
 /***/ },

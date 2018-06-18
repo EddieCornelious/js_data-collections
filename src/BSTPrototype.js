@@ -223,13 +223,29 @@ export function keysBetween(root, lower, upper, comparator, array) {
   return keysBetween(root.right, lower, upper, comparator, array);
 }
 
-export function filter(root, cb, nodeType, newTree){
- if(!root || root.key === undefined){
-   return
- }
- if(cb(root.key)){
-   newTree.put(root.key, root.value)
- }
-  filter(root.left, cb, nodeType, newTree)
-  filter(root.right, cb, nodeType, newTree)
+export function _reduce(root, cb, acc){
+  if(!root || root.key === undefined) {
+    return acc;
+  }
+  let res = cb(root.key, acc);
+  res = _reduce(root.left, cb, res );
+  res = _reduce(root.right, cb, res);
+  return res;
+}
+
+export function _map(root, nodeType, cb){
+  if(!root){
+    return null;
+  }
+  if(root.key === undefined){
+    return new nodeType();
+  }
+  const newRoot = new nodeType(cb(root.key), root.value);
+  let left = _map(root.left, nodeType, cb);
+  let right = _map(root.right, nodeType, cb);
+  newRoot.right = right;
+  newRoot.left = left;
+  left.parent = newRoot;
+  right.parent = newRoot;
+  return newRoot;
 }
