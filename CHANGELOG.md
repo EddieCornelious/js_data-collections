@@ -1,3 +1,13 @@
+<a name="0.9.1"></a>
+## [0.9.1](https://github.com/EddieCornelious/js_data-collections/compare/v0.9.0...v0.9.1) (2018-06-19)
+
+
+### Performance Improvements
+
+* Faster implementation of array flatten deep ([618e937](https://github.com/EddieCornelious/js_data-collections/commit/618e937))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.8.0...v0.9.0) (2018-06-02)
 
