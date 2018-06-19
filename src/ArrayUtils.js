@@ -1,4 +1,4 @@
-import { swap, isNumber, genRand } from './Util.js';
+import { swap, isNumber, genRand, flat } from './Util.js';
 
 /**
  * Various utility methods that can be used on arrays
@@ -200,15 +200,9 @@ class ArrayUtils {
    * // altered will be [2, 3, 4, 5] ; myArray is unchanged
    */
   static flatten(array) {
-    let newArr = [];
-    let curValue;
-    for (let i = 0; i < array.length; i += 1) {
-      curValue = array[i];
-      newArr = Array.isArray(curValue)
-        ? newArr.concat(ArrayUtils.flatten(curValue))
-        : newArr.concat([curValue]);
-    }
-    return newArr;
+    const res = [];
+    flat(array, res);
+    return res;
   }
 
   /**
