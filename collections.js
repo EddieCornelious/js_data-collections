@@ -605,6 +605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	exports.swap = swap;
+	exports.flat = flat;
 	exports.toString = toString;
 	exports.defaultComp = defaultComp;
 	exports.isNumber = isNumber;
@@ -622,6 +623,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var oldIndex1 = array[index1];
 	  array[index1] = array[index2];
 	  array[index2] = oldIndex1;
+	}
+
+	/**
+	 * Makes a 1-D array from an n-D array
+	 * @private
+	 * @param {Array} array - The array to flatten
+	 * @param {res} - The new flattened array
+	 * @returns {undefined}
+	 */
+	function flat(array, res) {
+	  var newArr = [];
+	  var curValue = void 0;
+	  for (var i = 0; i < array.length; i += 1) {
+	    curValue = array[i];
+	    if (Array.isArray(curValue)) {
+	      flat(curValue, res);
+	    } else {
+	      res.push(curValue);
+	    }
+	  }
+	  return newArr;
 	}
 
 	/**
@@ -718,14 +740,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function genRand(limit) {
 	  return Math.floor(Math.random() * limit);
 	}
-
-	module.exports = {
-	  swap: swap,
-	  defaultComp: defaultComp,
-	  isNumber: isNumber,
-	  toString: toString,
-	  genRand: genRand
-	};
 
 /***/ },
 /* 3 */
@@ -3213,13 +3227,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  ArrayUtils.flatten = function flatten(array) {
-	    var newArr = [];
-	    var curValue = void 0;
-	    for (var i = 0; i < array.length; i += 1) {
-	      curValue = array[i];
-	      newArr = Array.isArray(curValue) ? newArr.concat(ArrayUtils.flatten(curValue)) : newArr.concat([curValue]);
-	    }
-	    return newArr;
+	    var res = [];
+	    (0, _Util.flat)(array, res);
+	    return res;
 	  };
 
 	  /**
