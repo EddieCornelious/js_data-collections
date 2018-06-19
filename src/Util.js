@@ -14,6 +14,27 @@ export function swap(array, index1, index2) {
 }
 
 /**
+ * Makes a 1-D array from an n-D array
+ * @private
+ * @param {Array} array - The array to flatten
+ * @param {res} - The new flattened array
+ * @returns {undefined}
+ */
+export function flat(array, res) {
+  let newArr = [];
+  let curValue;
+  for (let i = 0; i < array.length; i += 1) {
+    curValue = array[i];
+    if (Array.isArray(curValue)) {
+      flat(curValue, res);
+    } else {
+      res.push(curValue);
+    }
+  }
+  return newArr;
+}
+
+/**
  * Converts a given value to a string
  * @private
  * @param {*} value - The value to convert to a string
@@ -107,10 +128,3 @@ export function genRand(limit) {
   return Math.floor(Math.random() * limit);
 }
 
-module.exports = {
-  swap,
-  defaultComp,
-  isNumber,
-  toString,
-  genRand
-};
