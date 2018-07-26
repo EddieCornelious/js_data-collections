@@ -8,7 +8,7 @@
 [![David](https://img.shields.io/david/EddieCornelious/js_data-collections.svg)](https://david-dm.org/EddieCornelious/js_data-collections)
 [![devDependencies Status](https://david-dm.org/EddieCornelious/js_data-collections/dev-status.svg)](https://david-dm.org/EddieCornelious/js_data-collections?type=dev)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/EddieCornelious/js_data-collections/maintainability)
-
+[![Coverage Status](https://coveralls.io/repos/github/EddieCornelious/js_data-collections/badge.svg?branch=master)](https://coveralls.io/github/EddieCornelious/js_data-collections?branch=master)
 **A simple data structure library**
 
 ## Included data structures &#128296;
