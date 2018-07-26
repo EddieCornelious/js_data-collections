@@ -1,10 +1,10 @@
-const Collections = require("../collections.js");
+import BST from "../src/BST.js";
 var expect = require("chai").expect;
 describe("Binary Search Tree", function() {
   let bst, expected, actual;
 
   beforeEach(function() {
-    bst = new Collections.BST();
+    bst = new BST();
   });
 
   afterEach(function() {

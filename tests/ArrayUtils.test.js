@@ -1,4 +1,4 @@
-import { ArrayUtils } from "../collections.js";
+import ArrayUtils  from "../src/ArrayUtils.js";
 const expect = require("chai").expect;
 
 describe("ArrayUtils", function() {

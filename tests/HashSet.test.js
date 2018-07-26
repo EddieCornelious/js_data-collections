@@ -1,12 +1,12 @@
-const Collections = require("../collections.js");
+import HashSet from "../src/HashSet.js";
 var expect = require("chai").expect;
 
 describe("HashSet", function() {
   let Set, Set2, expected;
 
   beforeEach(function() {
-    Set = new Collections.HashSet();
-    Set2 = new Collections.HashSet();
+    Set = new HashSet();
+    Set2 = new HashSet();
   });
 
   afterEach(function() {

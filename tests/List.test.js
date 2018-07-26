@@ -1,11 +1,11 @@
-const Collections = require("../collections.js");
+import List from "../src/List.js"
 const expect = require("chai").expect;
 
 describe("List", function() {
   let list, expected, actual;
 
   beforeEach(function() {
-    list = new Collections.List();
+    list = new List();
   });
 
   afterEach(function() {

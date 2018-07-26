@@ -1,11 +1,11 @@
-const Collections = require("../collections.js");
+import Graph from "../src/Graph.js";
 var expect = require("chai").expect;
 
 describe("Graph", function() {
   let graph, expected, actual;
 
   beforeEach(function() {
-    graph = new Collections.Graph();
+    graph = new Graph();
   });
 
   afterEach(function() {
