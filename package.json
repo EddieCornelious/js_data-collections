@@ -5,7 +5,7 @@
   "author": "Eddie Cornelious",
   "main": "collections.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha --require babel-core/register --colors ./tests/*",
+    "test": "nyc node_modules/.bin/mocha --require babel-core/register --colors ./tests/*",
     "test:watch": "node_modules/.bin/mocha --require babel-core/register --colors ./tests/* -w",
     "build": "node_modules/.bin/webpack",
     "build:watch": "node_modules/.bin/webpack --watch",
