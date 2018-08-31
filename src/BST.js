@@ -12,7 +12,7 @@ import {
   keysBetween
 } from './BSTPrototype.js';
 
-import { defaultComp } from './Util.js';
+import {defaultComp} from './Util.js';
 
 /**
  * Binary search tree representation
@@ -31,15 +31,15 @@ class BST {
   }
 
   /**
-  * puts the given key and value into the BST
-  * @param {*} [key=null] - The key to insert into the BST
-  * @param {*} [value=null] - The value that is mapped to by @param key
-  * @returns {BST} The instance that this method was called with
-  *
-  * @example
-  * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
-  * // ed now maps to kane because ed already existed before.
-  */
+   * puts the given key and value into the BST
+   * @param {*} [key=null] - The key to insert into the BST
+   * @param {*} [value=null] - The value that is mapped to by @param key
+   * @returns {BST} The instance that this method was called with
+   *
+   * @example
+   * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
+   * // ed now maps to kane because ed already existed before.
+   */
   put(key = null, value = null) {
     const self = this;
     const inserted = BSTInsert.call(self, key, value, BSTNode);
@@ -70,16 +70,16 @@ class BST {
   }
 
   /**
-  * Finds the value associated with the given key
-  * @param {*} key - The key to search for in the BST
-  * @returns {(*|undefined)} The value associated with @param key or undefined
-  * if not found.
-  *
-  * @example
-  * bst.put(1, 5).put(5, 10);
-  * bst.find(5); // returns 10
-  * bst.find(67); // returns undefined
-  */
+   * Finds the value associated with the given key
+   * @param {*} key - The key to search for in the BST
+   * @returns {(*|undefined)} The value associated with @param key or undefined
+   * if not found.
+   *
+   * @example
+   * bst.put(1, 5).put(5, 10);
+   * bst.find(5); // returns 10
+   * bst.find(67); // returns undefined
+   */
   getVal(key) {
     const self = this;
     const node = BSTSearch.call(self, self.root, key);
@@ -87,23 +87,23 @@ class BST {
   }
 
   /**
-  * Determines if the BST contains the given key
-  * @param {*} key - The key to search for
-  * @returns {boolean} True if the BST contains @param key and false otherwise
-  *
-  * @example
-  * bst.put(1, 5).put(5, 10);
-  * bst.contains(5); // returns true
-  * bst.contains(67); // returns false
-  */
+   * Determines if the BST contains the given key
+   * @param {*} key - The key to search for
+   * @returns {boolean} True if the BST contains @param key and false otherwise
+   *
+   * @example
+   * bst.put(1, 5).put(5, 10);
+   * bst.contains(5); // returns true
+   * bst.contains(67); // returns false
+   */
   contains(key) {
     return this.getVal(key) !== undefined;
   }
 
   /**
-  * Gives the inorder traversal of the BST
-  * @returns {Array} Array of objects representing the BST
-  */
+   * Gives the inorder traversal of the BST
+   * @returns {Array} Array of objects representing the BST
+   */
   inorder() {
     const result = [];
     BSTInorder(this.root, result);
@@ -199,7 +199,9 @@ class BST {
       throw new TypeError('Both a lower and upper bound are required');
     }
     if (self.comp(lower, upper) !== -1) {
-      throw new RangeError('Lower bound must be strictly less than upper bound');
+      throw new RangeError(
+        'Lower bound must be strictly less than upper bound'
+      );
     }
     const res = [];
     keysBetween(self.root, lower, upper, self.comp, res);

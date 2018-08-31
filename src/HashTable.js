@@ -1,4 +1,4 @@
-import { toString } from './Util.js';
+import {toString} from './Util.js';
 import MapInterface from './MapInterface.js';
 
 /**
@@ -13,7 +13,7 @@ import MapInterface from './MapInterface.js';
 function hashStr(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i += 1) {
-    hash = ((31 * hash) + str.charCodeAt(i)) | 0;
+    hash = (31 * hash + str.charCodeAt(i)) | 0;
   }
   return hash;
 }
@@ -104,10 +104,10 @@ function search(key, table) {
   // skip values [k1, v1, k2, v2]
   for (let index = 0; index < bucket.length; index += 2) {
     if (key === bucket[index]) {
-      return { bucket, index };
+      return {bucket, index};
     }
   }
-  return { bucket: undefined, index: -1 };
+  return {bucket: undefined, index: -1};
 }
 
 /**
@@ -118,7 +118,7 @@ function search(key, table) {
  * @returns {boolean} True if @param table should rehash and false otherwise
  */
 function shouldRehash(inserts, table) {
-  const load = (inserts / table.length);
+  const load = inserts / table.length;
   return load >= 0.75 ? true : false;
 }
 
@@ -145,9 +145,9 @@ class HashTable extends MapInterface {
 
   put(key = null, value = null) {
     const self = this;
-    const { table, inserts } = self;
+    const {table, inserts} = self;
     const searchRes = search(key, table);
-    const { bucket, index } = searchRes;
+    const {bucket, index} = searchRes;
     if (index === -1) {
       insert(key, value, table);
       self.inserts += 1;
@@ -162,14 +162,14 @@ class HashTable extends MapInterface {
 
   getVal(key) {
     const searchRes = search(key, this.table);
-    const { bucket, index } = searchRes;
+    const {bucket, index} = searchRes;
     return index !== -1 ? bucket[index + 1] : undefined;
   }
 
   remove(key) {
     const self = this;
     const searchRes = search(key, self.table);
-    const { bucket, index } = searchRes;
+    const {bucket, index} = searchRes;
     if (index !== -1) {
       self.inserts -= 1;
       bucket.splice(index, 2);

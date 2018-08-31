@@ -1,5 +1,5 @@
 import BHeap from './BHeap.js';
-import { isNumber } from './Util.js';
+import {isNumber} from './Util.js';
 
 /**
  * Custom comparator for min heap
@@ -46,7 +46,7 @@ class PriorityQueue {
    */
   enqueue(data, priority) {
     isNumber(priority);
-    return this.queue.insert({ data, priority });
+    return this.queue.insert({data, priority});
   }
 
   /**
@@ -57,7 +57,7 @@ class PriorityQueue {
    * "wash dishes" on second dequeue
    */
   dequeue() {
-    const { queue } = this;
+    const {queue} = this;
     return queue.extractRoot().data;
   }
 
@@ -70,9 +70,9 @@ class PriorityQueue {
   }
 
   /**
-  * Removes all elements from the PriorityQueue
-  * @returns {undefined}
-  */
+   * Removes all elements from the PriorityQueue
+   * @returns {undefined}
+   */
   clear() {
     return this.queue.clear();
   }

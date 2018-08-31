@@ -1,9 +1,5 @@
-
 import BSTNode from './BSTNode.js';
-import {
-  BSTInsert,
-  BSTRemove
-} from './BSTPrototype.js';
+import {BSTInsert, BSTRemove} from './BSTPrototype.js';
 import BST from './BST.js';
 
 class RBNode extends BSTNode {
@@ -162,7 +158,10 @@ function insertFix(nodeToFix) {
 function deletefixUp(nodeToFix) {
   let currentNode = nodeToFix;
   const context = this;
-  while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
+  while (
+    currentNode.parent.key !== undefined &&
+    currentNode.color === 'black'
+  ) {
     let sibling;
     if (currentNode === currentNode.parent.left) {
       sibling = currentNode.parent.right;
@@ -245,7 +244,7 @@ class RBTree extends BST {
     // successor and child
     const didRemove = BSTRemove.call(self, key);
     if (didRemove) {
-      const { succChild, succ } = didRemove;
+      const {succChild, succ} = didRemove;
       if (succ.color === 'black') {
         deletefixUp.call(self, succChild);
       }

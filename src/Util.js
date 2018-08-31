@@ -1,4 +1,3 @@
-
 /**
  * swap method for Structs BHeap and Array
  * @private
@@ -95,7 +94,9 @@ export function defaultComp(a, b) {
    return 0;
  }
  */
-function customComp(a, b) { // eslint-disable-line no-unused-vars
+// eslint-disable-next-line no-unused-vars
+function customComp(a, b) {
+  // eslint-disable-line no-unused-vars
   if (a < b) {
     return -1;
   }
@@ -112,8 +113,8 @@ function customComp(a, b) { // eslint-disable-line no-unused-vars
  * @private
  */
 export function isNumber(value) {
-  if (typeof value !== 'number'
-  || !isFinite(value)) { // eslint-disable-line no-restricted-globals
+  // eslint-disable-next-line no-restricted-globals
+  if (typeof value !== 'number' || !isFinite(value)) {
     throw new TypeError('Argument must be of type number or Number');
   }
 }
@@ -127,4 +128,3 @@ export function isNumber(value) {
 export function genRand(limit) {
   return Math.floor(Math.random() * limit);
 }
-

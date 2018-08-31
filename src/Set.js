@@ -1,4 +1,3 @@
-
 import SetInterface from './SetInterface';
 import RBTree from './RedBlackTree.js';
 

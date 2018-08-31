@@ -1,4 +1,4 @@
-import { swap, isNumber, genRand, flat } from './Util.js';
+import {swap, isNumber, genRand, flat} from './Util.js';
 
 /**
  * Various utility methods that can be used on arrays
@@ -99,7 +99,8 @@ class ArrayUtils {
    * const altered = arrayMethods.pushMany(myArray, "push", "me");
    * // myArray is unchanged ; altered = [1, 2, "push", "me"]
    */
-  static pushMany(array = []) { // eslint-disable-line no-unused-vars
+  static pushMany(array = []) {
+    // eslint-disable-line no-unused-vars
     const args = [...arguments];
     // throw out array arg
     args.shift();
@@ -307,4 +308,3 @@ class ArrayUtils {
   }
 }
 export default ArrayUtils;
-

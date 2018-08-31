@@ -1,7 +1,4 @@
-import {
-  isNumber,
-  defaultComp
-} from './Util.js';
+import {isNumber, defaultComp} from './Util.js';
 
 /**
  * Returns the node at given index in linked list
@@ -68,7 +65,7 @@ class List {
    *  .addToFront("b"); // list is <"b", "a">
    */
   addToFront(data) {
-    const { head, length } = this;
+    const {head, length} = this;
     const newNode = new Node(data);
     if (!head) {
       this.head = newNode;
@@ -113,7 +110,7 @@ class List {
    *  .addToBack("b"); // list is <"a", "b">
    */
   addToBack(data) {
-    const { tail, length } = this;
+    const {tail, length} = this;
     const newNode = new Node(data);
     if (!tail) {
       this.head = newNode;
@@ -138,7 +135,7 @@ class List {
    * // list is now <"b">
    */
   removeFront() {
-    const { head, length } = this;
+    const {head, length} = this;
     let removed;
     if (head) {
       removed = head.data;
@@ -170,7 +167,7 @@ class List {
    * // list is now <"a">
    */
   removeBack() {
-    const { tail, length } = this;
+    const {tail, length} = this;
     let removed;
     if (tail) {
       removed = tail.data;
@@ -203,7 +200,7 @@ class List {
    */
   insert(index = 0, data) {
     isNumber(index);
-    const { length } = this;
+    const {length} = this;
     if (index === 0) {
       return this.addToFront(data);
     } else if (index >= length) {
@@ -237,7 +234,7 @@ class List {
    */
   remove(index) {
     isNumber(index);
-    const { length } = this;
+    const {length} = this;
     let removed;
     if (index === 0) {
       return this.removeFront();
@@ -394,6 +391,5 @@ class List {
     return temp;
   }
 }
-
 
 export default List;

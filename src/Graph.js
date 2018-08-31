@@ -28,7 +28,7 @@ class Graph {
    * // two verticies with id "A" and "B" are added to graph
    */
   addVertex(vertex) {
-    const { graph } = this;
+    const {graph} = this;
     // so user does not accidentally overwrite values array
     if (!graph.contains(vertex) && vertex !== undefined) {
       graph.put(vertex, []);
@@ -50,17 +50,19 @@ class Graph {
    */
   addEdge(vertex1, vertex2, weight = 0) {
     // TODO: replace with PQ for Prim's
-    const { graph } = this;
+    const {graph} = this;
     const v1neighbors = graph.getVal(vertex1);
     const v2neighbors = graph.getVal(vertex2);
     // they both exist as verticies
     if (v1neighbors && v2neighbors) {
       // make sure edge does not already exist
-      if (v1neighbors.indexOf(vertex2) === -1 &&
-        v2neighbors.indexOf(vertex2) === -1) {
+      if (
+        v1neighbors.indexOf(vertex2) === -1 &&
+        v2neighbors.indexOf(vertex2) === -1
+      ) {
         // body
-        v1neighbors.push({ vertex: vertex2, weight });
-        v2neighbors.push({ vertex: vertex1, weight });
+        v1neighbors.push({vertex: vertex2, weight});
+        v2neighbors.push({vertex: vertex1, weight});
       }
     }
   }
@@ -72,7 +74,7 @@ class Graph {
    * through BFS
    */
   BFS(startingVertex) {
-    const { graph } = this;
+    const {graph} = this;
     if (!graph.contains(startingVertex)) {
       return [];
     }

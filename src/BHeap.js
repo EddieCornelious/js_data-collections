@@ -1,4 +1,4 @@
-import { swap, defaultComp } from './Util.js';
+import {swap, defaultComp} from './Util.js';
 
 /**
  * Sifts down (swaps elements downward) the given array
@@ -10,8 +10,8 @@ import { swap, defaultComp } from './Util.js';
  * @returns {undefined}
  */
 function heapify(array, index, comp) {
-  const left = (2 * index);
-  const right = (2 * index) + 1;
+  const left = 2 * index;
+  const right = 2 * index + 1;
   const numIndicies = array.length - 1;
   let largest;
 
@@ -76,7 +76,7 @@ class BHeap {
    * // root = 3;
    */
   extractRoot() {
-    const { heap, comp } = this;
+    const {heap, comp} = this;
     let max = heap[1];
     heap[1] = heap[heap.length - 1];
     heap.length -= 1;
@@ -96,7 +96,7 @@ class BHeap {
    * heap.extractRoot() // will be 3
    */
   insert(data = null) {
-    const { heap, comp } = this;
+    const {heap, comp} = this;
     heap[heap.length] = data;
     siftUp(heap, heap.length - 1, comp);
     return this;

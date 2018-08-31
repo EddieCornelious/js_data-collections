@@ -1,4 +1,4 @@
-import { toString } from './Util.js';
+import {toString} from './Util.js';
 
 /**
  * Converts the given data to a lowercase string
@@ -70,7 +70,8 @@ function hasChild(trieNode) {
    *Using this instead of Object.keys because I only need existence of one child
    *not all
    */
-  for (let prop in trieNode) { // eslint-disable-line no-restricted-syntax
+  // eslint-disable-next-line no-restricted-syntax
+  for (let prop in trieNode) {
     if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
       return true;
     }

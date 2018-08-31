@@ -1,13 +1,12 @@
-
 /**
-* Inserts the given key and value into bst (maps key to value)
-* @private
-* @param {*} key - The key to insert into the bst
-* @param {*} value - The value that is mapped to by @param key
-* @param {BSTNode} Node - The Node type to insert into the tree
-* @returns {(BSTNode|undefined)} undefined if the node was already in tree,
-* thus not inserted or the new node that was just inserted successfully.
-*/
+ * Inserts the given key and value into bst (maps key to value)
+ * @private
+ * @param {*} key - The key to insert into the bst
+ * @param {*} value - The value that is mapped to by @param key
+ * @param {BSTNode} Node - The Node type to insert into the tree
+ * @returns {(BSTNode|undefined)} undefined if the node was already in tree,
+ * thus not inserted or the new node that was just inserted successfully.
+ */
 export function BSTInsert(key, value, NodeType) {
   const comp = this.comp;
   let root = this.root;
@@ -112,7 +111,7 @@ export function BSTRemove(key) {
     node.key = succ.key;
     node.value = succ.value;
   }
-  return { succChild, succ };
+  return {succChild, succ};
 }
 
 /**
