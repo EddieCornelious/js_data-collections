@@ -14,7 +14,7 @@
     "prod": "node_modules/.bin/uglifyjs collections.js -o collections.min.js",
     "gen-docs": "node_modules/.bin/jsdoc src/ -c jsdoc.json --readme README.md",
     "commit": "node_modules/.bin/git-cz",
-    "pretty-tests": "node_modules/.bin/prettier --write tests/*",
+    "pretty": "node_modules/.bin/prettier --write src/* && node_modules/.bin/prettier --write tests/*",
     "gen-log": "node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "keywords": [
