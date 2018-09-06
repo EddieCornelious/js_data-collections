@@ -78,7 +78,7 @@ function insertFixRecolor(uncle, currentNode) {
  * @param {RBNode} context - The RBTree instance
  * @returns {undefined}
  */
-function insertFixRotate1(node, context, rightChild) {
+function insertFixRotate1(node, context) {
   let currentNode = node;
   const isRightChild = currentNode === currentNode.parent.right;
   if (isRightChild) {
