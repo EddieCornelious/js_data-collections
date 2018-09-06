@@ -9,7 +9,8 @@ import {swap, isNumber, genRand, flat} from './Util.js';
  * const arrayMethods = Collections.ArrayUtils;
  */
 class ArrayUtils {
-  constructor() {} // eslint-disable-line no-empty-function
+  // eslint-disable-next-line no-empty-function
+  constructor() {}
 
   /**
    * Removes the element at the given position in the given array
