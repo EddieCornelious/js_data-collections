@@ -610,7 +610,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.defaultComp = defaultComp;
 	exports.isNumber = isNumber;
 	exports.genRand = genRand;
-
 	/**
 	 * swap method for Structs BHeap and Array
 	 * @private
@@ -707,6 +706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   return 0;
 	 }
 	 */
+	// eslint-disable-next-line no-unused-vars
 	function customComp(a, b) {
 	  // eslint-disable-line no-unused-vars
 	  if (a < b) {
@@ -725,8 +725,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 	function isNumber(value) {
+	  // eslint-disable-next-line no-restricted-globals
 	  if (typeof value !== 'number' || !isFinite(value)) {
-	    // eslint-disable-line no-restricted-globals
 	    throw new TypeError('Argument must be of type number or Number');
 	  }
 	}
@@ -1235,9 +1235,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Removes all elements from the PriorityQueue
-	  * @returns {undefined}
-	  */
+	   * Removes all elements from the PriorityQueue
+	   * @returns {undefined}
+	   */
 
 
 	  PriorityQueue.prototype.clear = function clear() {
@@ -1853,9 +1853,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Collection of elements that contain no duplicates
-	 * 
+	 *
 	 * @interface
-	 * 
+	 *
 	 */
 	var SetInterface = function () {
 	  function SetInterface() {
@@ -2062,15 +2062,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  /**
-	  * puts the given key and value into the BST
-	  * @param {*} [key=null] - The key to insert into the BST
-	  * @param {*} [value=null] - The value that is mapped to by @param key
-	  * @returns {BST} The instance that this method was called with
-	  *
-	  * @example
-	  * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
-	  * // ed now maps to kane because ed already existed before.
-	  */
+	   * puts the given key and value into the BST
+	   * @param {*} [key=null] - The key to insert into the BST
+	   * @param {*} [value=null] - The value that is mapped to by @param key
+	   * @returns {BST} The instance that this method was called with
+	   *
+	   * @example
+	   * bst.put("ed", "jones").put("george", "james").put("ed", "kane");
+	   * // ed now maps to kane because ed already existed before.
+	   */
 
 
 	  BST.prototype.put = function put() {
@@ -2108,16 +2108,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Finds the value associated with the given key
-	  * @param {*} key - The key to search for in the BST
-	  * @returns {(*|undefined)} The value associated with @param key or undefined
-	  * if not found.
-	  *
-	  * @example
-	  * bst.put(1, 5).put(5, 10);
-	  * bst.find(5); // returns 10
-	  * bst.find(67); // returns undefined
-	  */
+	   * Finds the value associated with the given key
+	   * @param {*} key - The key to search for in the BST
+	   * @returns {(*|undefined)} The value associated with @param key or undefined
+	   * if not found.
+	   *
+	   * @example
+	   * bst.put(1, 5).put(5, 10);
+	   * bst.find(5); // returns 10
+	   * bst.find(67); // returns undefined
+	   */
 
 
 	  BST.prototype.getVal = function getVal(key) {
@@ -2127,15 +2127,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Determines if the BST contains the given key
-	  * @param {*} key - The key to search for
-	  * @returns {boolean} True if the BST contains @param key and false otherwise
-	  *
-	  * @example
-	  * bst.put(1, 5).put(5, 10);
-	  * bst.contains(5); // returns true
-	  * bst.contains(67); // returns false
-	  */
+	   * Determines if the BST contains the given key
+	   * @param {*} key - The key to search for
+	   * @returns {boolean} True if the BST contains @param key and false otherwise
+	   *
+	   * @example
+	   * bst.put(1, 5).put(5, 10);
+	   * bst.contains(5); // returns true
+	   * bst.contains(67); // returns false
+	   */
 
 
 	  BST.prototype.contains = function contains(key) {
@@ -2143,9 +2143,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
-	  * Gives the inorder traversal of the BST
-	  * @returns {Array} Array of objects representing the BST
-	  */
+	   * Gives the inorder traversal of the BST
+	   * @returns {Array} Array of objects representing the BST
+	   */
 
 
 	  BST.prototype.inorder = function inorder() {
@@ -2311,16 +2311,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
 	exports.keysBetween = keysBetween;
-
 	/**
-	* Inserts the given key and value into bst (maps key to value)
-	* @private
-	* @param {*} key - The key to insert into the bst
-	* @param {*} value - The value that is mapped to by @param key
-	* @param {BSTNode} Node - The Node type to insert into the tree
-	* @returns {(BSTNode|undefined)} undefined if the node was already in tree,
-	* thus not inserted or the new node that was just inserted successfully.
-	*/
+	 * Inserts the given key and value into bst (maps key to value)
+	 * @private
+	 * @param {*} key - The key to insert into the bst
+	 * @param {*} value - The value that is mapped to by @param key
+	 * @param {BSTNode} Node - The Node type to insert into the tree
+	 * @returns {(BSTNode|undefined)} undefined if the node was already in tree,
+	 * thus not inserted or the new node that was just inserted successfully.
+	 */
 	function BSTInsert(key, value, NodeType) {
 	  var comp = this.comp;
 	  var root = this.root;
@@ -2819,8 +2818,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *Using this instead of Object.keys because I only need existence of one child
 	   *not all
 	   */
+	  // eslint-disable-next-line no-restricted-syntax
 	  for (var prop in trieNode) {
-	    // eslint-disable-line no-restricted-syntax
 	    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
 	      return true;
 	    }
@@ -2987,9 +2986,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * const arrayMethods = Collections.ArrayUtils;
 	 */
 	var ArrayUtils = function () {
+	  // eslint-disable-next-line no-empty-function
 	  function ArrayUtils() {
 	    _classCallCheck(this, ArrayUtils);
-	  } // eslint-disable-line no-empty-function
+	  }
 
 	  /**
 	   * Removes the element at the given position in the given array
@@ -3103,6 +3103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  ArrayUtils.pushMany = function pushMany() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
 	    // eslint-disable-line no-unused-vars
 	    var args = [].concat(Array.prototype.slice.call(arguments));
 	    // throw out array arg
