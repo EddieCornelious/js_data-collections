@@ -1,9 +1,10 @@
 
 
 /**
+ * Adjusts references for parent and child post insert
  * @private
  */
- function adjustParentAndChildren(newNode, prevRoot, comp, NodeType){
+function adjustParentAndChildren(newNode, prevRoot, comp, NodeType) {
   newNode.parent = prevRoot;
   if (prevRoot.key === undefined) {
     this.root = newNode;
@@ -14,7 +15,7 @@
   }
   newNode.left = new NodeType();
   newNode.right = new NodeType();
- }
+}
 /**
  * Inserts the given key and value into bst (maps key to value)
  * @private
@@ -41,7 +42,7 @@ export function BSTInsert(key, value, NodeType) {
       return;
     }
   }
-  adjustParentAndChildren(this, newNode, prevRoot, comp, NodeType);
+  adjustParentAndChildren.call(this, newNode, prevRoot, comp, NodeType);
   return newNode;
 }
 
@@ -84,10 +85,10 @@ function successor(node) {
 /**
  * @private
  */
-function swapPropsWithSucccessor(successor, node) {
-  if (successor !== node) {
-    node.key = successor.key;
-    node.value = successor.value;
+function swapPropsWithSucccessor(succ, node) {
+  if (succ !== node) {
+    node.key = succ.key;
+    node.value = succ.value;
   }
 }
 /**
