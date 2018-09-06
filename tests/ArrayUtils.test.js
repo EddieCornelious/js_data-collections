@@ -13,6 +13,10 @@ describe("ArrayUtils", function() {
   afterEach(function() {
     expected, (actual = null);
   });
+  
+  it("constructor instantiates properly", function() {
+    expect(new ArrayUtils()).to.be.a('object');
+  });
 
   it("remove returns and removes first index of array", function() {
     actual.push(1, 2, 3, 4, 5, 6);
@@ -42,6 +46,11 @@ describe("ArrayUtils", function() {
     ArrayUtils.remove(actual, 3);
     expected = [];
     expect(actual).to.have.ordered.members(expected);
+  });
+  
+  it("remove returns empty array when given undefined", function() {
+    expected = [];
+    expect(ArrayUtils.remove(undefined, undefined)).to.have.ordered.members(expected);
   });
 
   it("remove returns sole element with array of length 1", function() {
@@ -80,6 +89,11 @@ describe("ArrayUtils", function() {
     expect(actual).to.have.ordered.members(expected);
     expect(removed).to.have.ordered.members(["A"]);
   });
+  
+   it("removeElement returns empty array when given undefined", function() {
+    expected = [];
+    expect(ArrayUtils.removeElement(undefined, "A")).to.have.ordered.members(expected);
+  });
 
   it("removeElement should not alter array if element is not in array", function() {
     actual.push("A", "B");
@@ -92,6 +106,12 @@ describe("ArrayUtils", function() {
     actual.push("A", "B", "C", "D");
     expected = ["B", "C", "D", "A"];
     actual = ArrayUtils.rotate(actual, -1);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  
+  it("rotate return empty array when both args are undefined", function() {
+    expected = [];
+    actual = ArrayUtils.rotate(undefined, undefined);
     expect(actual).to.have.ordered.members(expected);
   });
 
@@ -137,6 +157,11 @@ describe("ArrayUtils", function() {
     ArrayUtils.popMany(actual, 2);
     expect(actual).to.have.ordered.members(expected);
   });
+  
+   it("popMany returns empty array when both args are undefined", function() {
+    expected = [];
+    expect(ArrayUtils.popMany(undefined, undefined)).to.have.ordered.members(expected);
+  });
 
   it("popMany once should only pop one element from array", function() {
     actual.push("A", "B", "C");
@@ -178,6 +203,12 @@ describe("ArrayUtils", function() {
     actual.push("A", "B", "C");
     expected = ["A", "B", "C"];
     ArrayUtils.shiftMany(actual, 2);
+    expect(actual).to.have.ordered.members(expected);
+  });
+  
+  it("shiftMany returns empty array when given undefined", function() {
+    expected = [];
+    ArrayUtils.shiftMany(undefined);
     expect(actual).to.have.ordered.members(expected);
   });
 
@@ -239,16 +270,21 @@ describe("ArrayUtils", function() {
   });
 
   it("pushMany returns original array when args are empty", function() {
-    actual.push("a", "b", "c");
-    expected = ["a", "b", "c"];
-    expect(ArrayUtils.pushMany(actual)).to.have.ordered.members(expected);
+    expected = [];
+    expect(ArrayUtils.pushMany()).to.have.ordered.members(expected);
   });
-  // unshift
 
   it("unshiftMany should unshift many things onto empty array", function() {
     expected = [1, 2, 3, 4, 5];
     expect(
       ArrayUtils.unshiftMany(actual, 1, 2, 3, 4, 5)
+    ).to.have.ordered.members(expected);
+  });
+  
+   it("unshiftMany should return an empty array when given undefined argument", function() {
+    expected = [];
+    expect(
+      ArrayUtils.unshiftMany(undefined)
     ).to.have.ordered.members(expected);
   });
 
@@ -282,6 +318,10 @@ describe("ArrayUtils", function() {
       expect(actual.indexOf(rand)).to.not.equal(-1);
     }
   });
+  
+  it("getRand returns undefined when given undefined argument", function() {
+    expect(ArrayUtils.getRand(undefined)).to.be.equal(undefined);
+  });
 
   it("removeRand removes random index in array", function() {
     actual.push("a", "b", "c");
@@ -290,6 +330,10 @@ describe("ArrayUtils", function() {
       let removed = ArrayUtils.removeRand(actual);
       expect(expected.indexOf(removed[0])).to.not.be.equal(-1);
     }
+  });
+  
+  it("removeRand returns empty array when given undefined argument", function() {
+    expect(ArrayUtils.removeRand(undefined)).to.have.ordered.members([]);
   });
 
   it("shuffle shufles array indicies", function() {
@@ -305,6 +349,10 @@ describe("ArrayUtils", function() {
       ArrayUtils.shuffle(actual);
     }
     expect(actual).to.have.members([]);
+  });
+  
+  it("shuffle does not throw error when given undefined arg", function() {
+    expect(()=> ArrayUtils.shuffle()).to.not.throw(Error);
   });
 
   it("flatten does nothing to flattened array", function() {
@@ -400,6 +448,16 @@ describe("ArrayUtils", function() {
   it("chunk should return an empty array for array of length 0", function() {
     expected = [];
     expect(ArrayUtils.chunk(actual, 1)).to.have.ordered.members(expected);
+  });
+  
+  it("chunk should return empty array when given undefined args", function() {
+    expected = [];
+    expect(ArrayUtils.chunk()).to.have.ordered.members(expected);
+  });
+  
+   it("chunk should return an empty array for undefined argument", function() {
+    expected = [];
+    expect(ArrayUtils.chunk(undefined, 1)).to.have.ordered.members(expected);
   });
 
   it("chunk should return the input array when chunk size is array length", function() {
