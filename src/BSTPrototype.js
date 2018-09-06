@@ -1,3 +1,20 @@
+
+
+/**
+ * @private
+ */
+ function adjustParentAndChildren(newNode, prevRoot, comp, NodeType){
+  newNode.parent = prevRoot;
+  if (prevRoot.key === undefined) {
+    this.root = newNode;
+  } else if (comp(newNode.key, prevRoot.key) === -1) {
+    prevRoot.left = newNode;
+  } else {
+    prevRoot.right = newNode;
+  }
+  newNode.left = new NodeType();
+  newNode.right = new NodeType();
+ }
 /**
  * Inserts the given key and value into bst (maps key to value)
  * @private
@@ -24,17 +41,7 @@ export function BSTInsert(key, value, NodeType) {
       return;
     }
   }
-
-  newNode.parent = prevRoot;
-  if (prevRoot.key === undefined) {
-    this.root = newNode;
-  } else if (comp(newNode.key, prevRoot.key) === -1) {
-    prevRoot.left = newNode;
-  } else {
-    prevRoot.right = newNode;
-  }
-  newNode.left = new NodeType();
-  newNode.right = new NodeType();
+  adjustParentAndChildren(this, newNode, prevRoot, comp, NodeType);
   return newNode;
 }
 
@@ -75,6 +82,15 @@ function successor(node) {
 }
 
 /**
+ * @private
+ */
+function swapPropsWithSucccessor(successor, node) {
+  if (successor !== node) {
+    node.key = successor.key;
+    node.value = successor.value;
+  }
+}
+/**
  * Searches for a node with given key and removes it from tree
  * @private
  * @param {*} key - The key to search for in the tree
@@ -106,11 +122,7 @@ export function BSTRemove(key) {
   } else {
     succ.parent.right = succChild;
   }
-
-  if (succ !== node) {
-    node.key = succ.key;
-    node.value = succ.value;
-  }
+  swapPropsWithSucccessor(succ, node);
   return {succChild, succ};
 }
 
