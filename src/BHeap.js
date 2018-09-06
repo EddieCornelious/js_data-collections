@@ -95,7 +95,7 @@ class BHeap {
    *
    * heap.extractRoot() // will be 3
    */
-  insert(data = null) {
+  insert(data) {
     const {heap, comp} = this;
     heap[heap.length] = data;
     siftUp(heap, heap.length - 1, comp);
@@ -111,7 +111,7 @@ class BHeap {
    * heap.insert(1).insert(2);
    * heap.contains(2) // true
    */
-  contains(data = null) {
+  contains(data) {
     return this.toArray().indexOf(data) !== -1;
   }
 
