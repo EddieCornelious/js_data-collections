@@ -1,5 +1,5 @@
-import RBTree from "../src/RedBlackTree.js";
-var expect = require("chai").expect;
+import RBTree from '../src/RedBlackTree.js';
+var expect = require('chai').expect;
 
 // custom inorder function to help test colors and all references of tree
 // Since rb tree is so tricky, need to test color of undefined nodes as well
@@ -14,7 +14,7 @@ function Test(node) {
   return [];
 }
 
-describe("RB", function() {
+describe('RB', function() {
   let rb, expected, actual;
 
   beforeEach(function() {
@@ -25,9 +25,9 @@ describe("RB", function() {
     rb, expected, (actual = null);
   });
 
-  it("put into empty tree should recolor root", function() {
+  it('put into empty tree should recolor root', function() {
     rb.put(1, 2);
-    expected = ["black", undefined, 1, 2, null];
+    expected = ['black', undefined, 1, 2, null];
     expect(rb.root.color).to.be.equal(expected[0]);
     expect(rb.root.parent.color).to.be.equal(expected[0]);
     expect(rb.root.parent.key).to.be.equal(expected[1]);
@@ -38,7 +38,7 @@ describe("RB", function() {
     expect(rb.root.parent.parent).to.be.equal(expected[4]);
   });
 
-  it("put should recolor p and uncle when uncle is red", function() {
+  it('put should recolor p and uncle when uncle is red', function() {
     rb.put(1, 2);
     rb.put(2, 4);
     rb.put(0, 44);
@@ -48,52 +48,52 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 0,
         value: 44,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 1,
         value: 2,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 2,
         value: 4,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 3,
         value: 7,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
     for (let i = 0; i < actual.length; i++) {
@@ -103,7 +103,7 @@ describe("RB", function() {
     }
   });
 
-  it("put should rotate on RR case when uncle is black", function() {
+  it('put should rotate on RR case when uncle is black', function() {
     rb.put(20, 2);
     rb.put(30, 3);
     rb.put(40, 4);
@@ -113,37 +113,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 2,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 3,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 40,
         value: 4,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -154,7 +154,7 @@ describe("RB", function() {
     }
   });
 
-  it("put should rotate on RL case when uncle is black", function() {
+  it('put should rotate on RL case when uncle is black', function() {
     rb.put(20, 2);
     rb.put(30, 3);
     rb.put(25, 5);
@@ -163,37 +163,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 2,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 25,
         value: 5,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 3,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -204,7 +204,7 @@ describe("RB", function() {
     }
   });
 
-  it("put should rotate on LL case when uncle is black", function() {
+  it('put should rotate on LL case when uncle is black', function() {
     rb.put(20, 2);
     rb.put(10, 3);
     rb.put(5, 5);
@@ -213,37 +213,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 5,
         value: 5,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 10,
         value: 3,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 2,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -254,7 +254,7 @@ describe("RB", function() {
     }
   });
 
-  it("put should rotate on LR case when uncle is black", function() {
+  it('put should rotate on LR case when uncle is black', function() {
     rb.put(20, 2);
     rb.put(10, 3);
     rb.put(15, 5);
@@ -263,37 +263,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 10,
         value: 3,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 15,
         value: 5,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 2,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -304,7 +304,7 @@ describe("RB", function() {
     }
   });
 
-  it("delete should simply remove node normally when red", function() {
+  it('delete should simply remove node normally when red', function() {
     rb.put(20, 2);
     rb.put(30, 3);
     rb.put(10, 5);
@@ -314,27 +314,27 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 10,
         value: 5,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 2,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -346,7 +346,7 @@ describe("RB", function() {
     expect(rm).to.be.equal(true);
   });
 
-  it("delete should fix double black case-sibling is right child and red is right", function() {
+  it('delete should fix double black case-sibling is right child and red is right', function() {
     rb.put(30, 3);
     rb.put(20, 2);
     rb.put(40, 4);
@@ -357,37 +357,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 3,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 40,
         value: 4,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 60,
         value: 6,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -399,7 +399,7 @@ describe("RB", function() {
     expect(rm).to.be.equal(true);
   });
 
-  it("delete should fix double black case-sibling right child and red is left", function() {
+  it('delete should fix double black case-sibling right child and red is left', function() {
     rb.put(30, 3);
     rb.put(20, 2);
     rb.put(40, 4);
@@ -413,37 +413,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 40,
         value: 4,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 50,
         value: 5,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 60,
         value: 6,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -455,7 +455,7 @@ describe("RB", function() {
     expect(rm).to.be.equal(true);
   });
 
-  it("delete should fix double black case-sibling left child and red is left", function() {
+  it('delete should fix double black case-sibling left child and red is left', function() {
     rb.put(30, 3);
     rb.put(20, 2);
     rb.put(40, 4);
@@ -471,37 +471,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 3,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 40,
         value: 4,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 50,
         value: 5,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -513,7 +513,7 @@ describe("RB", function() {
     expect(rm).to.be.equal(true);
   });
 
-  it("delete should fix double black case-sibling left child and red is right", function() {
+  it('delete should fix double black case-sibling left child and red is right', function() {
     rb.put(30, 3);
     rb.put(20, 2);
     rb.put(40, 4);
@@ -531,37 +531,37 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 3,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 35,
         value: 35,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 40,
         value: 4,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -586,27 +586,27 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 3,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 22,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -619,10 +619,10 @@ describe("RB", function() {
   });
 
   it("delete should fix double black case-sibling is black and both sibling's children are black (node deleted was right child)", function() {
-    rb.put(20, "20");
-    rb.put(10, "10");
-    rb.put(30, "30");
-    rb.put(40, "40");
+    rb.put(20, '20');
+    rb.put(10, '10');
+    rb.put(30, '30');
+    rb.put(40, '40');
     rb.remove(40);
     let rm = rb.remove(30);
 
@@ -631,27 +631,27 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 10,
-        value: "10",
-        color: "red"
+        value: '10',
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
-        value: "20",
-        color: "black"
+        value: '20',
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -663,7 +663,7 @@ describe("RB", function() {
     expect(rm).to.be.equal(true);
   });
 
-  it("delete should fix double black case-sibling is red and is left child", function() {
+  it('delete should fix double black case-sibling is red and is left child', function() {
     rb.put(20, 20);
     rb.put(10, 10);
     rb.put(30, 30);
@@ -679,47 +679,47 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 20,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 25,
         value: 25,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 30,
         value: 30,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 40,
         value: 40,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 
@@ -731,7 +731,7 @@ describe("RB", function() {
     expect(rm).to.be.equal(true);
   });
 
-  it("delete should fix double black case-sibling is red and is right child", function() {
+  it('delete should fix double black case-sibling is red and is right child', function() {
     rb.put(20, 20);
     rb.put(10, 10);
     rb.put(30, 30);
@@ -747,47 +747,47 @@ describe("RB", function() {
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 5,
         value: 5,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 10,
         value: 10,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 15,
         value: 15,
-        color: "red"
+        color: 'red'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       },
       {
         key: 20,
         value: 20,
-        color: "black"
+        color: 'black'
       },
       {
         key: undefined,
         value: undefined,
-        color: "black"
+        color: 'black'
       }
     ];
 

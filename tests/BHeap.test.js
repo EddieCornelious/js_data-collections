@@ -1,7 +1,7 @@
-import BHeap from "../src/BHeap.js";
-const expect = require("chai").expect;
+import BHeap from '../src/BHeap.js';
+const expect = require('chai').expect;
 
-describe("Heap", function() {
+describe('Heap', function() {
   let heap, expected, actual;
 
   beforeEach(function() {
@@ -12,7 +12,7 @@ describe("Heap", function() {
     heap, expected, (actual = null);
   });
 
-  it("insert should siftup from bottom to root", function() {
+  it('insert should siftup from bottom to root', function() {
     heap
       .insert(10)
       .insert(9)
@@ -26,7 +26,7 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(4);
   });
 
-  it("insert should not siftUp when un needed", function() {
+  it('insert should not siftUp when un needed', function() {
     heap.insert(10);
     heap.insert(9);
     heap.insert(8);
@@ -39,7 +39,7 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(4);
   });
 
-  it("insert should insert duplicate values", function() {
+  it('insert should insert duplicate values', function() {
     heap.insert(10);
     heap.insert(9);
     heap.insert(8);
@@ -52,7 +52,7 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(4);
   });
 
-  it("insert should update max correctly for multiple max changing calls", function() {
+  it('insert should update max correctly for multiple max changing calls', function() {
     heap.insert(1);
     heap.insert(2);
     heap.insert(3);
@@ -66,7 +66,7 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(5);
   });
 
-  it("extractRoot should update heap properly after deletion", function() {
+  it('extractRoot should update heap properly after deletion', function() {
     heap.insert(1);
     heap.insert(2);
     heap.insert(3);
@@ -81,7 +81,7 @@ describe("Heap", function() {
     expect(extracted).to.be.equal(4);
   });
 
-  it("extractRoot from empty heap should return undefined", function() {
+  it('extractRoot from empty heap should return undefined', function() {
     let extracted = heap.extractRoot();
     heap.extractRoot();
     heap.extractRoot();
@@ -94,7 +94,7 @@ describe("Heap", function() {
     expect(actual).to.be.deep.equal([]);
   });
 
-  it("extractRoot with continuous example correctly returns max values", function() {
+  it('extractRoot with continuous example correctly returns max values', function() {
     heap.insert(1);
     heap.insert(2);
     heap.insert(3);
@@ -110,7 +110,7 @@ describe("Heap", function() {
     expect(heap.size()).to.be.equal(0);
   });
 
-  it("extractRoot with continuous example (ref types) maintains references", function() {
+  it('extractRoot with continuous example (ref types) maintains references', function() {
     let tempHeap = new BHeap(function(a, b) {
       if (a.data < b.data) {
         return -1;
@@ -121,7 +121,7 @@ describe("Heap", function() {
     });
 
     for (let i = 0; i < 10000; i += 1) {
-      tempHeap.insert({ data: i });
+      tempHeap.insert({data: i});
     }
 
     let count = 9999;
@@ -132,7 +132,7 @@ describe("Heap", function() {
     expect(tempHeap.size()).to.be.equal(0);
   });
 
-  it("min heap works", function() {
+  it('min heap works', function() {
     let minHeap = new BHeap(function(a, b) {
       if (a < b) {
         return 1;
@@ -154,32 +154,32 @@ describe("Heap", function() {
     expect(minHeap.size()).to.be.equal(5);
   });
 
-  it("contains returns true when heap contains given element ", function() {
+  it('contains returns true when heap contains given element ', function() {
     heap.insert(10).insert(10);
     expect(heap.contains(10)).to.be.equal(true);
   });
 
-  it("contains returns false when heap does not contain given element ", function() {
+  it('contains returns false when heap does not contain given element ', function() {
     heap.insert(10).insert(10);
     expect(heap.contains(11)).to.be.equal(false);
   });
 
-  it("contains returns false when null refers to underlying null ", function() {
+  it('contains returns false when null refers to underlying null ', function() {
     heap.insert(10).insert(10);
     expect(heap.contains(null)).to.be.equal(false);
   });
 
-  it("contains returns true when null does not refer to underlying null ", function() {
+  it('contains returns true when null does not refer to underlying null ', function() {
     heap.insert(null);
     expect(heap.contains(null)).to.be.equal(true);
   });
 
-  it("peek returns the element ready to be removed ", function() {
+  it('peek returns the element ready to be removed ', function() {
     heap.insert(null);
     expect(heap.peek()).to.be.equal(null);
   });
 
-  it("peek returns undefined when heap is empty ", function() {
+  it('peek returns undefined when heap is empty ', function() {
     expect(heap.peek()).to.be.equal();
   });
 });

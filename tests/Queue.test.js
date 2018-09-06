@@ -1,9 +1,9 @@
-import Queue from "../src/Queue.js";
-const expect = require("chai").expect;
+import Queue from '../src/Queue.js';
+const expect = require('chai').expect;
 
-describe("Queue-Behavior", function() {
+describe('Queue-Behavior', function() {
   let queue, expected, actual;
-  it("enqueue should extract items in FIFO ordering", function() {
+  it('enqueue should extract items in FIFO ordering', function() {
     queue = new Queue();
     queue
       .enqueue(1)

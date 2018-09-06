@@ -1,10 +1,10 @@
-import Stack from "../src/Stack.js";
-const expect = require("chai").expect;
+import Stack from '../src/Stack.js';
+const expect = require('chai').expect;
 
-describe("Stack-Behavior", function() {
+describe('Stack-Behavior', function() {
   let stack, expected, actual;
 
-  it("push should extract items in LIFO ordering", function() {
+  it('push should extract items in LIFO ordering', function() {
     stack = new Stack();
     stack
       .push(1)

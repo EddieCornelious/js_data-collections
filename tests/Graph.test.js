@@ -1,7 +1,7 @@
-import Graph from "../src/Graph.js";
-var expect = require("chai").expect;
+import Graph from '../src/Graph.js';
+var expect = require('chai').expect;
 
-describe("Graph", function() {
+describe('Graph', function() {
   let graph, expected, actual;
 
   beforeEach(function() {
@@ -12,7 +12,7 @@ describe("Graph", function() {
     graph, expected, (actual = null);
   });
 
-  it("BFS should return bfs with connected graph", function() {
+  it('BFS should return bfs with connected graph', function() {
     graph.addVertex(0);
     graph.addVertex(1);
     graph.addVertex(2);
@@ -27,7 +27,7 @@ describe("Graph", function() {
     expect(graph.isConnected()).to.equal(true);
   });
 
-  it("BFS should return bfs when graph is not fully connected", function() {
+  it('BFS should return bfs when graph is not fully connected', function() {
     graph.addVertex(0);
     graph.addVertex(1);
     graph.addVertex(2);
@@ -42,7 +42,7 @@ describe("Graph", function() {
     expect(graph.isConnected()).to.equal(false);
   });
 
-  it("DFS should return dfs connected graph", function() {
+  it('DFS should return dfs connected graph', function() {
     graph.addVertex(0);
     graph.addVertex(1);
     graph.addVertex(2);
@@ -59,7 +59,7 @@ describe("Graph", function() {
     expect(graph.isConnected()).to.equal(true);
   });
 
-  it("DFS should return dfs when graph is not fully connected", function() {
+  it('DFS should return dfs when graph is not fully connected', function() {
     graph.addVertex(0);
     graph.addVertex(1);
     graph.addVertex(2);
