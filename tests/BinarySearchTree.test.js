@@ -10,14 +10,13 @@ describe('Binary Search Tree', function() {
   afterEach(function() {
     bst, expected, (actual = null);
   });
-  
+
   it('clear should clear the tree', function() {
     bst.put('a', 1);
     bst.put('c');
     bst.clear();
     expect(bst.size()).to.be.equal(0);
     expect(bst.keys()).to.have.ordered.members([]);
-    
   });
 
   it('put should put into empty tree', function() {
@@ -45,8 +44,8 @@ describe('Binary Search Tree', function() {
     expect(bst.contains(true)).to.be.equal(true);
     expect(bst.contains(1)).to.be.equal(false);
   });
-  
-   it('put inserts null key and value when both are undefined', function() {
+
+  it('put inserts null key and value when both are undefined', function() {
     bst.put();
     expect(bst.size()).to.be.equal(1);
     expect(bst.contains(null)).to.be.equal(true);

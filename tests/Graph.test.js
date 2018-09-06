@@ -42,6 +42,18 @@ describe('Graph', function() {
     expect(graph.isConnected()).to.equal(false);
   });
 
+  it('BFS should return empty array when vertex does not exist', function() {
+    graph.addVertex(0);
+    graph.addVertex(1);
+    graph.addVertex(2);
+    graph.addVertex(9);
+    graph.addEdge(0, 1);
+    graph.addEdge(1, 2);
+    expected = [];
+    actual = graph.BFS('lol');
+    expect(actual).to.have.members([]);
+  });
+
   it('DFS should return dfs connected graph', function() {
     graph.addVertex(0);
     graph.addVertex(1);
@@ -73,5 +85,17 @@ describe('Graph', function() {
       expect(actual[i]).to.be.equal(expected[i]);
     }
     expect(graph.isConnected()).to.equal(false);
+  });
+
+  it('DFS should return empty array when vertex does not exist', function() {
+    graph.addVertex(0);
+    graph.addVertex(1);
+    graph.addVertex(2);
+    graph.addVertex(9);
+    graph.addEdge(0, 1);
+    graph.addEdge(1, 2);
+    expected = [];
+    actual = graph.DFS('lol');
+    expect(actual).to.have.members([]);
   });
 });
