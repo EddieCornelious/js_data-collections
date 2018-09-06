@@ -2352,7 +2352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 	  }
-	  adjustParentAndChildren(newNode, prevRoot, comp, NodeType);
+	  adjustParentAndChildren.call(this, newNode, prevRoot, comp, NodeType);
 	  return newNode;
 	}
 
