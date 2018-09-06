@@ -182,4 +182,10 @@ describe('Heap', function() {
   it('peek returns undefined when heap is empty ', function() {
     expect(heap.peek()).to.be.equal();
   });
+  
+   it('clear clears the heap', function() {
+    heap.insert(99);
+    heap.clear();
+    expect(heap.size()).to.be.equal(0);
+  });
 });
