@@ -3,6 +3,34 @@ import Stack from './Stack.js';
 import HashMap from './HashMap.js';
 import HashSet from './HashSet.js';
 
+function FirstSearch(graph, startingVertex, structure, BFS) {
+  const add = BFS
+    ? Queue.prototype.enqueue.bind(structure)
+    : Stack.prototype.push.bind(structure);
+  const remove = BFS
+    ? Queue.prototype.dequeue.bind(structure)
+    : Stack.prototype.pop.bind(structure);
+  const res = [];
+  const visited = new HashSet(graph.size());
+  add(startingVertex);
+  while (structure.size() !== 0) {
+    let currentVertex = remove();
+
+    if (!visited.has(currentVertex)) {
+      visited.add(currentVertex);
+      res.push(currentVertex);
+      let currentVertexNeighbors = graph.getVal(currentVertex).length;
+      for (let i = 0; i < currentVertexNeighbors; i += 1) {
+        let curNeighbor = graph.getVal(currentVertex)[i].vertex;
+        if (!visited.has(curNeighbor)) {
+          add(curNeighbor);
+        }
+      }
+    }
+  }
+  return res;
+}
+
 /**
  * Undirected, weighted graph representation
  * @class
@@ -30,7 +58,7 @@ class Graph {
   addVertex(vertex) {
     const {graph} = this;
     // so user does not accidentally overwrite values array
-    if (!graph.contains(vertex) && vertex !== undefined) {
+    if (!graph.contains(vertex)) {
       graph.put(vertex, []);
     }
   }
@@ -48,7 +76,7 @@ class Graph {
    * graph.addVertex("B");
    * graph.addEdge("A", "B", 4); // adds edge between "A" & "B" of weight 4
    */
-  addEdge(vertex1, vertex2, weight = 0) {
+  addEdge(vertex1, vertex2, weight) {
     // TODO: replace with PQ for Prim's
     const {graph} = this;
     const v1neighbors = graph.getVal(vertex1);
@@ -78,27 +106,7 @@ class Graph {
     if (!graph.contains(startingVertex)) {
       return [];
     }
-
-    const bfs = [];
-    const visited = new HashSet(graph.size());
-    let queue = new Queue();
-    queue.enqueue(startingVertex);
-    while (queue.size() !== 0) {
-      let currentVertex = queue.dequeue();
-
-      if (!visited.has(currentVertex)) {
-        visited.add(currentVertex);
-        bfs.push(currentVertex);
-        let currentVertexNeighbors = graph.getVal(currentVertex).length;
-        for (let i = 0; i < currentVertexNeighbors; i += 1) {
-          let curNeighbor = graph.getVal(currentVertex)[i].vertex;
-          if (!visited.has(curNeighbor)) {
-            queue.enqueue(curNeighbor);
-          }
-        }
-      }
-    }
-    return bfs;
+    return FirstSearch(graph, startingVertex, new Queue(), true);
   }
 
   /**
@@ -112,27 +120,7 @@ class Graph {
     if (!graph.contains(startingVertex)) {
       return [];
     }
-
-    const dfs = [];
-    const visited = new HashSet(graph.size());
-    let stack = new Stack();
-    stack.push(startingVertex);
-    while (stack.size() !== 0) {
-      let currentVertex = stack.pop();
-
-      if (!visited.has(currentVertex)) {
-        visited.add(currentVertex);
-        dfs.push(currentVertex);
-        let currentVertexNeighbors = graph.getVal(currentVertex).length;
-        for (let i = 0; i < currentVertexNeighbors; i += 1) {
-          let curNeighbor = graph.getVal(currentVertex)[i].vertex;
-          if (!visited.has(curNeighbor)) {
-            stack.push(curNeighbor);
-          }
-        }
-      }
-    }
-    return dfs;
+    return FirstSearch(graph, startingVertex, new Stack(), false);
   }
 
   /**
