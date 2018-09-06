@@ -1055,8 +1055,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.insert = function insert() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	  BHeap.prototype.insert = function insert(data) {
 	    var heap = this.heap,
 	        comp = this.comp;
 
@@ -1076,9 +1075,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BHeap.prototype.contains = function contains() {
-	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
+	  BHeap.prototype.contains = function contains(data) {
 	    return this.toArray().indexOf(data) !== -1;
 	  };
 
@@ -2311,6 +2308,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
 	exports.keysBetween = keysBetween;
+
+
+	/**
+	 * Adjusts references for parent and child post insert
+	 * @private
+	 */
+	function adjustParentAndChildren(newNode, prevRoot, comp, NodeType) {
+	  newNode.parent = prevRoot;
+	  if (prevRoot.key === undefined) {
+	    this.root = newNode;
+	  } else if (comp(newNode.key, prevRoot.key) === -1) {
+	    prevRoot.left = newNode;
+	  } else {
+	    prevRoot.right = newNode;
+	  }
+	  newNode.left = new NodeType();
+	  newNode.right = new NodeType();
+	}
 	/**
 	 * Inserts the given key and value into bst (maps key to value)
 	 * @private
@@ -2337,17 +2352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 	  }
-
-	  newNode.parent = prevRoot;
-	  if (prevRoot.key === undefined) {
-	    this.root = newNode;
-	  } else if (comp(newNode.key, prevRoot.key) === -1) {
-	    prevRoot.left = newNode;
-	  } else {
-	    prevRoot.right = newNode;
-	  }
-	  newNode.left = new NodeType();
-	  newNode.right = new NodeType();
+	  adjustParentAndChildren(newNode, prevRoot, comp, NodeType);
 	  return newNode;
 	}
 
@@ -2388,6 +2393,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
+	 * @private
+	 */
+	function swapPropsWithSucccessor(succ, node) {
+	  if (succ !== node) {
+	    node.key = succ.key;
+	    node.value = succ.value;
+	  }
+	}
+	/**
 	 * Searches for a node with given key and removes it from tree
 	 * @private
 	 * @param {*} key - The key to search for in the tree
@@ -2419,11 +2433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    succ.parent.right = succChild;
 	  }
-
-	  if (succ !== node) {
-	    node.key = succ.key;
-	    node.value = succ.value;
-	  }
+	  swapPropsWithSucccessor(succ, node);
 	  return { succChild: succChild, succ: succ };
 	}
 
@@ -2573,6 +2583,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function FirstSearch(graph, startingVertex, structure, BFS) {
+	  var add = BFS ? _Queue2['default'].prototype.enqueue.bind(structure) : _Stack2['default'].prototype.push.bind(structure);
+	  var remove = BFS ? _Queue2['default'].prototype.dequeue.bind(structure) : _Stack2['default'].prototype.pop.bind(structure);
+	  var res = [];
+	  var visited = new _HashSet2['default'](graph.size());
+	  add(startingVertex);
+	  while (structure.size() !== 0) {
+	    var currentVertex = remove();
+
+	    if (!visited.has(currentVertex)) {
+	      visited.add(currentVertex);
+	      res.push(currentVertex);
+	      var currentVertexNeighbors = graph.getVal(currentVertex).length;
+	      for (var i = 0; i < currentVertexNeighbors; i += 1) {
+	        var curNeighbor = graph.getVal(currentVertex)[i].vertex;
+	        if (!visited.has(curNeighbor)) {
+	          add(curNeighbor);
+	        }
+	      }
+	    }
+	  }
+	  return res;
+	}
+
 	/**
 	 * Undirected, weighted graph representation
 	 * @class
@@ -2582,6 +2616,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * const graph = new Collections.Graph(97);
 	 * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
 	 */
+
 	var Graph = function () {
 	  function Graph(numVerticies) {
 	    _classCallCheck(this, Graph);
@@ -2605,7 +2640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var graph = this.graph;
 	    // so user does not accidentally overwrite values array
 
-	    if (!graph.contains(vertex) && vertex !== undefined) {
+	    if (!graph.contains(vertex)) {
 	      graph.put(vertex, []);
 	    }
 	  };
@@ -2625,9 +2660,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2) {
-	    var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
+	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2, weight) {
 	    // TODO: replace with PQ for Prim's
 	    var graph = this.graph;
 
@@ -2658,27 +2691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!graph.contains(startingVertex)) {
 	      return [];
 	    }
-
-	    var bfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var queue = new _Queue2['default']();
-	    queue.enqueue(startingVertex);
-	    while (queue.size() !== 0) {
-	      var currentVertex = queue.dequeue();
-
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        bfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            queue.enqueue(curNeighbor);
-	          }
-	        }
-	      }
-	    }
-	    return bfs;
+	    return FirstSearch(graph, startingVertex, new _Queue2['default'](), true);
 	  };
 
 	  /**
@@ -2694,27 +2707,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!graph.contains(startingVertex)) {
 	      return [];
 	    }
-
-	    var dfs = [];
-	    var visited = new _HashSet2['default'](graph.size());
-	    var stack = new _Stack2['default']();
-	    stack.push(startingVertex);
-	    while (stack.size() !== 0) {
-	      var currentVertex = stack.pop();
-
-	      if (!visited.has(currentVertex)) {
-	        visited.add(currentVertex);
-	        dfs.push(currentVertex);
-	        var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	        for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	          var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	          if (!visited.has(curNeighbor)) {
-	            stack.push(curNeighbor);
-	          }
-	        }
-	      }
-	    }
-	    return dfs;
+	    return FirstSearch(graph, startingVertex, new _Stack2['default'](), false);
 	  };
 
 	  /**
@@ -3468,7 +3461,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function insertFixRotate1(node, context) {
 	  var currentNode = node;
-	  if (currentNode === currentNode.parent.right) {
+	  var isRightChild = currentNode === currentNode.parent.right;
+	  if (isRightChild) {
 	    currentNode = currentNode.parent;
 	    leftRotate.call(context, currentNode);
 	  }
@@ -3487,7 +3481,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function insertFixRotate2(node, context) {
 	  var currentNode = node;
-	  if (currentNode === currentNode.parent.left) {
+	  var isLeftChild = currentNode === currentNode.parent.left;
+	  if (isLeftChild) {
 	    currentNode = currentNode.parent;
 	    rightRotate.call(context, currentNode);
 	  }
