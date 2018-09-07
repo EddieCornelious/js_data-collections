@@ -1,3 +1,8 @@
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.9.1...v0.10.0) (2018-09-07)
+
+
+
 <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/EddieCornelious/js_data-collections/compare/v0.9.0...v0.9.1) (2018-06-19)
 
