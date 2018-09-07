@@ -10,19 +10,19 @@ import {swap, defaultComp} from './Util.js';
  * @returns {undefined}
  */
 function heapify(array, index, comp) {
-  const left = 2 * index;
-  const right = 2 * index + 1;
+  const leftChildIndex = 2 * index;
+  const rightChildIndex = 2 * index + 1;
   const numIndicies = array.length - 1;
   let largest;
 
-  if (left <= numIndicies && comp(array[left], array[index]) === 1) {
-    largest = left;
+  if (leftChildIndex <= numIndicies && comp(array[leftChildIndex], array[index]) === 1) {
+    largest = leftChildIndex;
   } else {
     largest = index;
   }
 
-  if (right <= numIndicies && comp(array[right], array[largest]) === 1) {
-    largest = right;
+  if (rightChildIndex <= numIndicies && comp(array[rightChildIndex], array[largest]) === 1) {
+    largest = rightChildIndex;
   }
 
   if (largest !== index) {
