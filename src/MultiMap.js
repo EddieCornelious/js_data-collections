@@ -4,6 +4,7 @@ import RBTree from './RedBlackTree.js';
  * MultiMap representation
  * @class
  * @implements {MultiMapInterface}
+ * @extends {RBTree}
  */
 class MultiMap extends RBTree {
   constructor(comparator) {
