@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>BHeap - Documentation</title>
+    <title>exports - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">BHeap</h1>
+    <h1 class="page-title">exports</h1>
     
 
     
@@ -40,10 +40,10 @@
 <header>
     
         <h2>
-        BHeap
+        exports
         </h2>
         
-            <div class="class-description">Binary heap representation</div>
+            <div class="class-description">Maps one key to multiple values but does not contain duplicate kv pairs</div>
         
     
 </header>
@@ -52,17 +52,6 @@
     <div class="container-overview">
     
         
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="BHeap"><span class="type-signature"></span>new BHeap<span class="signature">(comparator)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
 
 <dl class="details">
 
@@ -102,90 +91,22 @@
 
 
 
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const heap = new Collections.BHeap();
-// this creates a max heap by default.
-// for a min heap, see @link above and swap 1 and -1
-// FOR ALL EXAMPLES BELOW. ASSUME heap IS CLEARED BEFORE EACH EXAMPLE</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
         
 
         
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>comparator</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">@see Global#defaultComp for examples</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="MapInterface.html">MapInterface</a></li>
+    </ul>
+
 
     
 
@@ -223,6 +144,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#clear">MapInterface#clear</a>
+    </li></ul></dd>
+    
 
     
 
@@ -254,7 +180,7 @@
 
 
 <div class="description">
-    Empties the Heap
+    Clears the map of all k,v pairs
 </div>
 
 
@@ -304,7 +230,7 @@
 
     
 
-    <h4 class="name" id="contains"><span class="type-signature"></span>contains<span class="signature">(data<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="contains"><span class="type-signature"></span>contains<span class="signature">(key)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -319,6 +245,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#contains">MapInterface#contains</a>
+    </li></ul></dd>
     
 
     
@@ -351,7 +282,7 @@
 
 
 <div class="description">
-    Reports whether the BHeap contains the given data
+    Reports whether the Map contains the given key
 </div>
 
 
@@ -364,8 +295,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>heap.insert(1).insert(2);
-heap.contains(2) // true</code></pre>
+    <pre class="prettyprint"><code>map.contains("empty"); // return false</code></pre>
 
 
 
@@ -383,11 +313,7 @@ heap.contains(2) // true</code></pre>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -399,7 +325,7 @@ heap.contains(2) // true</code></pre>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -412,26 +338,10 @@ heap.contains(2) // true</code></pre>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
-                
-                    <code>null</code>
-                
-                </td>
-            
 
-            <td class="description last">The data to search for</td>
+            <td class="description last">The key to lookup</td>
         </tr>
 
     
@@ -455,7 +365,7 @@ heap.contains(2) // true</code></pre>
 
         
 <div class="param-desc">
-    True if the heap contains @param data and false otherwise
+    True if @param key is found and false otherwise
 </div>
 
 
@@ -480,7 +390,7 @@ heap.contains(2) // true</code></pre>
 
     
 
-    <h4 class="name" id="extractRoot"><span class="type-signature"></span>extractRoot<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="getVal"><span class="type-signature"></span>getVal<span class="signature">(key)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
 
@@ -495,6 +405,11 @@ heap.contains(2) // true</code></pre>
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#getVal">MapInterface#getVal</a>
+    </li></ul></dd>
     
 
     
@@ -527,7 +442,7 @@ heap.contains(2) // true</code></pre>
 
 
 <div class="description">
-    Removes the root of the BHeap and returns the data
+    Retrieves the value mapped to by the given key
 </div>
 
 
@@ -540,118 +455,8 @@ heap.contains(2) // true</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>heap.insert(1).insert(2).insert(3);
-let root = heap.extractRoot();
-// root = 3;</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The extracted data
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">*</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="insert"><span class="type-signature"></span>insert<span class="signature">(data<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="BHeap.html">BHeap</a>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Inserts the given data into the BHeap
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>heap.insert(1).insert(2).insert(3).insert(3);
-// this heap will contain both 3s
-
-heap.extractRoot() // will be 3</code></pre>
+    <pre class="prettyprint"><code>map.put(99, "problems");
+map.getVal(99); // returns "problems"</code></pre>
 
 
 
@@ -669,11 +474,7 @@ heap.extractRoot() // will be 3</code></pre>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -685,7 +486,7 @@ heap.extractRoot() // will be 3</code></pre>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -698,26 +499,10 @@ heap.extractRoot() // will be 3</code></pre>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
-                <td class="default">
-                
-                    <code>null</code>
-                
-                </td>
-            
 
-            <td class="description last">The data to insert into BHeap.</td>
+            <td class="description last">The key to lookup</td>
         </tr>
 
     
@@ -741,114 +526,7 @@ heap.extractRoot() // will be 3</code></pre>
 
         
 <div class="param-desc">
-    A reference to the instance that this method was called
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="BHeap.html">BHeap</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="peek"><span class="type-signature"></span>peek<span class="signature">()</span><span class="type-signature"> &rarr; {*|undefined}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Retrieves the element staged to be removed next but does not remove it
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>heap.insert(9);
-heap.peek() // returns 9 and heap is still of size 1</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The set to be removed data or undefined if empty heap
+    The value associated with @param key
 </div>
 
 
@@ -860,9 +538,6 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
     <dd>
         
 <span class="param-type">*</span>
-|
-
-<span class="param-type">undefined</span>
 
 
     </dd>
@@ -876,7 +551,7 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
     
 
-    <h4 class="name" id="size"><span class="type-signature"></span>size<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="keys"><span class="type-signature"></span>keys<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 
@@ -891,6 +566,11 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#keys">MapInterface#keys</a>
+    </li></ul></dd>
     
 
     
@@ -923,7 +603,7 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
 
 <div class="description">
-    Reports the number of elements in the BHeap.
+    Returns all of the keys in the Map
 </div>
 
 
@@ -936,7 +616,11 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>heap.size() // would be 0</code></pre>
+    <pre class="prettyprint"><code>map.put(1, "b");
+map.put(2, "c");
+map.put(3, "d");
+map.keys() // returns [1, 2, 3] permutation (order may
+or may not be guarenteed)</code></pre>
 
 
 
@@ -957,10 +641,22 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
         
 <div class="param-desc">
-    The BHeap instance's number of elements
+    An array of keys
 </div>
 
 
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -970,7 +666,7 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
     
 
-    <h4 class="name" id="toArray"><span class="type-signature"></span>toArray<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="put"><span class="type-signature"></span>put<span class="signature">(key, value)</span><span class="type-signature"> &rarr; {Map}</span></h4>
 
     
 
@@ -985,6 +681,11 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#put">MapInterface#put</a>
+    </li></ul></dd>
     
 
     
@@ -1017,7 +718,7 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
 
 <div class="description">
-    Transforms the BHeap into an array
+    Inserts the given key and value into the Map
 </div>
 
 
@@ -1030,8 +731,356 @@ heap.peek() // returns 9 and heap is still of size 1</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>heap.insert(1).insert(2);
-heap.toArray() // will be [2, 1]</code></pre>
+    <pre class="prettyprint"><code>map.put("ed", "jones");
+// ed maps to jones
+map.put("ed", "james");
+// now same ed maps to james and not jones</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The key</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value mapped to by @param key</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The instance that this method was called
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Map</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(key)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#remove">MapInterface#remove</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Removes the given key and its associated value from the Map
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>map.put(99, "problems");
+map.remove(88); // returns false
+map.remove(99); // returns true</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The key to lookup</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the key and it's value were removed and false otherwise
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="size"><span class="type-signature"></span>size<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#size">MapInterface#size</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Returns number of elements in the Map
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>map.put(99, "problems");
+map.size() // 1</code></pre>
 
 
 
@@ -1052,7 +1101,121 @@ heap.toArray() // will be [2, 1]</code></pre>
 
         
 <div class="param-desc">
-    The heap instance as an array
+    The number of insertions
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="values"><span class="type-signature"></span>values<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="MapInterface.html#values">MapInterface#values</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Returns all of the values in the Map
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>map.put(1, "b");
+map.put(2, "c");
+map.put(3, "d");
+map.values() // returns ["c", "b", "d"] permutation</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    An array of values
 </div>
 
 
