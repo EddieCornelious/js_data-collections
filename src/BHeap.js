@@ -15,13 +15,19 @@ function heapify(array, index, comp) {
   const numIndicies = array.length - 1;
   let largest;
 
-  if (leftChildIndex <= numIndicies && comp(array[leftChildIndex], array[index]) === 1) {
+  if (
+    leftChildIndex <= numIndicies &&
+    comp(array[leftChildIndex], array[index]) === 1
+  ) {
     largest = leftChildIndex;
   } else {
     largest = index;
   }
 
-  if (rightChildIndex <= numIndicies && comp(array[rightChildIndex], array[largest]) === 1) {
+  if (
+    rightChildIndex <= numIndicies &&
+    comp(array[rightChildIndex], array[largest]) === 1
+  ) {
     largest = rightChildIndex;
   }
 
