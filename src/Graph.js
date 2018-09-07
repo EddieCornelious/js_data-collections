@@ -1,6 +1,6 @@
 import Queue from './Queue.js';
 import Stack from './Stack.js';
-import HashMap from './HashMap.js';
+import RBTree from './RedBlackTree.js';
 import HashSet from './HashSet.js';
 
 function FirstSearch(graph, startingVertex, structure, BFS) {
@@ -41,8 +41,8 @@ function FirstSearch(graph, startingVertex, structure, BFS) {
  * // FOR ALL EXAMPLES BELOW. ASSUME graph IS CLEARED BEFORE EACH EXAMPLE
  */
 class Graph {
-  constructor(numVerticies) {
-    this.graph = new HashMap(numVerticies);
+  constructor() {
+    this.graph = new RBTree();
   }
 
   /**
@@ -129,9 +129,8 @@ class Graph {
    */
   isConnected() {
     const graph = this.graph;
-    let firstKey = '';
     const verticies = graph.keys();
-    firstKey = verticies[0];
+    const firstKey = verticies[0];
     return this.BFS(firstKey).length === verticies.length;
   }
 }
