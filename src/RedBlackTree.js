@@ -168,10 +168,7 @@ function insertFix(nodeToFix) {
 function deletefixUp(nodeToFix) {
   let currentNode = nodeToFix;
   const context = this;
-  while (
-    !currentNode.parent.isNil() &&
-    currentNode.isBlack()
-  ) {
+  while (!currentNode.parent.isNil() && currentNode.isBlack()) {
     let sibling;
     if (currentNode.isLeftChild()) {
       sibling = currentNode.parent.right;

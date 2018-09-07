@@ -68,10 +68,10 @@ class TrieNode {
   }
 
   hasChildren() {
-  /**
-   *Using this instead of Object.keys because I only need existence of one child
-   *not all
-   */
+    /**
+     *Using this instead of Object.keys because I only need existence of one child
+     *not all
+     */
     const {children} = this;
     // eslint-disable-next-line no-restricted-syntax
     for (let prop in children) {
