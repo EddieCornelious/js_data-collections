@@ -1,11 +1,8 @@
 /**
  * Maps one key to multiple values but does not contain duplicate kv pairs
- *
  * @interface
- * @extends {MapInterface}
- *
  */
-export default class MultiMapInterface {
+class MultiMapInterface {
   constructor() {}
 
   /**
@@ -40,3 +37,5 @@ export default class MultiMapInterface {
    */
   replaceVal(key, oldValue, newValue) {}
 }
+
+export default MultiMapInterface;

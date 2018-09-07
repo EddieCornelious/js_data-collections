@@ -3,6 +3,7 @@ import {BSTInsert, BSTRemove} from './BSTPrototype.js';
 import BST from './BST.js';
 const BLACK = 'black';
 const RED = 'red';
+
 class RBNode extends BSTNode {
   constructor(key, value) {
     super(key, value);

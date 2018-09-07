@@ -3,7 +3,6 @@ import RBTree from './RedBlackTree.js';
 /**
  * MultiMap representation
  * @class
- * @extends {RBTree}
  * @implements {MultiMapInterface}
  */
 class MultiMap extends RBTree {

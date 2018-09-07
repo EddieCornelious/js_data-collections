@@ -140,6 +140,11 @@ class Trie {
   }
 
   /*
+  * Reports whether the trie contains the given prefix
+  * @param {string} prefix - The prefix string
+  * @returns {boolean} True or false if prefix does not exist
+  *
+  * @example
   * trie.addWord("apple");
   * trie.addWord.("app");
   * trie.containsPrefix("apple"); // false
