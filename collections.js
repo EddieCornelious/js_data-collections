@@ -83,15 +83,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _HashMap2 = _interopRequireDefault(_HashMap);
 
-	var _HashSet = __webpack_require__(10);
+	var _HashSet = __webpack_require__(9);
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
 
-	var _BST = __webpack_require__(12);
+	var _BST = __webpack_require__(11);
 
 	var _BST2 = _interopRequireDefault(_BST);
 
-	var _Graph = __webpack_require__(15);
+	var _Graph = __webpack_require__(14);
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
@@ -103,15 +103,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
-	var _RedBlackTree = __webpack_require__(18);
+	var _RedBlackTree = __webpack_require__(15);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _Set = __webpack_require__(19);
+	var _Set = __webpack_require__(18);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
-	var _MultiMap = __webpack_require__(20);
+	var _MultiMap = __webpack_require__(19);
 
 	var _MultiMap2 = _interopRequireDefault(_MultiMap);
 
@@ -152,7 +152,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {(Node|undefined)} Node @param index or undefined if not found
 	 */
 	function getNode(index) {
-	  (0, _Util.isNumber)(index);
 	  var head = this.head;
 	  if (index < 0 || !head) {
 	    return;
@@ -252,9 +251,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  List.prototype.elementAtIndex = function elementAtIndex() {
 	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-	    (0, _Util.isNumber)(index);
-	    var wanted = getNode.call(this, index);
-	    return wanted ? wanted.data : undefined;
+	    var foundNode = getNode.call(this, index);
+	    return foundNode ? foundNode.data : undefined;
 	  };
 
 	  /**
@@ -301,9 +299,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var head = this.head,
 	        length = this.length;
 
-	    var removed = void 0;
+	    var removedData = void 0;
 	    if (head) {
-	      removed = head.data;
+	      removedData = head.data;
 	      this.length = length - 1;
 	      this.head = head.next;
 
@@ -318,7 +316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        newHead.prev = null;
 	      }
 	    }
-	    return removed;
+	    return removedData;
 	  };
 
 	  /**
@@ -337,9 +335,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var tail = this.tail,
 	        length = this.length;
 
-	    var removed = void 0;
+	    var removedData = void 0;
 	    if (tail) {
-	      removed = tail.data;
+	      removedData = tail.data;
 	      var prev = tail.prev;
 	      this.length = length - 1;
 	      // list now empty
@@ -351,7 +349,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.tail = prev;
 	      }
 	    }
-	    return removed;
+	    return removedData;
 	  };
 
 	  /**
@@ -372,8 +370,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  List.prototype.insert = function insert() {
 	    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 	    var data = arguments[1];
-
-	    (0, _Util.isNumber)(index);
 	    var length = this.length;
 
 	    if (index === 0) {
@@ -382,14 +378,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.addToBack(data);
 	    }
 	    // parent of wanted node
-	    var prevNode = getNode.call(this, index - 1);
-	    if (prevNode) {
+	    var parentNode = getNode.call(this, index - 1);
+	    if (parentNode) {
 	      var newNode = new Node(data);
-	      var aft = prevNode.next;
-	      newNode.next = aft;
-	      aft.prev = newNode;
-	      prevNode.next = newNode;
-	      newNode.prev = prevNode;
+	      var oldParentNext = parentNode.next;
+	      newNode.next = oldParentNext;
+	      oldParentNext.prev = newNode;
+	      parentNode.next = newNode;
+	      newNode.prev = parentNode;
 	      this.length = length + 1;
 	    }
 	    return this;
@@ -410,26 +406,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  List.prototype.remove = function remove(index) {
-	    (0, _Util.isNumber)(index);
 	    var length = this.length;
 
-	    var removed = void 0;
+	    var removedData = void 0;
 	    if (index === 0) {
 	      return this.removeFront();
 	    } else if (index >= length - 1) {
 	      return this.removeBack();
 	    }
 	    // parent of wanted node
-	    var prevNode = getNode.call(this, index - 1);
-	    if (prevNode) {
-	      var toRemove = prevNode.next;
-	      removed = toRemove.data;
-	      var after = toRemove.next;
-	      prevNode.next = after;
-	      after.prev = prevNode;
+	    var parentNode = getNode.call(this, index - 1);
+	    if (parentNode) {
+	      var toRemove = parentNode.next;
+	      removedData = toRemove.data;
+	      var toRemoveNext = toRemove.next;
+	      parentNode.next = toRemoveNext;
+	      toRemoveNext.prev = parentNode;
 	      this.length = length - 1;
 	    }
-	    return removed;
+	    return removedData;
 	  };
 
 	  /**
@@ -451,7 +446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  List.prototype.indexOf = function indexOf(data, comparator) {
-	    var cmp = comparator || _Util.defaultComp;
+	    var cmp = comparator || _Util.defaultComparator;
 	    var index = 0;
 	    var head = this.head;
 	    while (head) {
@@ -500,17 +495,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Calls a callback function for each element in the list
-	   * @param {function} f - Function executed for each element
+	   * @param {function} predicate - Function executed for each element
 	   * (data, index)
 	   * @returns {List} The instance that this method was called
 	   */
 
 
-	  List.prototype.forEach = function forEach(f) {
+	  List.prototype.forEach = function forEach(predicate) {
 	    var head = this.head;
 	    var index = 0;
 	    while (head) {
-	      f(head.data, index);
+	      predicate(head.data, index);
 	      head = head.next;
 	      index += 1;
 	    }
@@ -520,18 +515,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Returns a new list with only elements that return truthy when passed to the
 	   * given callback
-	   * @param {function(data)} f - The function used to evaluate elements
+	   * @param {function(data)} predicate - The function used to evaluate elements
 	   * @returns {List} A new list with filtered elements
 	   */
 
 
-	  List.prototype.filter = function filter(f) {
+	  List.prototype.filter = function filter(predicate) {
 	    var head = this.head;
 	    var newList = new List();
 	    var data = void 0;
 	    while (head) {
 	      data = head.data;
-	      if (f(data)) {
+	      if (predicate(data)) {
 	        newList.addToBack(data);
 	      }
 	      head = head.next;
@@ -541,15 +536,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Reports if every element in the list passes a certain condition
-	   * @param {function(data)} f - The function used for evaluations
+	   * @param {function(data)} predicate - The function used for evaluations
 	   * @returns {boolean} True if every element passes the test and false otherwise
 	   */
 
 
-	  List.prototype.every = function every(f) {
+	  List.prototype.every = function every(predicate) {
 	    var head = this.head;
 	    while (head) {
-	      if (!f(head.data)) {
+	      if (!predicate(head.data)) {
 	        return false;
 	      }
 	      head = head.next;
@@ -559,15 +554,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Reports if at least one element in the list passes a certain condition
-	   * @param {function(data)} f - The function used for evaluations
+	   * @param {function(data)} predicate - The function used for evaluations
 	   * @returns {boolean} True if one or more elements passes the test and false otherwise
 	   */
 
 
-	  List.prototype.some = function some(f) {
+	  List.prototype.some = function some(predicate) {
 	    var head = this.head;
 	    while (head) {
-	      if (f(head.data)) {
+	      if (predicate(head.data)) {
 	        return true;
 	      }
 	      head = head.next;
@@ -607,9 +602,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.swap = swap;
 	exports.flat = flat;
 	exports.toString = toString;
-	exports.defaultComp = defaultComp;
+	exports.defaultComparator = defaultComparator;
 	exports.isNumber = isNumber;
-	exports.genRand = genRand;
+	exports.generateRandomInt = generateRandomInt;
 	/**
 	 * swap method for Structs BHeap and Array
 	 * @private
@@ -634,7 +629,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function flat(array, res) {
 	  var newArr = [];
 	  var curValue = void 0;
-	  for (var i = 0; i < array.length; i += 1) {
+	  for (var i = 0, len = array.length; i < len; i += 1) {
 	    curValue = array[i];
 	    if (Array.isArray(curValue)) {
 	      flat(curValue, res);
@@ -678,7 +673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   return 0;
 	 }
 	 */
-	function defaultComp(a, b) {
+	function defaultComparator(a, b) {
 	  if (a < b) {
 	    return -1;
 	  }
@@ -707,7 +702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 }
 	 */
 	// eslint-disable-next-line no-unused-vars
-	function customComp(a, b) {
+	function customComparator(a, b) {
 	  // eslint-disable-line no-unused-vars
 	  if (a < b) {
 	    return -1;
@@ -737,7 +732,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {number} limit - Upper bound on random number
 	 * @returns {number} Random number in the range [0, @param limit)
 	 */
-	function genRand(limit) {
+	function generateRandomInt(limit) {
 	  return Math.floor(Math.random() * limit);
 	}
 
@@ -956,29 +951,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @param {Array} array - The array to sift down on.
 	 * @param {number} index - The index to start the sift down operation.
-	 * @param {function} comp - The comparator to use against parent and
+	 * @param {function} comparator - The comparator to use against parent and
 	 * child elements.
 	 * @returns {undefined}
 	 */
-	function heapify(array, index, comp) {
-	  var left = 2 * index;
-	  var right = 2 * index + 1;
+	function heapify(array, index, comparator) {
+	  var leftChildIndex = 2 * index;
+	  var rightChildIndex = 2 * index + 1;
 	  var numIndicies = array.length - 1;
 	  var largest = void 0;
 
-	  if (left <= numIndicies && comp(array[left], array[index]) === 1) {
-	    largest = left;
+	  if (leftChildIndex <= numIndicies && comparator(array[leftChildIndex], array[index]) === 1) {
+	    largest = leftChildIndex;
 	  } else {
 	    largest = index;
 	  }
 
-	  if (right <= numIndicies && comp(array[right], array[largest]) === 1) {
-	    largest = right;
+	  if (rightChildIndex <= numIndicies && comparator(array[rightChildIndex], array[largest]) === 1) {
+	    largest = rightChildIndex;
 	  }
 
 	  if (largest !== index) {
 	    (0, _Util.swap)(array, index, largest);
-	    heapify(array, largest, comp);
+	    heapify(array, largest, comparator);
 	  }
 	}
 
@@ -987,16 +982,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 * @param {Array} array - The array to sift up on.
 	 * @param {number} index - The index to start the sift up operation.
-	 * @param {function} comp - The comparator to use against parent
+	 * @param {function} comparator - The comparator to use against parent
 	 * and child elements
 	 * @returns {undefined}
 	 */
-	function siftUp(array, index, comp) {
+	function siftUp(array, index, comparator) {
 	  if (index > 1) {
 	    var parent = Math.floor(index / 2);
-	    if (comp(array[parent], array[index]) === -1) {
+	    if (comparator(array[parent], array[index]) === -1) {
 	      (0, _Util.swap)(array, parent, index);
-	      siftUp(array, parent, comp);
+	      siftUp(array, parent, comparator);
 	    }
 	  }
 	}
@@ -1017,7 +1012,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, BHeap);
 
 	    this.heap = [null];
-	    this.comp = comparator || _Util.defaultComp;
+	    this.comparator = comparator || _Util.defaultComparator;
 	  }
 
 	  /**
@@ -1033,12 +1028,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BHeap.prototype.extractRoot = function extractRoot() {
 	    var heap = this.heap,
-	        comp = this.comp;
+	        comparator = this.comparator;
 
 	    var max = heap[1];
 	    heap[1] = heap[heap.length - 1];
 	    heap.length -= 1;
-	    heapify(heap, 1, comp);
+	    heapify(heap, 1, comparator);
 	    return max;
 	  };
 
@@ -1057,10 +1052,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  BHeap.prototype.insert = function insert(data) {
 	    var heap = this.heap,
-	        comp = this.comp;
+	        comparator = this.comparator;
 
 	    heap[heap.length] = data;
-	    siftUp(heap, heap.length - 1, comp);
+	    siftUp(heap, heap.length - 1, comparator);
 	    return this;
 	  };
 
@@ -1147,8 +1142,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _BHeap2 = _interopRequireDefault(_BHeap);
 
-	var _Util = __webpack_require__(2);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1156,16 +1149,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Custom comparator for min heap
 	 * @private
-	 * @param {valueA} valueA - First value to compare
-	 * @param {valueB} valueB- Second value to compare
-	 * @returns {number} 1 if @param valueA's priority is less than
-	 * valueB's priority, -1 if opposite and 0 if the two priorities are equal.
+	 * @param {valueA} objectA - First value to compare
+	 * @param {valueB} objectB- Second value to compare
+	 * @returns {number} 1 if @param objectA's priority is less than
+	 * objectB's priority, -1 if opposite and 0 if the two priorities are equal.
 	 */
-	function minHeapComparator(valueA, valueB) {
-	  if (valueA.priority < valueB.priority) {
+	function minHeapComparator(objectA, objectB) {
+	  if (objectA.priority < objectB.priority) {
 	    return 1;
 	  }
-	  if (valueA.priority === valueB.priority) {
+	  if (objectA.priority === objectB.priority) {
 	    return 0;
 	  }
 	  return -1;
@@ -1190,7 +1183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * Inserts given data into queue with a certain priority
 	   * Lower numbers are removed from queue first.
-	   * @param {*} data - The data to queue
+	   * @param {number} data - The data to queue
 	   * @param {priority} priority - The relative Importance of @param data
 	   * to othe data in the queue
 	   *
@@ -1202,7 +1195,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  PriorityQueue.prototype.enqueue = function enqueue(data, priority) {
-	    (0, _Util.isNumber)(priority);
 	    return this.queue.insert({ data: data, priority: priority });
 	  };
 
@@ -1258,19 +1250,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _HashTable2 = _interopRequireDefault(_HashTable);
 
-	var _MapInterface2 = __webpack_require__(9);
-
-	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
 
 	/**
 	 * HashMap representation
@@ -1289,16 +1271,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @example
 	 * const map = new Collections.HashMap(37);
 	 */
-	var HashMap = function (_MapInterface) {
-	  _inherits(HashMap, _MapInterface);
-
+	var HashMap = function () {
 	  function HashMap(initialCapacity) {
 	    _classCallCheck(this, HashMap);
 
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
-
-	    _this.map = new _HashTable2['default'](initialCapacity);
-	    return _this;
+	    this.map = new _HashTable2['default'](initialCapacity);
 	  }
 
 	  HashMap.prototype.put = function put(key, value) {
@@ -1336,7 +1313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return HashMap;
-	}(_MapInterface3['default']);
+	}();
 
 	exports['default'] = HashMap;
 
@@ -1352,19 +1329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Util = __webpack_require__(2);
 
-	var _MapInterface2 = __webpack_require__(9);
-
-	var _MapInterface3 = _interopRequireDefault(_MapInterface2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
 
 	/**
 	 * From immutable.js implementation of java hashcode
@@ -1375,10 +1340,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {string} str - The string to hash
 	 * @returns {number} @param str's hashcode
 	 */
-	function hashStr(str) {
+	function hashString(string) {
 	  var hash = 0;
-	  for (var i = 0; i < str.length; i += 1) {
-	    hash = 31 * hash + str.charCodeAt(i) | 0;
+	  for (var i = 0, len = string.length; i < len; i += 1) {
+	    hash = 31 * hash + string.charCodeAt(i) | 0;
 	  }
 	  return hash;
 	}
@@ -1416,9 +1381,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {Array} Associative Array
 	 * @returns {number} The index that @param key hashes to
 	 */
-	function getLocation(key, table) {
-	  var hash = hashStr((0, _Util.toString)(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
-	  return mod(hash, table.length);
+	function getLocationInTable(key, table) {
+	  var keyHash = hashString((0, _Util.toString)(key) + (typeof key === 'undefined' ? 'undefined' : _typeof(key)));
+	  return mod(keyHash, table.length);
 	}
 
 	/**
@@ -1430,7 +1395,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {number} 1 for true
 	 */
 	function insert(key, value, table) {
-	  var location = getLocation(key, table);
+	  var location = getLocationInTable(key, table);
 	  var bucket = table[location];
 	  return bucket.push(key, value);
 	}
@@ -1464,7 +1429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * and the index of @param key in that bucket or undefined and -1 if not found
 	 */
 	function search(key, table) {
-	  var location = getLocation(key, table);
+	  var location = getLocationInTable(key, table);
 	  var bucket = table[location];
 	  // skip values [k1, v1, k2, v2]
 	  for (var index = 0; index < bucket.length; index += 2) {
@@ -1502,19 +1467,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * which is 112,500 , greater than your space needed.
 	 */
 
-	var HashTable = function (_MapInterface) {
-	  _inherits(HashTable, _MapInterface);
-
+	var HashTable = function () {
 	  function HashTable() {
 	    var initialCapacity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 13;
 
 	    _classCallCheck(this, HashTable);
 
-	    var _this = _possibleConstructorReturn(this, _MapInterface.call(this));
-
-	    _this.inserts = 0;
-	    _this.table = createTable(initialCapacity);
-	    return _this;
+	    this.inserts = 0;
+	    this.table = createTable(initialCapacity);
 	  }
 
 	  HashTable.prototype.put = function put() {
@@ -1525,9 +1485,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var table = self.table,
 	        inserts = self.inserts;
 
-	    var searchRes = search(key, table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
+	    var searchResult = search(key, table);
+	    var bucket = searchResult.bucket,
+	        index = searchResult.index;
 
 	    if (index === -1) {
 	      insert(key, value, table);
@@ -1542,18 +1502,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  HashTable.prototype.getVal = function getVal(key) {
-	    var searchRes = search(key, this.table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
+	    var searchResult = search(key, this.table);
+	    var bucket = searchResult.bucket,
+	        index = searchResult.index;
 
 	    return index !== -1 ? bucket[index + 1] : undefined;
 	  };
 
 	  HashTable.prototype.remove = function remove(key) {
 	    var self = this;
-	    var searchRes = search(key, self.table);
-	    var bucket = searchRes.bucket,
-	        index = searchRes.index;
+	    var searchResult = search(key, self.table);
+	    var bucket = searchResult.bucket,
+	        index = searchResult.index;
 
 	    if (index !== -1) {
 	      self.inserts -= 1;
@@ -1620,140 +1580,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return HashTable;
-	}(_MapInterface3['default']);
+	}();
 
 	exports['default'] = HashTable;
 
 /***/ },
 /* 9 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	/**
-	 * Map Interface
-	 * @interface
-	 */
-	var MapInterface = function () {
-	  function MapInterface() {
-	    _classCallCheck(this, MapInterface);
-	  }
-
-	  /**
-	   * Inserts the given key and value into the Map
-	   * @param {*} key - The key
-	   * @param {*} value - The value mapped to by @param key
-	   * @returns {Map} The instance that this method was called
-	   *
-	   * @example
-	   * map.put("ed", "jones");
-	   * // ed maps to jones
-	   * map.put("ed", "james");
-	   * // now same ed maps to james and not jones
-	   */
-
-
-	  MapInterface.prototype.put = function put(key, value) {};
-
-	  /**
-	   * Retrieves the value mapped to by the given key
-	   * @param {*} key - The key to lookup
-	   * @returns {*} The value associated with @param key
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.getVal(99); // returns "problems"
-	   */
-
-
-	  MapInterface.prototype.getVal = function getVal(key) {};
-
-	  /**
-	   * Removes the given key and its associated value from the Map
-	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if the key and it's value were removed and false otherwise
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.remove(88); // returns false
-	   * map.remove(99); // returns true
-	   */
-
-
-	  MapInterface.prototype.remove = function remove(key) {};
-
-	  /**
-	   * Reports whether the Map contains the given key
-	   * @param {*} key - The key to lookup
-	   * @returns {boolean} True if @param key is found and false otherwise
-	   *
-	   * @example
-	   * map.contains("empty"); // return false
-	   */
-
-
-	  MapInterface.prototype.contains = function contains(key) {};
-
-	  /**
-	   * Returns all of the keys in the Map
-	   * @returns {Array} An array of keys
-	   *
-	   * @example
-	   * map.put(1, "b");
-	   * map.put(2, "c");
-	   * map.put(3, "d");
-	   * map.keys() // returns [1, 2, 3] permutation (order may
-	   * or may not be guarenteed)
-	   */
-
-
-	  MapInterface.prototype.keys = function keys() {};
-
-	  /**
-	   * Returns all of the values in the Map
-	   * @returns {Array} An array of values
-	   *
-	   * @example
-	   * map.put(1, "b");
-	   * map.put(2, "c");
-	   * map.put(3, "d");
-	   * map.values() // returns ["c", "b", "d"] permutation
-	   */
-
-
-	  MapInterface.prototype.values = function values() {};
-
-	  /**
-	   * Returns number of elements in the Map
-	   * @returns {number} The number of insertions
-	   *
-	   * @example
-	   * map.put(99, "problems");
-	   * map.size() // 1
-	   */
-
-
-	  MapInterface.prototype.size = function size() {};
-
-	  /**
-	   * Clears the map of all k,v pairs
-	   * @returns {undefined}
-	   */
-
-
-	  MapInterface.prototype.clear = function clear() {};
-
-	  return MapInterface;
-	}();
-
-	exports["default"] = MapInterface;
-
-/***/ },
-/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1764,7 +1596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _HashTable2 = _interopRequireDefault(_HashTable);
 
-	var _SetInterface2 = __webpack_require__(11);
+	var _SetInterface2 = __webpack_require__(10);
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
@@ -1839,7 +1671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = HashSet;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2021,18 +1853,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports["default"] = SetInterface;
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _BSTNode = __webpack_require__(13);
+	var _BSTNode = __webpack_require__(12);
 
 	var _BSTNode2 = _interopRequireDefault(_BSTNode);
 
-	var _BSTPrototype = __webpack_require__(14);
+	var _BSTPrototype = __webpack_require__(13);
 
 	var _Util = __webpack_require__(2);
 
@@ -2054,7 +1886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, BST);
 
 	    this.root = new _BSTNode2['default']();
-	    this.comp = comparator || _Util.defaultComp;
+	    this.comparator = comparator || _Util.defaultComparator;
 	    this.inserts = 0;
 	  }
 
@@ -2181,7 +2013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BST.prototype.keysLess = function keysLess(value) {
 	    var self = this;
 	    var result = [];
-	    (0, _BSTPrototype.less)(self.root, value, self.comp, result);
+	    (0, _BSTPrototype.less)(self.root, value, self.comparator, result);
 	    return result;
 	  };
 
@@ -2195,7 +2027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  BST.prototype.keysGreater = function keysGreater(value) {
 	    var self = this;
 	    var result = [];
-	    (0, _BSTPrototype.greater)(self.root, value, self.comp, result);
+	    (0, _BSTPrototype.greater)(self.root, value, self.comparator, result);
 	    return result;
 	  };
 
@@ -2257,11 +2089,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (lower === undefined || upper === undefined) {
 	      throw new TypeError('Both a lower and upper bound are required');
 	    }
-	    if (self.comp(lower, upper) !== -1) {
+	    if (self.comparator(lower, upper) !== -1) {
 	      throw new RangeError('Lower bound must be strictly less than upper bound');
 	    }
 	    var res = [];
-	    (0, _BSTPrototype.keysBetween)(self.root, lower, upper, self.comp, res);
+	    (0, _BSTPrototype.keysBetween)(self.root, lower, upper, self.comparator, res);
 	    return res;
 	  };
 
@@ -2271,7 +2103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = BST;
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2280,20 +2112,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var BSTNode = function BSTNode(key, value) {
-	  _classCallCheck(this, BSTNode);
+	var BSTNode = function () {
+	  function BSTNode(key, value) {
+	    _classCallCheck(this, BSTNode);
 
-	  this.parent = null;
-	  this.left = null;
-	  this.right = null;
-	  this.key = key;
-	  this.value = value;
-	};
+	    this.parent = null;
+	    this.left = null;
+	    this.right = null;
+	    this.key = key;
+	    this.value = value;
+	  }
+
+	  BSTNode.prototype.isNil = function isNil() {
+	    return this.key === undefined;
+	  };
+
+	  BSTNode.prototype.isLeftChild = function isLeftChild() {
+	    return this.parent.left === this;
+	  };
+
+	  BSTNode.prototype.hasLeftChild = function hasLeftChild() {
+	    return this.left.key !== undefined;
+	  };
+
+	  BSTNode.prototype.hasRightChild = function hasRightChild() {
+	    return this.right.key !== undefined;
+	  };
+
+	  BSTNode.prototype.isRightChild = function isRightChild() {
+	    return this.parent.right === this;
+	  };
+
+	  return BSTNode;
+	}();
 
 	exports["default"] = BSTNode;
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2308,20 +2164,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.greater = greater;
 	exports.minOrMax = minOrMax;
 	exports.keysBetween = keysBetween;
-
-
 	/**
 	 * Adjusts references for parent and child post insert
 	 * @private
 	 */
-	function adjustParentAndChildren(newNode, prevRoot, comp, NodeType) {
-	  newNode.parent = prevRoot;
-	  if (prevRoot.key === undefined) {
+	function adjustParentAndChildrenOfNewNode(newNode, oldRoot, comparator, NodeType) {
+	  newNode.parent = oldRoot;
+	  if (oldRoot.isNil()) {
 	    this.root = newNode;
-	  } else if (comp(newNode.key, prevRoot.key) === -1) {
-	    prevRoot.left = newNode;
+	  } else if (comparator(newNode.key, oldRoot.key) === -1) {
+	    oldRoot.left = newNode;
 	  } else {
-	    prevRoot.right = newNode;
+	    oldRoot.right = newNode;
 	  }
 	  newNode.left = new NodeType();
 	  newNode.right = new NodeType();
@@ -2336,23 +2190,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * thus not inserted or the new node that was just inserted successfully.
 	 */
 	function BSTInsert(key, value, NodeType) {
-	  var comp = this.comp;
+	  var comparator = this.comparator;
 	  var root = this.root;
 	  var newNode = new NodeType(key, value);
-	  var prevRoot = new NodeType();
-	  while (root.key !== undefined) {
-	    var compResult = comp(newNode.key, root.key);
-	    prevRoot = root;
-	    if (compResult === -1) {
+	  var oldRoot = new NodeType();
+	  while (!root.isNil()) {
+	    var comparatorResult = comparator(newNode.key, root.key);
+	    oldRoot = root;
+	    if (comparatorResult === -1) {
 	      root = root.left;
-	    } else if (compResult === 1) {
+	    } else if (comparatorResult === 1) {
 	      root = root.right;
 	    } else {
 	      root.value = value;
 	      return;
 	    }
 	  }
-	  adjustParentAndChildren.call(this, newNode, prevRoot, comp, NodeType);
+	  adjustParentAndChildrenOfNewNode.call(this, newNode, oldRoot, comparator, NodeType);
 	  return newNode;
 	}
 
@@ -2364,16 +2218,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {(undefined|BSTNode)} undefined if not found. Or the actual node if found
 	 */
 	function BSTSearch(root, key) {
-	  var curRoot = root;
-	  var comp = this.comp;
-	  while (curRoot.key !== undefined) {
-	    var compResult = comp(curRoot.key, key);
-	    if (compResult === 0) {
-	      return curRoot;
-	    } else if (compResult === -1) {
-	      curRoot = curRoot.right;
+	  var currentRoot = root;
+	  var comparator = this.comparator;
+	  while (!currentRoot.isNil()) {
+	    var comparatorResult = comparator(currentRoot.key, key);
+	    if (comparatorResult === 0) {
+	      return currentRoot;
+	    } else if (comparatorResult === -1) {
+	      currentRoot = currentRoot.right;
 	    } else {
-	      curRoot = curRoot.left;
+	      currentRoot = currentRoot.left;
 	    }
 	  }
 	}
@@ -2385,20 +2239,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {BSTNode} The inorder successor of @param node
 	 */
 	function successor(node) {
-	  var suc = node.right;
-	  while (suc.left.key !== undefined) {
-	    suc = suc.left;
+	  var nodeSuccessor = node.right;
+	  while (nodeSuccessor.hasLeftChild()) {
+	    nodeSuccessor = nodeSuccessor.left;
 	  }
-	  return suc;
+	  return nodeSuccessor;
 	}
 
 	/**
 	 * @private
 	 */
-	function swapPropsWithSucccessor(succ, node) {
-	  if (succ !== node) {
-	    node.key = succ.key;
-	    node.value = succ.value;
+	function swapPropsWithSucccessor(nodeSuccessor, node) {
+	  if (nodeSuccessor !== node) {
+	    node.key = nodeSuccessor.key;
+	    node.value = nodeSuccessor.value;
 	  }
 	}
 	/**
@@ -2413,28 +2267,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!node) {
 	    return false;
 	  }
-	  var succ = void 0;
-	  var succChild = void 0;
-	  if (node.left.key === undefined || node.right.key === undefined) {
-	    succ = node;
+	  var nodeSuccessor = void 0;
+	  var successorChild = void 0;
+	  if (!node.hasLeftChild() || !node.hasRightChild()) {
+	    nodeSuccessor = node;
 	  } else {
-	    succ = successor(node);
+	    nodeSuccessor = successor(node);
 	  }
-	  if (succ.left.key !== undefined) {
-	    succChild = succ.left;
+	  if (nodeSuccessor.hasLeftChild()) {
+	    successorChild = nodeSuccessor.left;
 	  } else {
-	    succChild = succ.right;
+	    successorChild = nodeSuccessor.right;
 	  }
-	  succChild.parent = succ.parent;
-	  if (succ.parent.key === undefined) {
-	    this.root = succChild;
-	  } else if (succ === succ.parent.left) {
-	    succ.parent.left = succChild;
+	  successorChild.parent = nodeSuccessor.parent;
+	  if (nodeSuccessor.parent.isNil()) {
+	    this.root = successorChild;
+	  } else if (nodeSuccessor.isLeftChild()) {
+	    nodeSuccessor.parent.left = successorChild;
 	  } else {
-	    succ.parent.right = succChild;
+	    nodeSuccessor.parent.right = successorChild;
 	  }
-	  swapPropsWithSucccessor(succ, node);
-	  return { succChild: succChild, succ: succ };
+	  swapPropsWithSucccessor(nodeSuccessor, node);
+	  return { successorChild: successorChild, nodeSuccessor: nodeSuccessor };
 	}
 
 	/**
@@ -2446,7 +2300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {undefined}
 	 */
 	function BSTInorder(root, array) {
-	  if (root && root.key !== undefined) {
+	  if (root && !root.isNil()) {
 	    BSTInorder(root.left, array);
 	    array.push(root);
 	    BSTInorder(root.right, array);
@@ -2454,7 +2308,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function getKeysOrValues(root, prop, array) {
-	  if (root && root.key !== undefined) {
+	  if (root && !root.isNil()) {
 	    getKeysOrValues(root.left, prop, array);
 	    array.push(root[prop]);
 	    getKeysOrValues(root.right, prop, array);
@@ -2471,12 +2325,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {undefined}
 	 */
 	function less(root, value, comparator, array) {
-	  if (!root || root.key === undefined) {
+	  if (!root || root.isNil()) {
 	    return;
 	  }
 	  var rootKey = root.key;
-	  var comp = comparator(rootKey, value);
-	  if (comp === -1) {
+	  var comparatorResult = comparator(rootKey, value);
+	  if (comparatorResult === -1) {
 	    array.push(rootKey);
 	    less(root.left, value, comparator, array);
 	    return less(root.right, value, comparator, array);
@@ -2494,12 +2348,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {undefined}
 	 */
 	function greater(root, value, comparator, array) {
-	  if (!root || root.key === undefined) {
+	  if (!root || root.isNil()) {
 	    return;
 	  }
 	  var rootKey = root.key;
-	  var comp = comparator(rootKey, value);
-	  if (comp === 1) {
+	  var comparatorResult = comparator(rootKey, value);
+	  if (comparatorResult === 1) {
 	    array.push(rootKey);
 	    greater(root.left, value, comparator, array);
 	    return greater(root.right, value, comparator, array);
@@ -2515,15 +2369,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {*|undefined} The min or max value in the tree or undefined for empty tree
 	 */
 	function minOrMax(query, root) {
-	  var curRoot = root;
+	  var currentRoot = root;
 	  var direction = query === 'min' ? 'left' : 'right';
-	  if (curRoot.key === undefined) {
+	  if (currentRoot.isNil()) {
 	    return;
 	  }
-	  while (curRoot[direction].key !== undefined) {
-	    curRoot = curRoot[direction];
+	  while (currentRoot[direction].key !== undefined) {
+	    currentRoot = currentRoot[direction];
 	  }
-	  return curRoot.key;
+	  return currentRoot.key;
 	}
 
 	/**
@@ -2537,7 +2391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {undefined}
 	 */
 	function keysBetween(root, lower, upper, comparator, array) {
-	  if (!root || root.key === undefined) {
+	  if (!root || root.isNil()) {
 	    return;
 	  }
 	  var rootKey = root.key;
@@ -2556,7 +2410,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2571,11 +2425,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Stack2 = _interopRequireDefault(_Stack);
 
-	var _HashMap = __webpack_require__(7);
+	var _RedBlackTree = __webpack_require__(15);
 
-	var _HashMap2 = _interopRequireDefault(_HashMap);
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _HashSet = __webpack_require__(10);
+	var _HashSet = __webpack_require__(9);
 
 	var _HashSet2 = _interopRequireDefault(_HashSet);
 
@@ -2618,10 +2472,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var Graph = function () {
-	  function Graph(numVerticies) {
+	  function Graph() {
 	    _classCallCheck(this, Graph);
 
-	    this.graph = new _HashMap2['default'](numVerticies);
+	    this.graph = new _RedBlackTree2['default']();
 	  }
 
 	  /**
@@ -2718,9 +2572,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Graph.prototype.isConnected = function isConnected() {
 	    var graph = this.graph;
-	    var firstKey = '';
 	    var verticies = graph.keys();
-	    firstKey = verticies[0];
+	    var firstKey = verticies[0];
 	    return this.BFS(firstKey).length === verticies.length;
 	  };
 
@@ -2728,6 +2581,318 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	exports['default'] = Graph;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _BSTNode2 = __webpack_require__(12);
+
+	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
+
+	var _BSTPrototype = __webpack_require__(13);
+
+	var _BST2 = __webpack_require__(11);
+
+	var _BST3 = _interopRequireDefault(_BST2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var BLACK = 'black';
+	var RED = 'red';
+
+	var RBNode = function (_BSTNode) {
+	  _inherits(RBNode, _BSTNode);
+
+	  function RBNode(key, value) {
+	    _classCallCheck(this, RBNode);
+
+	    var _this = _possibleConstructorReturn(this, _BSTNode.call(this, key, value));
+
+	    _this.color = BLACK;
+	    return _this;
+	  }
+
+	  RBNode.prototype.isRed = function isRed() {
+	    return this.color === RED;
+	  };
+
+	  RBNode.prototype.isBlack = function isBlack() {
+	    return this.color === BLACK;
+	  };
+
+	  return RBNode;
+	}(_BSTNode3['default']);
+
+	/**
+	 * Left rotates the given node
+	 * @private
+	 * @param {BSTNode} node - The node to rotate
+	 * @returns {undefined}
+	 */
+
+
+	function leftRotate(node) {
+	  var oldRight = node.right;
+	  var nodeParent = node.parent;
+	  node.right = oldRight.left;
+	  oldRight.left.parent = node;
+	  oldRight.parent = nodeParent;
+	  // root
+	  if (nodeParent.isNil()) {
+	    this.root = oldRight;
+	  } else if (node.isLeftChild()) {
+	    nodeParent.left = oldRight;
+	  } else {
+	    nodeParent.right = oldRight;
+	  }
+	  oldRight.left = node;
+	  node.parent = oldRight;
+	}
+
+	/**
+	 * Right rotates the given node
+	 * @private
+	 * @param {BSTNode} node - The node to rotate
+	 * @returns {undefined}
+	 */
+	function rightRotate(node) {
+	  var oldLeft = node.left;
+	  var nodeParent = node.parent;
+	  node.left = oldLeft.right;
+	  oldLeft.right.parent = node;
+	  oldLeft.parent = nodeParent;
+	  // root
+	  if (nodeParent.isNil()) {
+	    this.root = oldLeft;
+	  } else if (node.isLeftChild()) {
+	    nodeParent.left = oldLeft;
+	  } else {
+	    nodeParent.right = oldLeft;
+	  }
+	  oldLeft.right = node;
+	  node.parent = oldLeft;
+	}
+
+	/**
+	 * Performs the re coloring stage upon insert, based on uncle color
+	 * @private
+	 * @param {RBNode} uncle - The uncle of the current node
+	 * @param {RBNode} currentNode - The current node being fixed in the tree
+	 * @returns {undefined}
+	 */
+	function insertFixRecolor(uncle, currentNode) {
+	  currentNode.parent.color = BLACK;
+	  uncle.color = BLACK;
+	  currentNode.parent.parent.color = RED;
+	}
+
+	/**
+	 * @private
+	 * Performs the rotation stage on insert, based on uncle color and if current
+	 * right child
+	 * @param {RBNode} currentNode - The current node being fixed in the tree
+	 * @param {RBNode} context - The RBTree instance
+	 * @returns {undefined}
+	 */
+	function insertFixRotate1(node, context) {
+	  var currentNode = node;
+	  if (currentNode.isRightChild()) {
+	    currentNode = currentNode.parent;
+	    leftRotate.call(context, currentNode);
+	  }
+	  currentNode.parent.color = BLACK;
+	  currentNode.parent.parent.color = RED;
+	  rightRotate.call(context, currentNode.parent.parent);
+	}
+
+	/**
+	 * @private
+	 * Performs the rotation stage on insert, based on uncle color and if current
+	 * node is left child
+	 * @param {RBNode} currentNode - The current node being fixed in the tree
+	 * @param {RBNode} context - The RBTree instance
+	 * @returns {undefined}
+	 */
+	function insertFixRotate2(node, context) {
+	  var currentNode = node;
+	  if (currentNode.isLeftChild()) {
+	    currentNode = currentNode.parent;
+	    rightRotate.call(context, currentNode);
+	  }
+	  currentNode.parent.color = BLACK;
+	  currentNode.parent.parent.color = RED;
+	  leftRotate.call(context, currentNode.parent.parent);
+	}
+
+	/**
+	 * Performs the recoloring stage when the node's sibling is red
+	 * @private
+	 */
+	function deleteRedSiblingCaseRecolor(currentNode, sibling) {
+	  sibling.color = BLACK;
+	  currentNode.parent.color = RED;
+	}
+
+	/**
+	 * Fixes up the rb tree after insertion
+	 * @private
+	 * @param {BSTNode} node - The node to begin fixing
+	 * @returns {undefined}
+	 */
+	function insertFix(nodeToFix) {
+	  var currentNode = nodeToFix;
+	  var context = this;
+	  var uncle = void 0;
+	  while (currentNode.parent.isRed()) {
+	    if (currentNode.parent.isLeftChild()) {
+	      uncle = currentNode.parent.parent.right;
+	      if (uncle.isRed()) {
+	        insertFixRecolor(uncle, currentNode);
+	        currentNode = currentNode.parent.parent;
+	      } else {
+	        insertFixRotate1(currentNode, context);
+	      }
+	    } else {
+	      uncle = currentNode.parent.parent.left;
+	      if (uncle.isRed()) {
+	        insertFixRecolor(uncle, currentNode);
+	        currentNode = currentNode.parent.parent;
+	      } else {
+	        insertFixRotate2(currentNode, context);
+	      }
+	    }
+	  }
+	  context.root.color = BLACK;
+	}
+
+	/**
+	 * Fixes up the rb tree after deletion
+	 * @private
+	 * @param {BSTNode} node - The node to begin fixing
+	 * @returns {undefined}
+	 */
+	function deletefixUp(nodeToFix) {
+	  var currentNode = nodeToFix;
+	  var context = this;
+	  while (!currentNode.parent.isNil() && currentNode.isBlack()) {
+	    var sibling = void 0;
+	    if (currentNode.isLeftChild()) {
+	      sibling = currentNode.parent.right;
+	      if (sibling.isRed()) {
+	        deleteRedSiblingCaseRecolor(currentNode, sibling);
+	        leftRotate.call(context, currentNode.parent);
+	        sibling = currentNode.parent.right;
+	      }
+	      if (sibling.left.isBlack() && sibling.right.isBlack()) {
+	        sibling.color = RED;
+	        currentNode = currentNode.parent;
+	      } else {
+	        if (sibling.right.isBlack()) {
+	          sibling.left.color = BLACK;
+	          sibling.color = RED;
+	          rightRotate.call(context, sibling);
+	          sibling = currentNode.parent.right;
+	        }
+	        sibling.color = currentNode.parent.color;
+	        currentNode.parent.color = BLACK;
+	        sibling.right.color = BLACK;
+	        leftRotate.call(context, currentNode.parent);
+	        currentNode = context.root;
+	      }
+	    } else {
+	      sibling = currentNode.parent.left;
+	      if (sibling.isRed()) {
+	        deleteRedSiblingCaseRecolor(currentNode, sibling);
+	        rightRotate.call(context, currentNode.parent);
+	        sibling = currentNode.parent.left;
+	      }
+	      if (sibling.right.isBlack() && sibling.left.isBlack()) {
+	        sibling.color = RED;
+	        currentNode = currentNode.parent;
+	      } else {
+	        if (sibling.left.isBlack()) {
+	          sibling.right.color = BLACK;
+	          sibling.color = RED;
+	          leftRotate.call(context, sibling);
+	          sibling = currentNode.parent.left;
+	        }
+	        sibling.color = currentNode.parent.color;
+	        currentNode.parent.color = BLACK;
+	        sibling.left.color = BLACK;
+	        rightRotate.call(context, currentNode.parent);
+	        currentNode = context.root;
+	      }
+	    }
+	  }
+	  currentNode.color = BLACK;
+	}
+
+	/**
+	 * Red-Black Tree representation
+	 * @class
+	 * @extends {BST}
+	 * @param {function} comparator - @see Global#defaultComp for examples
+	 * @example
+	 * const bst = new Collections.RBTree();
+	 */
+
+	var RBTree = function (_BST) {
+	  _inherits(RBTree, _BST);
+
+	  function RBTree(comparator) {
+	    _classCallCheck(this, RBTree);
+
+	    var _this2 = _possibleConstructorReturn(this, _BST.call(this, comparator));
+
+	    _this2.root = new RBNode();
+	    return _this2;
+	  }
+
+	  RBTree.prototype.put = function put(key, value) {
+	    var self = this;
+	    var insertedNode = _BSTPrototype.BSTInsert.call(self, key, value, RBNode);
+	    if (insertedNode) {
+	      insertedNode.color = RED;
+	      insertFix.call(self, insertedNode);
+	      self.inserts += 1;
+	    }
+	    return self;
+	  };
+
+	  RBTree.prototype.remove = function remove(key) {
+	    var self = this;
+	    // successor and child
+	    var didRemove = _BSTPrototype.BSTRemove.call(self, key);
+	    if (didRemove) {
+	      var successorChild = didRemove.successorChild,
+	          nodeSuccessor = didRemove.nodeSuccessor;
+
+	      if (nodeSuccessor.isBlack()) {
+	        deletefixUp.call(self, successorChild);
+	      }
+	      self.inserts -= 1;
+	      return true;
+	    }
+	    return false;
+	  };
+
+	  return RBTree;
+	}(_BST3['default']);
+
+	exports['default'] = RBTree;
 
 /***/ },
 /* 16 */
@@ -2797,42 +2962,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Reports whether the given trieNode has at least one child
-	 * @private
-	 * @param {TrieNode} trieNode - The trie node to check children of
-	 * @returns {boolean} True if the node has children and false otherwise
-	 */
-	function hasChild(trieNode) {
-	  if (!trieNode) {
-	    return false;
-	  }
-
-	  /**
-	   *Using this instead of Object.keys because I only need existence of one child
-	   *not all
-	   */
-	  // eslint-disable-next-line no-restricted-syntax
-	  for (var prop in trieNode) {
-	    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
-	      return true;
-	    }
-	  }
-	  return false;
-	}
-
-	/**
 	 * Nodes for Trie
 	 * @class
 	 * @private
 	 */
 
-	var TrieNode = function TrieNode() {
-	  _classCallCheck(this, TrieNode);
+	var TrieNode = function () {
+	  function TrieNode() {
+	    _classCallCheck(this, TrieNode);
 
-	  this.children = {};
-	  this.endOfWord = false;
-	  this.word = null;
-	};
+	    this.children = {};
+	    this.endOfWord = false;
+	    this.word = null;
+	  }
+
+	  TrieNode.prototype.hasChildren = function hasChildren() {
+	    /**
+	     *Using this instead of Object.keys because I only need existence of one child
+	     *not all
+	     */
+	    var children = this.children;
+	    // eslint-disable-next-line no-restricted-syntax
+
+	    for (var prop in children) {
+	      if (Object.prototype.hasOwnProperty.call(children, prop)) {
+	        return true;
+	      }
+	    }
+	    return false;
+	  };
+
+	  return TrieNode;
+	}();
 
 	/**
 	 * Trie (prefix tree) representation
@@ -2892,10 +3053,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
 	    var word = toLowerCaseString(data);
-	    var foundWord = getNode(this.root, word);
-	    if (foundWord) {
+	    var foundNode = getNode(this.root, word);
+	    if (foundNode) {
 	      var lastChar = word.charAt(word.length - 1);
-	      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
+	      if (foundNode[lastChar] && foundNode[lastChar].word === word) {
 	        return true;
 	      }
 	    }
@@ -2903,6 +3064,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /*
+	  * Reports whether the trie contains the given prefix
+	  * @param {string} prefix - The prefix string
+	  * @returns {boolean} True or false if prefix does not exist
+	  *
+	  * @example
 	  * trie.addWord("apple");
 	  * trie.addWord.("app");
 	  * trie.containsPrefix("apple"); // false
@@ -2915,12 +3081,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var root = this.root;
 	    var str = toLowerCaseString(prefix);
-	    var foundPrefix = getNode(root, str);
-	    if (foundPrefix) {
+	    var foundNode = getNode(root, str);
+	    if (foundNode) {
 	      var lastChar = str.charAt(str.length - 1);
-	      if (foundPrefix[lastChar]) {
-	        var hasChildren = hasChild(foundPrefix[lastChar].children);
-	        return hasChildren;
+	      if (foundNode[lastChar]) {
+	        return foundNode[lastChar].hasChildren();
 	      }
 	    }
 	    return false;
@@ -3009,7 +3174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Removes the first occurence of the given value from the array
 	   * @static
 	   * @param {Array} array - The array to remove elements from
-	   * @param {*} value - The value to remove from @param array
+	   * @param {function} predicate - The function used to compare values
 	   * @returns {Array} Array of removed elements
 	   *
 	   * @example
@@ -3021,9 +3186,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  ArrayUtils.removeElement = function removeElement() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	    var value = arguments[1];
+	    var predicate = arguments[1];
 
-	    return ArrayUtils.remove(array, array.indexOf(value));
+	    var indexToRemove = ArrayUtils.findIndex(array, predicate);
+	    return ArrayUtils.remove(array, indexToRemove);
 	  };
 
 	  /**
@@ -3050,11 +3216,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var len = array.length;
 	    if (times > 0) {
-	      var diff = len - times;
-	      return array.slice(diff).concat(array.slice(0, diff));
+	      var upperBound = len - times;
+	      return array.slice(upperBound).concat(array.slice(0, upperBound));
 	    }
-	    var posTime = Math.abs(times);
-	    return array.slice(posTime).concat(array.slice(0, Math.abs(posTime)));
+	    var timesToPositiveInt = Math.abs(times);
+	    return array.slice(timesToPositiveInt).concat(array.slice(0, timesToPositiveInt));
 	  };
 
 	  /**
@@ -3076,8 +3242,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	    var diff = array.length - times;
-	    return diff > 0 ? array.slice(0, diff) : [];
+	    var upperBound = array.length - times;
+	    return upperBound > 0 ? array.slice(0, upperBound) : [];
 	  };
 
 	  /**
@@ -3097,10 +3263,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ArrayUtils.pushMany = function pushMany() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    // eslint-disable-line no-unused-vars
-	    var args = [].concat(Array.prototype.slice.call(arguments));
-	    // throw out array arg
-	    args.shift();
+	    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	      args[_key - 1] = arguments[_key];
+	    }
+
 	    return array.concat(args);
 	  };
 
@@ -3120,16 +3286,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  ArrayUtils.shiftMany = function shiftMany() {
-	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	    return times > 0 ? arr.slice(times) : arr;
+	    return times > 0 ? array.slice(times) : array;
 	  };
 
 	  /**
 	   * Adds elements to the front of the given array
 	   * @static
-	   * @param {Array} [array=empty array] - The array to unshift
+	   * @param {Array} [array=empty array] - The array to add elements into
+	   * @param {*} args - Consecutive arguments to push into array
 	   * @returns {Array} A new array equal to
 	   * [unshifted elements + @param array ]
 	   *
@@ -3141,12 +3308,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  ArrayUtils.unshiftMany = function unshiftMany() {
-	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    var args = [].concat(Array.prototype.slice.call(arguments));
-	    // throw out array arg
-	    args.shift();
-	    return args.concat(arr);
+	    for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+	      args[_key2 - 1] = arguments[_key2];
+	    }
+
+	    return args.concat(array);
 	  };
 
 	  /**
@@ -3165,7 +3333,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ArrayUtils.getRand = function getRand() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    return array[(0, _Util.genRand)(array.length)];
+	    var randomIndex = (0, _Util.generateRandomInt)(array.length);
+	    return array[randomIndex];
 	  };
 
 	  /**
@@ -3185,8 +3354,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ArrayUtils.removeRand = function removeRand() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    var randIndex = (0, _Util.genRand)(array.length);
-	    return ArrayUtils.remove(array, randIndex);
+	    var randomIndex = (0, _Util.generateRandomInt)(array.length);
+	    return ArrayUtils.remove(array, randomIndex);
 	  };
 
 	  /**
@@ -3201,10 +3370,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
 	    var arrayLength = array.length;
-	    for (var i = 0; i < Math.floor(arrayLength / 2); i += 1) {
-	      var index1 = (0, _Util.genRand)(arrayLength);
-	      var index2 = (0, _Util.genRand)(arrayLength);
-	      (0, _Util.swap)(array, index1, index2);
+	    for (var i = arrayLength - 1; i > 0; i -= 1) {
+	      var randomIndex = (0, _Util.generateRandomInt)(i + 1);
+	      (0, _Util.swap)(array, randomIndex, i);
 	    }
 	  };
 
@@ -3241,16 +3409,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  ArrayUtils.chunk = function chunk() {
-	    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var bits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-	    (0, _Util.isNumber)(bits);
 	    var newArr = [];
 	    if (bits <= 0) {
 	      return newArr;
 	    }
-	    for (var i = 0; i < arr.length; i += bits) {
-	      newArr.push(arr.slice(i, i + bits));
+	    for (var i = 0, len = array.length; i < len; i += bits) {
+	      var newChunk = array.slice(i, i + bits);
+	      newArr.push(newChunk);
 	    }
 	    return newArr;
 	  };
@@ -3333,7 +3501,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    while (index < len) {
 	      var data = array[index];
 	      if (test(data, index)) {
-	        res.push(mapper(data, index));
+	        var mappedElement = mapper(data, index);
+	        res.push(mappedElement);
 	      }
 	      index += 1;
 	    }
@@ -3353,314 +3522,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _BSTNode2 = __webpack_require__(13);
-
-	var _BSTNode3 = _interopRequireDefault(_BSTNode2);
-
-	var _BSTPrototype = __webpack_require__(14);
-
-	var _BST2 = __webpack_require__(12);
-
-	var _BST3 = _interopRequireDefault(_BST2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var RBNode = function (_BSTNode) {
-	  _inherits(RBNode, _BSTNode);
-
-	  function RBNode(key, value) {
-	    _classCallCheck(this, RBNode);
-
-	    var _this = _possibleConstructorReturn(this, _BSTNode.call(this, key, value));
-
-	    _this.color = 'black';
-	    return _this;
-	  }
-
-	  return RBNode;
-	}(_BSTNode3['default']);
-
-	/**
-	 * Left rotates the given node
-	 * @private
-	 * @param {BSTNode} node - The node to rotate
-	 * @returns {undefined}
-	 */
-
-
-	function leftRotate(node) {
-	  var oldRight = node.right;
-	  var nodeParent = node.parent;
-	  node.right = oldRight.left;
-	  oldRight.left.parent = node;
-	  oldRight.parent = nodeParent;
-	  // root
-	  if (nodeParent.key === undefined) {
-	    this.root = oldRight;
-	  } else if (node === nodeParent.left) {
-	    nodeParent.left = oldRight;
-	  } else {
-	    nodeParent.right = oldRight;
-	  }
-	  oldRight.left = node;
-	  node.parent = oldRight;
-	}
-
-	/**
-	 * Right rotates the given node
-	 * @private
-	 * @param {BSTNode} node - The node to rotate
-	 * @returns {undefined}
-	 */
-	function rightRotate(node) {
-	  var oldLeft = node.left;
-	  var nodeParent = node.parent;
-	  node.left = oldLeft.right;
-	  oldLeft.right.parent = node;
-	  oldLeft.parent = nodeParent;
-	  // root
-	  if (nodeParent.key === undefined) {
-	    this.root = oldLeft;
-	  } else if (node === nodeParent.left) {
-	    nodeParent.left = oldLeft;
-	  } else {
-	    nodeParent.right = oldLeft;
-	  }
-	  oldLeft.right = node;
-	  node.parent = oldLeft;
-	}
-
-	/**
-	 * Performs the re coloring stage upon insert, based on uncle color
-	 * @private
-	 * @param {RBNode} uncle - The uncle of the current node
-	 * @param {RBNode} currentNode - The current node being fixed in the tree
-	 * @returns {undefined}
-	 */
-	function insertFixRecolor(uncle, currentNode) {
-	  currentNode.parent.color = 'black';
-	  uncle.color = 'black';
-	  currentNode.parent.parent.color = 'red';
-	}
-
-	/**
-	 * @private
-	 * Performs the rotation stage on insert, based on uncle color and if current
-	 * right child
-	 * @param {RBNode} currentNode - The current node being fixed in the tree
-	 * @param {RBNode} context - The RBTree instance
-	 * @returns {undefined}
-	 */
-	function insertFixRotate1(node, context) {
-	  var currentNode = node;
-	  var isRightChild = currentNode === currentNode.parent.right;
-	  if (isRightChild) {
-	    currentNode = currentNode.parent;
-	    leftRotate.call(context, currentNode);
-	  }
-	  currentNode.parent.color = 'black';
-	  currentNode.parent.parent.color = 'red';
-	  rightRotate.call(context, currentNode.parent.parent);
-	}
-
-	/**
-	 * @private
-	 * Performs the rotation stage on insert, based on uncle color and if current
-	 * node is left child
-	 * @param {RBNode} currentNode - The current node being fixed in the tree
-	 * @param {RBNode} context - The RBTree instance
-	 * @returns {undefined}
-	 */
-	function insertFixRotate2(node, context) {
-	  var currentNode = node;
-	  var isLeftChild = currentNode === currentNode.parent.left;
-	  if (isLeftChild) {
-	    currentNode = currentNode.parent;
-	    rightRotate.call(context, currentNode);
-	  }
-	  currentNode.parent.color = 'black';
-	  currentNode.parent.parent.color = 'red';
-	  leftRotate.call(context, currentNode.parent.parent);
-	}
-
-	/**
-	 * Performs the recoloring stage when the node's sibling is red
-	 * @private
-	 */
-	function deleteRedSiblingCase(currentNode, sibling) {
-	  sibling.color = 'black';
-	  currentNode.parent.color = 'red';
-	}
-
-	/**
-	 * Fixes up the rb tree after insertion
-	 * @private
-	 * @param {BSTNode} node - The node to begin fixing
-	 * @returns {undefined}
-	 */
-	function insertFix(nodeToFix) {
-	  var currentNode = nodeToFix;
-	  var context = this;
-	  var uncle = void 0;
-	  while (currentNode.parent.color === 'red') {
-	    if (currentNode.parent === currentNode.parent.parent.left) {
-	      uncle = currentNode.parent.parent.right;
-	      if (uncle.color === 'red') {
-	        insertFixRecolor(uncle, currentNode);
-	        currentNode = currentNode.parent.parent;
-	      } else {
-	        insertFixRotate1(currentNode, context);
-	      }
-	    } else {
-	      uncle = currentNode.parent.parent.left;
-	      if (uncle.color === 'red') {
-	        insertFixRecolor(uncle, currentNode);
-	        currentNode = currentNode.parent.parent;
-	      } else {
-	        insertFixRotate2(currentNode, context);
-	      }
-	    }
-	  }
-	  context.root.color = 'black';
-	}
-
-	/**
-	 * Fixes up the rb tree after deletion
-	 * @private
-	 * @param {BSTNode} node - The node to begin fixing
-	 * @returns {undefined}
-	 */
-	function deletefixUp(nodeToFix) {
-	  var currentNode = nodeToFix;
-	  var context = this;
-	  while (currentNode.parent.key !== undefined && currentNode.color === 'black') {
-	    var sibling = void 0;
-	    if (currentNode === currentNode.parent.left) {
-	      sibling = currentNode.parent.right;
-	      if (sibling.color === 'red') {
-	        deleteRedSiblingCase(currentNode, sibling);
-	        leftRotate.call(context, currentNode.parent);
-	        sibling = currentNode.parent.right;
-	      }
-	      if (sibling.left.color === 'black' && sibling.right.color === 'black') {
-	        sibling.color = 'red';
-	        currentNode = currentNode.parent;
-	      } else {
-	        if (sibling.right.color === 'black') {
-	          sibling.left.color = 'black';
-	          sibling.color = 'red';
-	          rightRotate.call(context, sibling);
-	          sibling = currentNode.parent.right;
-	        }
-	        sibling.color = currentNode.parent.color;
-	        currentNode.parent.color = 'black';
-	        sibling.right.color = 'black';
-	        leftRotate.call(context, currentNode.parent);
-	        currentNode = context.root;
-	      }
-	    } else {
-	      sibling = currentNode.parent.left;
-	      if (sibling.color === 'red') {
-	        deleteRedSiblingCase(currentNode, sibling);
-	        rightRotate.call(context, currentNode.parent);
-	        sibling = currentNode.parent.left;
-	      }
-	      if (sibling.right.color === 'black' && sibling.left.color === 'black') {
-	        sibling.color = 'red';
-	        currentNode = currentNode.parent;
-	      } else {
-	        if (sibling.left.color === 'black') {
-	          sibling.right.color = 'black';
-	          sibling.color = 'red';
-	          leftRotate.call(context, sibling);
-	          sibling = currentNode.parent.left;
-	        }
-	        sibling.color = currentNode.parent.color;
-	        currentNode.parent.color = 'black';
-	        sibling.left.color = 'black';
-	        rightRotate.call(context, currentNode.parent);
-	        currentNode = context.root;
-	      }
-	    }
-	  }
-	  currentNode.color = 'black';
-	}
-
-	/**
-	 * Red-Black Tree representation
-	 * @class
-	 * @extends {BST}
-	 * @param {function} comparator - @see Global#defaultComp for examples
-	 * @example
-	 * const bst = new Collections.RBTree();
-	 */
-
-	var RBTree = function (_BST) {
-	  _inherits(RBTree, _BST);
-
-	  function RBTree(comparator) {
-	    _classCallCheck(this, RBTree);
-
-	    var _this2 = _possibleConstructorReturn(this, _BST.call(this, comparator));
-
-	    _this2.root = new RBNode();
-	    return _this2;
-	  }
-
-	  RBTree.prototype.put = function put(key, value) {
-	    var self = this;
-	    var insertedNode = _BSTPrototype.BSTInsert.call(self, key, value, RBNode);
-	    if (insertedNode) {
-	      insertedNode.color = 'red';
-	      insertFix.call(self, insertedNode);
-	      self.inserts += 1;
-	    }
-	    return self;
-	  };
-
-	  RBTree.prototype.remove = function remove(key) {
-	    var self = this;
-	    // successor and child
-	    var didRemove = _BSTPrototype.BSTRemove.call(self, key);
-	    if (didRemove) {
-	      var succChild = didRemove.succChild,
-	          succ = didRemove.succ;
-
-	      if (succ.color === 'black') {
-	        deletefixUp.call(self, succChild);
-	      }
-	      self.inserts -= 1;
-	      return true;
-	    }
-	    return false;
-	  };
-
-	  return RBTree;
-	}(_BST3['default']);
-
-	exports['default'] = RBTree;
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SetInterface2 = __webpack_require__(11);
+	var _SetInterface2 = __webpack_require__(10);
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	var _RedBlackTree = __webpack_require__(18);
+	var _RedBlackTree = __webpack_require__(15);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
@@ -3742,14 +3608,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Set;
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _RedBlackTree = __webpack_require__(18);
+	var _RedBlackTree = __webpack_require__(15);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
@@ -3766,23 +3632,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * MultiMap representation
 	 * @class
-	 * @extends {RBTree}
 	 * @implements {MultiMapInterface}
 	 */
 	var MultiMap = function (_RBTree) {
 	  _inherits(MultiMap, _RBTree);
 
-	  function MultiMap(c) {
+	  function MultiMap(comparator) {
 	    _classCallCheck(this, MultiMap);
 
-	    return _possibleConstructorReturn(this, _RBTree.call(this, c));
+	    return _possibleConstructorReturn(this, _RBTree.call(this, comparator));
 	  }
 
 	  MultiMap.prototype.put = function put(key, value) {
-	    var v = _RBTree.prototype.getVal.call(this, key);
-	    if (v) {
-	      if (v.indexOf(value) === -1) {
-	        v.push(value);
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    if (foundValues) {
+	      if (foundValues.indexOf(value) === -1) {
+	        foundValues.push(value);
 	      }
 	    } else {
 	      _RBTree.prototype.put.call(this, key, [value]);
@@ -3791,31 +3656,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  MultiMap.prototype.removeVal = function removeVal(key, value) {
-	    var vals = _RBTree.prototype.getVal.call(this, key);
-	    var rem = [];
-	    if (vals && vals.length > 0) {
-	      var indexVal = vals.indexOf(value);
-	      if (indexVal !== -1) {
-	        rem = vals.splice(indexVal, 1);
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    var removedValue = [];
+	    if (foundValues && foundValues.length > 0) {
+	      var indexOfValue = foundValues.indexOf(value);
+	      if (indexOfValue !== -1) {
+	        removedValue = foundValues.splice(indexOfValue, 1);
 	      }
 	    }
-	    return rem;
+	    return removedValue;
 	  };
 
 	  MultiMap.prototype.containsEntry = function containsEntry(key, value) {
-	    var vals = _RBTree.prototype.getVal.call(this, key);
-	    if (vals && vals.length > 0) {
-	      return vals.indexOf(value) !== -1;
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    if (foundValues && foundValues.length > 0) {
+	      return foundValues.indexOf(value) !== -1;
 	    }
 	    return false;
 	  };
 
 	  MultiMap.prototype.replaceVal = function replaceVal(key, oldValue, newValue) {
-	    var vals = _RBTree.prototype.getVal.call(this, key);
-	    if (vals && vals.length > 0) {
-	      var index = vals.indexOf(oldValue);
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    if (foundValues && foundValues.length > 0) {
+	      var index = foundValues.indexOf(oldValue);
 	      if (index !== -1) {
-	        return vals.splice(index, 1, newValue);
+	        return foundValues.splice(index, 1, newValue);
 	      }
 	    }
 	    return [];
