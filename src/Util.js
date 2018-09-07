@@ -20,9 +20,9 @@ export function swap(array, index1, index2) {
  * @returns {undefined}
  */
 export function flat(array, res) {
-  let newArr = [];
+  const newArr = [];
   let curValue;
-  for (let i = 0; i < array.length; i += 1) {
+  for (let i = 0, len = array.length; i < len; i += 1) {
     curValue = array[i];
     if (Array.isArray(curValue)) {
       flat(curValue, res);
@@ -125,6 +125,6 @@ export function isNumber(value) {
  * @param {number} limit - Upper bound on random number
  * @returns {number} Random number in the range [0, @param limit)
  */
-export function genRand(limit) {
+export function generateRandomInt(limit) {
   return Math.floor(Math.random() * limit);
 }
