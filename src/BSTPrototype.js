@@ -9,7 +9,7 @@ function adjustParentAndChildrenOfNewNode(
   NodeType
 ) {
   newNode.parent = oldRoot;
-  if (oldRoot.key === undefined) {
+  if (oldRoot.isNil()) {
     this.root = newNode;
   } else if (comparator(newNode.key, oldRoot.key) === -1) {
     oldRoot.left = newNode;
@@ -33,7 +33,7 @@ export function BSTInsert(key, value, NodeType) {
   let root = this.root;
   const newNode = new NodeType(key, value);
   let oldRoot = new NodeType();
-  while (root.key !== undefined) {
+  while (!root.isNil()) {
     let comparatorResult = comparator(newNode.key, root.key);
     oldRoot = root;
     if (comparatorResult === -1) {
@@ -65,7 +65,7 @@ export function BSTInsert(key, value, NodeType) {
 export function BSTSearch(root, key) {
   let currentRoot = root;
   const comparator = this.comparator;
-  while (currentRoot.key !== undefined) {
+  while (!currentRoot.isNil()) {
     let comparatorResult = comparator(currentRoot.key, key);
     if (comparatorResult === 0) {
       return currentRoot;
@@ -125,7 +125,7 @@ export function BSTRemove(key) {
     successorChild = nodeSuccessor.right;
   }
   successorChild.parent = nodeSuccessor.parent;
-  if (nodeSuccessor.parent.key === undefined) {
+  if (nodeSuccessor.parent.isNil()) {
     this.root = successorChild;
   } else if (nodeSuccessor.isLeftChild()) {
     nodeSuccessor.parent.left = successorChild;
@@ -145,7 +145,7 @@ export function BSTRemove(key) {
  * @returns {undefined}
  */
 export function BSTInorder(root, array) {
-  if (root && root.key !== undefined) {
+  if (root && !root.isNil()) {
     BSTInorder(root.left, array);
     array.push(root);
     BSTInorder(root.right, array);
@@ -153,7 +153,7 @@ export function BSTInorder(root, array) {
 }
 
 export function getKeysOrValues(root, prop, array) {
-  if (root && root.key !== undefined) {
+  if (root && !root.isNil()) {
     getKeysOrValues(root.left, prop, array);
     array.push(root[prop]);
     getKeysOrValues(root.right, prop, array);
@@ -170,7 +170,7 @@ export function getKeysOrValues(root, prop, array) {
  * @returns {undefined}
  */
 export function less(root, value, comparator, array) {
-  if (!root || root.key === undefined) {
+  if (!root || root.isNil()) {
     return;
   }
   const rootKey = root.key;
@@ -193,7 +193,7 @@ export function less(root, value, comparator, array) {
  * @returns {undefined}
  */
 export function greater(root, value, comparator, array) {
-  if (!root || root.key === undefined) {
+  if (!root || root.isNil()) {
     return;
   }
   const rootKey = root.key;
@@ -216,7 +216,7 @@ export function greater(root, value, comparator, array) {
 export function minOrMax(query, root) {
   let currentRoot = root;
   const direction = query === 'min' ? 'left' : 'right';
-  if (currentRoot.key === undefined) {
+  if (currentRoot.isNil()) {
     return;
   }
   while (currentRoot[direction].key !== undefined) {
@@ -236,7 +236,7 @@ export function minOrMax(query, root) {
  * @returns {undefined}
  */
 export function keysBetween(root, lower, upper, comparator, array) {
-  if (!root || root.key === undefined) {
+  if (!root || root.isNil()) {
     return;
   }
   const rootKey = root.key;

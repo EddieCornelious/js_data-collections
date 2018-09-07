@@ -7,6 +7,10 @@ class BSTNode {
     this.value = value;
   }
 
+  isNil() {
+    return this.key === undefined;
+  }
+
   isLeftChild() {
     return this.parent.left === this;
   }
