@@ -68,7 +68,9 @@ class ArrayUtils {
       return array.slice(upperBound).concat(array.slice(0, upperBound));
     }
     const timesToPositiveInt = Math.abs(times);
-    return array.slice(timesToPositiveInt).concat(array.slice(0, timesToPositiveInt));
+    return array
+      .slice(timesToPositiveInt)
+      .concat(array.slice(0, timesToPositiveInt));
   }
 
   /**

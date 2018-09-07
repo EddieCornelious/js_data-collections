@@ -1,5 +1,3 @@
-
-
 /**
  * Adjusts references for parent and child post insert
  * @private
