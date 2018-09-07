@@ -56,30 +56,6 @@ function recurseTree(trieNode, array) {
 }
 
 /**
- * Reports whether the given trieNode has at least one child
- * @private
- * @param {TrieNode} trieNode - The trie node to check children of
- * @returns {boolean} True if the node has children and false otherwise
- */
-function hasChild(trieNode) {
-  if (!trieNode) {
-    return false;
-  }
-
-  /**
-   *Using this instead of Object.keys because I only need existence of one child
-   *not all
-   */
-  // eslint-disable-next-line no-restricted-syntax
-  for (let prop in trieNode) {
-    if (Object.prototype.hasOwnProperty.call(trieNode, prop)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
  * Nodes for Trie
  * @class
  * @private
@@ -89,6 +65,21 @@ class TrieNode {
     this.children = {};
     this.endOfWord = false;
     this.word = null;
+  }
+
+  hasChildren() {
+  /**
+   *Using this instead of Object.keys because I only need existence of one child
+   *not all
+   */
+    const {children} = this;
+    // eslint-disable-next-line no-restricted-syntax
+    for (let prop in children) {
+      if (Object.prototype.hasOwnProperty.call(children, prop)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
@@ -138,10 +129,10 @@ class Trie {
    */
   containsWord(data = '') {
     const word = toLowerCaseString(data);
-    const foundWord = getNode(this.root, word);
-    if (foundWord) {
+    const foundNode = getNode(this.root, word);
+    if (foundNode) {
       let lastChar = word.charAt(word.length - 1);
-      if (foundWord[lastChar] && foundWord[lastChar].word === word) {
+      if (foundNode[lastChar] && foundNode[lastChar].word === word) {
         return true;
       }
     }
@@ -157,12 +148,11 @@ class Trie {
   containsPrefix(prefix = '') {
     const root = this.root;
     const str = toLowerCaseString(prefix);
-    const foundPrefix = getNode(root, str);
-    if (foundPrefix) {
+    const foundNode = getNode(root, str);
+    if (foundNode) {
       let lastChar = str.charAt(str.length - 1);
-      if (foundPrefix[lastChar]) {
-        const hasChildren = hasChild(foundPrefix[lastChar].children);
-        return hasChildren;
+      if (foundNode[lastChar]) {
+        return foundNode[lastChar].hasChildren();
       }
     }
     return false;
