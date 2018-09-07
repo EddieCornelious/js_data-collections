@@ -94,9 +94,9 @@ describe('ArrayUtils', function() {
 
   it('removeElement returns empty array when given undefined', function() {
     expected = [];
-    expect(ArrayUtils.removeElement(undefined, () => true)).to.have.ordered.members(
-      expected
-    );
+    expect(
+      ArrayUtils.removeElement(undefined, () => true)
+    ).to.have.ordered.members(expected);
   });
 
   it('removeElement should not alter array if element is not in array', function() {
