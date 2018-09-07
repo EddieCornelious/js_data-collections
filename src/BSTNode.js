@@ -11,6 +11,14 @@ class BSTNode {
     return this.parent.left === this;
   }
 
+  hasLeftChild() {
+    return this.left.key !== undefined;
+  }
+
+  hasRightChild() {
+    return this.right.key !== undefined;
+  }
+
   isRightChild() {
     return this.parent.right === this;
   }

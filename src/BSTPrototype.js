@@ -85,7 +85,7 @@ export function BSTSearch(root, key) {
  */
 function successor(node) {
   let nodeSuccessor = node.right;
-  while (nodeSuccessor.left.key !== undefined) {
+  while (nodeSuccessor.hasLeftChild()) {
     nodeSuccessor = nodeSuccessor.left;
   }
   return nodeSuccessor;
@@ -114,12 +114,12 @@ export function BSTRemove(key) {
   }
   let nodeSuccessor;
   let successorChild;
-  if (node.left.key === undefined || node.right.key === undefined) {
+  if (!node.hasLeftChild() || !node.hasRightChild()) {
     nodeSuccessor = node;
   } else {
     nodeSuccessor = successor(node);
   }
-  if (nodeSuccessor.left.key !== undefined) {
+  if (nodeSuccessor.hasLeftChild()) {
     successorChild = nodeSuccessor.left;
   } else {
     successorChild = nodeSuccessor.right;
@@ -127,7 +127,7 @@ export function BSTRemove(key) {
   successorChild.parent = nodeSuccessor.parent;
   if (nodeSuccessor.parent.key === undefined) {
     this.root = successorChild;
-  } else if (nodeSuccessor === nodeSuccessor.parent.left) {
+  } else if (nodeSuccessor.isLeftChild()) {
     nodeSuccessor.parent.left = successorChild;
   } else {
     nodeSuccessor.parent.right = successorChild;
