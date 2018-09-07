@@ -66,7 +66,7 @@ export function toString(value) {
    return 0;
  }
  */
-export function defaultComp(a, b) {
+export function defaultComparator(a, b) {
   if (a < b) {
     return -1;
   }
@@ -95,7 +95,7 @@ export function defaultComp(a, b) {
  }
  */
 // eslint-disable-next-line no-unused-vars
-function customComp(a, b) {
+function customComparator(a, b) {
   // eslint-disable-line no-unused-vars
   if (a < b) {
     return -1;

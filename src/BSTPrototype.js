@@ -2,14 +2,19 @@
  * Adjusts references for parent and child post insert
  * @private
  */
-function adjustParentAndChildren(newNode, prevRoot, comp, NodeType) {
-  newNode.parent = prevRoot;
-  if (prevRoot.key === undefined) {
+function adjustParentAndChildrenOfNewNode(
+  newNode,
+  oldRoot,
+  comparator,
+  NodeType
+) {
+  newNode.parent = oldRoot;
+  if (oldRoot.key === undefined) {
     this.root = newNode;
-  } else if (comp(newNode.key, prevRoot.key) === -1) {
-    prevRoot.left = newNode;
+  } else if (comparator(newNode.key, oldRoot.key) === -1) {
+    oldRoot.left = newNode;
   } else {
-    prevRoot.right = newNode;
+    oldRoot.right = newNode;
   }
   newNode.left = new NodeType();
   newNode.right = new NodeType();
@@ -24,23 +29,29 @@ function adjustParentAndChildren(newNode, prevRoot, comp, NodeType) {
  * thus not inserted or the new node that was just inserted successfully.
  */
 export function BSTInsert(key, value, NodeType) {
-  const comp = this.comp;
+  const comparator = this.comparator;
   let root = this.root;
   const newNode = new NodeType(key, value);
-  let prevRoot = new NodeType();
+  let oldRoot = new NodeType();
   while (root.key !== undefined) {
-    let compResult = comp(newNode.key, root.key);
-    prevRoot = root;
-    if (compResult === -1) {
+    let comparatorResult = comparator(newNode.key, root.key);
+    oldRoot = root;
+    if (comparatorResult === -1) {
       root = root.left;
-    } else if (compResult === 1) {
+    } else if (comparatorResult === 1) {
       root = root.right;
     } else {
       root.value = value;
       return;
     }
   }
-  adjustParentAndChildren.call(this, newNode, prevRoot, comp, NodeType);
+  adjustParentAndChildrenOfNewNode.call(
+    this,
+    newNode,
+    oldRoot,
+    comparator,
+    NodeType
+  );
   return newNode;
 }
 
@@ -52,16 +63,16 @@ export function BSTInsert(key, value, NodeType) {
  * @returns {(undefined|BSTNode)} undefined if not found. Or the actual node if found
  */
 export function BSTSearch(root, key) {
-  let curRoot = root;
-  const comp = this.comp;
-  while (curRoot.key !== undefined) {
-    let compResult = comp(curRoot.key, key);
-    if (compResult === 0) {
-      return curRoot;
-    } else if (compResult === -1) {
-      curRoot = curRoot.right;
+  let currentRoot = root;
+  const comparator = this.comparator;
+  while (currentRoot.key !== undefined) {
+    let comparatorResult = comparator(currentRoot.key, key);
+    if (comparatorResult === 0) {
+      return currentRoot;
+    } else if (comparatorResult === -1) {
+      currentRoot = currentRoot.right;
     } else {
-      curRoot = curRoot.left;
+      currentRoot = currentRoot.left;
     }
   }
 }
@@ -73,20 +84,20 @@ export function BSTSearch(root, key) {
  * @returns {BSTNode} The inorder successor of @param node
  */
 function successor(node) {
-  let suc = node.right;
-  while (suc.left.key !== undefined) {
-    suc = suc.left;
+  let nodeSuccessor = node.right;
+  while (nodeSuccessor.left.key !== undefined) {
+    nodeSuccessor = nodeSuccessor.left;
   }
-  return suc;
+  return nodeSuccessor;
 }
 
 /**
  * @private
  */
-function swapPropsWithSucccessor(succ, node) {
-  if (succ !== node) {
-    node.key = succ.key;
-    node.value = succ.value;
+function swapPropsWithSucccessor(nodeSuccessor, node) {
+  if (nodeSuccessor !== node) {
+    node.key = nodeSuccessor.key;
+    node.value = nodeSuccessor.value;
   }
 }
 /**
@@ -101,28 +112,28 @@ export function BSTRemove(key) {
   if (!node) {
     return false;
   }
-  let succ;
-  let succChild;
+  let nodeSuccessor;
+  let successorChild;
   if (node.left.key === undefined || node.right.key === undefined) {
-    succ = node;
+    nodeSuccessor = node;
   } else {
-    succ = successor(node);
+    nodeSuccessor = successor(node);
   }
-  if (succ.left.key !== undefined) {
-    succChild = succ.left;
+  if (nodeSuccessor.left.key !== undefined) {
+    successorChild = nodeSuccessor.left;
   } else {
-    succChild = succ.right;
+    successorChild = nodeSuccessor.right;
   }
-  succChild.parent = succ.parent;
-  if (succ.parent.key === undefined) {
-    this.root = succChild;
-  } else if (succ === succ.parent.left) {
-    succ.parent.left = succChild;
+  successorChild.parent = nodeSuccessor.parent;
+  if (nodeSuccessor.parent.key === undefined) {
+    this.root = successorChild;
+  } else if (nodeSuccessor === nodeSuccessor.parent.left) {
+    nodeSuccessor.parent.left = successorChild;
   } else {
-    succ.parent.right = succChild;
+    nodeSuccessor.parent.right = successorChild;
   }
-  swapPropsWithSucccessor(succ, node);
-  return {succChild, succ};
+  swapPropsWithSucccessor(nodeSuccessor, node);
+  return {successorChild, nodeSuccessor};
 }
 
 /**
@@ -163,8 +174,8 @@ export function less(root, value, comparator, array) {
     return;
   }
   const rootKey = root.key;
-  const comp = comparator(rootKey, value);
-  if (comp === -1) {
+  const comparatorResult = comparator(rootKey, value);
+  if (comparatorResult === -1) {
     array.push(rootKey);
     less(root.left, value, comparator, array);
     return less(root.right, value, comparator, array);
@@ -186,8 +197,8 @@ export function greater(root, value, comparator, array) {
     return;
   }
   const rootKey = root.key;
-  const comp = comparator(rootKey, value);
-  if (comp === 1) {
+  const comparatorResult = comparator(rootKey, value);
+  if (comparatorResult === 1) {
     array.push(rootKey);
     greater(root.left, value, comparator, array);
     return greater(root.right, value, comparator, array);
@@ -203,15 +214,15 @@ export function greater(root, value, comparator, array) {
  * @returns {*|undefined} The min or max value in the tree or undefined for empty tree
  */
 export function minOrMax(query, root) {
-  let curRoot = root;
+  let currentRoot = root;
   const direction = query === 'min' ? 'left' : 'right';
-  if (curRoot.key === undefined) {
+  if (currentRoot.key === undefined) {
     return;
   }
-  while (curRoot[direction].key !== undefined) {
-    curRoot = curRoot[direction];
+  while (currentRoot[direction].key !== undefined) {
+    currentRoot = currentRoot[direction];
   }
-  return curRoot.key;
+  return currentRoot.key;
 }
 
 /**

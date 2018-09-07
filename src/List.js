@@ -1,4 +1,4 @@
-import {isNumber, defaultComp} from './Util.js';
+import {isNumber, defaultComparator} from './Util.js';
 
 /**
  * Returns the node at given index in linked list
@@ -271,7 +271,7 @@ class List {
    * list.indexOf({ age : 2}, customComparator) // 0
    */
   indexOf(data, comparator) {
-    const cmp = comparator || defaultComp;
+    const cmp = comparator || defaultComparator;
     let index = 0;
     let head = this.head;
     while (head) {

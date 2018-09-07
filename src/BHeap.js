@@ -1,15 +1,15 @@
-import {swap, defaultComp} from './Util.js';
+import {swap, defaultComparator} from './Util.js';
 
 /**
  * Sifts down (swaps elements downward) the given array
  * @private
  * @param {Array} array - The array to sift down on.
  * @param {number} index - The index to start the sift down operation.
- * @param {function} comp - The comparator to use against parent and
+ * @param {function} comparator - The comparator to use against parent and
  * child elements.
  * @returns {undefined}
  */
-function heapify(array, index, comp) {
+function heapify(array, index, comparator) {
   const leftChildIndex = 2 * index;
   const rightChildIndex = 2 * index + 1;
   const numIndicies = array.length - 1;
@@ -17,7 +17,7 @@ function heapify(array, index, comp) {
 
   if (
     leftChildIndex <= numIndicies &&
-    comp(array[leftChildIndex], array[index]) === 1
+    comparator(array[leftChildIndex], array[index]) === 1
   ) {
     largest = leftChildIndex;
   } else {
@@ -26,14 +26,14 @@ function heapify(array, index, comp) {
 
   if (
     rightChildIndex <= numIndicies &&
-    comp(array[rightChildIndex], array[largest]) === 1
+    comparator(array[rightChildIndex], array[largest]) === 1
   ) {
     largest = rightChildIndex;
   }
 
   if (largest !== index) {
     swap(array, index, largest);
-    heapify(array, largest, comp);
+    heapify(array, largest, comparator);
   }
 }
 
@@ -42,16 +42,16 @@ function heapify(array, index, comp) {
  * @private
  * @param {Array} array - The array to sift up on.
  * @param {number} index - The index to start the sift up operation.
- * @param {function} comp - The comparator to use against parent
+ * @param {function} comparator - The comparator to use against parent
  * and child elements
  * @returns {undefined}
  */
-function siftUp(array, index, comp) {
+function siftUp(array, index, comparator) {
   if (index > 1) {
     const parent = Math.floor(index / 2);
-    if (comp(array[parent], array[index]) === -1) {
+    if (comparator(array[parent], array[index]) === -1) {
       swap(array, parent, index);
-      siftUp(array, parent, comp);
+      siftUp(array, parent, comparator);
     }
   }
 }
@@ -69,7 +69,7 @@ function siftUp(array, index, comp) {
 class BHeap {
   constructor(comparator) {
     this.heap = [null];
-    this.comp = comparator || defaultComp;
+    this.comparator = comparator || defaultComparator;
   }
 
   /**
@@ -82,11 +82,11 @@ class BHeap {
    * // root = 3;
    */
   extractRoot() {
-    const {heap, comp} = this;
+    const {heap, comparator} = this;
     let max = heap[1];
     heap[1] = heap[heap.length - 1];
     heap.length -= 1;
-    heapify(heap, 1, comp);
+    heapify(heap, 1, comparator);
     return max;
   }
 
@@ -102,9 +102,9 @@ class BHeap {
    * heap.extractRoot() // will be 3
    */
   insert(data) {
-    const {heap, comp} = this;
+    const {heap, comparator} = this;
     heap[heap.length] = data;
-    siftUp(heap, heap.length - 1, comp);
+    siftUp(heap, heap.length - 1, comparator);
     return this;
   }
 

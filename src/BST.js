@@ -12,7 +12,7 @@ import {
   keysBetween
 } from './BSTPrototype.js';
 
-import {defaultComp} from './Util.js';
+import {defaultComparator} from './Util.js';
 
 /**
  * Binary search tree representation
@@ -26,7 +26,7 @@ import {defaultComp} from './Util.js';
 class BST {
   constructor(comparator) {
     this.root = new BSTNode();
-    this.comp = comparator || defaultComp;
+    this.comparator = comparator || defaultComparator;
     this.inserts = 0;
   }
 
@@ -134,7 +134,7 @@ class BST {
   keysLess(value) {
     const self = this;
     const result = [];
-    less(self.root, value, self.comp, result);
+    less(self.root, value, self.comparator, result);
     return result;
   }
 
@@ -146,7 +146,7 @@ class BST {
   keysGreater(value) {
     const self = this;
     const result = [];
-    greater(self.root, value, self.comp, result);
+    greater(self.root, value, self.comparator, result);
     return result;
   }
 
@@ -198,13 +198,13 @@ class BST {
     if (lower === undefined || upper === undefined) {
       throw new TypeError('Both a lower and upper bound are required');
     }
-    if (self.comp(lower, upper) !== -1) {
+    if (self.comparator(lower, upper) !== -1) {
       throw new RangeError(
         'Lower bound must be strictly less than upper bound'
       );
     }
     const res = [];
-    keysBetween(self.root, lower, upper, self.comp, res);
+    keysBetween(self.root, lower, upper, self.comparator, res);
     return res;
   }
 }
