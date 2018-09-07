@@ -1,6 +1,5 @@
 import HashTable from './HashTable.js';
 
-
 /**
  * HashMap representation
  * @class
