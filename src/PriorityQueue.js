@@ -1,19 +1,18 @@
 import BHeap from './BHeap.js';
-import {isNumber} from './Util.js';
 
 /**
  * Custom comparator for min heap
  * @private
- * @param {valueA} valueA - First value to compare
- * @param {valueB} valueB- Second value to compare
- * @returns {number} 1 if @param valueA's priority is less than
- * valueB's priority, -1 if opposite and 0 if the two priorities are equal.
+ * @param {valueA} objectA - First value to compare
+ * @param {valueB} objectB- Second value to compare
+ * @returns {number} 1 if @param objectA's priority is less than
+ * objectB's priority, -1 if opposite and 0 if the two priorities are equal.
  */
-function minHeapComparator(valueA, valueB) {
-  if (valueA.priority < valueB.priority) {
+function minHeapComparator(objectA, objectB) {
+  if (objectA.priority < objectB.priority) {
     return 1;
   }
-  if (valueA.priority === valueB.priority) {
+  if (objectA.priority === objectB.priority) {
     return 0;
   }
   return -1;
@@ -35,7 +34,7 @@ class PriorityQueue {
   /**
    * Inserts given data into queue with a certain priority
    * Lower numbers are removed from queue first.
-   * @param {*} data - The data to queue
+   * @param {number} data - The data to queue
    * @param {priority} priority - The relative Importance of @param data
    * to othe data in the queue
    *
@@ -45,7 +44,6 @@ class PriorityQueue {
    *
    */
   enqueue(data, priority) {
-    isNumber(priority);
     return this.queue.insert({data, priority});
   }
 
