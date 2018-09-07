@@ -7,15 +7,15 @@ import RBTree from './RedBlackTree.js';
  * @implements {MultiMapInterface}
  */
 class MultiMap extends RBTree {
-  constructor(c) {
-    super(c);
+  constructor(comparator) {
+    super(comparator);
   }
 
   put(key, value) {
-    const v = super.getVal(key);
-    if (v) {
-      if (v.indexOf(value) === -1) {
-        v.push(value);
+    const foundValues = super.getVal(key);
+    if (foundValues) {
+      if (foundValues.indexOf(value) === -1) {
+        foundValues.push(value);
       }
     } else {
       super.put(key, [value]);
@@ -24,31 +24,31 @@ class MultiMap extends RBTree {
   }
 
   removeVal(key, value) {
-    const vals = super.getVal(key);
-    let rem = [];
-    if (vals && vals.length > 0) {
-      const indexVal = vals.indexOf(value);
-      if (indexVal !== -1) {
-        rem = vals.splice(indexVal, 1);
+    const foundValues = super.getVal(key);
+    let removedValue = [];
+    if (foundValues && foundValues.length > 0) {
+      const indexOfValue = foundValues.indexOf(value);
+      if (indexOfValue !== -1) {
+        removedValue = foundValues.splice(indexOfValue, 1);
       }
     }
-    return rem;
+    return removedValue;
   }
 
   containsEntry(key, value) {
-    const vals = super.getVal(key);
-    if (vals && vals.length > 0) {
-      return vals.indexOf(value) !== -1;
+    const foundValues = super.getVal(key);
+    if (foundValues && foundValues.length > 0) {
+      return foundValues.indexOf(value) !== -1;
     }
     return false;
   }
 
   replaceVal(key, oldValue, newValue) {
-    const vals = super.getVal(key);
-    if (vals && vals.length > 0) {
-      const index = vals.indexOf(oldValue);
+    const foundValues = super.getVal(key);
+    if (foundValues && foundValues.length > 0) {
+      const index = foundValues.indexOf(oldValue);
       if (index !== -1) {
-        return vals.splice(index, 1, newValue);
+        return foundValues.splice(index, 1, newValue);
       }
     }
     return [];
