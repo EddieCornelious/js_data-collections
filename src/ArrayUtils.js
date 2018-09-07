@@ -1,4 +1,4 @@
-import {swap, isNumber, genRand, flat} from './Util.js';
+import {swap, generateRandomInt, flat} from './Util.js';
 
 /**
  * Various utility methods that can be used on arrays
@@ -32,7 +32,7 @@ class ArrayUtils {
    * Removes the first occurence of the given value from the array
    * @static
    * @param {Array} array - The array to remove elements from
-   * @param {*} value - The value to remove from @param array
+   * @param {function} predicate - The function used to compare values
    * @returns {Array} Array of removed elements
    *
    * @example
@@ -40,8 +40,9 @@ class ArrayUtils {
    * let removedItems = arrayMethods.removeElement(myArray, 3);
    * // changedArray contains [3] and myArray is [1, 2, 4]
    */
-  static removeElement(array = [], value) {
-    return ArrayUtils.remove(array, array.indexOf(value));
+  static removeElement(array = [], predicate) {
+    const indexToRemove = ArrayUtils.findIndex(array, predicate);
+    return ArrayUtils.remove(array, indexToRemove);
   }
 
   /**
@@ -63,11 +64,11 @@ class ArrayUtils {
   static rotate(array = [], times = 0) {
     const len = array.length;
     if (times > 0) {
-      const diff = len - times;
-      return array.slice(diff).concat(array.slice(0, diff));
+      const upperBound = len - times;
+      return array.slice(upperBound).concat(array.slice(0, upperBound));
     }
-    const posTime = Math.abs(times);
-    return array.slice(posTime).concat(array.slice(0, Math.abs(posTime)));
+    const timesToPositiveInt = Math.abs(times);
+    return array.slice(timesToPositiveInt).concat(array.slice(0, timesToPositiveInt));
   }
 
   /**
@@ -84,8 +85,8 @@ class ArrayUtils {
    * // myArray is [1, 2, 3, 4] ; altered is [1]
    */
   static popMany(array = [], times = 0) {
-    const diff = array.length - times;
-    return diff > 0 ? array.slice(0, diff) : [];
+    const upperBound = array.length - times;
+    return upperBound > 0 ? array.slice(0, upperBound) : [];
   }
 
   /**
@@ -100,11 +101,7 @@ class ArrayUtils {
    * const altered = arrayMethods.pushMany(myArray, "push", "me");
    * // myArray is unchanged ; altered = [1, 2, "push", "me"]
    */
-  static pushMany(array = []) {
-    // eslint-disable-line no-unused-vars
-    const args = [...arguments];
-    // throw out array arg
-    args.shift();
+  static pushMany(array = [], ...args) {
     return array.concat(args);
   }
 
@@ -121,14 +118,15 @@ class ArrayUtils {
    * const altered = arrayMethods.shiftMany(myArray, 3);
    * // myArray is [1, 2, 3, 4] ; altered is [4]
    */
-  static shiftMany(arr = [], times = 0) {
-    return times > 0 ? arr.slice(times) : arr;
+  static shiftMany(array = [], times = 0) {
+    return times > 0 ? array.slice(times) : array;
   }
 
   /**
    * Adds elements to the front of the given array
    * @static
-   * @param {Array} [array=empty array] - The array to unshift
+   * @param {Array} [array=empty array] - The array to add elements into
+   * @param {*} args - Consecutive arguments to push into array
    * @returns {Array} A new array equal to
    * [unshifted elements + @param array ]
    *
@@ -137,11 +135,8 @@ class ArrayUtils {
    * const altered = arrayMethods.unshiftMany(myArray, "hi");
    * // myArray is [1, 2, 3, 4] ; altered is ["hi", 1, 2, 3, 4]
    */
-  static unshiftMany(arr = []) {
-    const args = [...arguments];
-    // throw out array arg
-    args.shift();
-    return args.concat(arr);
+  static unshiftMany(array = [], ...args) {
+    return args.concat(array);
   }
 
   /**
@@ -156,7 +151,8 @@ class ArrayUtils {
    * // altered could be 1 or 2
    */
   static getRand(array = []) {
-    return array[genRand(array.length)];
+    const randomIndex = generateRandomInt(array.length);
+    return array[randomIndex];
   }
 
   /**
@@ -172,8 +168,8 @@ class ArrayUtils {
    * // altered could be 1 or 2 ; myArray's length decreases by 1
    */
   static removeRand(array = []) {
-    const randIndex = genRand(array.length);
-    return ArrayUtils.remove(array, randIndex);
+    const randomIndex = generateRandomInt(array.length);
+    return ArrayUtils.remove(array, randomIndex);
   }
 
   /**
@@ -184,10 +180,9 @@ class ArrayUtils {
    */
   static shuffle(array = []) {
     const arrayLength = array.length;
-    for (let i = 0; i < Math.floor(arrayLength / 2); i += 1) {
-      let index1 = genRand(arrayLength);
-      let index2 = genRand(arrayLength);
-      swap(array, index1, index2);
+    for (let i = arrayLength - 1; i > 0; i -= 1) {
+      const randomIndex = generateRandomInt(i + 1);
+      swap(array, randomIndex, i);
     }
   }
 
@@ -219,14 +214,14 @@ class ArrayUtils {
    * const altered = arrayMethods.chunk(myArray, 2);
    * // altered is [[1, 2], [3, 4]] ; myArray is unchanged
    */
-  static chunk(arr = [], bits = 0) {
-    isNumber(bits);
+  static chunk(array = [], bits = 0) {
     const newArr = [];
     if (bits <= 0) {
       return newArr;
     }
-    for (let i = 0; i < arr.length; i += bits) {
-      newArr.push(arr.slice(i, i + bits));
+    for (let i = 0, len = array.length; i < len; i += bits) {
+      const newChunk = array.slice(i, i + bits);
+      newArr.push(newChunk);
     }
     return newArr;
   }
@@ -301,7 +296,8 @@ class ArrayUtils {
     while (index < len) {
       const data = array[index];
       if (test(data, index)) {
-        res.push(mapper(data, index));
+        const mappedElement = mapper(data, index);
+        res.push(mappedElement);
       }
       index += 1;
     }
