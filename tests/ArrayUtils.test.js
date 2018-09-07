@@ -86,7 +86,7 @@ describe('ArrayUtils', function() {
 
   it('removeElement should remove item from array', function() {
     actual.push('A');
-    let removed = ArrayUtils.removeElement(actual, 'A');
+    let removed = ArrayUtils.removeElement(actual, ele => ele === 'A');
     expected = [];
     expect(actual).to.have.ordered.members(expected);
     expect(removed).to.have.ordered.members(['A']);
@@ -94,14 +94,14 @@ describe('ArrayUtils', function() {
 
   it('removeElement returns empty array when given undefined', function() {
     expected = [];
-    expect(ArrayUtils.removeElement(undefined, 'A')).to.have.ordered.members(
+    expect(ArrayUtils.removeElement(undefined, () => true)).to.have.ordered.members(
       expected
     );
   });
 
   it('removeElement should not alter array if element is not in array', function() {
     actual.push('A', 'B');
-    ArrayUtils.removeElement(actual, 'C');
+    ArrayUtils.removeElement(actual, ele => ele === 'C');
     expected = ['A', 'B'];
     expect(actual).to.have.ordered.members(expected);
   });
