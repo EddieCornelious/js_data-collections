@@ -1,5 +1,4 @@
 import {toString} from './Util.js';
-import MapInterface from './MapInterface.js';
 
 /**
  * From immutable.js implementation of java hashcode
@@ -10,10 +9,10 @@ import MapInterface from './MapInterface.js';
  * @param {string} str - The string to hash
  * @returns {number} @param str's hashcode
  */
-function hashStr(str) {
+function hashString(string) {
   let hash = 0;
-  for (let i = 0; i < str.length; i += 1) {
-    hash = (31 * hash + str.charCodeAt(i)) | 0;
+  for (let i = 0, len = string.length; i < len; i += 1) {
+    hash = (31 * hash + string.charCodeAt(i)) | 0;
   }
   return hash;
 }
@@ -51,9 +50,9 @@ function createTable(size) {
  * @param {Array} Associative Array
  * @returns {number} The index that @param key hashes to
  */
-function getLocation(key, table) {
-  const hash = hashStr(toString(key) + typeof key);
-  return mod(hash, table.length);
+function getLocationInTable(key, table) {
+  const keyHash = hashString(toString(key) + typeof key);
+  return mod(keyHash, table.length);
 }
 
 /**
@@ -65,7 +64,7 @@ function getLocation(key, table) {
  * @returns {number} 1 for true
  */
 function insert(key, value, table) {
-  const location = getLocation(key, table);
+  const location = getLocationInTable(key, table);
   const bucket = table[location];
   return bucket.push(key, value);
 }
@@ -99,7 +98,7 @@ function getKeysOrValues(query, table) {
  * and the index of @param key in that bucket or undefined and -1 if not found
  */
 function search(key, table) {
-  const location = getLocation(key, table);
+  const location = getLocationInTable(key, table);
   const bucket = table[location];
   // skip values [k1, v1, k2, v2]
   for (let index = 0; index < bucket.length; index += 2) {
@@ -136,9 +135,8 @@ function shouldRehash(inserts, table) {
  * (75% of size) to 75,000 * 2 = 150,000. Next resize will be 0.75 * 150,000
  * which is 112,500 , greater than your space needed.
  */
-class HashTable extends MapInterface {
+class HashTable {
   constructor(initialCapacity = 13) {
-    super();
     this.inserts = 0;
     this.table = createTable(initialCapacity);
   }
@@ -146,8 +144,8 @@ class HashTable extends MapInterface {
   put(key = null, value = null) {
     const self = this;
     const {table, inserts} = self;
-    const searchRes = search(key, table);
-    const {bucket, index} = searchRes;
+    const searchResult = search(key, table);
+    const {bucket, index} = searchResult;
     if (index === -1) {
       insert(key, value, table);
       self.inserts += 1;
@@ -161,15 +159,15 @@ class HashTable extends MapInterface {
   }
 
   getVal(key) {
-    const searchRes = search(key, this.table);
-    const {bucket, index} = searchRes;
+    const searchResult = search(key, this.table);
+    const {bucket, index} = searchResult;
     return index !== -1 ? bucket[index + 1] : undefined;
   }
 
   remove(key) {
     const self = this;
-    const searchRes = search(key, self.table);
-    const {bucket, index} = searchRes;
+    const searchResult = search(key, self.table);
+    const {bucket, index} = searchResult;
     if (index !== -1) {
       self.inserts -= 1;
       bucket.splice(index, 2);

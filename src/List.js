@@ -1,4 +1,4 @@
-import {isNumber, defaultComparator} from './Util.js';
+import {defaultComparator} from './Util.js';
 
 /**
  * Returns the node at given index in linked list
@@ -8,7 +8,6 @@ import {isNumber, defaultComparator} from './Util.js';
  * @returns {(Node|undefined)} Node @param index or undefined if not found
  */
 function getNode(index) {
-  isNumber(index);
   let head = this.head;
   if (index < 0 || !head) {
     return;
@@ -95,9 +94,8 @@ class List {
    * list.elementAtIndex(13); // undefined
    */
   elementAtIndex(index = 0) {
-    isNumber(index);
-    const wanted = getNode.call(this, index);
-    return wanted ? wanted.data : undefined;
+    const foundNode = getNode.call(this, index);
+    return foundNode ? foundNode.data : undefined;
   }
 
   /**
@@ -136,9 +134,9 @@ class List {
    */
   removeFront() {
     const {head, length} = this;
-    let removed;
+    let removedData;
     if (head) {
-      removed = head.data;
+      removedData = head.data;
       this.length = length - 1;
       this.head = head.next;
 
@@ -153,7 +151,7 @@ class List {
         newHead.prev = null;
       }
     }
-    return removed;
+    return removedData;
   }
 
   /**
@@ -168,9 +166,9 @@ class List {
    */
   removeBack() {
     const {tail, length} = this;
-    let removed;
+    let removedData;
     if (tail) {
-      removed = tail.data;
+      removedData = tail.data;
       const prev = tail.prev;
       this.length = length - 1;
       // list now empty
@@ -182,7 +180,7 @@ class List {
         this.tail = prev;
       }
     }
-    return removed;
+    return removedData;
   }
 
   /**
@@ -199,7 +197,6 @@ class List {
    * // list is now <"a, "$, "b">
    */
   insert(index = 0, data) {
-    isNumber(index);
     const {length} = this;
     if (index === 0) {
       return this.addToFront(data);
@@ -207,14 +204,14 @@ class List {
       return this.addToBack(data);
     }
     // parent of wanted node
-    const prevNode = getNode.call(this, index - 1);
-    if (prevNode) {
+    const parentNode = getNode.call(this, index - 1);
+    if (parentNode) {
       const newNode = new Node(data);
-      const aft = prevNode.next;
-      newNode.next = aft;
-      aft.prev = newNode;
-      prevNode.next = newNode;
-      newNode.prev = prevNode;
+      const oldParentNext = parentNode.next;
+      newNode.next = oldParentNext;
+      oldParentNext.prev = newNode;
+      parentNode.next = newNode;
+      newNode.prev = parentNode;
       this.length = length + 1;
     }
     return this;
@@ -233,25 +230,24 @@ class List {
    * // list is now <"a">
    */
   remove(index) {
-    isNumber(index);
     const {length} = this;
-    let removed;
+    let removedData;
     if (index === 0) {
       return this.removeFront();
     } else if (index >= length - 1) {
       return this.removeBack();
     }
     // parent of wanted node
-    const prevNode = getNode.call(this, index - 1);
-    if (prevNode) {
-      const toRemove = prevNode.next;
-      removed = toRemove.data;
-      const after = toRemove.next;
-      prevNode.next = after;
-      after.prev = prevNode;
+    const parentNode = getNode.call(this, index - 1);
+    if (parentNode) {
+      const toRemove = parentNode.next;
+      removedData = toRemove.data;
+      const toRemoveNext = toRemove.next;
+      parentNode.next = toRemoveNext;
+      toRemoveNext.prev = parentNode;
       this.length = length - 1;
     }
-    return removed;
+    return removedData;
   }
 
   /**
@@ -314,15 +310,15 @@ class List {
 
   /**
    * Calls a callback function for each element in the list
-   * @param {function} f - Function executed for each element
+   * @param {function} predicate - Function executed for each element
    * (data, index)
    * @returns {List} The instance that this method was called
    */
-  forEach(f) {
+  forEach(predicate) {
     let head = this.head;
     let index = 0;
     while (head) {
-      f(head.data, index);
+      predicate(head.data, index);
       head = head.next;
       index += 1;
     }
@@ -332,16 +328,16 @@ class List {
   /**
    * Returns a new list with only elements that return truthy when passed to the
    * given callback
-   * @param {function(data)} f - The function used to evaluate elements
+   * @param {function(data)} predicate - The function used to evaluate elements
    * @returns {List} A new list with filtered elements
    */
-  filter(f) {
+  filter(predicate) {
     let head = this.head;
     const newList = new List();
     let data;
     while (head) {
       data = head.data;
-      if (f(data)) {
+      if (predicate(data)) {
         newList.addToBack(data);
       }
       head = head.next;
@@ -351,13 +347,13 @@ class List {
 
   /**
    * Reports if every element in the list passes a certain condition
-   * @param {function(data)} f - The function used for evaluations
+   * @param {function(data)} predicate - The function used for evaluations
    * @returns {boolean} True if every element passes the test and false otherwise
    */
-  every(f) {
+  every(predicate) {
     let head = this.head;
     while (head) {
-      if (!f(head.data)) {
+      if (!predicate(head.data)) {
         return false;
       }
       head = head.next;
@@ -367,13 +363,13 @@ class List {
 
   /**
    * Reports if at least one element in the list passes a certain condition
-   * @param {function(data)} f - The function used for evaluations
+   * @param {function(data)} predicate - The function used for evaluations
    * @returns {boolean} True if one or more elements passes the test and false otherwise
    */
-  some(f) {
+  some(predicate) {
     let head = this.head;
     while (head) {
-      if (f(head.data)) {
+      if (predicate(head.data)) {
         return true;
       }
       head = head.next;
