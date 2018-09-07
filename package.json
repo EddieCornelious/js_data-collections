@@ -1,6 +1,6 @@
 {
   "name": "js_data-collections",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "A JavaScript data-structure library",
   "author": "Eddie Cornelious",
   "main": "collections.js",
