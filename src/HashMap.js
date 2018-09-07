@@ -1,5 +1,5 @@
 import HashTable from './HashTable.js';
-import MapInterface from './MapInterface.js';
+
 
 /**
  * HashMap representation
@@ -18,9 +18,8 @@ import MapInterface from './MapInterface.js';
  * @example
  * const map = new Collections.HashMap(37);
  */
-class HashMap extends MapInterface {
+class HashMap {
   constructor(initialCapacity) {
-    super();
     this.map = new HashTable(initialCapacity);
   }
 
