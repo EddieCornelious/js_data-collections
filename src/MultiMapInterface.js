@@ -5,7 +5,7 @@
  * @extends {MapInterface}
  *
  */
-class MultiMapInterface {
+export default class MultiMapInterface {
   constructor() {}
 
   /**
