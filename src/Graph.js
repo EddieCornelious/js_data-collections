@@ -3,13 +3,27 @@ import Stack from './Stack.js';
 import RBTree from './RedBlackTree.js';
 import HashSet from './HashSet.js';
 
+/**
+ * @private
+ */
+function getAddAndRemovalMethods(context, BFS) {
+  if (BFS) {
+    return {
+      add: Queue.prototype.enqueue.bind(context),
+      remove: Queue.prototype.bind(context)
+    };
+  }
+  return {
+    add: Stack.prototype.push.bind(context),
+    remove: Stack.prototype.pop.bind(context)
+  };
+}
+
+/**
+ * @private
+ */
 function FirstSearch(graph, startingVertex, structure, BFS) {
-  const add = BFS
-    ? Queue.prototype.enqueue.bind(structure)
-    : Stack.prototype.push.bind(structure);
-  const remove = BFS
-    ? Queue.prototype.dequeue.bind(structure)
-    : Stack.prototype.pop.bind(structure);
+  const {add, remove} = getAddAndRemovalMethods(structure, BFS);
   const res = [];
   const visited = new HashSet(graph.size());
   add(startingVertex);
