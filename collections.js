@@ -2437,9 +2437,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/**
+	 * @private
+	 */
+	function getAddAndRemovalMethods(context, BFS) {
+	  if (BFS) {
+	    return {
+	      add: _Queue2['default'].prototype.enqueue.bind(context),
+	      remove: _Queue2['default'].prototype.bind(context)
+	    };
+	  }
+	  return {
+	    add: _Stack2['default'].prototype.push.bind(context),
+	    remove: _Stack2['default'].prototype.pop.bind(context)
+	  };
+	}
+
+	/**
+	 * @private
+	 */
 	function FirstSearch(graph, startingVertex, structure, BFS) {
-	  var add = BFS ? _Queue2['default'].prototype.enqueue.bind(structure) : _Stack2['default'].prototype.push.bind(structure);
-	  var remove = BFS ? _Queue2['default'].prototype.dequeue.bind(structure) : _Stack2['default'].prototype.pop.bind(structure);
+	  var _getAddAndRemovalMeth = getAddAndRemovalMethods(structure, BFS),
+	      add = _getAddAndRemovalMeth.add,
+	      remove = _getAddAndRemovalMeth.remove;
+
 	  var res = [];
 	  var visited = new _HashSet2['default'](graph.size());
 	  add(startingVertex);
@@ -3633,6 +3654,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * MultiMap representation
 	 * @class
 	 * @implements {MultiMapInterface}
+	 * @extends {RBTree}
 	 */
 	var MultiMap = function (_RBTree) {
 	  _inherits(MultiMap, _RBTree);
