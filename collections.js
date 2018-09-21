@@ -95,11 +95,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
-	var _Trie = __webpack_require__(16);
+	var _Trie = __webpack_require__(17);
 
 	var _Trie2 = _interopRequireDefault(_Trie);
 
-	var _ArrayUtils = __webpack_require__(17);
+	var _ArrayUtils = __webpack_require__(18);
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
@@ -107,7 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _Set = __webpack_require__(18);
+	var _Set = __webpack_require__(16);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
@@ -2429,9 +2429,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _HashSet = __webpack_require__(9);
+	var _Set = __webpack_require__(16);
 
-	var _HashSet2 = _interopRequireDefault(_HashSet);
+	var _Set2 = _interopRequireDefault(_Set);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -2462,7 +2462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      remove = _getAddAndRemovalMeth.remove;
 
 	  var res = [];
-	  var visited = new _HashSet2['default'](graph.size());
+	  var visited = new _Set2['default']();
 	  add(startingVertex);
 	  while (structure.size() !== 0) {
 	    var currentVertex = remove();
@@ -2923,6 +2923,99 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
+	var _SetInterface2 = __webpack_require__(10);
+
+	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
+
+	var _RedBlackTree = __webpack_require__(15);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
+
+	/**
+	 * Set representaion
+	 * @class
+	 * @implements {SetInterface}
+	 * @param {function} comparator - @see Global#defaultComparator
+	 *
+	 * @example
+	 * const set = new Collections.Set();
+	 */
+	var Set = function (_SetInterface) {
+	  _inherits(Set, _SetInterface);
+
+	  function Set(comparator) {
+	    _classCallCheck(this, Set);
+
+	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
+
+	    _this.set = new _RedBlackTree2['default'](comparator);
+	    return _this;
+	  }
+
+	  Set.prototype.add = function add(element) {
+	    this.set.put(element, 1);
+	    return this;
+	  };
+
+	  Set.prototype.has = function has(element) {
+	    return this.set.contains(element);
+	  };
+
+	  Set.prototype.remove = function remove(element) {
+	    return this.set.remove(element);
+	  };
+
+	  Set.prototype.entries = function entries() {
+	    return this.set.keys();
+	  };
+
+	  Set.prototype.cardinality = function cardinality() {
+	    return this.set.size();
+	  };
+
+	  Set.prototype.min = function min() {
+	    return this.map.min();
+	  };
+
+	  Set.prototype.max = function max() {
+	    return this.map.max();
+	  };
+
+	  Set.prototype.union = function union(thatSet) {
+	    return _SetInterface.prototype.union.call(this, thatSet);
+	  };
+
+	  Set.prototype.intersect = function intersect(thatSet) {
+	    return _SetInterface.prototype.intersect.call(this, thatSet);
+	  };
+
+	  Set.prototype.diff = function diff(thatSet) {
+	    return _SetInterface.prototype.diff.call(this, thatSet);
+	  };
+
+	  return Set;
+	}(_SetInterface3['default']);
+
+	exports['default'] = Set;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
 	var _Util = __webpack_require__(2);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3145,7 +3238,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Trie;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3534,99 +3627,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	exports['default'] = ArrayUtils;
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _SetInterface2 = __webpack_require__(10);
-
-	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
-
-	var _RedBlackTree = __webpack_require__(15);
-
-	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
-
-	/**
-	 * Set representaion
-	 * @class
-	 * @implements {SetInterface}
-	 * @param {function} comparator - @see Global#defaultComparator
-	 *
-	 * @example
-	 * const set = new Collections.Set();
-	 */
-	var Set = function (_SetInterface) {
-	  _inherits(Set, _SetInterface);
-
-	  function Set(comparator) {
-	    _classCallCheck(this, Set);
-
-	    var _this = _possibleConstructorReturn(this, _SetInterface.call(this));
-
-	    _this.set = new _RedBlackTree2['default'](comparator);
-	    return _this;
-	  }
-
-	  Set.prototype.add = function add(element) {
-	    this.set.put(element, 1);
-	    return this;
-	  };
-
-	  Set.prototype.has = function has(element) {
-	    return this.set.contains(element);
-	  };
-
-	  Set.prototype.remove = function remove(element) {
-	    return this.set.remove(element);
-	  };
-
-	  Set.prototype.entries = function entries() {
-	    return this.set.keys();
-	  };
-
-	  Set.prototype.cardinality = function cardinality() {
-	    return this.set.size();
-	  };
-
-	  Set.prototype.min = function min() {
-	    return this.map.min();
-	  };
-
-	  Set.prototype.max = function max() {
-	    return this.map.max();
-	  };
-
-	  Set.prototype.union = function union(thatSet) {
-	    return _SetInterface.prototype.union.call(this, thatSet);
-	  };
-
-	  Set.prototype.intersect = function intersect(thatSet) {
-	    return _SetInterface.prototype.intersect.call(this, thatSet);
-	  };
-
-	  Set.prototype.diff = function diff(thatSet) {
-	    return _SetInterface.prototype.diff.call(this, thatSet);
-	  };
-
-	  return Set;
-	}(_SetInterface3['default']);
-
-	exports['default'] = Set;
 
 /***/ },
 /* 19 */
