@@ -10,7 +10,7 @@ function getAddAndRemovalMethods(context, BFS) {
   if (BFS) {
     return {
       add: Queue.prototype.enqueue.bind(context),
-      remove: Queue.prototype.bind(context)
+      remove: Queue.prototype.dequeue.bind(context)
     };
   }
   return {
