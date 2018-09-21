@@ -1,7 +1,7 @@
 import Queue from './Queue.js';
 import Stack from './Stack.js';
 import RBTree from './RedBlackTree.js';
-import HashSet from './HashSet.js';
+import Set from './Set.js';
 
 /**
  * @private
@@ -25,7 +25,7 @@ function getAddAndRemovalMethods(context, BFS) {
 function FirstSearch(graph, startingVertex, structure, BFS) {
   const {add, remove} = getAddAndRemovalMethods(structure, BFS);
   const res = [];
-  const visited = new HashSet(graph.size());
+  const visited = new Set();
   add(startingVertex);
   while (structure.size() !== 0) {
     let currentVertex = remove();
