@@ -2444,7 +2444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (BFS) {
 	    return {
 	      add: _Queue2['default'].prototype.enqueue.bind(context),
-	      remove: _Queue2['default'].prototype.bind(context)
+	      remove: _Queue2['default'].prototype.dequeue.bind(context)
 	    };
 	  }
 	  return {
