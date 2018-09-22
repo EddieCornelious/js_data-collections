@@ -7,15 +7,17 @@ import Set from './Set.js';
  * @private
  */
 function getAddAndRemovalMethods(context, BFS) {
+  const queuePrototype = Queue.prototype;
+  const stackPrototype = Stack.prototype;
   if (BFS) {
     return {
-      add: Queue.prototype.enqueue.bind(context),
-      remove: Queue.prototype.dequeue.bind(context)
+      add: queuePrototype.enqueue.bind(context),
+      remove: queuePrototype.dequeue.bind(context)
     };
   }
   return {
-    add: Stack.prototype.push.bind(context),
-    remove: Stack.prototype.pop.bind(context)
+    add: stackPrototype.push.bind(context),
+    remove: stackPrototype.pop.bind(context)
   };
 }
 
