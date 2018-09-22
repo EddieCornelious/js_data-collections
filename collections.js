@@ -2441,15 +2441,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 	function getAddAndRemovalMethods(context, BFS) {
+	  var queuePrototype = _Queue2['default'].prototype;
+	  var stackPrototype = _Stack2['default'].prototype;
 	  if (BFS) {
 	    return {
-	      add: _Queue2['default'].prototype.enqueue.bind(context),
-	      remove: _Queue2['default'].prototype.dequeue.bind(context)
+	      add: queuePrototype.enqueue.bind(context),
+	      remove: queuePrototype.dequeue.bind(context)
 	    };
 	  }
 	  return {
-	    add: _Stack2['default'].prototype.push.bind(context),
-	    remove: _Stack2['default'].prototype.pop.bind(context)
+	    add: stackPrototype.push.bind(context),
+	    remove: stackPrototype.pop.bind(context)
 	  };
 	}
 
