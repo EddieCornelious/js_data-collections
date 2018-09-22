@@ -68,9 +68,7 @@ class ArrayUtils {
       return array.slice(upperBound).concat(array.slice(0, upperBound));
     }
     const timesToPositiveInt = Math.abs(times);
-    return array
-      .slice(timesToPositiveInt)
-      .concat(array.slice(0, timesToPositiveInt));
+    return array.slice(timesToPositiveInt).concat(array.slice(0, timesToPositiveInt));
   }
 
   /**
@@ -181,10 +179,11 @@ class ArrayUtils {
    * @returns {undefined}
    */
   static shuffle(array = []) {
-    const arrayLength = array.length;
-    for (let i = arrayLength - 1; i > 0; i -= 1) {
+    let i = array.length - 1;
+    while (i > 0) {
       const randomIndex = generateRandomInt(i + 1);
       swap(array, randomIndex, i);
+      i -= 1;
     }
   }
 
