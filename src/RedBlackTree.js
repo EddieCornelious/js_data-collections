@@ -17,6 +17,14 @@ class RBNode extends BSTNode {
   isBlack() {
     return this.color === BLACK;
   }
+
+  colorRed() {
+    this.color = RED;
+  }
+
+  colorBlack() {
+    this.color = BLACK;
+  }
 }
 
 /**
@@ -75,9 +83,9 @@ function rightRotate(node) {
  * @returns {undefined}
  */
 function insertFixRecolor(uncle, currentNode) {
-  currentNode.parent.color = BLACK;
-  uncle.color = BLACK;
-  currentNode.parent.parent.color = RED;
+  currentNode.parent.colorBlack();
+  uncle.colorBlack();
+  currentNode.parent.parent.colorRed();
 }
 
 /**
@@ -94,8 +102,8 @@ function insertFixRotate1(node, context) {
     currentNode = currentNode.parent;
     leftRotate.call(context, currentNode);
   }
-  currentNode.parent.color = BLACK;
-  currentNode.parent.parent.color = RED;
+  currentNode.parent.colorBlack();
+  currentNode.parent.parent.colorRed();
   rightRotate.call(context, currentNode.parent.parent);
 }
 
@@ -113,8 +121,8 @@ function insertFixRotate2(node, context) {
     currentNode = currentNode.parent;
     rightRotate.call(context, currentNode);
   }
-  currentNode.parent.color = BLACK;
-  currentNode.parent.parent.color = RED;
+  currentNode.parent.colorBlack();
+  currentNode.parent.parent.colorRed();
   leftRotate.call(context, currentNode.parent.parent);
 }
 
@@ -123,8 +131,8 @@ function insertFixRotate2(node, context) {
  * @private
  */
 function deleteRedSiblingCaseRecolor(currentNode, sibling) {
-  sibling.color = BLACK;
-  currentNode.parent.color = RED;
+  sibling.colorBlack();
+  currentNode.parent.colorRed();
 }
 
 /**
@@ -156,7 +164,7 @@ function insertFix(nodeToFix) {
       }
     }
   }
-  context.root.color = BLACK;
+  context.root.colorBlack();
 }
 
 /**
@@ -178,18 +186,18 @@ function deletefixUp(nodeToFix) {
         sibling = currentNode.parent.right;
       }
       if (sibling.left.isBlack() && sibling.right.isBlack()) {
-        sibling.color = RED;
+        sibling.colorRed();
         currentNode = currentNode.parent;
       } else {
         if (sibling.right.isBlack()) {
-          sibling.left.color = BLACK;
-          sibling.color = RED;
+          sibling.left.colorBlack();
+          sibling.colorRed();
           rightRotate.call(context, sibling);
           sibling = currentNode.parent.right;
         }
         sibling.color = currentNode.parent.color;
-        currentNode.parent.color = BLACK;
-        sibling.right.color = BLACK;
+        currentNode.parent.colorBlack();
+        sibling.right.colorBlack();
         leftRotate.call(context, currentNode.parent);
         currentNode = context.root;
       }
@@ -201,24 +209,24 @@ function deletefixUp(nodeToFix) {
         sibling = currentNode.parent.left;
       }
       if (sibling.right.isBlack() && sibling.left.isBlack()) {
-        sibling.color = RED;
+        sibling.colorRed();
         currentNode = currentNode.parent;
       } else {
         if (sibling.left.isBlack()) {
-          sibling.right.color = BLACK;
-          sibling.color = RED;
+          sibling.right.colorBlack();
+          sibling.colorRed();
           leftRotate.call(context, sibling);
           sibling = currentNode.parent.left;
         }
         sibling.color = currentNode.parent.color;
-        currentNode.parent.color = BLACK;
+        currentNode.parent.colorBlack();
         sibling.left.color = BLACK;
         rightRotate.call(context, currentNode.parent);
         currentNode = context.root;
       }
     }
   }
-  currentNode.color = BLACK;
+  currentNode.colorBlack();
 }
 
 /**
@@ -239,7 +247,7 @@ class RBTree extends BST {
     const self = this;
     const insertedNode = BSTInsert.call(self, key, value, RBNode);
     if (insertedNode) {
-      insertedNode.color = RED;
+      insertedNode.colorRed();
       insertFix.call(self, insertedNode);
       self.inserts += 1;
     }
