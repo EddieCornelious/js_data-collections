@@ -16,10 +16,6 @@ function getNode(index) {
   while (i < index) {
     head = head.next;
     i += 1;
-    // index wanted is > than list size
-    if (!head) {
-      return;
-    }
   }
   return head;
 }
