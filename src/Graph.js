@@ -88,6 +88,12 @@ class Graph {
   }
 
   /**
+   * Get verticies
+   */
+  getVerticies() {
+    return this.graph.keys();
+  }
+  /**
    * Connects two verticies to create an undirected edge
    * @param {*} vertex1 - The first vertex
    * @param {*} vertex2 - The second vertex
@@ -107,13 +113,8 @@ class Graph {
     // they both exist as verticies
     if (v1neighbors && v2neighbors) {
       // make sure edge does not already exist
-      if (
-        v1neighbors.indexOf(vertex2) === -1 &&
-        v2neighbors.indexOf(vertex2) === -1
-      ) {
-        // body
+      if (!v1neighbors.find(v => v === vertex2)) {
         v1neighbors.push({vertex: vertex2, weight});
-        v2neighbors.push({vertex: vertex1, weight});
       }
     }
   }
