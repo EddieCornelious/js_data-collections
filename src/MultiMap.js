@@ -17,6 +17,8 @@ class MultiMap extends RBTree {
       if (foundValues.indexOf(value) === -1) {
         foundValues.push(value);
       }
+    } else if (Array.isArray(value)) {
+      super.put(key, value);
     } else {
       super.put(key, [value]);
     }
