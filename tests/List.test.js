@@ -395,4 +395,14 @@ describe('List', function() {
       .addToBack(5);
     expect(list.every(e => e > 0)).to.be.equal(true);
   });
+
+  it('contains return true when element is in list', function() {
+    list
+      .addToBack(1)
+      .addToBack(2)
+      .addToBack(3)
+      .addToBack(4)
+      .addToBack(5);
+    expect(list.contains(4)).to.be.equal(true);
+  });
 });

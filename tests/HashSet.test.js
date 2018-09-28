@@ -130,4 +130,12 @@ describe('HashSet', function() {
     Set2.add(9).add(13);
     expect(Set.union(Set2)).to.have.members([1, 2, 3, 9, 13]);
   });
+
+  it('remove should remove an element from the set', function() {
+    Set.add(1)
+      .add(2)
+      .add(3);
+    Set.remove(2);
+    expect(Set.union(Set2)).to.have.members([3, 1]);
+  });
 });

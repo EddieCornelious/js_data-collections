@@ -11,7 +11,7 @@ describe('Graph', function() {
   afterEach(function() {
     graph, expected, (actual = null);
   });
-  
+
   it('addVertex should not add the same vertex twice', function() {
     graph.addVertex(0);
     graph.addVertex(0);
@@ -19,17 +19,17 @@ describe('Graph', function() {
     actual = graph.getVerticies();
     expect(actual).to.have.ordered.members(expected);
   });
-  
+
   it('addEdge should only add edge if both vertieices exist', function() {
     graph.addVertex(0);
     graph.addVertex(0);
-    graph.addEdge("p", "q");
-    graph.addEdge(0, "q");
+    graph.addEdge('p', 'q');
+    graph.addEdge(0, 'q');
     expected = [];
     actual = graph.getNeighbors(0);
     expect(actual).to.have.ordered.members(expected);
   });
-  
+
   it('addEdge should not add duplicate edges', function() {
     graph.addVertex(0);
     graph.addVertex(1);
