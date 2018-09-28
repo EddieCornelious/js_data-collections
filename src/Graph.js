@@ -1,6 +1,6 @@
 import Queue from './Queue.js';
 import Stack from './Stack.js';
-import RBTree from './RedBlackTree.js';
+import MultiMap from './MultiMap.js';
 import Set from './Set.js';
 
 /**
@@ -24,7 +24,20 @@ function getAddAndRemovalMethods(context, BFS) {
 /**
  * @private
  */
-function FirstSearch(graph, startingVertex, structure, BFS) {
+function visitNeighbors(vertex, neighborList, visited, add) {
+  const neighborLen = neighborList.length;
+  for (let i = 0; i < neighborLen; i += 1) {
+    let curNeighbor = neighborList[i].vertex;
+    if (!visited.has(curNeighbor)) {
+      add(curNeighbor);
+    }
+  }
+}
+
+/**
+ * @private
+ */
+function FirstSearch(startingVertex, structure, BFS) {
   const {add, remove} = getAddAndRemovalMethods(structure, BFS);
   const res = [];
   const visited = new Set();
@@ -35,13 +48,8 @@ function FirstSearch(graph, startingVertex, structure, BFS) {
     if (!visited.has(currentVertex)) {
       visited.add(currentVertex);
       res.push(currentVertex);
-      let currentVertexNeighbors = graph.getVal(currentVertex).length;
-      for (let i = 0; i < currentVertexNeighbors; i += 1) {
-        let curNeighbor = graph.getVal(currentVertex)[i].vertex;
-        if (!visited.has(curNeighbor)) {
-          add(curNeighbor);
-        }
-      }
+      let currentVertexNeighbors = this.getNeighbors(currentVertex);
+      visitNeighbors(currentVertex, currentVertexNeighbors, visited, add);
     }
   }
   return res;
@@ -58,7 +66,7 @@ function FirstSearch(graph, startingVertex, structure, BFS) {
  */
 class Graph {
   constructor() {
-    this.graph = new RBTree();
+    this.graph = new MultiMap();
   }
 
   /**
@@ -94,9 +102,8 @@ class Graph {
    */
   addEdge(vertex1, vertex2, weight) {
     // TODO: replace with PQ for Prim's
-    const {graph} = this;
-    const v1neighbors = graph.getVal(vertex1);
-    const v2neighbors = graph.getVal(vertex2);
+    const v1neighbors = this.getNeighbors(vertex1);
+    const v2neighbors = this.getNeighbors(vertex2);
     // they both exist as verticies
     if (v1neighbors && v2neighbors) {
       // make sure edge does not already exist
@@ -112,6 +119,15 @@ class Graph {
   }
 
   /**
+   * Returns an array containing the fiven vertex's neighbors
+   * @param {number|string} vertex - The vertex id to search for
+   * @returns {Array} The vertex's neighbors
+   */
+  getNeighbors(vertex) {
+    return this.graph.getVal(vertex);
+  }
+
+  /**
    * Performs Breadth First Search
    * @param {*} startingVertex - The vertex to start Search from
    * @returns {Array} An Array containing verticies in order visited
@@ -122,7 +138,7 @@ class Graph {
     if (!graph.contains(startingVertex)) {
       return [];
     }
-    return FirstSearch(graph, startingVertex, new Queue(), true);
+    return FirstSearch.call(this, startingVertex, new Queue(), true);
   }
 
   /**
@@ -136,7 +152,7 @@ class Graph {
     if (!graph.contains(startingVertex)) {
       return [];
     }
-    return FirstSearch(graph, startingVertex, new Stack(), false);
+    return FirstSearch.call(this, startingVertex, new Stack(), false);
   }
 
   /**
