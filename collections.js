@@ -95,23 +95,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Graph2 = _interopRequireDefault(_Graph);
 
-	var _Trie = __webpack_require__(17);
+	var _Trie = __webpack_require__(18);
 
 	var _Trie2 = _interopRequireDefault(_Trie);
 
-	var _ArrayUtils = __webpack_require__(18);
+	var _ArrayUtils = __webpack_require__(19);
 
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 
-	var _RedBlackTree = __webpack_require__(15);
+	var _RedBlackTree = __webpack_require__(16);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
-	var _Set = __webpack_require__(16);
+	var _Set = __webpack_require__(17);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
-	var _MultiMap = __webpack_require__(19);
+	var _MultiMap = __webpack_require__(15);
 
 	var _MultiMap2 = _interopRequireDefault(_MultiMap);
 
@@ -160,10 +160,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  while (i < index) {
 	    head = head.next;
 	    i += 1;
-	    // index wanted is > than list size
-	    if (!head) {
-	      return;
-	    }
 	  }
 	  return head;
 	}
@@ -2425,11 +2421,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Stack2 = _interopRequireDefault(_Stack);
 
-	var _RedBlackTree = __webpack_require__(15);
+	var _MultiMap = __webpack_require__(15);
 
-	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+	var _MultiMap2 = _interopRequireDefault(_MultiMap);
 
-	var _Set = __webpack_require__(16);
+	var _Set = __webpack_require__(17);
 
 	var _Set2 = _interopRequireDefault(_Set);
 
@@ -2458,7 +2454,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * @private
 	 */
-	function FirstSearch(graph, startingVertex, structure, BFS) {
+	function visitNeighbors(vertex, neighborList, visited, add) {
+	  var neighborLen = neighborList.length;
+	  for (var i = 0; i < neighborLen; i += 1) {
+	    var curNeighbor = neighborList[i].vertex;
+	    if (!visited.has(curNeighbor)) {
+	      add(curNeighbor);
+	    }
+	  }
+	}
+
+	/**
+	 * @private
+	 */
+	function FirstSearch(startingVertex, structure, BFS) {
 	  var _getAddAndRemovalMeth = getAddAndRemovalMethods(structure, BFS),
 	      add = _getAddAndRemovalMeth.add,
 	      remove = _getAddAndRemovalMeth.remove;
@@ -2472,13 +2481,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!visited.has(currentVertex)) {
 	      visited.add(currentVertex);
 	      res.push(currentVertex);
-	      var currentVertexNeighbors = graph.getVal(currentVertex).length;
-	      for (var i = 0; i < currentVertexNeighbors; i += 1) {
-	        var curNeighbor = graph.getVal(currentVertex)[i].vertex;
-	        if (!visited.has(curNeighbor)) {
-	          add(curNeighbor);
-	        }
-	      }
+	      var currentVertexNeighbors = this.getNeighbors(currentVertex);
+	      visitNeighbors(currentVertex, currentVertexNeighbors, visited, add);
 	    }
 	  }
 	  return res;
@@ -2498,7 +2502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Graph() {
 	    _classCallCheck(this, Graph);
 
-	    this.graph = new _RedBlackTree2['default']();
+	    this.graph = new _MultiMap2['default']();
 	  }
 
 	  /**
@@ -2523,6 +2527,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  /**
+	   * Get verticies
+	   */
+
+
+	  Graph.prototype.getVerticies = function getVerticies() {
+	    return this.graph.keys();
+	  };
+	  /**
 	   * Connects two verticies to create an undirected edge
 	   * @param {*} vertex1 - The first vertex
 	   * @param {*} vertex2 - The second vertex
@@ -2539,19 +2551,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  Graph.prototype.addEdge = function addEdge(vertex1, vertex2, weight) {
 	    // TODO: replace with PQ for Prim's
-	    var graph = this.graph;
-
-	    var v1neighbors = graph.getVal(vertex1);
-	    var v2neighbors = graph.getVal(vertex2);
+	    var v1neighbors = this.getNeighbors(vertex1);
+	    var v2neighbors = this.getNeighbors(vertex2);
 	    // they both exist as verticies
 	    if (v1neighbors && v2neighbors) {
 	      // make sure edge does not already exist
-	      if (v1neighbors.indexOf(vertex2) === -1 && v2neighbors.indexOf(vertex2) === -1) {
-	        // body
+	      if (!v1neighbors.find(function (v) {
+	        return v === vertex2;
+	      })) {
 	        v1neighbors.push({ vertex: vertex2, weight: weight });
-	        v2neighbors.push({ vertex: vertex1, weight: weight });
 	      }
 	    }
+	  };
+
+	  /**
+	   * Returns an array containing the fiven vertex's neighbors
+	   * @param {number|string} vertex - The vertex id to search for
+	   * @returns {Array} The vertex's neighbors
+	   */
+
+
+	  Graph.prototype.getNeighbors = function getNeighbors(vertex) {
+	    return this.graph.getVal(vertex);
 	  };
 
 	  /**
@@ -2568,7 +2589,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!graph.contains(startingVertex)) {
 	      return [];
 	    }
-	    return FirstSearch(graph, startingVertex, new _Queue2['default'](), true);
+	    return FirstSearch.call(this, startingVertex, new _Queue2['default'](), true);
 	  };
 
 	  /**
@@ -2584,7 +2605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!graph.contains(startingVertex)) {
 	      return [];
 	    }
-	    return FirstSearch(graph, startingVertex, new _Stack2['default'](), false);
+	    return FirstSearch.call(this, startingVertex, new _Stack2['default'](), false);
 	  };
 
 	  /**
@@ -2607,6 +2628,93 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _RedBlackTree = __webpack_require__(16);
+
+	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
+
+	/**
+	 * MultiMap representation
+	 * @class
+	 * @implements {MultiMapInterface}
+	 * @extends {RBTree}
+	 */
+	var MultiMap = function (_RBTree) {
+	  _inherits(MultiMap, _RBTree);
+
+	  function MultiMap(comparator) {
+	    _classCallCheck(this, MultiMap);
+
+	    return _possibleConstructorReturn(this, _RBTree.call(this, comparator));
+	  }
+
+	  MultiMap.prototype.put = function put(key, value) {
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    if (foundValues) {
+	      if (foundValues.indexOf(value) === -1) {
+	        foundValues.push(value);
+	      }
+	    } else if (Array.isArray(value)) {
+	      _RBTree.prototype.put.call(this, key, value);
+	    } else {
+	      _RBTree.prototype.put.call(this, key, [value]);
+	    }
+	    return this;
+	  };
+
+	  MultiMap.prototype.removeVal = function removeVal(key, value) {
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    var removedValue = [];
+	    if (foundValues && foundValues.length > 0) {
+	      var indexOfValue = foundValues.indexOf(value);
+	      if (indexOfValue !== -1) {
+	        removedValue = foundValues.splice(indexOfValue, 1);
+	      }
+	    }
+	    return removedValue;
+	  };
+
+	  MultiMap.prototype.containsEntry = function containsEntry(key, value) {
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    if (foundValues && foundValues.length > 0) {
+	      return foundValues.indexOf(value) !== -1;
+	    }
+	    return false;
+	  };
+
+	  MultiMap.prototype.replaceVal = function replaceVal(key, oldValue, newValue) {
+	    var foundValues = _RBTree.prototype.getVal.call(this, key);
+	    if (foundValues && foundValues.length > 0) {
+	      var index = foundValues.indexOf(oldValue);
+	      if (index !== -1) {
+	        return foundValues.splice(index, 1, newValue);
+	      }
+	    }
+	    return [];
+	  };
+
+	  return MultiMap;
+	}(_RedBlackTree2['default']);
+
+	exports['default'] = MultiMap;
+
+/***/ },
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2654,6 +2762,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  RBNode.prototype.isBlack = function isBlack() {
 	    return this.color === BLACK;
+	  };
+
+	  RBNode.prototype.colorRed = function colorRed() {
+	    this.color = RED;
+	  };
+
+	  RBNode.prototype.colorBlack = function colorBlack() {
+	    this.color = BLACK;
 	  };
 
 	  return RBNode;
@@ -2717,9 +2833,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {undefined}
 	 */
 	function insertFixRecolor(uncle, currentNode) {
-	  currentNode.parent.color = BLACK;
-	  uncle.color = BLACK;
-	  currentNode.parent.parent.color = RED;
+	  currentNode.parent.colorBlack();
+	  uncle.colorBlack();
+	  currentNode.parent.parent.colorRed();
 	}
 
 	/**
@@ -2736,8 +2852,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    currentNode = currentNode.parent;
 	    leftRotate.call(context, currentNode);
 	  }
-	  currentNode.parent.color = BLACK;
-	  currentNode.parent.parent.color = RED;
+	  currentNode.parent.colorBlack();
+	  currentNode.parent.parent.colorRed();
 	  rightRotate.call(context, currentNode.parent.parent);
 	}
 
@@ -2755,8 +2871,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    currentNode = currentNode.parent;
 	    rightRotate.call(context, currentNode);
 	  }
-	  currentNode.parent.color = BLACK;
-	  currentNode.parent.parent.color = RED;
+	  currentNode.parent.colorBlack();
+	  currentNode.parent.parent.colorRed();
 	  leftRotate.call(context, currentNode.parent.parent);
 	}
 
@@ -2765,8 +2881,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @private
 	 */
 	function deleteRedSiblingCaseRecolor(currentNode, sibling) {
-	  sibling.color = BLACK;
-	  currentNode.parent.color = RED;
+	  sibling.colorBlack();
+	  currentNode.parent.colorRed();
 	}
 
 	/**
@@ -2798,7 +2914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }
-	  context.root.color = BLACK;
+	  context.root.colorBlack();
 	}
 
 	/**
@@ -2820,18 +2936,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        sibling = currentNode.parent.right;
 	      }
 	      if (sibling.left.isBlack() && sibling.right.isBlack()) {
-	        sibling.color = RED;
+	        sibling.colorRed();
 	        currentNode = currentNode.parent;
 	      } else {
 	        if (sibling.right.isBlack()) {
-	          sibling.left.color = BLACK;
-	          sibling.color = RED;
+	          sibling.left.colorBlack();
+	          sibling.colorRed();
 	          rightRotate.call(context, sibling);
 	          sibling = currentNode.parent.right;
 	        }
 	        sibling.color = currentNode.parent.color;
-	        currentNode.parent.color = BLACK;
-	        sibling.right.color = BLACK;
+	        currentNode.parent.colorBlack();
+	        sibling.right.colorBlack();
 	        leftRotate.call(context, currentNode.parent);
 	        currentNode = context.root;
 	      }
@@ -2843,24 +2959,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        sibling = currentNode.parent.left;
 	      }
 	      if (sibling.right.isBlack() && sibling.left.isBlack()) {
-	        sibling.color = RED;
+	        sibling.colorRed();
 	        currentNode = currentNode.parent;
 	      } else {
 	        if (sibling.left.isBlack()) {
-	          sibling.right.color = BLACK;
-	          sibling.color = RED;
+	          sibling.right.colorBlack();
+	          sibling.colorRed();
 	          leftRotate.call(context, sibling);
 	          sibling = currentNode.parent.left;
 	        }
 	        sibling.color = currentNode.parent.color;
-	        currentNode.parent.color = BLACK;
+	        currentNode.parent.colorBlack();
 	        sibling.left.color = BLACK;
 	        rightRotate.call(context, currentNode.parent);
 	        currentNode = context.root;
 	      }
 	    }
 	  }
-	  currentNode.color = BLACK;
+	  currentNode.colorBlack();
 	}
 
 	/**
@@ -2888,7 +3004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var self = this;
 	    var insertedNode = _BSTPrototype.BSTInsert.call(self, key, value, RBNode);
 	    if (insertedNode) {
-	      insertedNode.color = RED;
+	      insertedNode.colorRed();
 	      insertFix.call(self, insertedNode);
 	      self.inserts += 1;
 	    }
@@ -2918,7 +3034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = RBTree;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2929,7 +3045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SetInterface3 = _interopRequireDefault(_SetInterface2);
 
-	var _RedBlackTree = __webpack_require__(15);
+	var _RedBlackTree = __webpack_require__(16);
 
 	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
 
@@ -3011,7 +3127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Set;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3240,7 +3356,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Trie;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3485,10 +3601,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ArrayUtils.shuffle = function shuffle() {
 	    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-	    var arrayLength = array.length;
-	    for (var i = arrayLength - 1; i > 0; i -= 1) {
+	    var i = array.length - 1;
+	    while (i > 0) {
 	      var randomIndex = (0, _Util.generateRandomInt)(i + 1);
 	      (0, _Util.swap)(array, randomIndex, i);
+	      i -= 1;
 	    }
 	  };
 
@@ -3629,91 +3746,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	exports['default'] = ArrayUtils;
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-
-	var _RedBlackTree = __webpack_require__(15);
-
-	var _RedBlackTree2 = _interopRequireDefault(_RedBlackTree);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? _defaults(subClass, superClass) : _defaults(subClass, superClass); }
-
-	/**
-	 * MultiMap representation
-	 * @class
-	 * @implements {MultiMapInterface}
-	 * @extends {RBTree}
-	 */
-	var MultiMap = function (_RBTree) {
-	  _inherits(MultiMap, _RBTree);
-
-	  function MultiMap(comparator) {
-	    _classCallCheck(this, MultiMap);
-
-	    return _possibleConstructorReturn(this, _RBTree.call(this, comparator));
-	  }
-
-	  MultiMap.prototype.put = function put(key, value) {
-	    var foundValues = _RBTree.prototype.getVal.call(this, key);
-	    if (foundValues) {
-	      if (foundValues.indexOf(value) === -1) {
-	        foundValues.push(value);
-	      }
-	    } else {
-	      _RBTree.prototype.put.call(this, key, [value]);
-	    }
-	    return this;
-	  };
-
-	  MultiMap.prototype.removeVal = function removeVal(key, value) {
-	    var foundValues = _RBTree.prototype.getVal.call(this, key);
-	    var removedValue = [];
-	    if (foundValues && foundValues.length > 0) {
-	      var indexOfValue = foundValues.indexOf(value);
-	      if (indexOfValue !== -1) {
-	        removedValue = foundValues.splice(indexOfValue, 1);
-	      }
-	    }
-	    return removedValue;
-	  };
-
-	  MultiMap.prototype.containsEntry = function containsEntry(key, value) {
-	    var foundValues = _RBTree.prototype.getVal.call(this, key);
-	    if (foundValues && foundValues.length > 0) {
-	      return foundValues.indexOf(value) !== -1;
-	    }
-	    return false;
-	  };
-
-	  MultiMap.prototype.replaceVal = function replaceVal(key, oldValue, newValue) {
-	    var foundValues = _RBTree.prototype.getVal.call(this, key);
-	    if (foundValues && foundValues.length > 0) {
-	      var index = foundValues.indexOf(oldValue);
-	      if (index !== -1) {
-	        return foundValues.splice(index, 1, newValue);
-	      }
-	    }
-	    return [];
-	  };
-
-	  return MultiMap;
-	}(_RedBlackTree2['default']);
-
-	exports['default'] = MultiMap;
 
 /***/ }
 /******/ ])
