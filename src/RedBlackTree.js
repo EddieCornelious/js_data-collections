@@ -220,7 +220,7 @@ function deletefixUp(nodeToFix) {
         }
         sibling.color = currentNode.parent.color;
         currentNode.parent.colorBlack();
-        sibling.left.color = BLACK;
+        sibling.left.colorBlack();
         rightRotate.call(context, currentNode.parent);
         currentNode = context.root;
       }

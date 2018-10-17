@@ -24,7 +24,7 @@ function getAddAndRemovalMethods(context, BFS) {
 /**
  * @private
  */
-function getUnvisitedNeighbors(vertex, neighborList, visited, add) {
+function addUnvisitedNeighborsToVisited(vertex, neighborList, visited, add) {
   const neighborLen = neighborList.length;
   for (let i = 0; i < neighborLen; i += 1) {
     let curNeighbor = neighborList[i].vertex;
@@ -49,7 +49,7 @@ function FirstSearch(startingVertex, structure, BFS) {
       visited.add(currentVertex);
       res.push(currentVertex);
       let currentVertexNeighbors = this.getNeighbors(currentVertex);
-      getUnvisitedNeighbors(currentVertex, currentVertexNeighbors, visited, add);
+      addUnvisitedNeighborsToVisited(currentVertex, currentVertexNeighbors, visited, add);
     }
   }
   return res;
