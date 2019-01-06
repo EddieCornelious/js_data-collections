@@ -35,14 +35,14 @@ IE > 8 compatible
 
 ### Production &#128123;
 
-[Production](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
+[Production](https://cdn.jsdelivr.net/gh/EddieCornelious/js_data-collections@master/collections.js)
 
 ### Development &#128187;
 
-[Dev](https://rawgit.com/EddieCornelious/js_data-collections/master/collections.js)
+[Dev](https://cdn.jsdelivr.net/gh/EddieCornelious/js_data-collections/collections.js)
 
 ### Minified version &#10024;
-[Min](https://cdn.rawgit.com/EddieCornelious/js_data-collections/master/collections.min.js)
+[Min](https://cdn.jsdelivr.net/gh/EddieCornelious/js_data-collections@master/collections.min.js)
 
 
 ## Contributing &#128077;
