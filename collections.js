@@ -2454,7 +2454,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * @private
 	 */
-	function visitNeighbors(vertex, neighborList, visited, add) {
+	function addUnvisitedNeighborsToVisited(vertex, neighborList, visited, add) {
 	  var neighborLen = neighborList.length;
 	  for (var i = 0; i < neighborLen; i += 1) {
 	    var curNeighbor = neighborList[i].vertex;
@@ -2482,7 +2482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      visited.add(currentVertex);
 	      res.push(currentVertex);
 	      var currentVertexNeighbors = this.getNeighbors(currentVertex);
-	      visitNeighbors(currentVertex, currentVertexNeighbors, visited, add);
+	      addUnvisitedNeighborsToVisited(currentVertex, currentVertexNeighbors, visited, add);
 	    }
 	  }
 	  return res;
@@ -2970,7 +2970,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        sibling.color = currentNode.parent.color;
 	        currentNode.parent.colorBlack();
-	        sibling.left.color = BLACK;
+	        sibling.left.colorBlack();
 	        rightRotate.call(context, currentNode.parent);
 	        currentNode = context.root;
 	      }
