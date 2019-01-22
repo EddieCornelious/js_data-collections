@@ -1,3 +1,8 @@
+<a name="0.10.2"></a>
+## [0.10.2](https://github.com/EddieCornelious/js_data-collections/compare/v0.10.0...v0.10.2) (2019-01-22)
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.9.1...v0.10.0) (2018-09-07)
 
@@ -24,7 +29,17 @@
 
 
 <a name="0.8.0"></a>
-# [0.8.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.6.19...v0.8.0) (2018-06-02)
+# [0.8.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.7.0...v0.8.0) (2018-06-02)
+
+
+### Features
+
+* **ArrayUtils:** Added filterNot, mapIf, find, findIndex ([7c0c987](https://github.com/EddieCornelious/js_data-collections/commit/7c0c987))
+
+
+
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/EddieCornelious/js_data-collections/compare/v0.6.19...v0.7.0) (2018-05-20)
 
 
 ### Bug Fixes
@@ -35,7 +50,6 @@
 ### Features
 
 * fAKE NEW FEATURE ([c2ddfcc](https://github.com/EddieCornelious/js_data-collections/commit/c2ddfcc))
-* **ArrayUtils:** Added filterNot, mapIf, find, findIndex ([7c0c987](https://github.com/EddieCornelious/js_data-collections/commit/7c0c987))
 
 
 
