@@ -63,6 +63,11 @@ We use [SemVer](http://semver.org/) for versioning.
 
 This project is licensed under the MIT License.
 
+## BrowserStack
+I use BrowserStack to make sure theis library works in legacy browsers.
+
+[BrowserStack](https://p14.zdusercontent.com/attachment/1015988/8pmYVFXhbCMN0GBsGYRkSP821?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..aK12DKNc5Ey631DBEQIJtg.HP0kF-B11uyaYrdRKVL96I5Giwrx4LLjfviJFoo2pjRO8Xr0j-SXb9clqCgBoFKcCZ-F76Ry4fVJ3r1m5qWHRVhPQy25ZypYZkxa5AGyhl4r52l9yhB88YqKxiQci6APgqoQxdRH7Xq6NjL1V-qKbSQb1cGQOZlJDbUIgH0M_5eFqt7blh2wprBlGi44lrZRykqdaBrgRIo9Oo5LVjyemFnNm3WlFLBzFyb_AT-YPQr_tNMW_Z7Otz7Kmv-3MlsqfilZ6luZzGhV9-sLZ4bFlYR-H9NNxHyVK1P03W_8a90.7K6QqnOFAwdeBAydqqOJXQ)
+
 ## Purpose &#10067;
 
 The initial purpose of this library was to simply apply the concepts I have 
